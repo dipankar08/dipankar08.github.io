@@ -1,0 +1,43 @@
+
+body,.back{
+  height:100%;
+  width: 100%;
+  padding:0;
+  margin:0;
+  position: relative;
+}
+.top{
+  height: 210px;
+  width: 100%;
+  background-color: #009688;
+}
+.buttom{
+  height:calc(100% - 210px);
+  width: 100%;
+  background-color: #dfdfdf;
+  background-image: linear-gradient(to bottom, #dddbd1, #d2dbdc);
+}
+.container{
+
+}
+.box{
+  height: calc(100% - 82px);
+  margin: 0 auto;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  overflow: hidden;
+  background-color: #FFF;
+  border-radius: 3px;
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.06), 0 2px 5px 0 rgba(0, 0, 0, 0.2);
+  top: 0;
+  position: fixed;
+  z-index: 2;
+  width: 80%;
+  left: 10%;
+}
+.box .top{
+
+}
+.box .buttom{
+
+}
