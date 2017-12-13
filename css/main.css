@@ -94,3 +94,10 @@ ul li {
     position: relative;
     text-align: center;
 }
+/*Overrides*/
+@media only screen and (min-width: 840px) {
+  .box{
+    width: 820px;
+    left: calc(50% - 410px);
+  }
+}
