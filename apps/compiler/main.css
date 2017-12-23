@@ -1,0 +1,45 @@
+ body{
+     background: #000;
+     color: rgba(255,255,255,1);
+     padding-top:5px; 
+ }
+.left {
+    width: 50%;
+    height: 100%;
+    float: left;
+}
+.left #code
+    {
+        width: 100%;
+        height: 100%;
+    }
+.right{
+    width: calc(50% - 40px);
+    height: calc(100% - 10px);
+    padding: 5px 20px;
+    float: right;
+    position: relative;
+}
+#output {
+    position: absolute;
+    width: calc(100% - 50px);
+    padding: 0px 25px;
+    white-space: pre;
+    font-size: 14px;
+    font-family: monospace;
+    height: calc(100% - 0px);
+    left: 0;
+    color: #8DFF0A;
+    top: 0;
+    display: none
+}
+#msg{ position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    padding-top:50px; 
+    color: rgba(255,255,255,0.35);
+    text-align: center;
+    font-size: 1.2rem;
+}
