@@ -29,7 +29,7 @@ $( document ).ready(function() {
         }
         cache = cache1;
         console.log(str);
-        Request.url("http://0.0.0.0:80/run")
+        Request.url("http://compiler.dipankar.co.in:7777/run")
         .data({
             "lang":"CPP",
             "code":str,
