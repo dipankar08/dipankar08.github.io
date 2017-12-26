@@ -24,7 +24,7 @@
     position: absolute;
     width: calc(100% - 50px);
     padding: 0px 25px;
-    white-space: pre;
+    white-space: pre-wrap;
     font-size: 14px;
     font-family: monospace;
     height: calc(100% - 0px);
