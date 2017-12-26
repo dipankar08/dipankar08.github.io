@@ -11,6 +11,7 @@ $( document ).ready(function() {
     editor.container.style.lineHeight = 1.5
     editor.renderer.updateFontSize()
     editor.setValue(code);
+    editor.session.selection.clearSelection()
     editor.setShowInvisibles(true);
     
     editor.setHighlightActiveLine(false);
