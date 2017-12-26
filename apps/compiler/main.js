@@ -53,3 +53,6 @@ $( document ).ready(function() {
         .post()
     }
 });
+window.onbeforeunload = function() {
+     return "Did you save your stuff? Press CTRL+ S to save"
+}
