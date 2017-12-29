@@ -1,5 +1,5 @@
 var FIRST_CODE = '#include<stdio.h>\nint main(){\n    printf("hello World");\n}'
-var NETWORK_CALL_TIME_OUT = 2000 // please make it zero if you dont need timeout
+var NETWORK_CALL_TIME_OUT = 1000 // please make it zero if you dont need timeout
 
 $( document ).ready(function() {
     var cache= ""
