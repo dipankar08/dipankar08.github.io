@@ -24,11 +24,14 @@ $( document ).ready(function() {
         processByTimeout()
     });
 
-    // 1A. Showing error in editorsßß
-    function showerror(error){
-        if(error == undefined) return;
+
+    // 1A. Showing error in editors
+    function clearerror(){
         editor.session.clearBreakpoints();
         $(".ace_gutter-cell").attr("title","");
+    }
+    function showerror(error){
+        if(error == undefined) return;
         for (var prop in error) {
             if(!error.hasOwnProperty(prop)) continue;
             editor.session.setBreakpoint(prop-1,"red")
@@ -36,6 +39,7 @@ $( document ).ready(function() {
         }
     }
     
+
     // 2. Timer used to save network calls.
     var timeoutHandle;
     function processByTimeout(){
@@ -51,6 +55,7 @@ $( document ).ready(function() {
         }, NETWORK_CALL_TIME_OUT);
         console.log("rest timer");
     }
+
 
     // 3. function to compile data and display results.
     function process(){
@@ -73,6 +78,7 @@ $( document ).ready(function() {
             $('#output').html(res.output);
             $('#msg .head').html("Code is not ready to compile...")
             $('#msg .details').html(res.stderr)
+            clearerror();
             if(res.status ==  "success") {
                 $('#msg').hide()
                 $("#output").show();
@@ -89,6 +95,7 @@ $( document ).ready(function() {
         .post()
     }
 
+    
     // 4. Having some telemetry logs.
     //Request.url("http://simplestore.dipankar.co.in/api/stat_compiler")
     //Request.url("0.0.0.0/api/stat_compiler")
