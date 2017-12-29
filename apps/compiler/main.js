@@ -68,8 +68,8 @@ $( document ).ready(function() {
         console.log("Network call happens");
         cache = cache1;
         console.log(str);
-        //Request.url("http://compiler.dipankar.co.in:7777/run")
-        Request.url("http://0.0.0.0:7777/run")
+        Request.url("http://compiler.dipankar.co.in:7777/run")
+        //Request.url("http://0.0.0.0:7777/run")
         .data({
             "lang":"CPP",
             "code":str,
