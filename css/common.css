@@ -9,3 +9,5 @@ body, .container{
     position: relative;
     line-height: 1.4;
 }
+p{ margin: 0;padding: 0}
+.hide { display: none}

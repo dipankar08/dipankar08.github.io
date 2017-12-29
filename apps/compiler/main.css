@@ -4,7 +4,7 @@
      padding-top:5px; 
  }
 .left {
-    width: 50%;
+    width: calc( 100% - 420px);
     height: 100%;
     float: left;
 }
@@ -14,9 +14,9 @@
         height: 100%;
     }
 .right{
-    width: calc(50% - 40px);
+    width: 400px;
     height: calc(100% - 10px);
-    padding: 5px 20px;
+    padding: 0 5px;
     float: right;
     position: relative;
 }
@@ -38,8 +38,26 @@
     height: 100%;
     left: 0;
     top: 0;
-    padding-top:50px; 
-    color: rgba(255,255,255,0.35);
-    text-align: center;
+    padding-top:0px;
+}
+#msg .head{
+    color: rgba(255,255,255,0.45);
+    text-align: left;
     font-size: 1.2rem;
+    font-family: monospace;
+    margin: 20px 0 20px 0;
+    cursor: pointer;
+}
+#msg .details {
+    font-size: 10px;
+    display: none;
+    line-height: 1;
+    text-align: left;
+    color: #8DFF0A;
+}
+.ace_gutter-cell.red:before{
+    content: "*";
+    color:red;
+    padding-right: 5px;
+    margin-left: -15px;
 }
