@@ -5,9 +5,1013 @@ I am writing this book to share some software design principles which I have lea
 
 I remember, I wrote my first computer software in my 3rd year of my college – it was just a couples of code files. There is no separation of business logic, UI, database interaction etc. However, it just works. As we keep getting new requirement, the code base become large and complex – also difficult to maintain. This book provides a clean guideline on how to write a complex software – which is easy to maintain, extend by adding new feature or unplug some existing feature. This will help us to reduce bugs on the product, write a good test case and so on.
 
-The book is not only providing design guideline, but it is also important to understand why this guideline is important – and what can happen if you not use this design. I will try my best to explain the difference between “good design” vs not so-good design. Ideally, there is no perfect design for a given problem – all it depends on the “nature of the problem” and the context. 
+The book is not only providing design guideline, but it is also important to understand why this guideline is important – and what can happen if you not use this design. I will try my best to explain the difference between “good design” vs not so-good design. Ideally, there is no perfect design for a given problem – all it depends on the “nature of the problem” and the context.
 
 This book is example centric – that means you will find the code of “right design” and “not so good design”.
 
-So, let’s start the journey to have a better design. 
+So, let’s start the journey to have a better design.
 
+# Concept of Contracts
+
+As per Wikipedia, A contract is a promise or set of promises that are legally enforceable and, if violated, allow the injured party access to legal remedies. Contract law recognizes and governs the rights and duties arising from agreements.
+
+When we build a large software product, it builds with a number of induvial components. Even if they are independent, they need to talk to each other to build the final product. For example:
+1. if you want to develop a e-comm software – we can have server-side and client-side component which can be build up independently – however, how they can commutate to each other can be define by a set of REST API calls – which is a contacts between these two components.
+1. If you have two modules of a product and if there is necessary of calling each other – we can have a contact on how they can communicate. Interface (in case of java), abstract class(in C++) and header file(In c) is mainly treated as a contacts. Other component should only know the contacts (method signature like input and output) – the agreement on communication.
+
+
+## Design patterns
+
+# Design #1 Singleton design patterns
+Example:
+- Give some example her
+- Example 2
+Design purpose:
+- Application needs one and only one instance of an object
+- Application might want to lazy initialization of the instance and global access are necessary.
+
+Design challenges:
+- Would a static member can solve this problem?
+- Static initialization or lazy initialization?
+- What if multiple thread want to create the instance at the same time ?
+- When and how the singleton instance will be destracted ?
+
+Summery of designs:
+- One approach might be to make the constractor as private and define a static attribute of the class and initialized it and then define a public getter for this.
+- In case of lazy initialization, you must ensure that mutulay exclusive naess of creating the instance using double locking approach.
+
+//Solsution:1 Cleated on class load time.
+{{{
+class SingletonEarly {
+    private static SingletonEarly singleton = new SingletonEarly( );
+    private SingletonEarly() {
+        System.out.println("SingletonEarly: Contracted ");
+    }
+    public static SingletonEarly getInstance( ) {
+        return singleton;
+    }
+}
+}}}
+//Solsution 2: Deferred singleton,.
+{{{
+class SingletonDelay {
+    private static SingletonDelay instance = null;
+    private SingletonDelay() {
+        System.out.println("SingletonDelay: Contracted ");
+    }
+    public static SingletonDelay getInstance( ) {
+        // double lock tech - This check ensure queue
+        if(instance == null) {
+            synchronized(SingletonDelay.class) {
+                // this lock protect the instance
+                if (instance == null) {
+                    instance = new SingletonDelay();
+                }
+            }
+        }
+        return instance;
+    }
+}
+}}}
+
+# Design #2 Factory  method patterns
+Example:
+- The most useful java example is java.utils.Calender. When client aks for a calender, it might returns different subclass of Calender instance as appropriate, like, Calender.get(TimeZone) will return difefrnet instance of Calender as per the timezone.
+
+Design purpose:
+- This patterns deal with the problem of creating objects of similar type ( share some common contrcats of interface) without having to specify the exact class of the object.
+- The aim is to abstract the object instantiation logic from client. Client almost know nothing how the object is getting created. It just ask the type of instace to factory and factory is just create and provides it.
+- Factory is responsible for object lifecycle – altlest the creation part of object lifecycle.
+
+Design challenges:
+- How would define a similar class of object ? You can define an interface for creating an object, but let subclasses decide which class to instantiate. The Factory method lets a class defer instantiation it uses to subclasses.
+- You shoud use Enums to identify the type of object you can create.
+Summery of designs:
+- The design is really simple: We have an abstract class/Interface called IClasss and we have many concreate subclass called “AClass” “BClass” and so on.  Client is not known about ClassA or ClassB, but it knowns IClass. We have a Factory class ( which might be a singleton) which has a method getClass(String type). getClass() methods defers the actual instatiation based on switch-case. If client wants to have ClassA, it calls Factory.getClass(“A”) and then factory decides they clinet is asking for “class of type A”, creates and return to clinet as common inetrafce IClasss.
+- The main fitfalls of this patterns are complexity and need to write a lot of codes which can cause problem while refactorying in later.
+Factory pattern : To to crete simailr object based on some argument ype. Clinet will abstarcted how they build this.
+
+{{{
+interface IShape {
+    void draw();
+}
+
+class Rectangle implements IShape {
+    @Override
+    public void draw() {
+        System.out.println("Inside Rectangle::draw() method.");
+    }
+}
+
+class Square implements IShape {
+    @Override
+    public void draw() {
+        System.out.println("Inside Square::draw() method.");
+    }
+}
+
+enum ShapeType {
+    RECT,  SQR;
+}
+
+class ShapeFactory {
+    public static IShape getShape(ShapeType shapeType) {
+        switch(shapeType) {
+            case RECT : {
+                return new Rectangle();
+            }
+            case SQR : {
+                return new Square();
+            }
+            default : {
+                return null;
+            }
+        }
+    }
+}
+}}}
+
+
+
+# Design #3 Abstrat factory
+Example:
+- In java, xml.DocumentBuilder is the perfact example fo Abstract factpry pattersn. In java xml, DocumentBuilderFactory is an abstract factory which returns a DocumentBuilder  which is a concreate factory. Now we can get a object of IDocument  type from DocumentBuilder factory.
+
+Design purpose:
+- It’s adds an extra layer of abstraction on factory patterns. It’s a factory of another factory. The main pupose is to group a number of factories togethers using a common factory interface.
+- The full concept of factory methiod is appliaable here : the common IProduct interface and factory has parameterized create method to defer the concreate subclass instantiation.
+- However Abstarct factory patterns relays on composition  which is not used in Factory method patterns.
+
+Design challenges:
+- What is the difference between factory, factory-method and abstract factory design patterns ?
+
+Summery of designs:
+- Abstract factory is normally used for things like dependency injection/strategy, when you want to be able to create a whole family of objects that need to be of "the same kind", and have some common base classes(>=1).  For example, we can have a IPlatFactory which can have makePlant() or makePicker().We can have two concreate factory AppleFactory and OrangeFactory which implemnets IPlantFactory. Now in thease two factory, they can build Apple()/Orange() as Iplant and ApplePicker() /OrangePicker() as Picker. No that Ipicker and IPlant are the interface and the factory will return the interface.
+- Pitfalls: Abstract factory is the most complex creatinal design patterns and more diculyt to implamnet and lot of time to refactor the code later on.
+
+{{{
+abstract class CreditCard {
+    protected int cardNumberLength,  csv;
+}
+
+enum CardType {
+    GOLD,  PLATINUM;
+}
+
+class AmexPlatinumCreditCard extends CreditCard {}
+class AmexGoldCreditCard extends CreditCard {}
+class VisaBlackCreditCard extends CreditCard {}
+class VisaGoldCreditCard extends CreditCard {}
+
+abstract class CreditCardFactory {
+    public static CreditCardFactory getCreditCardFactory(int creditScore) {
+        if(creditScore > 650) {
+            return new AmexFactory();
+        } else {
+            return new VisaFactory();
+        }
+    }
+    public abstract CreditCard getCreditCard(CardType cardType);
+}
+
+class AmexFactory extends CreditCardFactory {
+    @Override
+    public CreditCard getCreditCard(CardType cardType) {
+        switch (cardType) {
+            case GOLD :
+            return new AmexGoldCreditCard();
+            case PLATINUM :
+            return new AmexPlatinumCreditCard();
+            default :
+            break;
+        }
+        return null;
+    }
+}
+
+class VisaFactory extends CreditCardFactory {
+    @Override
+    public CreditCard getCreditCard(CardType cardType) {
+        switch (cardType) {
+            case GOLD :
+            return new VisaGoldCreditCard();
+            case PLATINUM :
+            return new VisaBlackCreditCard();
+        }
+        return null;
+    }
+}
+}}}
+
+# Design #4 Builder Patterns
+Example:
+- In Java, stringBuilder is the perfact example of builder patterns. You can create a stringBuilder and keep appending new string to it and at the end you will get the resulting string using toString() method. What advantage does it provide ?When you append to a string, you are creating a new object each time you append, because strings are immutable in java. When using a StringBuilder, you build up the string in a pre-allocated buffer. That is, for each append to a normal string; you are creating a new object and copying all the characters into it. Because all the little (or big) temporary string objects eventually will need to get garbage-collected, appending a lot of strings together can be a performance problem. Therefore, it is generally a good idea to use a StringBuilder when dynamically appending a lot of strings.
+
+Design purpose:
+- Builder patterns mainly used for constracting complex object, spacialy when it takes a huge number of paremeter.
+- If a object has 100 differnet private member and if we allow some/all of them to be null, it requires huge number of contarctor to build all possible objects- called telescoping constractor and this pattern helps to avoid that using expsosing setter.
+- We can also enforce imutablity using this patterns, that means ones the object is build – no one can’t change it. So no public setter.
+Design challenges:
+- What is the problem if we just allows all setter for the private member ? The imutabilty got broken! Client can change the object anytime even after the build completes. We also allow to set the member out of order and even null even if it is not allowed.
+- Can we solve the problem using telescoping constracter ? NO! yes here we are fixing the problem of immutabilty but we are breaking if we want to set some veribale as null and any mixing of the peremetrs. Not useful much.
+
+Summery of designs:
+- The problem of constraction can easily solved using builder patetrns. We can introduce  a static inner class called “Builder” which has same member as container class. We expose the setter to public to set the values and return “this” to allow “chain building”. It also expose a build() member which create the object of container calss and return it. As container class doent have any setter – no one can change the object once it got created by builder.Simple and efficenet!
+Let's consider the below classic example:
+{{{
+class LunchOrder {
+    //now we need to have a builder note that inner class return the builder object
+    public static class Builder {
+        private String bread;
+        private String dressing;
+        private String meat;
+        public Builder() {
+        }
+        public LunchOrder build() {
+            return new LunchOrder(this);
+        }
+        public Builder bread(String bread) {
+            this.bread = bread;
+            return this;
+        }
+        public Builder dressing(String dressing) {
+            this.dressing = dressing;
+            return this;
+        }
+        public Builder meat(String meat) {
+            this.meat = meat;
+            return this;
+        }
+    }
+    //That that the item can't be chnages ahere aas they are final.
+    private final String bread;
+    private final String dressing;
+    private final String meat;
+    private LunchOrder(Builder builder) {
+        this.bread = builder.bread;
+        this.dressing = builder.dressing;
+        this.meat = builder.meat;
+    }
+    public String getBread() {
+        return bread;
+    }
+    public String getDressing() {
+        return dressing;
+    }
+    public String getMeat() {
+        return meat;
+    }
+    public void print() {
+        System.out.println("bread:" + bread + ", dressing:" + dressing + ", meat:" + meat);
+    }
+}
+}}}
+Let's consider the below example of having a logger Builder patetrns
+{{{
+//setups
+new Logger.Builder()
+    .isLoggable(BuildConfig.DEBUG)
+    .logType(LogType.WARN)
+    .tag("MyTag")
+    .setIsKotlin(true)
+    .build();
+}
+
+//Usees
+Logger.log("Log Message");
+Logger.i("Info Message");
+Logger.e("Error Message");
+Logger.w("Warn Message");
+Logger.d("Debug Message");
+Logger.e(null);
+Logger.e("Error Message with ThrowAble", new Throwable("Some Error"));
+}}}
+
+This is how we define the lib using builder patterns:
+First we Define the class Logger with private contractor and all the peremetr to setup. Now, we have internal static  class called builder, which have all the paremetr again as private and alows set and get. You should not that the setter returns this to allows chain setting, at end we call build() function in which we call init() function of outer class. init function copy all the peremeter from Build class to Logger class to initlilize. As Logger class donet have any setter, we can't change any paremetr after building. Now we imaplement all the supported API for Logger class as a static veriable.
+{{{
+public class Logger {
+    private Logger() {
+        throw new RuntimeException("Private constructor cannot be accessed");
+    }
+    private static LogType logType = LogType.INFO;
+    private static boolean isLoggable = true;
+    private static boolean isKotlin = false;
+    private static String TAG = "Logger";
+
+    //inner static class builder
+    public static class Builder {
+        private static LogType logType = LogType.INFO;
+        private static boolean isLoggable = true;
+        private static boolean isKotlin = false;
+        private static String tag = "Logger";
+        public Builder logType(LogType logType) {
+            Builder.logType = logType;
+            return this;
+        }
+        public Builder isLoggable(boolean isLoggable) {
+            Builder.isLoggable = isLoggable;
+            return this;
+        }
+        public Builder tag(String tag) {
+            Builder.tag = tag;
+            return this;
+        }
+        public Builder setIsKotlin(boolean isKotlin) {
+            Builder.isKotlin = isKotlin;
+            return this;
+        }
+        public boolean isIsKotlin() {
+            return isKotlin;
+        }
+        LogType getLogType() {
+            return logType;
+        }
+        boolean isIsLoggable() {
+            return isLoggable;
+        }
+        String getTag() {
+            return tag;
+        }
+        public void build() {
+            init(this);
+        }
+    }
+    //build will call this and copy the paremetr,
+    private static void init(Builder builder) {
+        Logger.logType = builder.getLogType();
+        Logger.TAG = builder.getTag();
+        Logger.isLoggable = builder.isIsLoggable();
+        Logger.isKotlin = builder.isIsKotlin();
+    }
+
+    //APIs
+    public static void e(Object message) {
+        if (isLoggable) {
+            Log.e(TAG, "| " + makeLog(message, "e"));
+        }
+    }
+    public static void e(Object message, Throwable throwable) {
+        if (isLoggable) {
+            Log.e(TAG, "| " + makeLog(message, "e"), throwable);
+        }
+    }
+    public static void i(Object message) {
+        if (isLoggable) {
+            Log.i(TAG, "| " + makeLog(message, "i"));
+        }
+    }
+    public static void w(Object message) {
+        if (isLoggable) {
+            Log.w(TAG, "| " + makeLog(message, "w"));
+        }
+    }
+    public static void d(Object message) {
+        if (isLoggable)
+            Log.d(TAG, "| " + makeLog(message, "d"));
+    }
+    public static void log(Object message) {
+        if (isLoggable) {
+            String body = "| " + makeLog(message, "log");
+            switch (logType) {
+                case INFO:
+                    Log.i(TAG, body);
+                    break;
+                case DEBUG:
+                    Log.d(TAG, body);
+                    break;
+                case ERROR:
+                    Log.e(TAG, body);
+                    break;
+                case WARN:
+                    Log.w(TAG, body);
+                    break;
+            }
+        }
+    }
+    private static String makeLog(Object message, String calledMethodName) {
+        StackTraceElement[] stackTraceElement = Thread.currentThread().getStackTrace();
+        int currentIndex = -1;
+        for (int i = 0; i < stackTraceElement.length; i++) {
+            if (stackTraceElement[i].getMethodName().compareTo(calledMethodName) == 0) {
+                currentIndex = ++i;
+                break;
+            }
+        }
+        StackTraceElement traceElement = Thread.currentThread().getStackTrace()[currentIndex];
+        String fullClassName = traceElement.getClassName();
+        String className = fullClassName.substring(fullClassName.lastIndexOf(".") + 1);
+        String methodName = traceElement.getMethodName();
+        int lineNumber = traceElement.getLineNumber();
+        String logMessage = message == null ? null : message.toString();
+        String postFix = isKotlin ? ".kt:" : ".java:";
+        return logMessage + " | (" + className + postFix + lineNumber + ")";
+    }
+}
+}}}
+
+# Design #5 Prototype patterns
+Example:
+- Give some example her
+- Example 2
+
+Design purpose:
+- Application needs one and only one instrace of an object
+- Application might want to lazy initialization of the instance and global access are necessary.
+
+Design challenges:
+- Would a static member can solve this problem?
+- Static initialization or lazy initialization?
+- What if multiple thread want to create the instance at the same time ?
+- When and how the singleton instance will be destracted ?
+
+Summery of designs:
+- One approach might be to make the constractor as private and define a static attribute of the class and initialized it and then define a public getter for this.
+- In case of lazy initialization, you must ensure that mutulay exclusive naess of creating the instance using double locking approach.
+
+{{{
+abstract class Item implements Cloneable {
+    private String title;
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+    public String getTitle() {
+        return title;
+    }
+    public void setTitle(String title) {
+        this.title = title;
+    }
+}
+
+class Book extends Item {
+    private int numberOfPages;
+    public int getNumberOfPages() {
+        return numberOfPages;
+    }
+}
+
+class Movie extends Item {
+    private String runtime;
+    public String getRuntime() {
+        return runtime;
+    }
+    public void setRuntime(String runtime) {
+        this.runtime = runtime;
+    }
+}
+
+//We need to registry to store the prototype.
+class Registry {
+    private Map < String,  Item > items = new HashMap < String,  Item > ();
+    public Registry() {
+        loadItems();
+    }
+    public Item createItem (String type) {
+        Item item = null;
+        try {
+            // note that we are not using new but clone.
+            item = (Item)(items.get(type)).clone();
+        }
+        catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        return item;
+    }
+    private void loadItems() {
+        Movie movie = new Movie();
+        movie.setTitle("Basic Movie");
+        items.put("Movie",  movie);
+        Book book = new Book();
+        book.setTitle("Basic Book");
+        items.put("Book",  book);
+    }
+}
+}}}
+# Design #6 Adapter Patterns
+Example:
+- Give some example her
+- Example 2
+
+Design purpose:
+- Application needs one and only one instrace of an object
+- Application might want to lazy initialization of the instance and global access are necessary.
+
+Design challenges:
+- Would a static member can solve this problem?
+- Static initialization or lazy initialization?
+- What if multiple thread want to create the instance at the same time ?
+- When and how the singleton instance will be destracted ?
+
+Summery of designs:
+- One approach might be to make the constractor as private and define a static attribute of the class and initialized it and then define a public getter for this.
+- In case of lazy initialization, you must ensure that mutulay exclusive naess of creating the instance using double locking approach.
+
+
+
+ 
+# Design #7 Bridge Design patterns
+Example:
+- Give some example her
+- Example 2
+
+Design purpose:
+- Application needs one and only one instrace of an object
+- Application might want to lazy initialization of the instance and global access are necessary.
+
+Design challenges:
+- Would a static member can solve this problem?
+- Static initialization or lazy initialization?
+- What if multiple thread want to create the instance at the same time ?
+- When and how the singleton instance will be destracted ?
+
+Summery of designs:
+- One approach might be to make the constractor as private and define a static attribute of the class and initialized it and then define a public getter for this.
+- In case of lazy initialization, you must ensure that mutulay exclusive naess of creating the instance using double locking approach.
+
+
+
+ 
+# Design #8 Composite design patterns
+Example:
+- Give some example her
+- Example 2
+
+Design purpose:
+- Application needs one and only one instrace of an object
+- Application might want to lazy initialization of the instance and global access are necessary.
+
+Design challenges:
+- Would a static member can solve this problem?
+- Static initialization or lazy initialization?
+- What if multiple thread want to create the instance at the same time ?
+- When and how the singleton instance will be destracted ?
+
+Summery of designs:
+- One approach might be to make the constractor as private and define a static attribute of the class and initialized it and then define a public getter for this.
+- In case of lazy initialization, you must ensure that mutulay exclusive naess of creating the instance using double locking approach.
+
+
+ 
+# Design #9 Decorator patterns
+Example:
+- In Java, java.io.InputStream is a decorator patterns. OutputStream is a base decorator and  FileOutputsStream can be concreatte decorator. We can decorate it farther and get DataoutputStrem.
+Design purpose:
+- Decorator pattern allows us to add new functionality/behavious to an existing object without altering its structure. It is also called wrapper.The decorator pattern can be used to make it possible to extend (decorate) the functionality of a certain object at runtime.
+- Subclassing adds behavior at compile time, and the change affects all instances of the original class; decorating can provide new behavior at runtime for individual objects.Thus the decorator pattern is an alternative to subclassing
+- Two major advantage of decorator patterns is : a) More flexibility than static inheritance. The Decorator pattern provides a more flexible way to add responsibilities to objects than can be had with static (multiple) inheritance. With decorators, responsibilities can be added and removed at run-time simply by attaching and detaching them. B) Avoids feature-laden classes high up in the hierarchy. Decorator offers a pay-as-you-go approach to adding responsibilities. Instead of trying to support all possible features in a complex, customizable class, you can define a simple class and add functionality incrementally with Decorator objects.
+Design challenges:
+- Why composistion is so impotant in decorator patterns ?
+- Why decorator pattern is not treated as creatinal patterns ?
+- How the can provide to carete the decorated object in any order ?
+Summery of designs:
+- Decorator patterns uses inheritance and composition together. We started with a simple class and then incrementaly adding new func to it. Let’s we have simple calss called BasicClass which implements IBasic ( which is the contract) . Now we want to decorate this “basicClass”. We create an AbstractDecorator  which is type IBasic and have a private member to store the IBasic instance. That means any decorator holdes the instarce of IBasic object as composition and then exposing functionality on top of that. We can create many concreate decorator like decoratorA and decorator and we can chain them to create any kind of decorated object. Like DecoratorA(DecoratorB(SimpleObject) will return a complex decorated object.  When client make such call, the constractor in each decorator allows to costracter all decorated object and then apply the additional functionality as maintined in the decorator.
+
+
+
+ 
+# Design #10 Façade patterns
+Example:
+- Give some example her
+- Example 2
+
+Design purpose:
+- Application needs one and only one instrace of an object
+- Application might want to lazy initialization of the instance and global access are necessary.
+
+Design challenges:
+- Would a static member can solve this problem?
+- Static initialization or lazy initialization?
+- What if multiple thread want to create the instance at the same time ?
+- When and how the singleton instance will be destracted ?
+
+Summery of designs:
+- One approach might be to make the constractor as private and define a static attribute of the class and initialized it and then define a public getter for this.
+- In case of lazy initialization, you must ensure that mutulay exclusive naess of creating the instance using double locking approach.
+
+
+# Design #11 FlyWeight patterns
+Example:
+- A classic example usage of the flyweight pattern is the data structures for graphical representation of characters in a word processor. People can insert multiple glyph object, however they careted once in the memory.
+- In java java.lang.string  uses Flyweight patterns,
+
+Design purpose:
+- The main pourpose of this patterns is to reduce the memery uses by sharing as much similar objcet as possible. This mainly useful when an application needs to have a lot of duplicate objects in the system. The main purpose of the pattaren is to optimize the system to avoid instanctiation of duplicate object using cacheing. The data sharing is possible iff the data is mutable. That means we can’t change the object once they have created. So this patterns is valid only of factory of imutable objecest.
+
+Design challenges:
+- Why this patterns is not valid for non-mutable object?
+- How is it related to cacheing solsution ?
+- In case of multithread architecture ? Special consideration must be made in scenarios where Flyweight objects are created on multiple threads.
+- What is the difference betwwen Intrinsic and extrinsic state of an object ?
+
+Summery of designs:
+- The design is consist of  IFlyweight, and Flyweight which is the interface and the concerate class of the immutable object ( refer as flyweight here). FlyweightFactory is the class which abstract how the object is getting created. It taksn wise decision whether I need crete a new object or to return an existing object. It use some hashmap to keep track of all already ccreated item in the memenry to make this decistion. Client class FlyWeightFactory to get the object
+
+
+
+ 
+# Design #12 Proxy patterns
+Example:
+- Java RMI is a perfact example of proxy patterns,
+- Example 2
+
+Design purpose:
+- A virtual proxy is a placeholder for "expensive to create" objects. It provides the same API as the read object and act as a real object but provides another level of rediretion to access the read object.
+- There are many reason why we need a proxy class like:
+-- Extra level of indirection to support distributed, controlled, or intelligent access
+-- Security to protect the real component from undue complexity
+--	To provides stubs for testing
+-- Impove memeory uses using caching
+-- Aavoid duplicate remote calls.
+-	Use an extra level of indirection to support distributed, controlled, or intelligent access.
+
+Design challenges:
+- Would a static member can solve this problem?
+- Static initialization or lazy initialization?
+- What if multiple thread want to create the instance at the same time ?
+- When and how the singleton instance will be destracted ?
+
+Summery of designs:
+- The design is extremely simple. As proxy class acts as real object , they must implement the same interface ( contract) . For example RealObject and ProxyObject both implemnets IObject. ProxyObject can take aditinal argumnets to validate the access of real object. If the validation passed, it create and call the real object and return it. This is how it controls the access of read object.
+
+
+
+
+# Design #13 Chain of Resposibility
+Example:
+- Java.utils.logging.Log() is a perefrct example for chain of resposibilty patterns. We create an instance of the logger and setting up the chain to handle the logging levels.  We could start building that chain by having multiple handlers: one for the console for “debug message”, one to a file for “error level” and   some other syslog for “fetal error”. Once the log evnet comes, it passes though the chain and peek up the right handler to log the message.
+
+Design purpose:
+- We want to design a system which accept request from outside world. we want to pass a request to a receiving object without knowing who the sender was, and vice versa, the sender shouldn't have to know who the receiver was in order for it to process that request. When using the chain, the receiver should also contain a reference to the next receiver, or the successor.. The system has multiple handlers to handle the request. Howver not all handler is not appropriate to handle all request. How would you design a system so that it will decaiouple the sender and the receiver?
+- We also want to promote the loose coupleing between the “requyest handlet” wach handler is indipended of another and can operate independently.
+- Launch-and-leave requests with a single processing pipeline that contains many possible handlers.
+- An object-oriented linked list with recursive traversal.
+Design challenges:
+- How would you form the chain of handler? Either each handler know it successer or you might build the chain at boot time? Who will contaiuns the predecessor and when it will be set ?
+- How the contracts looks like for handler . It might have canHandle() and Handle() function.
+- What if you find no handler is handle the request ?
+
+Summery of designs:
+- We define a contract Ihandler which enforce the strcture how the hanlder chain is looks like. It has a method handle() which needs to be implemnetd by concrete one and a pointer“next” which needs to be sets to the next “concreate handler” if it fails to handle to the request. When a request arries, it keep pass on though the chain until it is getting handles. Onces some handler handle the request, it will break the chain and retun the result, if any.  This is as simple as iterating though a “list of IHanlder” and keep executing  IHanlder.execute().
+- The main pifall of this design is “there is no gurentee that any one must handle the request”, there is a concern about chain length as well. If the length of chain is two high then it might degrade the performance.
+Diagram:
+
+
+
+ 
+# Design #14 Command patterns
+Example:
+- The runnable interface is a great example of a command pattern in the Java API. We create a thread and pass an implementation of the runnable interface into it. You can see here that the request is completely Decoupled from the processor(thread). The task class implements Runnable which in our case will be an example of the command pattern or the command interface. The request is completely encapsulated by this task object you can see we've passed our parameters and that's our entire request. And then we have an Invoker ,the thread, that will invoke the execute method on our task at later point of time. The run() method of the runnable should actualy call the complex system.
+
+Design purpose:
+- Let’s starts with terminology used for command patetrns
+-- Recever – A complex system which supports many comlex UI
+-- Request – calling each function in receiver is treaded as request.
+-- ICommand – is a contarct which needs to be implemented for reach request.
+-- Concreate commands – is a object for each request which delegate the calls to recever after checking the state of receiver.
+-- Invoker -  Client uses the invoker to issue the command.
+- How to provides decoupling sender from processor ? If you want to implement a large system which support 1000 difefrnet funtinality, how would you decouple the system from client. Here decoupling means clinet can’t call the complex system methos directly, instead of some common contract. ( which is commands)
+
+Design challenges:
+- How to support undo functionality using command patterns?
+- How to provides receiver state management inside command patetrns ?
+- How to provides “Macro coammnds” i.e a command on a list of recever object.
+
+Summery of designs:
+- We have ICommand as a contract between “client” and “receiver” to access  receviers functionality. Each function of “receiver” is implemented as a “concreate command”. So if recever supports N functionality, we should have n commands . We have “invoker” which is used by client to issue the command. It is nothing but a  “class deletage” to set the intenetd command and execute it in later-point of time. So the flow looks like: Client ->Invoker -> command  ->Receiver. You might notices that client never calls the receiver directly, but issues the command though Invoker. Command.execute() actualy implemnets necessary checks and then call the function of receiver.
+
+ 
+# Design #15 Interpreter Patterns
+Example:
+- Give some example her
+- Example 2
+
+Design purpose:
+- Application needs one and only one instrace of an object
+- Application might want to lazy initialization of the instance and global access are necessary.
+
+Design challenges:
+- Would a static member can solve this problem?
+- Static initialization or lazy initialization?
+- What if multiple thread want to create the instance at the same time ?
+- When and how the singleton instance will be destracted ?
+
+Summery of designs:
+- One approach might be to make the constractor as private and define a static attribute of the class and initialized it and then define a public getter for this.
+- In case of lazy initialization, you must ensure that mutulay exclusive naess of creating the instance using double locking approach.
+
+ 
+# Design #16 Iterator pattern
+Example:
+- In java or c++ stl, we have many data structures like linked lists, arrays, vectors, and maps which is used to store the objects for different purpose. But as they are nothing but a collection of objects, application might want to read all. So, they provide a common interface to iterate on any collection uniformly using c++ std::iterator or java Collection Iterator or for each loop.
+- Example 2
+
+Design purpose:
+- 	Application needs sequentially move through (or iterate) a collection of objects using a standard interface, and without having to know the internal representation of that collection
+- Simplify and standardized the iteration process on complex object collation through a standard interface.
+
+Design challenges:
+- How would you decouple the traversing algorithms without exposing the underling structures?
+- How to provide a sequence traversal for a non-sequences data structures?
+- Can they use factory method to access the object?
+- How do you handle access fail scenarios? Fail fast or fail safe while accessing the object?
+- Do we need to support unidirectional or a bidirectional iterator?
+- What should be the speed / efficiency while iterate though a larger collection?
+
+Summary of designs:
+- We define an interface Iterator which has only two methods Next () and HasNext () and the collection which support iterator must implement these.  These methods should return the interface of the object to abstract the underlining structure of the object.
+
+
+ 
+# Design #17. Mediator Patterns
+Example:
+- Give some example her
+- Example 2
+
+Design purpose:
+- Application needs one and only one instrace of an object
+- Application might want to lazy initialization of the instance and global access are necessary.
+
+Design challenges:
+- Would a static member can solve this problem?
+- Static initialization or lazy initialization?
+- What if multiple thread want to create the instance at the same time ?
+- When and how the singleton instance will be destracted ?
+
+Summery of designs:
+- One approach might be to make the constractor as private and define a static attribute of the class and initialized it and then define a public getter for this.
+- In case of lazy initialization, you must ensure that mutulay exclusive naess of creating the instance using double locking approach.
+
+
+ 
+# Design #18 Mememto patterns
+Example:
+- Give some example her
+- Example 2
+
+Design purpose:
+- Application needs one and only one instrace of an object
+- Application might want to lazy initialization of the instance and global access are necessary.
+
+Design challenges:
+- Would a static member can solve this problem?
+- Static initialization or lazy initialization?
+- What if multiple thread want to create the instance at the same time ?
+- When and how the singleton instance will be destracted ?
+
+Summery of designs:
+- One approach might be to make the constractor as private and define a static attribute of the class and initialized it and then define a public getter for this.
+- In case of lazy initialization, you must ensure that mutulay exclusive naess of creating the instance using double locking approach.
+
+ 
+# Design #19 Observer patterns
+Example:
+- In java, java.utils.Observer and java.utils.EventListeners are based on this patterns.
+- Mainly used to devlop a group message application, where uses in the group are intersetd to receve the notification if some other member send a message.
+
+Design purpose:
+- Think a situation where we have a subject and we have multiple observer( listeners) asocited with it. Observers are interested to et notifiated when some state of subject change.
+- Provides a decoupling between subject and observers- so a observer can be addred or removed at run time.
+- This is somthin that can be usedful in case of evnet handling – where any such clinet (UI elemnets) is interested to get a notification when some evnet occues.
+- It is somehow similar to Pub/Sub patterns but not really the same.
+
+Design challenges:
+- How to ensure the contarct beween the Subject and Observer ?
+- Who is conatisn the list of observer ? Interface or concrete class ?
+- How Observer read the state of the Subject ? Will it requires a ref to subject ? You need to pass the Subject ref in the contractor of the Observer.
+
+Summery of designs:
+- As the main pupose is to provide the decaouple bettwen the Subject and Observer, we need to have two interface as constract: ISubject and IObserver. ISubject is an abstract calss which provides attch(), detach() and notfyObserver() functions by having a list of  IObserver. Notify() will just iterate over the list and call the update() methods of each IObserver.  IObserver has a single method called update() which needs to be implemented by each observer. This is basically provide a contract between observer and subject. When something change happens in subject Observer’s update() method will be called as notification.
+
+ 
+# Design #20. State Patterns
+Example:
+- Give some example her
+- Example 2
+
+Design purpose:
+- Application needs one and only one instrace of an object
+- Application might want to lazy initialization of the instance and global access are necessary.
+
+Design challenges:
+- Would a static member can solve this problem?
+- Static initialization or lazy initialization?
+- What if multiple thread want to create the instance at the same time ?
+- When and how the singleton instance will be destracted ?
+
+Summery of designs:
+- One approach might be to make the constractor as private and define a static attribute of the class and initialized it and then define a public getter for this.
+- In case of lazy initialization, you must ensure that mutulay exclusive naess of creating the instance using double locking approach.
+ 
+# Design #21 Template Method patterns
+Example:
+- Give some example her
+- Example 2
+
+Design purpose:
+- Application needs one and only one instrace of an object
+- Application might want to lazy initialization of the instance and global access are necessary.
+
+Design challenges:
+- Would a static member can solve this problem?
+- Static initialization or lazy initialization?
+- What if multiple thread want to create the instance at the same time ?
+- When and how the singleton instance will be destracted ?
+
+Summery of designs:
+- One approach might be to make the constractor as private and define a static attribute of the class and initialized it and then define a public getter for this.
+- In case of lazy initialization, you must ensure that mutulay exclusive naess of creating the instance using double locking approach.
+
+
+
+ 
+# Design #22 Visitor patterns
+Example:
+- Give some example her
+- Example 2
+
+Design purpose:
+- Application needs one and only one instrace of an object
+- Application might want to lazy initialization of the instance and global access are necessary.
+
+Design challenges:
+- Would a static member can solve this problem?
+- Static initialization or lazy initialization?
+- What if multiple thread want to create the instance at the same time ?
+- When and how the singleton instance will be destracted ?
+
+Summery of designs:
+- One approach might be to make the constractor as private and define a static attribute of the class and initialized it and then define a public getter for this.
+- In case of lazy initialization, you must ensure that mutulay exclusive naess of creating the instance using double locking approach.
+
+
+ 
+# Design #23: Constractor patterns ( JS)
+Example:
+- Constructor Pattern is used to create new objects with their own object scope. JavaScript doesn't have classes, However JavaScript does enable you to create new objects out of existing objects using new keyword. and so that's going to use the Constructor Pattern.
+
+Design purpose:
+- Application needs one and only one instrace of an object
+- Application might want to lazy initialization of the instance and global access are necessary.
+
+Design challenges:
+- Would a static member can solve this problem?
+- Static initialization or lazy initialization?
+- What if multiple thread want to create the instance at the same time ?
+- When and how the singleton instance will be destracted ?
+
+Summery of designs:
+- We can can instartiate object using a new operator
+- The class is nothing but a object which conatins member veriable and member function as shown in example1
+- We can use Object.prototype to avoid copying the member function from ech object
+- You can use Object.defineProperty to define a member function and prevent overwriting,  exposing while enumarition and disallow configuration.
+- In Morder JS, we can have real JS class type. ( see example 4)
+
+
+Example1: Basic Notion of object
+{{{
+var Task = function (name) {
+    this.name = name;
+    this.completed = false;
+    this.complete = function () {
+    	console.log('completing task: ' + this.name);
+    	this.completed = true;
+    };
+}
+Var ob1 = new Task(“Dipankar”)
+}}}
+
+
+// Example 2: using prototype : the function is not copied.
+{{{
+var Task = function (name) {
+    this.name = name;
+    this.completed = false;
+}
+
+Task.prototype.complete = function () {
+    console.log('completing task: ' + this.name);
+    this.completed = true;
+};
+
+Task.prototype.save = function () {
+    console.log('saving Task: ' + this.name);
+};
+}}}
+
+//Example 3: Uisng defineProperty – Which give more protection of memebrer function.
+{{{
+var task = {
+    title: 'My Title',
+    description: 'My Description'
+};
+
+Object.defineProperty(task, 'toString', {
+    value: function () {
+        return this.title + ' ' + this.description;
+    },
+    writable: false,
+    enumerable: false,
+    configurable: false
+});
+}}}
+
+
+//Example 4: use strict – A modern way to write JS calss
+{{{
+'use strict'
+class Task {
+    constructor(name) {
+        this.name = name;
+        this.completed = false;
+    };
+    complete() {
+        console.log('completing task: ' + this.name);
+        this.completed = true;
+    };
+
+    save() {
+        console.log('saving Task: ' + this.name);
+    };
+}
+var task1 = new Task('create a demo for constructors');
+var task2 = new Task('create a demo for modules');
+task1.complete();
+task2.save();
+}}}
+
+
+ 
+# Design #24 Module Patterns for Javascript.
+Example:
+- Module Pattern is used as a simple way just to encapsulate a group of like methods that I'm going to use on my application – so it will be toolbox.
+
+Design purpose:
+- Application needs one and only one instrace of an object
+- Application might want to lazy initialization of the instance and global access are necessary.
+
+Design challenges:
+- Would a static member can solve this problem?
+- Static initialization or lazy initialization?
+- What if multiple thread want to create the instance at the same time ?
+- When and how the singleton instance will be destracted ?
+
+Summery of designs:
+- One approach might be to make the constractor as private and define a static attribute of the class and initialized it and then define a public getter for this.
+- In case of lazy initialization, you must ensure that mutulay exclusive naess of creating the instance using double locking approach.
+
+
+// Example 1: Basic Module Structre
+{{{
+var Module = {
+method: function(){...},
+nextMethod: function(){...}
+}
+}}}
+
+
+//Example 2: Real Module Patterns with private memebr
+{{{
+var Module = function () {
+var privateVar = 'I am private...';
+return {
+    method: function () {... },
+    nextMethod: function () {... }
+}
+}
+}}}
+
+
+//Example 3: Better Impl, Private veribale and private function.
+{{{
+var repo = function () {
+    var db = {};
+    var get = function (id) {
+        console.log('Getting task ' + id);
+        return {
+            name: 'new task from db'
+        }
+    }
+    var save = function (task) {
+        console.log('Saving ' + task.name + ' to the db');
+    }
+    return {
+        get: get,
+        save: save
+    }
+}
+}}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
