@@ -1,1 +1,13 @@
+## Software Design Principle with Example
+
+# Preface
+I am writing this book to share some software design principles which I have learnt so far in my past 7 years of industry experiences. This books mainly deals with some of the important design patterns, system design problem and handling dependency issues.
+
+I remember, I wrote my first computer software in my 3rd year of my college – it was just a couples of code files. There is no separation of business logic, UI, database interaction etc. However, it just works. As we keep getting new requirement, the code base become large and complex – also difficult to maintain. This book provides a clean guideline on how to write a complex software – which is easy to maintain, extend by adding new feature or unplug some existing feature. This will help us to reduce bugs on the product, write a good test case and so on.
+
+The book is not only providing design guideline, but it is also important to understand why this guideline is important – and what can happen if you not use this design. I will try my best to explain the difference between “good design” vs not so-good design. Ideally, there is no perfect design for a given problem – all it depends on the “nature of the problem” and the context. 
+
+This book is example centric – that means you will find the code of “right design” and “not so good design”.
+
+So, let’s start the journey to have a better design. 
 
