@@ -1,6 +1,11 @@
 var FIRST_CODE = '#include<stdio.h>\nint main(){\n    printf("hello World");\n}'
 var NETWORK_CALL_TIME_OUT = 1000 // please make it zero if you dont need timeout
 
+var cnt_network_save = 0;
+var cnt_network_call = 0;
+var startTime = (new Date()).getTime()
+
+
 $( document ).ready(function() {
     var cache= ""
     // 1. editor Operation.
@@ -53,7 +58,8 @@ $( document ).ready(function() {
         timeoutHandle = window.setTimeout(function(){
             process();
         }, NETWORK_CALL_TIME_OUT);
-        console.log("rest timer");
+        cnt_network_save++;
+        console.log("Save network call by timer reset");
     }
 
 
@@ -93,14 +99,14 @@ $( document ).ready(function() {
             $("#output").hide();
         })
         .post()
+        cnt_network_call++;
     }
 
     
     // 4. Having some telemetry logs.
-    //Request.url("http://simplestore.dipankar.co.in/api/stat_compiler")
-    //Request.url("0.0.0.0/api/stat_compiler")
-    //.data( {"_cmd":"insert", "ops_type" : "Launched"} )
-    //.post()
+    Request.url("http://simplestore.dipankar.co.in/api/stat_compiler")
+    .data( {"_cmd":"insert", "ops_type" : "OnLoad"} )
+    .post()
 
     // 5. Save the data to the sever 
     // TODO
@@ -109,4 +115,16 @@ $( document ).ready(function() {
 //5. Save my frineds from data loss for acidental close
 window.onbeforeunload = function() {
      return "Did you save your stuff? Press CTRL+ S to save"
+}
+
+// 6. Last telemtry..
+navigator.sendBeacon = navigator.sendBeacon || function (url, data) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', url, false);
+    xhr.send(data);
+};
+window.addEventListener("unload", logData, false);
+function logData() {
+    analyticsData = {"_cmd":"insert","NetworkcallHappens": cnt_network_call, "NetworkcallSaving":cnt_network_save ,"ops_type" : "OnUnload","TimeSpent": ((new Date()).getTime() - startTime)/1000+"sec"}
+    navigator.sendBeacon("http://simplestore.dipankar.co.in/api/stat_compiler", '{"a":9}');
 }
