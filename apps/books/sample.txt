@@ -3,7 +3,8 @@
 
 * Bullete points
 * Bullate Points
-
+1. Hello
+1. Now
 {{{
 /* Some code here */
 #include<stdio.h>
