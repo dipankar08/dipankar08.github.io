@@ -5,19 +5,13 @@
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
 
     <style>
-        *{font-family: 'Source Sans Pro', sans-serif;}
+        * {font-family: 'Source Sans Pro', sans-serif;}
     body{ width: 800;
     margin: 0 auto;
         color: #575757; }
-div.x1{ font-size: 60;
-    text-align: center;
-    margin-top: 50px;
-    margin-bottom: 60px;
-}
 
-div.x2{
-    font-size: 25px;
-        margin-bottom: 25px;}
+
+
 
 div.code{    white-space: pre;
     background: rgba(0, 0, 0, 0.1);
@@ -28,17 +22,24 @@ div.code{    white-space: pre;
     font-size: 14px;
     letter-spacing: 1;
     line-height: 0.8;}
-div.x3{     margin-bottom: 10px;
-    text-align: justify;
-}
-ol,ul{    line-height: 1.3;
-        margin-bottom: 35px;}
+
+div.x1{ font-size: 50;text-align: center;margin-top: 50px;margin-bottom: 100px;}
+div.x2{font-size: 25px;margin-bottom: 25px;margin-top: 20px;}
+div.x3{ margin-bottom: 10px;text-align: justify;}
+
+ol,ul{line-height: 1.3;margin-bottom: 35px;}
+.left {position:fixed;left: 0px;top: 0px;padding:5px;width: 300px;height: 100%; display:block;overflow: auto;border-right: 1px solid #575757;}
+a{display: block;font-family: 'Source Sans Pro', sans-serif; text-decoration: none; color: #575757;margin-bottom: 8px;}
+a.a1{font-weight:bold;font-size: 16px;}
+a.a2{margin-left:20px;}
+
     </style>
 </head>
 <body>
-<div class='x1'>Software Design Principle with Example</div>
+<div class="left" style=""><a class='a1' href='#hashid1'+>Software Design Principles</a><a class='a2' href='#hashid2'+>Preface</a><a class='a2' href='#hashid3'+>Concept of Contracts</a><a class='a1' href='#hashid4'+>Inverstion Control and Dependecy injection</a><a class='a1' href='#hashid5'+>Design patterns in Java and C++</a><a class='a2' href='#hashid6'+>Design #1 Singleton design patterns</a><a class='a2' href='#hashid7'+>Design #2 Factory  method patterns</a><a class='a2' href='#hashid8'+>Design #3 Abstrat factory</a><a class='a2' href='#hashid9'+>Design #4 Builder Patterns</a><a class='a2' href='#hashid10'+>Design #5 Prototype patterns</a><a class='a2' href='#hashid11'+>Design #6 Adapter Patterns</a><a class='a2' href='#hashid12'+>Design #7 Bridge Design patterns</a><a class='a2' href='#hashid13'+>Design #8 Composite design patterns</a><a class='a2' href='#hashid14'+>Design #9 Decorator patterns</a><a class='a2' href='#hashid15'+>Design #10 Façade patterns</a><a class='a2' href='#hashid16'+>Design #11 FlyWeight patterns</a><a class='a2' href='#hashid17'+>Design #12 Proxy patterns</a><a class='a2' href='#hashid18'+>Design #13 Chain of Resposibility</a><a class='a2' href='#hashid19'+>Design #14 Command patterns</a><a class='a2' href='#hashid20'+>Design #15 Interpreter Patterns</a><a class='a2' href='#hashid21'+>Design #16 Iterator pattern</a><a class='a2' href='#hashid22'+>Design #17. Mediator Patterns</a><a class='a2' href='#hashid23'+>Design #18 Mememto patterns</a><a class='a2' href='#hashid24'+>Design #19 Observer patterns</a><a class='a2' href='#hashid25'+>Design #20. State Patterns</a><a class='a2' href='#hashid26'+>Design #21 Template Method patterns</a><a class='a2' href='#hashid27'+>Design #22 Visitor patterns</a><a class='a1' href='#hashid28'+>JavaScript Design Patters</a><a class='a2' href='#hashid29'+>Design #1: Constractor patterns ( JS)</a><a class='a2' href='#hashid30'+>Design #2:  Module Patterns for Javascript.</a><a class='a1' href='#hashid31'+>Python Design Patters</a><a class='a1' href='#hashid32'+>Android Design Patters</a></div>
+<div class="right" style=""><div class='x1' id='hashid1'>Software Design Principles</div>
 <div class='x3'></div>
-<div class='x2'>Preface</div>
+<div class='x2' id='hashid2'>Preface</div>
 <div class='x3'>I am writing this book to share some software design principles which I have learnt so far in my past 7 years of industry experiences. This books mainly deals with some of the important design patterns, system design problem and handling dependency issues.</div>
 <div class='x3'></div>
 <div class='x3'>I remember, I wrote my first computer software in my 3rd year of my college – it was just a couples of code files. There is no separation of business logic, UI, database interaction etc. However, it just works. As we keep getting new requirement, the code base become large and complex – also difficult to maintain. This book provides a clean guideline on how to write a complex software – which is easy to maintain, extend by adding new feature or unplug some existing feature. This will help us to reduce bugs on the product, write a good test case and so on.</div>
@@ -49,7 +50,7 @@ ol,ul{    line-height: 1.3;
 <div class='x3'></div>
 <div class='x3'>So, let’s start the journey to have a better design.</div>
 <div class='x3'></div>
-<div class='x2'>Concept of Contracts</div>
+<div class='x2' id='hashid3'>Concept of Contracts</div>
 <div class='x3'></div>
 <div class='x3'>As per Wikipedia, A contract is a promise or set of promises that are legally enforceable and, if violated, allow the injured party access to legal remedies. Contract law recognizes and governs the rights and duties arising from agreements.</div>
 <div class='x3'></div>
@@ -59,10 +60,12 @@ ol,ul{    line-height: 1.3;
 <li>If you have two modules of a product and if there is necessary of calling each other – we can have a contact on how they can communicate. Interface (in case of java), abstract class(in C++) and header file(In c) is mainly treated as a contacts. Other component should only know the contacts (method signature like input and output) – the agreement on communication.</li>
 </ol>
 <div class='x3'></div>
+<div class='x1' id='hashid4'>Inverstion Control and Dependecy injection</div>
 <div class='x3'></div>
-<div class='x1'>Design patterns</div>
 <div class='x3'></div>
-<div class='x2'>Design #1 Singleton design patterns</div>
+<div class='x1' id='hashid5'>Design patterns in Java and C++</div>
+<div class='x3'></div>
+<div class='x2' id='hashid6'>Design #1 Singleton design patterns</div>
 <div class='x3'>Example:</div>
 <ul>
 <li>Give some example her</li>
@@ -149,7 +152,7 @@ class SingletonDelay {
 
 </div>
 <div class='x3'></div>
-<div class='x2'>Design #2 Factory  method patterns</div>
+<div class='x2' id='hashid7'>Design #2 Factory  method patterns</div>
 <div class='x3'>Example:</div>
 <ul>
 <li>The most useful java example is java.utils.Calender. When client aks for a calender, it might returns different subclass of Calender instance as appropriate, like, Calender.get(TimeZone) will return difefrnet instance of Calender as per the timezone.</li>
@@ -245,7 +248,7 @@ class ShapeFactory {
 <div class='x3'></div>
 <div class='x3'></div>
 <div class='x3'></div>
-<div class='x2'>Design #3 Abstrat factory</div>
+<div class='x2' id='hashid8'>Design #3 Abstrat factory</div>
 <div class='x3'>Example:</div>
 <ul>
 <li>In java, xml.DocumentBuilder is the perfact example fo Abstract factpry pattersn. In java xml, DocumentBuilderFactory is an abstract factory which returns a DocumentBuilder  which is a concreate factory. Now we can get a object of IDocument  type from DocumentBuilder factory.</li>
@@ -364,7 +367,7 @@ class VisaFactory extends CreditCardFactory {
 
 </div>
 <div class='x3'></div>
-<div class='x2'>Design #4 Builder Patterns</div>
+<div class='x2' id='hashid9'>Design #4 Builder Patterns</div>
 <div class='x3'>Example:</div>
 <ul>
 <li>In Java, stringBuilder is the perfact example of builder patterns. You can create a stringBuilder and keep appending new string to it and at the end you will get the resulting string using toString() method. What advantage does it provide ?When you append to a string, you are creating a new object each time you append, because strings are immutable in java. When using a StringBuilder, you build up the string in a pre-allocated buffer. That is, for each append to a normal string; you are creating a new object and copying all the characters into it. Because all the little (or big) temporary string objects eventually will need to get garbage-collected, appending a lot of strings together can be a performance problem. Therefore, it is generally a good idea to use a StringBuilder when dynamically appending a lot of strings.</li>
@@ -754,7 +757,7 @@ public class Logger {
 
 </div>
 <div class='x3'></div>
-<div class='x2'>Design #5 Prototype patterns</div>
+<div class='x2' id='hashid10'>Design #5 Prototype patterns</div>
 <div class='x3'>Example:</div>
 <ul>
 <li>Give some example her</li>
@@ -891,7 +894,7 @@ class Registry {
 }
 
 </div>
-<div class='x2'>Design #6 Adapter Patterns</div>
+<div class='x2' id='hashid11'>Design #6 Adapter Patterns</div>
 <div class='x3'>Example:</div>
 <ul>
 <li>Give some example her</li>
@@ -921,7 +924,7 @@ class Registry {
 <div class='x3'></div>
 <div class='x3'></div>
 <div class='x3'> </div>
-<div class='x2'>Design #7 Bridge Design patterns</div>
+<div class='x2' id='hashid12'>Design #7 Bridge Design patterns</div>
 <div class='x3'>Example:</div>
 <ul>
 <li>Give some example her</li>
@@ -951,7 +954,7 @@ class Registry {
 <div class='x3'></div>
 <div class='x3'></div>
 <div class='x3'> </div>
-<div class='x2'>Design #8 Composite design patterns</div>
+<div class='x2' id='hashid13'>Design #8 Composite design patterns</div>
 <div class='x3'>Example:</div>
 <ul>
 <li>Give some example her</li>
@@ -980,7 +983,7 @@ class Registry {
 <div class='x3'></div>
 <div class='x3'></div>
 <div class='x3'> </div>
-<div class='x2'>Design #9 Decorator patterns</div>
+<div class='x2' id='hashid14'>Design #9 Decorator patterns</div>
 <div class='x3'>Example:</div>
 <ul>
 <li>In Java, java.io.InputStream is a decorator patterns. OutputStream is a base decorator and  FileOutputsStream can be concreatte decorator. We can decorate it farther and get DataoutputStrem.</li>
@@ -1005,7 +1008,7 @@ class Registry {
 <div class='x3'></div>
 <div class='x3'></div>
 <div class='x3'> </div>
-<div class='x2'>Design #10 Façade patterns</div>
+<div class='x2' id='hashid15'>Design #10 Façade patterns</div>
 <div class='x3'>Example:</div>
 <ul>
 <li>Give some example her</li>
@@ -1033,7 +1036,7 @@ class Registry {
 </ul>
 <div class='x3'></div>
 <div class='x3'></div>
-<div class='x2'>Design #11 FlyWeight patterns</div>
+<div class='x2' id='hashid16'>Design #11 FlyWeight patterns</div>
 <div class='x3'>Example:</div>
 <ul>
 <li>A classic example usage of the flyweight pattern is the data structures for graphical representation of characters in a word processor. People can insert multiple glyph object, however they careted once in the memory.</li>
@@ -1061,7 +1064,7 @@ class Registry {
 <div class='x3'></div>
 <div class='x3'></div>
 <div class='x3'> </div>
-<div class='x2'>Design #12 Proxy patterns</div>
+<div class='x2' id='hashid17'>Design #12 Proxy patterns</div>
 <div class='x3'>Example:</div>
 <ul>
 <li>Java RMI is a perfact example of proxy patterns,</li>
@@ -1096,7 +1099,7 @@ class Registry {
 <div class='x3'></div>
 <div class='x3'></div>
 <div class='x3'></div>
-<div class='x2'>Design #13 Chain of Resposibility</div>
+<div class='x2' id='hashid18'>Design #13 Chain of Resposibility</div>
 <div class='x3'>Example:</div>
 <ul>
 <li>Java.utils.logging.Log() is a perefrct example for chain of resposibilty patterns. We create an instance of the logger and setting up the chain to handle the logging levels.  We could start building that chain by having multiple handlers: one for the console for “debug message”, one to a file for “error level” and   some other syslog for “fetal error”. Once the log evnet comes, it passes though the chain and peek up the right handler to log the message.</li>
@@ -1126,7 +1129,7 @@ class Registry {
 <div class='x3'></div>
 <div class='x3'></div>
 <div class='x3'> </div>
-<div class='x2'>Design #14 Command patterns</div>
+<div class='x2' id='hashid19'>Design #14 Command patterns</div>
 <div class='x3'>Example:</div>
 <ul>
 <li>The runnable interface is a great example of a command pattern in the Java API. We create a thread and pass an implementation of the runnable interface into it. You can see here that the request is completely Decoupled from the processor(thread). The task class implements Runnable which in our case will be an example of the command pattern or the command interface. The request is completely encapsulated by this task object you can see we've passed our parameters and that's our entire request. And then we have an Invoker ,the thread, that will invoke the execute method on our task at later point of time. The run() method of the runnable should actualy call the complex system.</li>
@@ -1158,7 +1161,7 @@ class Registry {
 </ul>
 <div class='x3'></div>
 <div class='x3'> </div>
-<div class='x2'>Design #15 Interpreter Patterns</div>
+<div class='x2' id='hashid20'>Design #15 Interpreter Patterns</div>
 <div class='x3'>Example:</div>
 <ul>
 <li>Give some example her</li>
@@ -1186,7 +1189,7 @@ class Registry {
 </ul>
 <div class='x3'></div>
 <div class='x3'> </div>
-<div class='x2'>Design #16 Iterator pattern</div>
+<div class='x2' id='hashid21'>Design #16 Iterator pattern</div>
 <div class='x3'>Example:</div>
 <ul>
 <li>In java or c++ stl, we have many data structures like linked lists, arrays, vectors, and maps which is used to store the objects for different purpose. But as they are nothing but a collection of objects, application might want to read all. So, they provide a common interface to iterate on any collection uniformly using c++ std::iterator or java Collection Iterator or for each loop.</li>
@@ -1216,7 +1219,7 @@ class Registry {
 <div class='x3'></div>
 <div class='x3'></div>
 <div class='x3'> </div>
-<div class='x2'>Design #17. Mediator Patterns</div>
+<div class='x2' id='hashid22'>Design #17. Mediator Patterns</div>
 <div class='x3'>Example:</div>
 <ul>
 <li>Give some example her</li>
@@ -1245,7 +1248,7 @@ class Registry {
 <div class='x3'></div>
 <div class='x3'></div>
 <div class='x3'> </div>
-<div class='x2'>Design #18 Mememto patterns</div>
+<div class='x2' id='hashid23'>Design #18 Mememto patterns</div>
 <div class='x3'>Example:</div>
 <ul>
 <li>Give some example her</li>
@@ -1273,7 +1276,7 @@ class Registry {
 </ul>
 <div class='x3'></div>
 <div class='x3'> </div>
-<div class='x2'>Design #19 Observer patterns</div>
+<div class='x2' id='hashid24'>Design #19 Observer patterns</div>
 <div class='x3'>Example:</div>
 <ul>
 <li>In java, java.utils.Observer and java.utils.EventListeners are based on this patterns.</li>
@@ -1301,7 +1304,7 @@ class Registry {
 </ul>
 <div class='x3'></div>
 <div class='x3'> </div>
-<div class='x2'>Design #20. State Patterns</div>
+<div class='x2' id='hashid25'>Design #20. State Patterns</div>
 <div class='x3'>Example:</div>
 <ul>
 <li>Give some example her</li>
@@ -1328,37 +1331,7 @@ class Registry {
 <li>In case of lazy initialization, you must ensure that mutulay exclusive naess of creating the instance using double locking approach.</li>
 </ul>
 <div class='x3'> </div>
-<div class='x2'>Design #21 Template Method patterns</div>
-<div class='x3'>Example:</div>
-<ul>
-<li>Give some example her</li>
-<li>Example 2</li>
-</ul>
-<div class='x3'></div>
-<div class='x3'>Design purpose:</div>
-<ul>
-<li>Application needs one and only one instrace of an object</li>
-<li>Application might want to lazy initialization of the instance and global access are necessary.</li>
-</ul>
-<div class='x3'></div>
-<div class='x3'>Design challenges:</div>
-<ul>
-<li>Would a static member can solve this problem?</li>
-<li>Static initialization or lazy initialization?</li>
-<li>What if multiple thread want to create the instance at the same time ?</li>
-<li>When and how the singleton instance will be destracted ?</li>
-</ul>
-<div class='x3'></div>
-<div class='x3'>Summery of designs:</div>
-<ul>
-<li>One approach might be to make the constractor as private and define a static attribute of the class and initialized it and then define a public getter for this.</li>
-<li>In case of lazy initialization, you must ensure that mutulay exclusive naess of creating the instance using double locking approach.</li>
-</ul>
-<div class='x3'></div>
-<div class='x3'></div>
-<div class='x3'></div>
-<div class='x3'> </div>
-<div class='x2'>Design #22 Visitor patterns</div>
+<div class='x2' id='hashid26'>Design #21 Template Method patterns</div>
 <div class='x3'>Example:</div>
 <ul>
 <li>Give some example her</li>
@@ -1386,8 +1359,38 @@ class Registry {
 </ul>
 <div class='x3'></div>
 <div class='x3'></div>
+<div class='x3'></div>
 <div class='x3'> </div>
-<div class='x2'>Design #23: Constractor patterns ( JS)</div>
+<div class='x2' id='hashid27'>Design #22 Visitor patterns</div>
+<div class='x3'>Example:</div>
+<ul>
+<li>Give some example her</li>
+<li>Example 2</li>
+</ul>
+<div class='x3'></div>
+<div class='x3'>Design purpose:</div>
+<ul>
+<li>Application needs one and only one instrace of an object</li>
+<li>Application might want to lazy initialization of the instance and global access are necessary.</li>
+</ul>
+<div class='x3'></div>
+<div class='x3'>Design challenges:</div>
+<ul>
+<li>Would a static member can solve this problem?</li>
+<li>Static initialization or lazy initialization?</li>
+<li>What if multiple thread want to create the instance at the same time ?</li>
+<li>When and how the singleton instance will be destracted ?</li>
+</ul>
+<div class='x3'></div>
+<div class='x3'>Summery of designs:</div>
+<ul>
+<li>One approach might be to make the constractor as private and define a static attribute of the class and initialized it and then define a public getter for this.</li>
+<li>In case of lazy initialization, you must ensure that mutulay exclusive naess of creating the instance using double locking approach.</li>
+</ul>
+<div class='x3'></div>
+<div class='x1' id='hashid28'>JavaScript Design Patters</div>
+<div class='x3'> </div>
+<div class='x2' id='hashid29'>Design #1: Constractor patterns ( JS)</div>
 <div class='x3'>Example:</div>
 <ul>
 <li>Constructor Pattern is used to create new objects with their own object scope. JavaScript doesn't have classes, However JavaScript does enable you to create new objects out of existing objects using new keyword. and so that's going to use the Constructor Pattern.</li>
@@ -1537,7 +1540,7 @@ task2.save();
 <div class='x3'></div>
 <div class='x3'></div>
 <div class='x3'> </div>
-<div class='x2'>Design #24 Module Patterns for Javascript.</div>
+<div class='x2' id='hashid30'>Design #2:  Module Patterns for Javascript.</div>
 <div class='x3'>Example:</div>
 <ul>
 <li>Module Pattern is used as a simple way just to encapsulate a group of like methods that I'm going to use on my application – so it will be toolbox.</li>
@@ -1632,10 +1635,11 @@ var repo = function () {
 
 </div>
 <div class='x3'></div>
+<div class='x1' id='hashid31'>Python Design Patters</div>
 <div class='x3'></div>
 <div class='x3'></div>
 <div class='x3'></div>
-<div class='x3'></div>
+<div class='x1' id='hashid32'>Android Design Patters</div>
 <div class='x3'></div>
 <div class='x3'></div>
 <div class='x3'></div>
@@ -1645,5 +1649,6 @@ var repo = function () {
 <div class='x3'></div>
 <div class='x3'></div>
 <div class='x3'> </div>
-<div class='x3'></div>
+<div class='x3'></div></div>
 </body>
+</html>

@@ -1,4 +1,4 @@
-## Software Design Principle with Example
+## Software Design Principles
 
 # Preface
 I am writing this book to share some software design principles which I have learnt so far in my past 7 years of industry experiences. This books mainly deals with some of the important design patterns, system design problem and handling dependency issues.
@@ -19,8 +19,10 @@ When we build a large software product, it builds with a number of induvial comp
 1. if you want to develop a e-comm software – we can have server-side and client-side component which can be build up independently – however, how they can commutate to each other can be define by a set of REST API calls – which is a contacts between these two components.
 1. If you have two modules of a product and if there is necessary of calling each other – we can have a contact on how they can communicate. Interface (in case of java), abstract class(in C++) and header file(In c) is mainly treated as a contacts. Other component should only know the contacts (method signature like input and output) – the agreement on communication.
 
+## Inverstion Control and Dependecy injection
 
-## Design patterns
+
+## Design patterns in Java and C++
 
 # Design #1 Singleton design patterns
 Example:
@@ -844,9 +846,9 @@ Summery of designs:
 - One approach might be to make the constractor as private and define a static attribute of the class and initialized it and then define a public getter for this.
 - In case of lazy initialization, you must ensure that mutulay exclusive naess of creating the instance using double locking approach.
 
-
+## JavaScript Design Patters
  
-# Design #23: Constractor patterns ( JS)
+# Design #1: Constractor patterns ( JS)
 Example:
 - Constructor Pattern is used to create new objects with their own object scope. JavaScript doesn't have classes, However JavaScript does enable you to create new objects out of existing objects using new keyword. and so that's going to use the Constructor Pattern.
 
@@ -942,7 +944,7 @@ task2.save();
 
 
  
-# Design #24 Module Patterns for Javascript.
+# Design #2:  Module Patterns for Javascript.
 Example:
 - Module Pattern is used as a simple way just to encapsulate a group of like methods that I'm going to use on my application – so it will be toolbox.
 
@@ -1002,10 +1004,11 @@ var repo = function () {
 }
 }}}
 
+## Python Design Patters
 
 
 
-
+## Android Design Patters
 
 
 

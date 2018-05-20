@@ -1,26 +1,21 @@
 #!/usr/bin/python
 import sys
+from string import Template
 fname = sys.argv[1]
-APPEND="""
+TEMPLATE="""
 <html>
 <head>
     <title> Boook </title>
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
 
     <style>
-        *{font-family: 'Source Sans Pro', sans-serif;}
+        * {font-family: 'Source Sans Pro', sans-serif;}
     body{ width: 800;
     margin: 0 auto;
         color: #575757; }
-div.x1{ font-size: 60;
-    text-align: center;
-    margin-top: 50px;
-    margin-bottom: 60px;
-}
 
-div.x2{
-    font-size: 25px;
-        margin-bottom: 25px;}
+
+
 
 div.code{    white-space: pre;
     background: rgba(0, 0, 0, 0.1);
@@ -31,18 +26,25 @@ div.code{    white-space: pre;
     font-size: 14px;
     letter-spacing: 1;
     line-height: 0.8;}
-div.x3{     margin-bottom: 10px;
-    text-align: justify;
-}
-ol,ul{    line-height: 1.3;
-        margin-bottom: 35px;}
+
+div.x1{ font-size: 50;text-align: center;margin-top: 50px;margin-bottom: 100px;}
+div.x2{font-size: 25px;margin-bottom: 25px;margin-top: 20px;}
+div.x3{ margin-bottom: 10px;text-align: justify;}
+
+ol,ul{line-height: 1.3;margin-bottom: 35px;}
+.left {position:fixed;left: 0px;top: 0px;padding:5px;width: 300px;height: 100%; display:block;overflow: auto;border-right: 1px solid #575757;}
+a{display: block;font-family: 'Source Sans Pro', sans-serif; text-decoration: none; color: #575757;margin-bottom: 8px;}
+a.a1{font-weight:bold;font-size: 16px;}
+a.a2{margin-left:20px;}
+
     </style>
 </head>
 <body>
+<div class="left" style="">$MENU</div>
+<div class="right" style="">$CONTENT</div>
+</body>
+</html>
 """
-
-PREPEND ="""
-</body>"""
 def es(s):
     s = s.replace(">","&gt;")
     s = s.replace("<","&lt;")
@@ -56,6 +58,8 @@ output=[]
 block_start = False
 num_start = False
 code_start = False;
+menu=""
+id = 0;
 for line in content:
     if block_start and not line.startswith("- "):
         output.append("</ul>")
@@ -65,9 +69,15 @@ for line in content:
         num_start = False
 
     if line.startswith("## "):
-        output.append("<div class='x1'>"+line[3:].strip()+"</div>")
+        id = id +1;
+        hashid = "hashid"+str(id)
+        menu +="<a class='a1' href='#"+hashid+"'+>"+line[3:].strip()+"</a>"
+        output.append("<div class='x1' id='"+hashid+"'>"+line[2:].strip()+"</div>")
     elif line.startswith("# "):
-        output.append("<div class='x2'>"+line[2:].strip()+"</div>")
+        id = id +1;
+        hashid = "hashid"+str(id)
+        menu +="<a class='a2' href='#"+hashid+"'+>"+line[2:].strip()+"</a>"
+        output.append("<div class='x2' id='"+hashid+"'>"+line[2:].strip()+"</div>")
     elif line.startswith("- "):
         if block_start == False:
             block_start = True;
@@ -92,10 +102,9 @@ for line in content:
                 output.append(es(line))
 
 output = "\n".join(output)
-
-output = APPEND +output+PREPEND
+html  = Template(TEMPLATE).substitute({'CONTENT':output,'MENU':menu})
 file = open(fname+".html","w")
-file.write(output)
+file.write(html)
 file.close()
 
 print 'Successfully converted'
