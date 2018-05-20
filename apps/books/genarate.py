@@ -31,7 +31,7 @@ div.x1{ font-size: 50;text-align: center;margin-top: 50px;margin-bottom: 100px;}
 div.x2{font-size: 25px;margin-bottom: 25px;margin-top: 20px;}
 div.x3{ margin-bottom: 10px;text-align: justify;}
 
-ol,ul{line-height: 1.3;margin-bottom: 35px;}
+ol,ul{line-height: 1.3;margin-bottom: 35px;text-align: justify;}
 .left {position:fixed;left: 0px;top: 0px;padding:5px;width: 300px;height: 100%; display:block;overflow: auto;border-right: 1px solid #575757;}
 a{display: block;font-family: 'Source Sans Pro', sans-serif; text-decoration: none; color: #575757;margin-bottom: 8px;}
 a.a1{font-weight:bold;font-size: 16px;}
