@@ -3,39 +3,64 @@
 <head>
     <title> Boook </title>
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+<style>
 
-    <style>
-        * {font-family: 'Source Sans Pro', sans-serif;}
-    body{ width: 800;
-    margin: 0 auto;
-        color: #575757; }
+    * {font-family: 'Source Sans Pro', sans-serif;}
+    body, a, body .top{ margin: 0 auto; color: #575757;background:white }
+    ol,ul{line-height: 1.3;margin-bottom: 35px;text-align: justify;}
 
+    div.code {
+        white-space: pre;
+        background: rgba(0, 0, 0, 0.1);
+        color: black;
+        padding: 5px;
+        margin-bottom: 25px;
+        font-family: monospace;
+        font-size: 14px;
+        letter-spacing: 1;
+        line-height: 0.8;
+    }
 
+    div.x1{ font-size: 50;text-align: center;margin-top: 50px;margin-bottom: 100px;}
+    div.x2{font-size: 25px;margin-bottom: 25px;margin-top: 20px;}
+    div.x3{ margin-bottom: 10px;text-align: justify;}
 
+    .top {
+        position: fixed;
+        height: 40px;
+        border-bottom: 1px solid rgba(0,0,0,0.1);
+        width: 100%;
+        top: 0;
+    }
+    .top .t { padding: 10px; margin-right:10px}
+    .left {position:fixed;left: 0px;top: 50px;padding:5px;width: 300px;height: 100%; display:none;overflow: auto;border-right: 1px solid #575757;}
+    .right{max-width: 800px; margin: 10px auto;padding:15px; margin-top:50px}
 
-div.code{    white-space: pre;
-    background: rgba(0, 0, 0, 0.1);
-    color: black;
-    padding: 5px;
-    margin-bottom: 25px;
-    font-family: monospace;
-    font-size: 14px;
-    letter-spacing: 1;
-    line-height: 0.8;}
+    a {display: block;font-family: 'Source Sans Pro', sans-serif; text-decoration: none; margin-bottom: 8px;}
+    a.a1{font-weight:bold;font-size: 16px;}
+    a.a2{margin-left:20px;}
 
-div.x1{ font-size: 50;text-align: center;margin-top: 50px;margin-bottom: 100px;}
-div.x2{font-size: 25px;margin-bottom: 25px;margin-top: 20px;}
-div.x3{ margin-bottom: 10px;text-align: justify;}
+    .footer{font-size: 11px;text-align: center;border-top: 1px solid #575757;}
 
-ol,ul{line-height: 1.3;margin-bottom: 35px;text-align: justify;}
-.left {position:fixed;left: 0px;top: 0px;padding:5px;width: 300px;height: 100%; display:block;overflow: auto;border-right: 1px solid #575757;}
-a{display: block;font-family: 'Source Sans Pro', sans-serif; text-decoration: none; color: #575757;margin-bottom: 8px;}
-a.a1{font-weight:bold;font-size: 16px;}
-a.a2{margin-left:20px;}
-.footer{font-size: 11px;text-align: center;border-top: 1px solid #575757;}
-    </style>
+    body.shown_menu .left {display:block}
+    body.shown_menu .right {margin-left:320px;}
+
+    body.dark,body.dark .top, a {background: #353535;color: #a7a0a0;}
+    body.dark div.code {color: #0daf32;}
+</style>
+<script>
+</script>
 </head>
 <body>
+<div class="top">
+     <span style='float:left'><b class="t" style="display: block;">Software Design Principles</b></span>
+     <span style='float:right'>
+        <i class="t fas fa-list-ul" onclick="$('body').toggleClass('shown_menu');"></i>
+        <i class="t fas fa-lightbulb" onclick="$('body').toggleClass('dark');"></i>
+    </span>
+</div>
 <div class="left" style=""><a class='a1' href='#hashid1'+>Software Design Principles</a><a class='a2' href='#hashid2'+>Preface</a><a class='a2' href='#hashid3'+>Concept of Contracts</a><a class='a1' href='#hashid4'+>Inverstion Control and Dependecy injection</a><a class='a1' href='#hashid5'+>Design patterns in Java and C++</a><a class='a2' href='#hashid6'+>Design #1 Singleton design patterns</a><a class='a2' href='#hashid7'+>Design #2 Factory  method patterns</a><a class='a2' href='#hashid8'+>Design #3 Abstrat factory</a><a class='a2' href='#hashid9'+>Design #4 Builder Patterns</a><a class='a2' href='#hashid10'+>Design #5 Prototype patterns</a><a class='a2' href='#hashid11'+>Design #6 Adapter Patterns</a><a class='a2' href='#hashid12'+>Design #7 Bridge Design patterns</a><a class='a2' href='#hashid13'+>Design #8 Composite design patterns</a><a class='a2' href='#hashid14'+>Design #9 Decorator patterns</a><a class='a2' href='#hashid15'+>Design #10 Façade patterns</a><a class='a2' href='#hashid16'+>Design #11 FlyWeight patterns</a><a class='a2' href='#hashid17'+>Design #12 Proxy patterns</a><a class='a2' href='#hashid18'+>Design #13 Chain of Resposibility</a><a class='a2' href='#hashid19'+>Design #14 Command patterns</a><a class='a2' href='#hashid20'+>Design #15 Interpreter Patterns</a><a class='a2' href='#hashid21'+>Design #16 Iterator pattern</a><a class='a2' href='#hashid22'+>Design #17. Mediator Patterns</a><a class='a2' href='#hashid23'+>Design #18 Mememto patterns</a><a class='a2' href='#hashid24'+>Design #19 Observer patterns</a><a class='a2' href='#hashid25'+>Design #20. State Patterns</a><a class='a2' href='#hashid26'+>Design #21 Template Method patterns</a><a class='a2' href='#hashid27'+>Design #22 Visitor patterns</a><a class='a1' href='#hashid28'+>JavaScript Design Patters</a><a class='a2' href='#hashid29'+>Design #1: Constractor patterns ( JS)</a><a class='a2' href='#hashid30'+>Design #2:  Module Patterns for Javascript.</a><a class='a1' href='#hashid31'+>Python Design Patters</a><a class='a1' href='#hashid32'+>Android Design Patters</a><a class='a2' href='#hashid33'+>Design a Custom View</a><a class='a2' href='#hashid34'+>Design Better List View</a></div>
 <div class="right" style=""><div class='x1' id='hashid1'>Software Design Principles</div>
 <div class='x3'></div>

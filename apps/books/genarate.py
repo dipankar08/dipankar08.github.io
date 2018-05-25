@@ -7,39 +7,64 @@ TEMPLATE="""
 <head>
     <title> Boook </title>
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+<style>
 
-    <style>
-        * {font-family: 'Source Sans Pro', sans-serif;}
-    body{ width: 800;
-    margin: 0 auto;
-        color: #575757; }
+    * {font-family: 'Source Sans Pro', sans-serif;}
+    body, a, body .top{ margin: 0 auto; color: #575757;background:white }
+    ol,ul{line-height: 1.3;margin-bottom: 35px;text-align: justify;}
 
+    div.code {
+        white-space: pre;
+        background: rgba(0, 0, 0, 0.1);
+        color: black;
+        padding: 5px;
+        margin-bottom: 25px;
+        font-family: monospace;
+        font-size: 14px;
+        letter-spacing: 1;
+        line-height: 0.8;
+    }
 
+    div.x1{ font-size: 50;text-align: center;margin-top: 50px;margin-bottom: 100px;}
+    div.x2{font-size: 25px;margin-bottom: 25px;margin-top: 20px;}
+    div.x3{ margin-bottom: 10px;text-align: justify;}
 
+    .top {
+        position: fixed;
+        height: 40px;
+        border-bottom: 1px solid rgba(0,0,0,0.1);
+        width: 100%;
+        top: 0;
+    }
+    .top .t { padding: 10px; margin-right:10px}
+    .left {position:fixed;left: 0px;top: 50px;padding:5px;width: 300px;height: 100%; display:none;overflow: auto;border-right: 1px solid #575757;}
+    .right{max-width: 800px; margin: 10px auto;padding:15px; margin-top:50px}
 
-div.code{    white-space: pre;
-    background: rgba(0, 0, 0, 0.1);
-    color: black;
-    padding: 5px;
-    margin-bottom: 25px;
-    font-family: monospace;
-    font-size: 14px;
-    letter-spacing: 1;
-    line-height: 0.8;}
+    a {display: block;font-family: 'Source Sans Pro', sans-serif; text-decoration: none; margin-bottom: 8px;}
+    a.a1{font-weight:bold;font-size: 16px;}
+    a.a2{margin-left:20px;}
 
-div.x1{ font-size: 50;text-align: center;margin-top: 50px;margin-bottom: 100px;}
-div.x2{font-size: 25px;margin-bottom: 25px;margin-top: 20px;}
-div.x3{ margin-bottom: 10px;text-align: justify;}
+    .footer{font-size: 11px;text-align: center;border-top: 1px solid #575757;}
 
-ol,ul{line-height: 1.3;margin-bottom: 35px;text-align: justify;}
-.left {position:fixed;left: 0px;top: 0px;padding:5px;width: 300px;height: 100%; display:block;overflow: auto;border-right: 1px solid #575757;}
-a{display: block;font-family: 'Source Sans Pro', sans-serif; text-decoration: none; color: #575757;margin-bottom: 8px;}
-a.a1{font-weight:bold;font-size: 16px;}
-a.a2{margin-left:20px;}
-.footer{font-size: 11px;text-align: center;border-top: 1px solid #575757;}
-    </style>
+    body.shown_menu .left {display:block}
+    body.shown_menu .right {margin-left:320px;}
+
+    body.dark,body.dark .top, a {background: #353535;color: #a7a0a0;}
+    body.dark div.code {color: #0daf32;}
+</style>
+<script>
+</script>
 </head>
 <body>
+<div class="top">
+     <span style='float:left'><b class="t" style="display: block;">Software Design Principles</b></span>
+     <span style='float:right'>
+        <i class="t fas fa-list-ul" onclick="$$('body').toggleClass('shown_menu');"></i>
+        <i class="t fas fa-lightbulb" onclick="$$('body').toggleClass('dark');"></i>
+    </span>
+</div>
 <div class="left" style="">$MENU</div>
 <div class="right" style="">$CONTENT</div>
 <div class="footer">
