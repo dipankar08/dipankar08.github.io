@@ -51,7 +51,7 @@ TEMPLATE="""
     body.shown_menu .left {display:block}
     body.shown_menu .right {margin-left:320px;}
 
-    body.dark,body.dark .top, a {background: #353535;color: #a7a0a0;}
+    body.dark,body.dark .top, body.dark a {background: #353535;color: #a7a0a0;}
     body.dark div.code {color: #0daf32;}
 </style>
 <script>
