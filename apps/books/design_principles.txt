@@ -1009,7 +1009,269 @@ var repo = function () {
 
 
 ## Android Design Patters
+# Design a Custom View
 
+{{{
+
+    public class CustomView extends RelativeLayout {
+
+    @Nullable private Callback mCallback;
+    private Button mButton;
+
+    public interface Callback {
+        void onClick();
+    }
+
+    public CustomView(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+        initView(context);
+    }
+
+    public CustomView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        initView(context);
+    }
+
+    public CustomView(Context context) {
+        super(context);
+        initView(context);
+    }
+
+    private void initView(Context context) {
+        final LayoutInflater mInflater = LayoutInflater.from(context);
+        mInflater.inflate(R.layout.view_notification, this, true);
+
+        mButton = findViewById(R.id.button);
+        mButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mCallback != null){
+                    mCallback.onClick();
+                }
+            }
+        });
+    }
+    public void addCallback(Callback callback){
+        mCallback = callback;
+    }
+}
+}}}
+
+
+# Design Better List View 
+
+Suppose I want to have a List Items like this which should be listed
+
+{{{
+    public interface Item{
+        String getTitle();
+        String getSubTitle();
+        String getImageUrl();
+        String getId();
+    }
+}}}
+
+and Here is the layout for each item:
+{{{
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp"
+    android:layout_width="wrap_content"
+    android:gravity="center"
+    android:layout_height="wrap_content">
+    <in.co.dipankar.quickandorid.views.CircleImageView
+        android:id="@+id/image"
+        android:layout_width="40dp"
+        android:background="@null"
+        android:src="@drawable/ic_user_male"
+        android:layout_gravity="center"
+        app:civ_border_color="#15000000"
+        app:civ_border_width="1dp"
+        android:layout_marginBottom="4dp"
+        android:layout_height="40dp" />
+    <TextView
+        android:id="@+id/sl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</LinearLayout>
+}}}
+
+Here is the Adapter 
+{{{
+private class RVAdapter extends RecyclerView.Adapter<RVAdapter.ItemViewHolder> {
+    List<Item> nodes = new ArrayList<>();
+    Context mContext;
+    int mItemLayout;
+
+    RVAdapter(List<Item> persons, Context c,int mItemLayout) {
+        if (persons != null) {
+            this.nodes = persons;
+        }
+        mContext = c;
+        this.mItemLayout = mItemLayout;
+    }
+
+    // define Holder class
+    public class ItemViewHolder extends RecyclerView.ViewHolder {
+        TextView sl;
+        TextView title;
+        TextView subtitle;
+        ImageView img;
+        ItemViewHolder(View itemView) {
+            super(itemView);
+            img = (ImageView) itemView.findViewById(R.id.image);
+            sl = (TextView) itemView.findViewById(R.id.sl);
+            title = (TextView) itemView.findViewById(R.id.title);
+            subtitle = (TextView) itemView.findViewById(R.id.subtitle);
+        }
+    }
+    
+    @Override
+    public int getItemCount() {
+        return nodes.size();
+    }
+
+    // Influate View
+    @Override
+    public ItemViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_quick_list, viewGroup, false);
+        ItemViewHolder pvh = new ItemViewHolder(view);
+        return pvh;
+    }
+
+    // Populate views
+    @Override
+    public void onBindViewHolder(ItemViewHolder personViewHolder, int i) {
+            if(personViewHolder.title != null) {
+                personViewHolder.title.setText(nodes.get(i).getTitle());
+            }
+            if(personViewHolder.sl != null) {
+                personViewHolder.sl.setText((i+1)+"");
+            }
+            if(personViewHolder.subtitle != null) {
+                personViewHolder.subtitle.setText(Html.fromHtml(nodes.get(i).getSubTitle()), TextView.BufferType.SPANNABLE);
+            }
+            if(personViewHolder.img != null) {
+                Glide.with(mContext)
+                        .load(nodes.get(i).getImageUrl())
+                        .into(personViewHolder.img);
+            }
+
+    }
+
+    // Update the list in the adapetr
+    public void update(List<Item> datas) {
+        if (datas == null) return;
+        if (nodes != null && nodes.size() >= 0) {
+            nodes.clear();
+        }
+        nodes.addAll(datas);
+        notifyDataSetChanged();
+    }
+}
+
+}}}
+Let's define a class which allow us to Listn when you click or long tab a item
+{{{
+import android.content.Context;
+import android.support.v7.widget.RecyclerView;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
+import android.view.View;
+
+public class RecyclerItemClickListener implements RecyclerView.OnItemTouchListener {
+    private OnItemClickListener mListener;
+
+    public interface OnItemClickListener {
+        public void onItemClick(View view, int position);
+        public void onLongItemClick(View view, int position);
+    }
+
+    GestureDetector mGestureDetector;
+
+    public RecyclerItemClickListener(Context context, final RecyclerView recyclerView, OnItemClickListener listener) {
+        mListener = listener;
+        mGestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
+            @Override
+            public boolean onSingleTapUp(MotionEvent e) {
+                return true;
+            }
+            @Override
+            public void onLongPress(MotionEvent e) {
+                View child = recyclerView.findChildViewUnder(e.getX(), e.getY());
+                if (child != null && mListener != null) {
+                    mListener.onLongItemClick(child, recyclerView.getChildAdapterPosition(child));
+                }
+            }
+        });
+    }
+    @Override public boolean onInterceptTouchEvent(RecyclerView view, MotionEvent e) {
+        View childView = view.findChildViewUnder(e.getX(), e.getY());
+        if (childView != null && mListener != null && mGestureDetector.onTouchEvent(e)) {
+            mListener.onItemClick(childView, view.getChildAdapterPosition(childView));
+            return true;
+        }
+        return false;
+    }
+    @Override public void onTouchEvent(RecyclerView view, MotionEvent motionEvent) {}
+    @Override
+    public void onRequestDisallowInterceptTouchEvent (boolean disallowIntercept){}
+}
+}}}
+The code must be added to the client side
+{{{
+    // Decleare 
+    private RecyclerView mRecyclerView;
+    private RVAdapter adapter;
+    
+    // initilize RV
+    View mRootView = mInflater.inflate(R.layout.view_quick_list, this, true);
+    mRecyclerView = (RecyclerView) this.findViewById(R.id.recyclerview);
+    mRecyclerView.setHasFixedSize(true);
+
+    // Adding layout infra
+    LinearLayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
+    LinearLayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
+    mRecyclerView.setLayoutManager(layoutManager);
+
+    // initilization and setting up the adapetr
+    adapter = new RVAdapter(items, mContext);
+    mRecyclerView.setAdapter(adapter);
+
+    // Adding Touch Listner
+    mRecyclerView.addOnItemTouchListener(
+        new RecyclerItemClickListener(mContext, mRecyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
+            @Override public void onItemClick(View view, int position) {
+                if(mCallback != null){
+                    mCallback.onClick(mItemList.get(position).getId());
+                }
+            }
+            @Override public void onLongItemClick(View view, int position) {
+                if(mCallback != null){
+                    mCallback.onLongClick(mItemList.get(position).getId());
+                }
+            }
+        })
+    );
+
+    // API to update the list
+    public void updateList(List<Item> data){
+        adapter.update(data);
+    }
+}}}
 
 
 

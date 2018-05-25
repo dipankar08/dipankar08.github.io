@@ -36,7 +36,7 @@ a.a2{margin-left:20px;}
     </style>
 </head>
 <body>
-<div class="left" style=""><a class='a1' href='#hashid1'+>Software Design Principles</a><a class='a2' href='#hashid2'+>Preface</a><a class='a2' href='#hashid3'+>Concept of Contracts</a><a class='a1' href='#hashid4'+>Inverstion Control and Dependecy injection</a><a class='a1' href='#hashid5'+>Design patterns in Java and C++</a><a class='a2' href='#hashid6'+>Design #1 Singleton design patterns</a><a class='a2' href='#hashid7'+>Design #2 Factory  method patterns</a><a class='a2' href='#hashid8'+>Design #3 Abstrat factory</a><a class='a2' href='#hashid9'+>Design #4 Builder Patterns</a><a class='a2' href='#hashid10'+>Design #5 Prototype patterns</a><a class='a2' href='#hashid11'+>Design #6 Adapter Patterns</a><a class='a2' href='#hashid12'+>Design #7 Bridge Design patterns</a><a class='a2' href='#hashid13'+>Design #8 Composite design patterns</a><a class='a2' href='#hashid14'+>Design #9 Decorator patterns</a><a class='a2' href='#hashid15'+>Design #10 Façade patterns</a><a class='a2' href='#hashid16'+>Design #11 FlyWeight patterns</a><a class='a2' href='#hashid17'+>Design #12 Proxy patterns</a><a class='a2' href='#hashid18'+>Design #13 Chain of Resposibility</a><a class='a2' href='#hashid19'+>Design #14 Command patterns</a><a class='a2' href='#hashid20'+>Design #15 Interpreter Patterns</a><a class='a2' href='#hashid21'+>Design #16 Iterator pattern</a><a class='a2' href='#hashid22'+>Design #17. Mediator Patterns</a><a class='a2' href='#hashid23'+>Design #18 Mememto patterns</a><a class='a2' href='#hashid24'+>Design #19 Observer patterns</a><a class='a2' href='#hashid25'+>Design #20. State Patterns</a><a class='a2' href='#hashid26'+>Design #21 Template Method patterns</a><a class='a2' href='#hashid27'+>Design #22 Visitor patterns</a><a class='a1' href='#hashid28'+>JavaScript Design Patters</a><a class='a2' href='#hashid29'+>Design #1: Constractor patterns ( JS)</a><a class='a2' href='#hashid30'+>Design #2:  Module Patterns for Javascript.</a><a class='a1' href='#hashid31'+>Python Design Patters</a><a class='a1' href='#hashid32'+>Android Design Patters</a></div>
+<div class="left" style=""><a class='a1' href='#hashid1'+>Software Design Principles</a><a class='a2' href='#hashid2'+>Preface</a><a class='a2' href='#hashid3'+>Concept of Contracts</a><a class='a1' href='#hashid4'+>Inverstion Control and Dependecy injection</a><a class='a1' href='#hashid5'+>Design patterns in Java and C++</a><a class='a2' href='#hashid6'+>Design #1 Singleton design patterns</a><a class='a2' href='#hashid7'+>Design #2 Factory  method patterns</a><a class='a2' href='#hashid8'+>Design #3 Abstrat factory</a><a class='a2' href='#hashid9'+>Design #4 Builder Patterns</a><a class='a2' href='#hashid10'+>Design #5 Prototype patterns</a><a class='a2' href='#hashid11'+>Design #6 Adapter Patterns</a><a class='a2' href='#hashid12'+>Design #7 Bridge Design patterns</a><a class='a2' href='#hashid13'+>Design #8 Composite design patterns</a><a class='a2' href='#hashid14'+>Design #9 Decorator patterns</a><a class='a2' href='#hashid15'+>Design #10 Façade patterns</a><a class='a2' href='#hashid16'+>Design #11 FlyWeight patterns</a><a class='a2' href='#hashid17'+>Design #12 Proxy patterns</a><a class='a2' href='#hashid18'+>Design #13 Chain of Resposibility</a><a class='a2' href='#hashid19'+>Design #14 Command patterns</a><a class='a2' href='#hashid20'+>Design #15 Interpreter Patterns</a><a class='a2' href='#hashid21'+>Design #16 Iterator pattern</a><a class='a2' href='#hashid22'+>Design #17. Mediator Patterns</a><a class='a2' href='#hashid23'+>Design #18 Mememto patterns</a><a class='a2' href='#hashid24'+>Design #19 Observer patterns</a><a class='a2' href='#hashid25'+>Design #20. State Patterns</a><a class='a2' href='#hashid26'+>Design #21 Template Method patterns</a><a class='a2' href='#hashid27'+>Design #22 Visitor patterns</a><a class='a1' href='#hashid28'+>JavaScript Design Patters</a><a class='a2' href='#hashid29'+>Design #1: Constractor patterns ( JS)</a><a class='a2' href='#hashid30'+>Design #2:  Module Patterns for Javascript.</a><a class='a1' href='#hashid31'+>Python Design Patters</a><a class='a1' href='#hashid32'+>Android Design Patters</a><a class='a2' href='#hashid33'+>Design a Custom View</a><a class='a2' href='#hashid34'+>Design Better List View</a></div>
 <div class="right" style=""><div class='x1' id='hashid1'>Software Design Principles</div>
 <div class='x3'></div>
 <div class='x2' id='hashid2'>Preface</div>
@@ -1640,7 +1640,456 @@ var repo = function () {
 <div class='x3'></div>
 <div class='x3'></div>
 <div class='x1' id='hashid32'>Android Design Patters</div>
+<div class='x2' id='hashid33'>Design a Custom View</div>
 <div class='x3'></div>
+<div class='code'>
+    public class CustomView extends RelativeLayout {
+
+    @Nullable private Callback mCallback;
+
+    private Button mButton;
+
+    public interface Callback {
+
+        void onClick();
+
+    }
+
+    public CustomView(Context context, AttributeSet attrs, int defStyle) {
+
+        super(context, attrs, defStyle);
+
+        initView(context);
+
+    }
+
+    public CustomView(Context context, AttributeSet attrs) {
+
+        super(context, attrs);
+
+        initView(context);
+
+    }
+
+    public CustomView(Context context) {
+
+        super(context);
+
+        initView(context);
+
+    }
+
+    private void initView(Context context) {
+
+        final LayoutInflater mInflater = LayoutInflater.from(context);
+
+        mInflater.inflate(R.layout.view_notification, this, true);
+
+        mButton = findViewById(R.id.button);
+
+        mButton.setOnClickListener(new OnClickListener() {
+
+            @Override
+
+            public void onClick(View v) {
+
+                if(mCallback != null){
+
+                    mCallback.onClick();
+
+                }
+
+            }
+
+        });
+
+    }
+
+    public void addCallback(Callback callback){
+
+        mCallback = callback;
+
+    }
+
+}
+
+</div>
+<div class='x3'></div>
+<div class='x3'></div>
+<div class='x2' id='hashid34'>Design Better List View</div>
+<div class='x3'></div>
+<div class='x3'>Suppose I want to have a List Items like this which should be listed</div>
+<div class='x3'></div>
+<div class='code'>
+    public interface Item{
+
+        String getTitle();
+
+        String getSubTitle();
+
+        String getImageUrl();
+
+        String getId();
+
+    }
+
+</div>
+<div class='x3'></div>
+<div class='x3'>and Here is the layout for each item:</div>
+<div class='code'>
+&lt;?xml version="1.0" encoding="utf-8"?&gt;
+
+&lt;LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:orientation="vertical"
+
+    android:paddingTop="8dp"
+
+    android:paddingBottom="8dp"
+
+    android:paddingLeft="5dp"
+
+    android:paddingRight="5dp"
+
+    android:layout_width="wrap_content"
+
+    android:gravity="center"
+
+    android:layout_height="wrap_content"&gt;
+
+    &lt;in.co.dipankar.quickandorid.views.CircleImageView
+
+        android:id="@+id/image"
+
+        android:layout_width="40dp"
+
+        android:background="@null"
+
+        android:src="@drawable/ic_user_male"
+
+        android:layout_gravity="center"
+
+        app:civ_border_color="#15000000"
+
+        app:civ_border_width="1dp"
+
+        android:layout_marginBottom="4dp"
+
+        android:layout_height="40dp" /&gt;
+
+    &lt;TextView
+
+        android:id="@+id/sl"
+
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content" /&gt;
+
+    &lt;TextView
+
+        android:id="@+id/title"
+
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content" /&gt;
+
+    &lt;TextView
+
+        android:id="@+id/subtitle"
+
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content" /&gt;
+
+&lt;/LinearLayout&gt;
+
+</div>
+<div class='x3'></div>
+<div class='x3'>Here is the Adapter</div>
+<div class='code'>
+private class RVAdapter extends RecyclerView.Adapter&lt;RVAdapter.ItemViewHolder&gt; {
+
+    List&lt;Item&gt; nodes = new ArrayList&lt;&gt;();
+
+    Context mContext;
+
+    int mItemLayout;
+
+    RVAdapter(List&lt;Item&gt; persons, Context c,int mItemLayout) {
+
+        if (persons != null) {
+
+            this.nodes = persons;
+
+        }
+
+        mContext = c;
+
+        this.mItemLayout = mItemLayout;
+
+    }
+
+    // define Holder class
+
+    public class ItemViewHolder extends RecyclerView.ViewHolder {
+
+        TextView sl;
+
+        TextView title;
+
+        TextView subtitle;
+
+        ImageView img;
+
+        ItemViewHolder(View itemView) {
+
+            super(itemView);
+
+            img = (ImageView) itemView.findViewById(R.id.image);
+
+            sl = (TextView) itemView.findViewById(R.id.sl);
+
+            title = (TextView) itemView.findViewById(R.id.title);
+
+            subtitle = (TextView) itemView.findViewById(R.id.subtitle);
+
+        }
+
+    }
+
+    @Override
+
+    public int getItemCount() {
+
+        return nodes.size();
+
+    }
+
+    // Influate View
+
+    @Override
+
+    public ItemViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_quick_list, viewGroup, false);
+
+        ItemViewHolder pvh = new ItemViewHolder(view);
+
+        return pvh;
+
+    }
+
+    // Populate views
+
+    @Override
+
+    public void onBindViewHolder(ItemViewHolder personViewHolder, int i) {
+
+            if(personViewHolder.title != null) {
+
+                personViewHolder.title.setText(nodes.get(i).getTitle());
+
+            }
+
+            if(personViewHolder.sl != null) {
+
+                personViewHolder.sl.setText((i+1)+"");
+
+            }
+
+            if(personViewHolder.subtitle != null) {
+
+                personViewHolder.subtitle.setText(Html.fromHtml(nodes.get(i).getSubTitle()), TextView.BufferType.SPANNABLE);
+
+            }
+
+            if(personViewHolder.img != null) {
+
+                Glide.with(mContext)
+
+                        .load(nodes.get(i).getImageUrl())
+
+                        .into(personViewHolder.img);
+
+            }
+
+    }
+
+    // Update the list in the adapetr
+
+    public void update(List&lt;Item&gt; datas) {
+
+        if (datas == null) return;
+
+        if (nodes != null && nodes.size() &gt;= 0) {
+
+            nodes.clear();
+
+        }
+
+        nodes.addAll(datas);
+
+        notifyDataSetChanged();
+
+    }
+
+}
+
+</div>
+<div class='x3'>Let's define a class which allow us to Listn when you click or long tab a item</div>
+<div class='code'>
+import android.content.Context;
+
+import android.support.v7.widget.RecyclerView;
+
+import android.view.GestureDetector;
+
+import android.view.MotionEvent;
+
+import android.view.View;
+
+public class RecyclerItemClickListener implements RecyclerView.OnItemTouchListener {
+
+    private OnItemClickListener mListener;
+
+    public interface OnItemClickListener {
+
+        public void onItemClick(View view, int position);
+
+        public void onLongItemClick(View view, int position);
+
+    }
+
+    GestureDetector mGestureDetector;
+
+    public RecyclerItemClickListener(Context context, final RecyclerView recyclerView, OnItemClickListener listener) {
+
+        mListener = listener;
+
+        mGestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
+
+            @Override
+
+            public boolean onSingleTapUp(MotionEvent e) {
+
+                return true;
+
+            }
+
+            @Override
+
+            public void onLongPress(MotionEvent e) {
+
+                View child = recyclerView.findChildViewUnder(e.getX(), e.getY());
+
+                if (child != null && mListener != null) {
+
+                    mListener.onLongItemClick(child, recyclerView.getChildAdapterPosition(child));
+
+                }
+
+            }
+
+        });
+
+    }
+
+    @Override public boolean onInterceptTouchEvent(RecyclerView view, MotionEvent e) {
+
+        View childView = view.findChildViewUnder(e.getX(), e.getY());
+
+        if (childView != null && mListener != null && mGestureDetector.onTouchEvent(e)) {
+
+            mListener.onItemClick(childView, view.getChildAdapterPosition(childView));
+
+            return true;
+
+        }
+
+        return false;
+
+    }
+
+    @Override public void onTouchEvent(RecyclerView view, MotionEvent motionEvent) {}
+
+    @Override
+
+    public void onRequestDisallowInterceptTouchEvent (boolean disallowIntercept){}
+
+}
+
+</div>
+<div class='x3'>The code must be added to the client side</div>
+<div class='code'>
+    // Decleare 
+
+    private RecyclerView mRecyclerView;
+
+    private RVAdapter adapter;
+
+    // initilize RV
+
+    View mRootView = mInflater.inflate(R.layout.view_quick_list, this, true);
+
+    mRecyclerView = (RecyclerView) this.findViewById(R.id.recyclerview);
+
+    mRecyclerView.setHasFixedSize(true);
+
+    // Adding layout infra
+
+    LinearLayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
+
+    LinearLayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
+
+    mRecyclerView.setLayoutManager(layoutManager);
+
+    // initilization and setting up the adapetr
+
+    adapter = new RVAdapter(items, mContext);
+
+    mRecyclerView.setAdapter(adapter);
+
+    // Adding Touch Listner
+
+    mRecyclerView.addOnItemTouchListener(
+
+        new RecyclerItemClickListener(mContext, mRecyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
+
+            @Override public void onItemClick(View view, int position) {
+
+                if(mCallback != null){
+
+                    mCallback.onClick(mItemList.get(position).getId());
+
+                }
+
+            }
+
+            @Override public void onLongItemClick(View view, int position) {
+
+                if(mCallback != null){
+
+                    mCallback.onLongClick(mItemList.get(position).getId());
+
+                }
+
+            }
+
+        })
+
+    );
+
+    // API to update the list
+
+    public void updateList(List&lt;Item&gt; data){
+
+        adapter.update(data);
+
+    }
+
+</div>
 <div class='x3'></div>
 <div class='x3'></div>
 <div class='x3'></div>
