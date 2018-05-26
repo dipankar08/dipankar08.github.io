@@ -7,9 +7,10 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
 <style>
 
-    * {font-family: 'Source Sans Pro', sans-serif;}
-    body, a, body .top{ margin: 0 auto; color: #575757;background:white }
+    * {font-family: 'Source Sans Pro', sans-serif;line-height:1.25 }
+    body, a, body .top{ margin: 0 auto; color: #575757;background:white;}
     ol,ul{line-height: 1.3;margin-bottom: 35px;text-align: justify;}
+    li{ margin-bottom: 15px;}
 
     div.code {
         white-space: pre;
@@ -18,9 +19,9 @@
         padding: 5px;
         margin-bottom: 25px;
         font-family: monospace;
-        font-size: 14px;
-        letter-spacing: 1;
-        line-height: 0.8;
+        font-size: 12.5px;
+        letter-spacing: .05px;
+        line-height: 1.6;
     }
 
     div.x1{ font-size: 50;text-align: center;margin-top: 50px;margin-bottom: 100px;}
@@ -119,62 +120,35 @@
 <div class='x3'>//Solsution:1 Cleated on class load time.</div>
 <div class='code'>
 class SingletonEarly {
-
     private static SingletonEarly singleton = new SingletonEarly( );
-
     private SingletonEarly() {
-
         System.out.println("SingletonEarly: Contracted ");
-
     }
-
     public static SingletonEarly getInstance( ) {
-
         return singleton;
-
     }
-
 }
-
 </div>
 <div class='x3'>//Solsution 2: Deferred singleton,.</div>
 <div class='code'>
 class SingletonDelay {
-
     private static SingletonDelay instance = null;
-
     private SingletonDelay() {
-
         System.out.println("SingletonDelay: Contracted ");
-
     }
-
     public static SingletonDelay getInstance( ) {
-
         // double lock tech - This check ensure queue
-
         if(instance == null) {
-
             synchronized(SingletonDelay.class) {
-
                 // this lock protect the instance
-
                 if (instance == null) {
-
                     instance = new SingletonDelay();
-
                 }
-
             }
-
         }
-
         return instance;
-
     }
-
 }
-
 </div>
 <div class='x3'></div>
 <div class='x2' id='hashid7'>Design #2 Factory  method patterns</div>
@@ -204,71 +178,38 @@ class SingletonDelay {
 <div class='x3'></div>
 <div class='code'>
 interface IShape {
-
     void draw();
-
 }
-
 class Rectangle implements IShape {
-
     @Override
-
     public void draw() {
-
         System.out.println("Inside Rectangle::draw() method.");
-
     }
-
 }
-
 class Square implements IShape {
-
     @Override
-
     public void draw() {
-
         System.out.println("Inside Square::draw() method.");
-
     }
-
 }
-
 enum ShapeType {
-
     RECT,  SQR;
-
 }
-
 class ShapeFactory {
-
     public static IShape getShape(ShapeType shapeType) {
-
         switch(shapeType) {
-
             case RECT : {
-
                 return new Rectangle();
-
             }
-
             case SQR : {
-
                 return new Square();
-
             }
-
             default : {
-
                 return null;
-
             }
-
         }
-
     }
-
 }
-
 </div>
 <div class='x3'></div>
 <div class='x3'></div>
@@ -299,97 +240,51 @@ class ShapeFactory {
 <div class='x3'></div>
 <div class='code'>
 abstract class CreditCard {
-
     protected int cardNumberLength,  csv;
-
 }
-
 enum CardType {
-
     GOLD,  PLATINUM;
-
 }
-
 class AmexPlatinumCreditCard extends CreditCard {}
-
 class AmexGoldCreditCard extends CreditCard {}
-
 class VisaBlackCreditCard extends CreditCard {}
-
 class VisaGoldCreditCard extends CreditCard {}
-
 abstract class CreditCardFactory {
-
     public static CreditCardFactory getCreditCardFactory(int creditScore) {
-
         if(creditScore &gt; 650) {
-
             return new AmexFactory();
-
         } else {
-
             return new VisaFactory();
-
         }
-
     }
-
     public abstract CreditCard getCreditCard(CardType cardType);
-
 }
-
 class AmexFactory extends CreditCardFactory {
-
     @Override
-
     public CreditCard getCreditCard(CardType cardType) {
-
         switch (cardType) {
-
             case GOLD :
-
             return new AmexGoldCreditCard();
-
             case PLATINUM :
-
             return new AmexPlatinumCreditCard();
-
             default :
-
             break;
-
         }
-
         return null;
-
     }
-
 }
-
 class VisaFactory extends CreditCardFactory {
-
     @Override
-
     public CreditCard getCreditCard(CardType cardType) {
-
         switch (cardType) {
-
             case GOLD :
-
             return new VisaGoldCreditCard();
-
             case PLATINUM :
-
             return new VisaBlackCreditCard();
-
         }
-
         return null;
-
     }
-
 }
-
 </div>
 <div class='x3'></div>
 <div class='x2' id='hashid9'>Design #4 Builder Patterns</div>
@@ -417,369 +312,191 @@ class VisaFactory extends CreditCardFactory {
 <div class='x3'>Let's consider the below classic example:</div>
 <div class='code'>
 class LunchOrder {
-
     //now we need to have a builder note that inner class return the builder object
-
     public static class Builder {
-
         private String bread;
-
         private String dressing;
-
         private String meat;
-
         public Builder() {
-
         }
-
         public LunchOrder build() {
-
             return new LunchOrder(this);
-
         }
-
         public Builder bread(String bread) {
-
             this.bread = bread;
-
             return this;
-
         }
-
         public Builder dressing(String dressing) {
-
             this.dressing = dressing;
-
             return this;
-
         }
-
         public Builder meat(String meat) {
-
             this.meat = meat;
-
             return this;
-
         }
-
     }
-
     //That that the item can't be chnages ahere aas they are final.
-
     private final String bread;
-
     private final String dressing;
-
     private final String meat;
-
     private LunchOrder(Builder builder) {
-
         this.bread = builder.bread;
-
         this.dressing = builder.dressing;
-
         this.meat = builder.meat;
-
     }
-
     public String getBread() {
-
         return bread;
-
     }
-
     public String getDressing() {
-
         return dressing;
-
     }
-
     public String getMeat() {
-
         return meat;
-
     }
-
     public void print() {
-
         System.out.println("bread:" + bread + ", dressing:" + dressing + ", meat:" + meat);
-
     }
-
 }
-
 </div>
 <div class='x3'>Let's consider the below example of having a logger Builder patetrns</div>
 <div class='code'>
 //setups
-
 new Logger.Builder()
-
     .isLoggable(BuildConfig.DEBUG)
-
     .logType(LogType.WARN)
-
     .tag("MyTag")
-
     .setIsKotlin(true)
-
     .build();
-
 }
-
 //Usees
-
 Logger.log("Log Message");
-
 Logger.i("Info Message");
-
 Logger.e("Error Message");
-
 Logger.w("Warn Message");
-
 Logger.d("Debug Message");
-
 Logger.e(null);
-
 Logger.e("Error Message with ThrowAble", new Throwable("Some Error"));
-
 </div>
 <div class='x3'></div>
 <div class='x3'>This is how we define the lib using builder patterns:</div>
 <div class='x3'>First we Define the class Logger with private contractor and all the peremetr to setup. Now, we have internal static  class called builder, which have all the paremetr again as private and alows set and get. You should not that the setter returns this to allows chain setting, at end we call build() function in which we call init() function of outer class. init function copy all the peremeter from Build class to Logger class to initlilize. As Logger class donet have any setter, we can't change any paremetr after building. Now we imaplement all the supported API for Logger class as a static veriable.</div>
 <div class='code'>
 public class Logger {
-
     private Logger() {
-
         throw new RuntimeException("Private constructor cannot be accessed");
-
     }
-
     private static LogType logType = LogType.INFO;
-
     private static boolean isLoggable = true;
-
     private static boolean isKotlin = false;
-
     private static String TAG = "Logger";
-
     //inner static class builder
-
     public static class Builder {
-
         private static LogType logType = LogType.INFO;
-
         private static boolean isLoggable = true;
-
         private static boolean isKotlin = false;
-
         private static String tag = "Logger";
-
         public Builder logType(LogType logType) {
-
             Builder.logType = logType;
-
             return this;
-
         }
-
         public Builder isLoggable(boolean isLoggable) {
-
             Builder.isLoggable = isLoggable;
-
             return this;
-
         }
-
         public Builder tag(String tag) {
-
             Builder.tag = tag;
-
             return this;
-
         }
-
         public Builder setIsKotlin(boolean isKotlin) {
-
             Builder.isKotlin = isKotlin;
-
             return this;
-
         }
-
         public boolean isIsKotlin() {
-
             return isKotlin;
-
         }
-
         LogType getLogType() {
-
             return logType;
-
         }
-
         boolean isIsLoggable() {
-
             return isLoggable;
-
         }
-
         String getTag() {
-
             return tag;
-
         }
-
         public void build() {
-
             init(this);
-
         }
-
     }
-
     //build will call this and copy the paremetr,
-
     private static void init(Builder builder) {
-
         Logger.logType = builder.getLogType();
-
         Logger.TAG = builder.getTag();
-
         Logger.isLoggable = builder.isIsLoggable();
-
         Logger.isKotlin = builder.isIsKotlin();
-
     }
-
     //APIs
-
     public static void e(Object message) {
-
         if (isLoggable) {
-
             Log.e(TAG, "| " + makeLog(message, "e"));
-
         }
-
     }
-
     public static void e(Object message, Throwable throwable) {
-
         if (isLoggable) {
-
             Log.e(TAG, "| " + makeLog(message, "e"), throwable);
-
         }
-
     }
-
     public static void i(Object message) {
-
         if (isLoggable) {
-
             Log.i(TAG, "| " + makeLog(message, "i"));
-
         }
-
     }
-
     public static void w(Object message) {
-
         if (isLoggable) {
-
             Log.w(TAG, "| " + makeLog(message, "w"));
-
         }
-
     }
-
     public static void d(Object message) {
-
         if (isLoggable)
-
             Log.d(TAG, "| " + makeLog(message, "d"));
-
     }
-
     public static void log(Object message) {
-
         if (isLoggable) {
-
             String body = "| " + makeLog(message, "log");
-
             switch (logType) {
-
                 case INFO:
-
                     Log.i(TAG, body);
-
                     break;
-
                 case DEBUG:
-
                     Log.d(TAG, body);
-
                     break;
-
                 case ERROR:
-
                     Log.e(TAG, body);
-
                     break;
-
                 case WARN:
-
                     Log.w(TAG, body);
-
                     break;
-
             }
-
         }
-
     }
-
     private static String makeLog(Object message, String calledMethodName) {
-
         StackTraceElement[] stackTraceElement = Thread.currentThread().getStackTrace();
-
         int currentIndex = -1;
-
         for (int i = 0; i &lt; stackTraceElement.length; i++) {
-
             if (stackTraceElement[i].getMethodName().compareTo(calledMethodName) == 0) {
-
                 currentIndex = ++i;
-
                 break;
-
             }
-
         }
-
         StackTraceElement traceElement = Thread.currentThread().getStackTrace()[currentIndex];
-
         String fullClassName = traceElement.getClassName();
-
         String className = fullClassName.substring(fullClassName.lastIndexOf(".") + 1);
-
         String methodName = traceElement.getMethodName();
-
         int lineNumber = traceElement.getLineNumber();
-
         String logMessage = message == null ? null : message.toString();
-
         String postFix = isKotlin ? ".kt:" : ".java:";
-
         return logMessage + " | (" + className + postFix + lineNumber + ")";
-
     }
-
 }
-
 </div>
 <div class='x3'></div>
 <div class='x2' id='hashid10'>Design #5 Prototype patterns</div>
@@ -811,113 +528,59 @@ public class Logger {
 <div class='x3'></div>
 <div class='code'>
 abstract class Item implements Cloneable {
-
     private String title;
-
     @Override
-
     protected Object clone() throws CloneNotSupportedException {
-
         return super.clone();
-
     }
-
     public String getTitle() {
-
         return title;
-
     }
-
     public void setTitle(String title) {
-
         this.title = title;
-
     }
-
 }
-
 class Book extends Item {
-
     private int numberOfPages;
-
     public int getNumberOfPages() {
-
         return numberOfPages;
-
     }
-
 }
-
 class Movie extends Item {
-
     private String runtime;
-
     public String getRuntime() {
-
         return runtime;
-
     }
-
     public void setRuntime(String runtime) {
-
         this.runtime = runtime;
-
     }
-
 }
-
 //We need to registry to store the prototype.
-
 class Registry {
-
     private Map &lt; String,  Item &gt; items = new HashMap &lt; String,  Item &gt; ();
-
     public Registry() {
-
         loadItems();
-
     }
-
     public Item createItem (String type) {
-
         Item item = null;
-
         try {
-
             // note that we are not using new but clone.
-
             item = (Item)(items.get(type)).clone();
-
         }
-
         catch (CloneNotSupportedException e) {
-
             e.printStackTrace();
-
         }
-
         return item;
-
     }
-
     private void loadItems() {
-
         Movie movie = new Movie();
-
         movie.setTitle("Basic Movie");
-
         items.put("Movie",  movie);
-
         Book book = new Book();
-
         book.setTitle("Basic Book");
-
         items.put("Book",  book);
-
     }
-
 }
-
 </div>
 <div class='x2' id='hashid11'>Design #6 Adapter Patterns</div>
 <div class='x3'>Example:</div>
@@ -1448,119 +1111,69 @@ class Registry {
 <div class='x3'>Example1: Basic Notion of object</div>
 <div class='code'>
 var Task = function (name) {
-
     this.name = name;
-
     this.completed = false;
-
     this.complete = function () {
-
     	console.log('completing task: ' + this.name);
-
     	this.completed = true;
-
     };
-
 }
-
 Var ob1 = new Task(“Dipankar”)
-
 </div>
 <div class='x3'></div>
 <div class='x3'></div>
 <div class='x3'>// Example 2: using prototype : the function is not copied.</div>
 <div class='code'>
 var Task = function (name) {
-
     this.name = name;
-
     this.completed = false;
-
 }
-
 Task.prototype.complete = function () {
-
     console.log('completing task: ' + this.name);
-
     this.completed = true;
-
 };
-
 Task.prototype.save = function () {
-
     console.log('saving Task: ' + this.name);
-
 };
-
 </div>
 <div class='x3'></div>
 <div class='x3'>//Example 3: Uisng defineProperty – Which give more protection of memebrer function.</div>
 <div class='code'>
 var task = {
-
     title: 'My Title',
-
     description: 'My Description'
-
 };
-
 Object.defineProperty(task, 'toString', {
-
     value: function () {
-
         return this.title + ' ' + this.description;
-
     },
-
     writable: false,
-
     enumerable: false,
-
     configurable: false
-
 });
-
 </div>
 <div class='x3'></div>
 <div class='x3'></div>
 <div class='x3'>//Example 4: use strict – A modern way to write JS calss</div>
 <div class='code'>
 'use strict'
-
 class Task {
-
     constructor(name) {
-
         this.name = name;
-
         this.completed = false;
-
     };
-
     complete() {
-
         console.log('completing task: ' + this.name);
-
         this.completed = true;
-
     };
-
     save() {
-
         console.log('saving Task: ' + this.name);
-
     };
-
 }
-
 var task1 = new Task('create a demo for constructors');
-
 var task2 = new Task('create a demo for modules');
-
 task1.complete();
-
 task2.save();
-
 </div>
 <div class='x3'></div>
 <div class='x3'></div>
@@ -1595,69 +1208,42 @@ task2.save();
 <div class='x3'>// Example 1: Basic Module Structre</div>
 <div class='code'>
 var Module = {
-
 method: function(){...},
-
 nextMethod: function(){...}
-
 }
-
 </div>
 <div class='x3'></div>
 <div class='x3'></div>
 <div class='x3'>//Example 2: Real Module Patterns with private memebr</div>
 <div class='code'>
 var Module = function () {
-
 var privateVar = 'I am private...';
-
 return {
-
     method: function () {... },
-
     nextMethod: function () {... }
-
 }
-
 }
-
 </div>
 <div class='x3'></div>
 <div class='x3'></div>
 <div class='x3'>//Example 3: Better Impl, Private veribale and private function.</div>
 <div class='code'>
 var repo = function () {
-
     var db = {};
-
     var get = function (id) {
-
         console.log('Getting task ' + id);
-
         return {
-
             name: 'new task from db'
-
         }
-
     }
-
     var save = function (task) {
-
         console.log('Saving ' + task.name + ' to the db');
-
     }
-
     return {
-
         get: get,
-
         save: save
-
     }
-
 }
-
 </div>
 <div class='x3'></div>
 <div class='x1' id='hashid31'>Python Design Patters</div>
@@ -1669,75 +1255,40 @@ var repo = function () {
 <div class='x3'></div>
 <div class='code'>
     public class CustomView extends RelativeLayout {
-
     @Nullable private Callback mCallback;
-
     private Button mButton;
-
     public interface Callback {
-
         void onClick();
-
     }
-
     public CustomView(Context context, AttributeSet attrs, int defStyle) {
-
         super(context, attrs, defStyle);
-
         initView(context);
-
     }
-
     public CustomView(Context context, AttributeSet attrs) {
-
         super(context, attrs);
-
         initView(context);
-
     }
-
     public CustomView(Context context) {
-
         super(context);
-
         initView(context);
-
     }
-
     private void initView(Context context) {
-
         final LayoutInflater mInflater = LayoutInflater.from(context);
-
         mInflater.inflate(R.layout.view_notification, this, true);
-
         mButton = findViewById(R.id.button);
-
         mButton.setOnClickListener(new OnClickListener() {
-
             @Override
-
             public void onClick(View v) {
-
                 if(mCallback != null){
-
                     mCallback.onClick();
-
                 }
-
             }
-
         });
-
     }
-
     public void addCallback(Callback callback){
-
         mCallback = callback;
-
     }
-
 }
-
 </div>
 <div class='x3'></div>
 <div class='x3'></div>
@@ -1747,373 +1298,196 @@ var repo = function () {
 <div class='x3'></div>
 <div class='code'>
     public interface Item{
-
         String getTitle();
-
         String getSubTitle();
-
         String getImageUrl();
-
         String getId();
-
     }
-
 </div>
 <div class='x3'></div>
 <div class='x3'>and Here is the layout for each item:</div>
 <div class='code'>
 &lt;?xml version="1.0" encoding="utf-8"?&gt;
-
 &lt;LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-
     xmlns:app="http://schemas.android.com/apk/res-auto"
-
     android:orientation="vertical"
-
     android:paddingTop="8dp"
-
     android:paddingBottom="8dp"
-
     android:paddingLeft="5dp"
-
     android:paddingRight="5dp"
-
     android:layout_width="wrap_content"
-
     android:gravity="center"
-
     android:layout_height="wrap_content"&gt;
-
     &lt;in.co.dipankar.quickandorid.views.CircleImageView
-
         android:id="@+id/image"
-
         android:layout_width="40dp"
-
         android:background="@null"
-
         android:src="@drawable/ic_user_male"
-
         android:layout_gravity="center"
-
         app:civ_border_color="#15000000"
-
         app:civ_border_width="1dp"
-
         android:layout_marginBottom="4dp"
-
         android:layout_height="40dp" /&gt;
-
     &lt;TextView
-
         android:id="@+id/sl"
-
         android:layout_width="wrap_content"
-
         android:layout_height="wrap_content" /&gt;
-
     &lt;TextView
-
         android:id="@+id/title"
-
         android:layout_width="wrap_content"
-
         android:layout_height="wrap_content" /&gt;
-
     &lt;TextView
-
         android:id="@+id/subtitle"
-
         android:layout_width="wrap_content"
-
         android:layout_height="wrap_content" /&gt;
-
 &lt;/LinearLayout&gt;
-
 </div>
 <div class='x3'></div>
 <div class='x3'>Here is the Adapter</div>
 <div class='code'>
 private class RVAdapter extends RecyclerView.Adapter&lt;RVAdapter.ItemViewHolder&gt; {
-
     List&lt;Item&gt; nodes = new ArrayList&lt;&gt;();
-
     Context mContext;
-
     int mItemLayout;
-
     RVAdapter(List&lt;Item&gt; persons, Context c,int mItemLayout) {
-
         if (persons != null) {
-
             this.nodes = persons;
-
         }
-
         mContext = c;
-
         this.mItemLayout = mItemLayout;
-
     }
-
     // define Holder class
-
     public class ItemViewHolder extends RecyclerView.ViewHolder {
-
         TextView sl;
-
         TextView title;
-
         TextView subtitle;
-
         ImageView img;
-
         ItemViewHolder(View itemView) {
-
             super(itemView);
-
             img = (ImageView) itemView.findViewById(R.id.image);
-
             sl = (TextView) itemView.findViewById(R.id.sl);
-
             title = (TextView) itemView.findViewById(R.id.title);
-
             subtitle = (TextView) itemView.findViewById(R.id.subtitle);
-
         }
-
     }
-
     @Override
-
     public int getItemCount() {
-
         return nodes.size();
-
     }
-
     // Influate View
-
     @Override
-
     public ItemViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_quick_list, viewGroup, false);
-
         ItemViewHolder pvh = new ItemViewHolder(view);
-
         return pvh;
-
     }
-
     // Populate views
-
     @Override
-
     public void onBindViewHolder(ItemViewHolder personViewHolder, int i) {
-
             if(personViewHolder.title != null) {
-
                 personViewHolder.title.setText(nodes.get(i).getTitle());
-
             }
-
             if(personViewHolder.sl != null) {
-
                 personViewHolder.sl.setText((i+1)+"");
-
             }
-
             if(personViewHolder.subtitle != null) {
-
                 personViewHolder.subtitle.setText(Html.fromHtml(nodes.get(i).getSubTitle()), TextView.BufferType.SPANNABLE);
-
             }
-
             if(personViewHolder.img != null) {
-
                 Glide.with(mContext)
-
                         .load(nodes.get(i).getImageUrl())
-
                         .into(personViewHolder.img);
-
             }
-
     }
-
     // Update the list in the adapetr
-
     public void update(List&lt;Item&gt; datas) {
-
         if (datas == null) return;
-
         if (nodes != null && nodes.size() &gt;= 0) {
-
             nodes.clear();
-
         }
-
         nodes.addAll(datas);
-
         notifyDataSetChanged();
-
     }
-
 }
-
 </div>
 <div class='x3'>Let's define a class which allow us to Listn when you click or long tab a item</div>
 <div class='code'>
 import android.content.Context;
-
 import android.support.v7.widget.RecyclerView;
-
 import android.view.GestureDetector;
-
 import android.view.MotionEvent;
-
 import android.view.View;
-
 public class RecyclerItemClickListener implements RecyclerView.OnItemTouchListener {
-
     private OnItemClickListener mListener;
-
     public interface OnItemClickListener {
-
         public void onItemClick(View view, int position);
-
         public void onLongItemClick(View view, int position);
-
     }
-
     GestureDetector mGestureDetector;
-
     public RecyclerItemClickListener(Context context, final RecyclerView recyclerView, OnItemClickListener listener) {
-
         mListener = listener;
-
         mGestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
-
             @Override
-
             public boolean onSingleTapUp(MotionEvent e) {
-
                 return true;
-
             }
-
             @Override
-
             public void onLongPress(MotionEvent e) {
-
                 View child = recyclerView.findChildViewUnder(e.getX(), e.getY());
-
                 if (child != null && mListener != null) {
-
                     mListener.onLongItemClick(child, recyclerView.getChildAdapterPosition(child));
-
                 }
-
             }
-
         });
-
     }
-
     @Override public boolean onInterceptTouchEvent(RecyclerView view, MotionEvent e) {
-
         View childView = view.findChildViewUnder(e.getX(), e.getY());
-
         if (childView != null && mListener != null && mGestureDetector.onTouchEvent(e)) {
-
             mListener.onItemClick(childView, view.getChildAdapterPosition(childView));
-
             return true;
-
         }
-
         return false;
-
     }
-
     @Override public void onTouchEvent(RecyclerView view, MotionEvent motionEvent) {}
-
     @Override
-
     public void onRequestDisallowInterceptTouchEvent (boolean disallowIntercept){}
-
 }
-
 </div>
 <div class='x3'>The code must be added to the client side</div>
 <div class='code'>
     // Decleare 
-
     private RecyclerView mRecyclerView;
-
     private RVAdapter adapter;
-
     // initilize RV
-
     View mRootView = mInflater.inflate(R.layout.view_quick_list, this, true);
-
     mRecyclerView = (RecyclerView) this.findViewById(R.id.recyclerview);
-
     mRecyclerView.setHasFixedSize(true);
-
     // Adding layout infra
-
     LinearLayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
-
     LinearLayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
-
     mRecyclerView.setLayoutManager(layoutManager);
-
     // initilization and setting up the adapetr
-
     adapter = new RVAdapter(items, mContext);
-
     mRecyclerView.setAdapter(adapter);
-
     // Adding Touch Listner
-
     mRecyclerView.addOnItemTouchListener(
-
         new RecyclerItemClickListener(mContext, mRecyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
-
             @Override public void onItemClick(View view, int position) {
-
                 if(mCallback != null){
-
                     mCallback.onClick(mItemList.get(position).getId());
-
                 }
-
             }
-
             @Override public void onLongItemClick(View view, int position) {
-
                 if(mCallback != null){
-
                     mCallback.onLongClick(mItemList.get(position).getId());
-
                 }
-
             }
-
         })
-
     );
-
     // API to update the list
-
     public void updateList(List&lt;Item&gt; data){
-
         adapter.update(data);
-
     }
-
 </div>
 <div class='x3'></div>
 <div class='x3'></div>

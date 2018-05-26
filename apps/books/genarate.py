@@ -11,9 +11,10 @@ TEMPLATE="""
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
 <style>
 
-    * {font-family: 'Source Sans Pro', sans-serif;}
-    body, a, body .top{ margin: 0 auto; color: #575757;background:white }
+    * {font-family: 'Source Sans Pro', sans-serif;line-height:1.25 }
+    body, a, body .top{ margin: 0 auto; color: #575757;background:white;}
     ol,ul{line-height: 1.3;margin-bottom: 35px;text-align: justify;}
+    li{ margin-bottom: 15px;}
 
     div.code {
         white-space: pre;
@@ -22,9 +23,9 @@ TEMPLATE="""
         padding: 5px;
         margin-bottom: 25px;
         font-family: monospace;
-        font-size: 14px;
-        letter-spacing: 1;
-        line-height: 0.8;
+        font-size: 12.5px;
+        letter-spacing: .05px;
+        line-height: 1.6;
     }
 
     div.x1{ font-size: 50;text-align: center;margin-top: 50px;margin-bottom: 100px;}
@@ -131,7 +132,7 @@ for line in content:
             output.append("<div class='x3'>"+line.strip()+"</div>")
         else:
             if line.strip():
-                output.append(es(line))
+                output.append(es(line.replace("\n", "")))
 
 output = "\n".join(output)
 html  = Template(TEMPLATE).substitute({'CONTENT':output,'MENU':menu})
