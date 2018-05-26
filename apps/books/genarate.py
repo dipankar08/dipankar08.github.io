@@ -11,9 +11,13 @@ TEMPLATE="""
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
 <style>
 
-    * {font-family: 'Source Sans Pro', sans-serif;line-height:1.25 }
+    html {
+        font-size: 100%;
+        line-height: 1.6;
+        font-family: 'Source Sans Pro', sans-serif;
+    }
     body, a, body .top{ margin: 0 auto; color: #575757;background:white;}
-    ol,ul{line-height: 1.3;margin-bottom: 35px;text-align: justify;}
+    ol,ul{margin-bottom: 35px;text-align: justify;}
     li{ margin-bottom: 15px;}
 
     div.code {
@@ -22,15 +26,14 @@ TEMPLATE="""
         color: black;
         padding: 5px;
         margin-bottom: 25px;
-        font-family: monospace;
-        font-size: 12.5px;
+        font-size: 0.9rem;
         letter-spacing: .05px;
-        line-height: 1.6;
+        font-family: monospace;
     }
 
-    div.x1{ font-size: 50;text-align: center;margin-top: 50px;margin-bottom: 100px;}
-    div.x2{font-size: 25px;margin-bottom: 25px;margin-top: 20px;}
-    div.x3{ margin-bottom: 10px;text-align: justify;}
+    div.x1{ font-size: 3rem; text-align: center;margin-top: 50px;margin-bottom: 100px;}
+    div.x2{ font-size: 1.5rem;margin-bottom: 25px;margin-top: 20px;}
+    div.x3{ font-size: 1rem;margin-bottom: 10px;text-align: justify;}
 
     .top {
         position: fixed;
