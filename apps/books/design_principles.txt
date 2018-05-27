@@ -282,7 +282,7 @@ public interface Door {
 }
 public interface TimedDoor : Door {
  void DoorTimeOut(int timeOutId);
-} 
+}
 }}}
 
 
@@ -386,8 +386,7 @@ Dependency injection is a technique by which we can inject an object to another 
 For exaple, you have two class say : ClassA and Class B. class A needs classB to get it's job done - that means ClassA depends on classB. Instaed of having this hard dependency, ClassA depends on the interfaceB and the concrete implementing is supplied from outside( propably asking some thrird party libs to create and return back the instance)
 
 - This fundamental requirement to free the classA from instantiate other objects using new keyword. The client should accept values passed in from outside, hence creating an object is someone else's problem.
-- It also provides a way to decouple objects that no client code has to be changed simply because an object depends on another and
-another object" has changed.
+- It also provides a way to decouple objects that no client code has to be changed simply because an object depends on another and another object" has changed.
 
 There are three common means for a client to accept a dependency injection: setter-, interface- and constructor-based injection as given below:
 {{{
@@ -462,9 +461,189 @@ In this section, we will explore some of DI framework. Infact, you don't need th
 2. They help you control when an object is created: you could create instances during application bootstrapping, but in some cases a lazy creation - only when needed - is better
 3. They help you control how many instances are created: one per application lifetime or one per request (in case you are doing web-programming).
 
+In this sesction we will investigate two mostly used DI framework called: Dagger2 and Juces
+
+# Dragger2
+Dagger 2 is dependency injection framework which uses code generation and is based on annotations. Dagger2 is not:
+1. NOT a dependency injection - however it's just an anotations processor which generate codes which is used for DI. Itexposes a number of special annotations: like
+- @Module:  for the classes whose methods provide dependencies
+- @Provides: for the methods within @Module classes
+- @Inject: to request a dependency (a constructor, a field, or a method)
+- @Component: is a bridge interface between modules and injection
+- @Singleton : indicates that there will be only one instance of the object
+2. NOT a not provides dependency on it's own. You needs to provides them.
+
+You can setup dagger in android application by spacing the annotation processor and the libs itself as below:
+{{{
+// app/build.gradle
+apply plugin: 'com.android.application'
+
+android {
+....
+}
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:appcompat-v7:25.1.0'
+    testCompile 'junit:junit:4.12'
+
+    compile "com.google.dagger:dagger:2.8" <<< Needed
+    annotationProcessor "com.google.dagger:dagger-compiler:2.8" <<< define processsor
+    provided 'javax.annotation:jsr250-api:1.0' <<< USE JSR
+    compile 'javax.inject:javax.inject:1' <<< USE INJECT
+}
+}}}
+
+As we discussed before DI is builds on two compoennet :
+1. Providers - Where you need to spacify some rule on how to instatiate class when DI fragemnet asks for a implementation. It can be done using @Module,  @Provides and @Component annotation. In If Classes annotated with @Module then they are responsible for providing objects which can be injected. Such classes can have some method which provides instnace. thease method can be annotated with @Provides to indicate that these method will be called when you ask for. That means the returned objects from these methods are available for dependency injection. Methods annotated with @Provides can also express dependencies via method parameters. These dependencies are fulfilled by Dagger 2, if possible. We can also spacify scope lile @Singleton to indicate this instance of this provided object is created and shared. We also needs to define a interface annotated with @Component. This interface is used by Dagger2 to generate code which uses the modules to fulfill the requested dependencies. Component combined all the modules as a single interface to outside.
 
 
+2. Consumer:  If some classA needs some instnace of ClassB, it can use @Inject annotation to define a dependency. The classA can depens on classB by 3 Way: Class B defined as class field or defined  inside method or passes a paremetr to it;s method. That means we need a support of 3 way to inject a dependency in dagger. Here is the example of all three way to inject:
+{{{
+// Vehicle needs Motor, Motor instance will be supplied by Dagger
+@Inject
+public Vehicle(Motor motor){
+    this.motor = motor;
+}
 
+}}}
+
+To use DI, your app must initilized Compoenent  like
+{{{
+AppComponent =
+    DaggerAppComponent.builder()
+          .appModule(AppModule(app))
+          ...
+          .build()
+}}}
+
+
+Let's see using an example:
+Let's we have User Class and a BackendService Class which provides User and other parameters. So we need to have actual Class Impl
+{{{
+public class User {
+    private String firstName;
+    private String lastName;
+    public User(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+    @Override
+    public String toString() {
+        return "User [firstName=" + firstName + ", lastName=" + lastName + "]";
+    }
+}
+
+public class BackendService {
+    @Inject public User user; <<< It will be injected as fields.
+    private String serverUrl;
+    @Inject public BackendService(@Named("serverUrl") String serverUrl) { <<< Injected as params
+        this.serverUrl = serverUrl;
+    }
+    public boolean callServer() {
+        if (user !=null && serverUrl!=null && serverUrl.length()>0) {
+            System.out.println("User: " + user + " ServerUrl: "  + serverUrl);
+            return true;
+        }
+        return false;
+    }
+}
+}}}
+
+To support the injection on User and serverUrl, we needs to define module and Providers( which supplies the concreate objects.)
+
+{{{
+import dagger.Module;
+import dagger.Provides;
+@Module
+public class BackEndServiceModule {
+    @Provides
+    @Singleton
+    BackendService provideBackendService(@Named("serverUrl") String serverUrl) {
+       return new BackendService(serverUrl);
+    }
+
+    @Provides
+    @Named("serverUrl")
+    String provideServerUrl() {
+       return "http://www.dipankar.co.in";
+    }
+    @Provides
+    @Named("anotherUrl")
+    String provideAnotherUrl() {
+       return "http://www.google.com";
+    }
+}
+
+@Module
+public class UserModule {
+    @Provides @Singleton
+    User providesUser() {
+        return new User("Dipankar", "Dutta");
+    }
+}
+}}}
+
+Now we need to have a componenet which will link then.
+{{{
+import javax.inject.Singleton;
+
+import com.vogella.java.dagger2.BackendService;
+import com.vogella.java.dagger2.modules.BackEndServiceModule;
+import com.vogella.java.dagger2.modules.UserModule;
+import dagger.Component;
+
+@Singleton
+@Component(modules = { UserModule.class, BackEndServiceModule.class })
+public interface MyComponent {
+
+    // provide the dependency for dependent components
+    // (not needed for single-component setups)
+    BackendService provideBackendService();
+
+    // allow to inject into our Main class
+    // method name not important
+    void inject(Main main);
+}
+}}}
+
+Now, here is the client code which use DI.
+{{{
+package com.vogella.java.dagger2.main;
+import com.vogella.java.dagger2.BackendService;
+import com.vogella.java.dagger2.component.DaggerMyComponent;
+import com.vogella.java.dagger2.component.MyComponent;
+public class Main {
+    @Inject
+    BackendService backendService; // This is Injcted
+    private MyComponent component;
+    private Main() {
+        component = DaggerMyComponent.builder().build();
+        component.inject(this);
+    }
+    private void callServer() {
+        boolean callServer = backendService.callServer();
+        if (callServer) {
+            System.out.println("Server call was successful. ");
+        } else {
+            System.out.println("Server call failed. ");
+        }
+    }
+    public static void main(String[] args) {
+        Main main = new Main();
+        main.callServer();
+    }
+}
+}}}
+
+If you want to convert an existing project to use DI, do the following:
+1. Identify the dependent objects and its dependencies.
+2. Associate a class with the @Module annotation, using the @Provides annotation for every method that returns a dependency.
+3. Request dependencies in your dependent objects using the @Inject annotation.
+4. Create an interface using the @Component annotation and add the classes with the @Module annotation created in the second step.
+5. Create an object of the @Component interface to instantiate the dependent object with its dependencies.
 
 ## Design patterns in Java and C++
 
