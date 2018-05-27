@@ -19,7 +19,8 @@ When we build a large software product, it builds with a number of induvial comp
 1. if you want to develop a e-comm software – we can have server-side and client-side component which can be build up independently – however, how they can commutate to each other can be define by a set of REST API calls – which is a contacts between these two components.
 1. If you have two modules of a product and if there is necessary of calling each other – we can have a contact on how they can communicate. Interface (in case of java), abstract class(in C++) and header file(In c) is mainly treated as a contacts. Other component should only know the contacts (method signature like input and output) – the agreement on communication.
 
-## SOLID Design Patters
+## Design Principles
+# Solid Design Principle
 When you design a software in object oriented programming, you shoud always follow SOLID Principles. It's nothing but a collection of 5 design principles to make a software design more understandable, maintenance and flexiable.  It includes:
 1. Single responsibility principle - which means a class should have only a single responsibility. The class should be minimal and do one job in its best.
 1. Open/closed principle: Class should be open for extension, but closed for modification
@@ -286,6 +287,21 @@ type TrimReader interface {
 }
 }}}
 
+We can also use "extending Interface" to support this principle:
+{{{
+public interface Door
+{
+ void Lock();
+ void Unlock();
+ bool IsDoorOpen();
+}
+public interface TimedDoor : Door
+{
+ void DoorTimeOut(int timeOutId);
+}
+
+}}}
+
 
 # Dependency Inversion Principle
 DIP is defined as "Depend upon Abstractions. Do not depend upon concretions" OR
@@ -356,11 +372,112 @@ class SuperWorker  implements IWorker{
 }
 }}}
 
+# Design by contract
 
 
+# Inversion of Control
+When we implements a class it takes a lot of hard dependency ( means takes a lot of concrete objects as a part of the objects). Using IoC,  the modules receive the dependency from a generic framework or from outside, which allow the modules to be indipended on creation of the dependent objets.
+The term is similar to the dependency inversion principle, which concerns itself with decoupling dependencies between high-level and low-level layers through shared abstractions however, it tells on how you will get the dependent object from outside world - mostly using some inetrafce.
+
+Inversion of control serves the following design purposes:
+- To decouple the execution of a task from implementation.
+- To focus a module on the task it is designed for.
+- To free modules from assumptions about how other systems do what they do and instead rely on contracts.
+- To prevent side effects when replacing a module. Like depends on production module and test Module.
+
+There are many techniques to implement inversion of control, which inclues:
+1. Using a service locator pattern:
+
+2. Using dependency injection - like passing( Inject ) the dependency from outside
+- Constructor injection
+- Parameter injection
+- Setter injection
+- Interface injection
+3. Using a contextualized lookup
+4. Using template method design pattern
+5. Using strategy design pattern
+
+# Dependency injection
+Dependency injection is a technique by which we can inject an object to another object.
+
+For exaple, you have two class say : ClassA and Class B. class A needs classB to get it's job done - that means ClassA depends on classB. Instaed of having this hard dependency, ClassA depends on the interfaceB and the concrete implementing is supplied from outside( propably asking some thrird party libs to create and return back the instance)
+
+- This fundamental requirement to free the classA from instantiate other objects using new keyword. The client should accept values passed in from outside, hence creating an object is someone else's problem.
+- It also provides a way to decouple objects that no client code has to be changed simply because an object depends on another and
+another object" has changed.
+
+There are three common means for a client to accept a dependency injection: setter-, interface- and constructor-based injection as given below:
+{{{
+// Without DI
+public class Client {
+    private ExampleService service; <<< Hard Dependency
+    Client() {
+        service = new ExampleService(); <<< Creation is my resposibilty.
+    }
+    public String greet() {
+        return "Hello " + service.getName();
+    }
+}
+// Using Constructor injection
+public class Client {
+    private ISerive service; <<<  Dependency on Interface
+    Client(IService service) {
+      this.service = service;
+    }
+    public String greet() {
+        return "Hello " + service.getName();
+    }
+}
+
+// Setter injection
+public class Client {
+    private ISerive service; <<<  Dependency on Interface
+    void setService(IService service) {
+      this.service = service;
+    }
+    public String greet() {
+        return "Hello " + service.getName();
+    }
+}
+
+//Interface injection
+public interface ServiceSetter { <<< We have a Setter Interface
+    public void setService(IService service);
+}
+
+// Clients implements this contracts
+public class Client implements ServiceSetter {
+    // Internal reference to the service used by this client.
+    private IService service;
+
+    @Override <<< This will gurentee that we have a set methods
+    public void setService(Service service) {
+        this.service = service;
+    }
+}
+}}}
+
+# Dependency injection Solution
 
 
+# Summary
+- Dependency Inversion Principle/DIP: This principles says - you should always only rely on interfaces and not on their implementations. DIP is the principle that guides us towards DI. Basically, loose coupling is the goal, and there are at least two ways to achieve it: Dependency Injection and Service Locator.
+- IoC is a generic term meaning rather than having the application, call the methods in a framework, the framework calls implementations provided by the application.
 
+- DI is a way to implement IoC, where implementations are passed into an object through constructors/setters/service lookups, which the object will 'depend' on in order to behave correctly.
+
+- IoC without using DI, for example would be the Template pattern because the implementation can only be changed through sub-classing.
+
+- DI Frameworks are designed to make use of DI and can define interfaces (or Annotations in Java) to make it easy to pass in the implementations.
+
+- IoC Containers are DI frameworks that can work outside of the programming language. In some you can configure which implementations to use in metadata files (e.g. XML) which are less invasive. With some you can do IoC that would normally be impossible like inject an implementation at point cuts.
+
+
+# DI framework for Java.
+In this section, we will explore some of DI framework. Infact, you don't need the framework and It is totally possible to implement dependency injection manually. However, using a framework makes it easier. Particularly one based on annotations or automatic detection of dependencies, as it makes the process simpler. They help us by
+1. They help you wiring up complex object relationships. You have to write no boilerplate code, to generate instances and pass them to the appropriate objects
+2. They help you control when an object is created: you could create instances during application bootstrapping, but in some cases a lazy creation - only when needed - is better
+3. They help you control how many instances are created: one per application lifetime or one per request (in case you are doing web-programming).
 
 
 

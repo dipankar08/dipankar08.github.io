@@ -18,7 +18,7 @@ TEMPLATE="""
     }
     body, a, body .top{ margin: 0 auto; color: #575757;background:white;}
     ol,ul{margin-bottom: 35px;text-align: justify;}
-    li{ margin-bottom: 15px;}
+    li{ margin-bottom: 5px;}
 
     div.code {
         white-space: pre;
