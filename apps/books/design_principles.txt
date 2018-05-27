@@ -128,12 +128,10 @@ Now if we add some more shape like say trangle, your logic in AreaCalculator nee
 
 So, how can we have a AreaCalculator which is open for extension and closed for modication ? The Problem of AreaCalculator is - it depends on concrete implementation of shape- it it depends on a "contracts" like an interface should solve that problem as below:
 {{{
-public abstract class Shape
-{
+public abstract class Shape {
     public abstract double Area();
 }
-public class Rectangle : Shape
-{
+public class Rectangle : Shape {
     public double Width { get; set; }
     public double Height { get; set; }
     public override double Area()
@@ -142,16 +140,14 @@ public class Rectangle : Shape
     }
 }
 
-public class Circle : Shape
-{
+public class Circle : Shape {
     public double Radius { get; set; }
     public override double Area()
     {
         return Radius*Radius*Math.PI;
     }
 }
-public double AreaCalculator(Shape[] shapes)
-{
+public double AreaCalculator(Shape[] shapes) {
     double area = 0;
     foreach (var shape in shapes)
     {
@@ -198,18 +194,14 @@ Now next question is "why it violates LSP?". This is because of Square tighten t
 
 Another example of violation is as below: We have IVehicle class which asserts the possible miles. We define another class Scooter but as it tighten the assert which violate LPS. this is a violation  where a "pre condition is strengthened by a subtype". Similarly, post conditions may not be weakened (i.e. relaxed) by a subtype, else it violate LSP.
 {{{
-public class IVehicle
-{
-    public virtual void Drive(int miles)
-    {
+public class IVehicle {
+    public virtual void Drive(int miles) {
         Assert(miles > 0 && miles < 300); // Consumers see this as the contract
     }
  }
 
- public class Scooter : IVehicle
- {
-     public override void Drive(int miles)
-     {
+ public class Scooter : IVehicle {
+     public override void Drive(int miles) {
          Assert(miles > 0 && miles < 50); // ** Violation
          base.Drive(miles);
      }
@@ -220,10 +212,8 @@ public class IVehicle
 There are many ways where we can violates the LSP:
 1. Glaring Violation - Runtime type switching
 {{{
-void MethodWhichViolatesLSP(IVehicle aVehicle)
-{
-   if (aVehicle is Car)
-   {
+void MethodWhichViolatesLSP(IVehicle aVehicle) {
+   if (aVehicle is Car) {
       var car = aVehicle as Car;
       // Do something special for car - this method is not on the IVehicle interface
       car.ChangeGear();
@@ -231,18 +221,14 @@ void MethodWhichViolatesLSP(IVehicle aVehicle)
 }}}
 1. Violation - Pre condition is strengthened by a subtype
 {{{
-public class Vehicle
-{
-    public virtual void Drive(int miles)
-    {
+public class Vehicle {
+    public virtual void Drive(int miles) {
         Assert(miles > 0 && miles < 300); // Consumers see this as the contract
     }
  }
 
- public class Scooter : Vehicle
- {
-     public override void Drive(int miles)
-     {
+ public class Scooter : Vehicle {
+     public override void Drive(int miles) {
          Assert(miles > 0 && miles < 50); // ** Violation
          base.Drive(miles);
      }
@@ -289,17 +275,14 @@ type TrimReader interface {
 
 We can also use "extending Interface" to support this principle:
 {{{
-public interface Door
-{
+public interface Door {
  void Lock();
  void Unlock();
  bool IsDoorOpen();
 }
-public interface TimedDoor : Door
-{
+public interface TimedDoor : Door {
  void DoorTimeOut(int timeOutId);
-}
-
+} 
 }}}
 
 

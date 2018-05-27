@@ -17,7 +17,7 @@ TEMPLATE="""
         font-family: 'Source Sans Pro', sans-serif;
     }
     body, a, body .top{ margin: 0 auto; color: #575757;background:white;}
-    ol,ul{margin-bottom: 35px;text-align: justify;}
+    ol,ul{margin-bottom: 15px; margin-top:0;text-align: justify;}
     li{ margin-bottom: 5px;}
 
     div.code {
@@ -42,6 +42,7 @@ TEMPLATE="""
         width: 100%;
         top: 0;
     }
+    .middle { }
     .top .t { padding: 10px; margin-right:10px}
     .left {position:fixed;left: 0px;top: 50px;padding:5px;width: 300px;height: 100%; display:none;overflow: auto;border-right: 1px solid #575757;}
     .right{max-width: 800px; margin: 10px auto;padding:15px; margin-top:50px}
@@ -69,8 +70,10 @@ TEMPLATE="""
         <i class="t fas fa-lightbulb" onclick="$$('body').toggleClass('dark');"></i>
     </span>
 </div>
-<div class="left" style="">$MENU</div>
-<div class="right" style="">$CONTENT</div>
+<div class="middle">
+    <div class="left" style="">$MENU</div>
+    <div class="right" style="">$CONTENT</div>
+</div>
 <div class="footer">
 <p> Do you know this book/HTML is generated from a text file? I traied to use MS word and other software and its seems to be very hard to maintain, sync and reformat - So i get into this crazy idea - just have a text file and write into it. I have a python svript whcih just convert this text into html.</p>
 <p> You are free to copy and share the content.  This book is free and always would be. If you have design question or find a bug in this book, please file a bug in github or mail me dutta.dipankar08@gmail.com</p>
@@ -81,10 +84,14 @@ TEMPLATE="""
 </body>
 </html>
 """
+import re
 def es(s):
     s = s.replace(">","&gt;")
     s = s.replace("<","&lt;")
     return s
+
+def is_start_num(line):
+    return re.search('^\d+\. ',line)
 
 with open(fname) as f:
     content = f.readlines()
@@ -97,10 +104,13 @@ code_start = False;
 menu=""
 id = 0;
 for line in content:
+    if code_start == False and line.strip().replace("\n","") == "":
+        continue;
     if block_start and not line.startswith("- "):
         output.append("</ul>")
         block_start = False
-    if num_start and not line.startswith("1. "):
+
+    if num_start and is_start_num(line) == None:
         output.append("</ol>")
         num_start = False
 
@@ -119,7 +129,7 @@ for line in content:
             block_start = True;
             output.append("<ul>")
         output.append("<li>"+line[2:].strip()+"</li>")
-    elif line.startswith("1. "):
+    elif is_start_num(line):
         if num_start == False:
             num_start = True;
             output.append("<ol>")
