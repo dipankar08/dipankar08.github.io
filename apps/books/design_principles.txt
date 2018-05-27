@@ -19,7 +19,351 @@ When we build a large software product, it builds with a number of induvial comp
 1. if you want to develop a e-comm software – we can have server-side and client-side component which can be build up independently – however, how they can commutate to each other can be define by a set of REST API calls – which is a contacts between these two components.
 1. If you have two modules of a product and if there is necessary of calling each other – we can have a contact on how they can communicate. Interface (in case of java), abstract class(in C++) and header file(In c) is mainly treated as a contacts. Other component should only know the contacts (method signature like input and output) – the agreement on communication.
 
-## Inverstion Control and Dependecy injection
+## SOLID Design Patters
+When you design a software in object oriented programming, you shoud always follow SOLID Principles. It's nothing but a collection of 5 design principles to make a software design more understandable, maintenance and flexiable.  It includes:
+1. Single responsibility principle - which means a class should have only a single responsibility. The class should be minimal and do one job in its best.
+1. Open/closed principle: Class should be open for extension, but closed for modification
+1. Liskov substitution principle: We should build something "design by contract" not by impl which allows objects in a program can be replaceable with instances of their subtypes without altering the correctness of that program.
+1. Interface segregation principle : many client-specific interfaces are better than one general-purpose interface.
+Dependency inversion principle: Your class design should depend upon abstractions, not on concretions/ implementation.
+
+# Single Responsibility
+Single responsibility indicates that your "Class should be doing one and only one specific thing and not trying to do more than it should. This is called called High Cohesion.
+Some simple example is as below: We have class called person which contains email and inside the below class, we are trying to validate the email - which should be the responsibility of that class.
+{{{
+class Person {
+    public name : string;
+    public surname : string;
+    public email : string;
+    constructor(name : string, surname : string, email : string){
+        this.surname = surname;
+        this.name = name;
+        if(this.validateEmail(email)) {
+          this.email = email;
+        }
+        else {
+            throw new Error("Invalid email!");
+        }
+    }
+    validateEmail(email : string) {
+        var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+        return re.test(email);
+    }
+    greet() {
+        alert("Hi!");
+    }
+}}}
+
+It should be design like this: It can be noted that definition of Person class is no clear now.
+{{{
+class Email {
+    public email : string;
+    constructor(email : string){
+        if(this.validateEmail(email)) {
+          this.email = email;
+        }
+        else {
+            throw new Error("Invalid email!");
+        }
+    }
+    validateEmail(email : string) {
+        var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+        return re.test(email);
+    }
+}
+class Person {
+    public name : string;
+    public surname : string;
+    public email : Email;
+    constructor(name : string, surname : string, email : Email){
+        this.email = email;
+        this.name = name;
+        this.surname = surname;
+    }
+    greet() {
+        alert("Hi!");
+    }
+}
+}}}
+
+Single responsibility principle  a most effective way to avoid having a GOD classes in your application. That is classes that keeps track of a lot of information and have several responsibilities.
+
+# Open/Close Principles
+open/closed principle states "software entities (classes, modules, functions, etc.) should be open for extension, but closed for modification". Let's discuss what does it means by example:
+Let's assume we have a collections of shapes ( like rectange and circle) and we want to find out the sum of area of the all elements in the shape collation. How do you solve the problem?
+You might have a Rectangle and Circle Class and then Have their own AreaCalculator like below
+{{{
+public class Rectangle
+{
+    public double Width { get; set; }
+    public double Height { get; set; }
+}
+public class Circle
+{
+    public double Width { get; set; }
+    public double Height { get; set; }
+}
+public double AreaCalculator(object[] shapes)
+{
+    double area = 0;
+    foreach (var shape in shapes)
+    {
+        if (shape is Rectangle)
+        {
+            Rectangle rectangle = (Rectangle) shape;
+            area += rectangle.Width*rectangle.Height;
+        }
+        else
+        {
+            Circle circle = (Circle)shape;
+            area += circle.Radius * circle.Radius * Math.PI;
+        }
+    }
+
+    return area;
+}
+}}}
+Now if we add some more shape like say trangle, your logic in AreaCalculator needs to be changed. That means your design is not open to support new features ( like new shapes). In other word, AreaCalculator is NOT "closed" for modification and NOT "open" for extension.
+
+So, how can we have a AreaCalculator which is open for extension and closed for modication ? The Problem of AreaCalculator is - it depends on concrete implementation of shape- it it depends on a "contracts" like an interface should solve that problem as below:
+{{{
+public abstract class Shape
+{
+    public abstract double Area();
+}
+public class Rectangle : Shape
+{
+    public double Width { get; set; }
+    public double Height { get; set; }
+    public override double Area()
+    {
+        return Width*Height;
+    }
+}
+
+public class Circle : Shape
+{
+    public double Radius { get; set; }
+    public override double Area()
+    {
+        return Radius*Radius*Math.PI;
+    }
+}
+public double AreaCalculator(Shape[] shapes)
+{
+    double area = 0;
+    foreach (var shape in shapes)
+    {
+        area += shape.Area();
+    }
+
+    return area;
+}
+}}}
+Now the above AreaCalculator depends on shape and if you need to add any more share - you need to create trangle which implements Shape. In other words we’ve closed it for modification by opening it up for extension.
+
+
+# Liskov substitution principle
+This principle is little-bit complicated. This is based on the relationship between Base calss and Derived class or an Interface and it's all implementation. As per Wikipedia it says "if S is a subtype of T, then objects of type T may be replaced with objects of type S without altering any of the desirable properties of the program (correctness, task performed, etc.)" - That means all the derive class objects - must meets all the requements by base class ( or by interface). If it doent, then we say that LSP is getting violated.
+
+In general, you might think that how it is possible. But yes it might be possible to violate the LSP. Let's consider the below example:
+In mathematics, a Square is a Rectangle. As "IS-A" is an inheritance:Rectangle is a base class and  Square is derive Rectangle. Right? No It's violate LSP.
+Let's define the function.
+{{{
+class Rectangle {
+    int getHeight()
+    void setHeight(int value)
+    int getWidth()
+    void setWidth(int value)
+}
+
+class Square : Rectangle {
+
+}
+}}}
+
+We wrote some test case/ invariant for rectangle as below:
+{{{
+void invariant(Rectangle r) {
+    r.setHeight(200)
+    r.setWidth(100)
+    assert(r.getHeight() == 200 and r.getWidth() == 100)
+}
+}}}
+Now if I create an objcet of Squere and as it is a type of Rectangle too. it should pass the invariant - but it is not! That means it violates LSP. In fact, This invariant must be violated by a correct implementation of Square, therefore it is not a valid substitute of Rectangle.
+
+Now next question is "why it violates LSP?". This is because of Square tighten the constrains which might break the asserts of Rectangle. It also means Square doesn't respect the right rule set by Rectangle.
+
+
+Another example of violation is as below: We have IVehicle class which asserts the possible miles. We define another class Scooter but as it tighten the assert which violate LPS. this is a violation  where a "pre condition is strengthened by a subtype". Similarly, post conditions may not be weakened (i.e. relaxed) by a subtype, else it violate LSP.
+{{{
+public class IVehicle
+{
+    public virtual void Drive(int miles)
+    {
+        Assert(miles > 0 && miles < 300); // Consumers see this as the contract
+    }
+ }
+
+ public class Scooter : IVehicle
+ {
+     public override void Drive(int miles)
+     {
+         Assert(miles > 0 && miles < 50); // ** Violation
+         base.Drive(miles);
+     }
+ }
+}}}
+
+
+There are many ways where we can violates the LSP:
+1. Glaring Violation - Runtime type switching
+{{{
+void MethodWhichViolatesLSP(IVehicle aVehicle)
+{
+   if (aVehicle is Car)
+   {
+      var car = aVehicle as Car;
+      // Do something special for car - this method is not on the IVehicle interface
+      car.ChangeGear();
+    }
+}}}
+1. Violation - Pre condition is strengthened by a subtype
+{{{
+public class Vehicle
+{
+    public virtual void Drive(int miles)
+    {
+        Assert(miles > 0 && miles < 300); // Consumers see this as the contract
+    }
+ }
+
+ public class Scooter : Vehicle
+ {
+     public override void Drive(int miles)
+     {
+         Assert(miles > 0 && miles < 50); // ** Violation
+         base.Drive(miles);
+     }
+ }
+}}}
+1. Subtle Violation - Abuse of an interface implementation by a subclass
+
+# Interface segregation Principles
+The interface-segregation principle (ISP) states that "Many client specific interfaces are better than one general purpose interface" , in other word - "no client should be forced to depend on methods it does not use".  It helps with creating thin/ small abstraction interfaces that make it easy for clients to have fewer dependant factors between them.
+
+For example, we are trying to builds and interface of an byte storage operation. it can be design as below:
+{{{
+type ByteUtils interface {
+    Read(b []byte) (n int, err error) // Read into buffer
+    Write(b []byte)(n int, err error) // Write into buffer
+    Trim(b []byte, exclusions string)[]byte // Trim buffer by removing bytes from the exclusion chars
+}
+}}}
+It works for a while, However notice that the name ByteUtils is too generic. If some client only wants to do Read Operation, it force to implement all of the methods. A better design would be like:
+{{{
+type Reader interface {
+    Read(b []byte) (n int, err error)
+}
+type Writer interface {
+    Write(b []byte)(n int, err error)
+}
+type Trimmer interface {
+    Trim(b []byte, exclusions string)[]byte
+}
+}}}
+Such thin interfaces are also called role interfaces as its easier to refactor, change, and redeploy something that it has a very defined role or purpose.
+
+Another choise to have combined one:
+{{{
+type ReadWriter interface {
+    Reader
+    Writer
+}
+type TrimReader interface {
+    Trimmer
+    Reader
+}
+}}}
+
+
+# Dependency Inversion Principle
+DIP is defined as "Depend upon Abstractions. Do not depend upon concretions" OR
+" Abstractions should not depend upon details. Details should depend upon abstractions"  OR "High-level modules should not depend on low-level modules. Both should depend on abstractions".
+
+Let;s consider we have two modules of an application: Module1 and Module2. Now suppose Module1 depends on Module2. How it depends? A class in Module1( say ClassA) depens on ClassB ( which is in module2). This is called hard dependency. It suffers from below proble:
+- If someone chnages ClassB, classA also needs to be adjusted.
+- If ClassA tries to use some other way of doing the same operation ( as Class C) -it's can't do that.
+
+A better way to do that,
+- We have a classA in module1.
+- We can have an interface InterfaceA in module1.
+- ClassA depends on interfaceA.
+- ClassB is in module2 and implements interfaceA. - This indicate that Module2 is supposed to be consumed by module1 ( as it  implements interface of Module1)
+
+Let's consider one example. We have a module which takes worker from external and execute the work method. Module1 has a manager - which has Worker object and then execute it. As It conatins the class object - it's a hard dependency on module2 wehere Worker is defined.
+{{{
+// module 1
+class Manager {
+	Worker worker; <<<< This a hard dependency
+	public void setWorker(Worker w) {
+		worker = w;
+	}
+	public void manage() {
+		worker.work();
+	}
+}
+
+// Module 2
+class Worker {
+	public void work() {
+		// ....working
+	}
+}
+}}}
+
+The correct way to implement things as below: Here Module1 is not depends on module2 but depends on it's own interface. where as Module2 acts as an worker provider to Module1 and so depends on module 1. So Invert the dependecny.
+
+If we want to make Module1 and Module2 Indipendent, we should move the interface to module3, and module1 and module2 depends on module3.
+{{{
+// Module 1
+interface IWorker {
+	public void work();
+}
+
+class Manager {
+	IWorker worker;
+	public void setWorker(IWorker w) {
+		worker = w;
+	}
+	public void manage() {
+		worker.work();
+	}
+}
+
+// Module2
+class Worker implements IWorker{
+	public void work() {
+		// ....working
+	}
+}
+
+// Module 3
+class SuperWorker  implements IWorker{
+	public void work() {
+		//.... working much more
+	}
+}
+}}}
+
+
+
+
+
+
+
+
+
 
 
 ## Design patterns in Java and C++
@@ -1058,7 +1402,7 @@ var repo = function () {
 }}}
 
 
-# Design Better List View 
+# Design Better List View
 
 Suppose I want to have a List Items like this which should be listed
 
@@ -1109,7 +1453,7 @@ and Here is the layout for each item:
 </LinearLayout>
 }}}
 
-Here is the Adapter 
+Here is the Adapter
 {{{
 private class RVAdapter extends RecyclerView.Adapter<RVAdapter.ItemViewHolder> {
     List<Item> nodes = new ArrayList<>();
@@ -1138,7 +1482,7 @@ private class RVAdapter extends RecyclerView.Adapter<RVAdapter.ItemViewHolder> {
             subtitle = (TextView) itemView.findViewById(R.id.subtitle);
         }
     }
-    
+
     @Override
     public int getItemCount() {
         return nodes.size();
@@ -1233,10 +1577,10 @@ public class RecyclerItemClickListener implements RecyclerView.OnItemTouchListen
 }}}
 The code must be added to the client side
 {{{
-    // Decleare 
+    // Decleare
     private RecyclerView mRecyclerView;
     private RVAdapter adapter;
-    
+
     // initilize RV
     View mRootView = mInflater.inflate(R.layout.view_quick_list, this, true);
     mRecyclerView = (RecyclerView) this.findViewById(R.id.recyclerview);
