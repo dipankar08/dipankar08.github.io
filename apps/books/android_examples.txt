@@ -1,0 +1,815 @@
+## Android Examples
+This tutorials is mainly design for providing templates for android devlopment and helping out my copy-paste efficiency.
+
+# Android Simple Activity
+Below I am providing a simple templates for having a easy Activity which just have a Click buttons Clicking of that button shows a Toast. extremely Simple.
+Step1: Here is the Manifest.
+{{{
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="in.co.dipankar.app">
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>
+}}}
+Step 2: Here is the Layout
+{{{
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    <Button
+        android:id="@+id/MyButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="Button" />
+</RelativeLayout>
+}}}
+Step 3: Here is the code:
+{{{
+import android.os.Bundle;
+import android.app.Activity;
+import android.content.Intent;
+import android.view.Menu;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+public class MainActivity extends Activity {
+	Button button;
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
+		button = (Button) findViewById(R.id.MyButton);
+		button.setOnClickListener(new OnClickListener() {
+			public void onClick(View arg0) {
+        // DO Something.
+			}
+		});
+	}
+}
+}}}
+
+# Activity Life Cycle Callback
+In this section , we will discuss all the override functions of Activity and theoir purpose.
+- We have all the lifecyclic callback.
+- How to support save and restore state
+- How to handle intent when app is already running.
+- How to ask Run time permission and how to handle that?
+{{{
+import android.os.Bundle;
+import android.app.Activity;
+import android.util.Log;
+
+public class MainActivity extends Activity {
+   String msg = "Android : ";
+
+   /** Called when the activity is first created. */
+   @Override
+   public void onCreate(Bundle savedInstanceState) {
+      super.onCreate(savedInstanceState);
+      setContentView(R.layout.activity_main);
+      Log.d(msg, "The onCreate() event");
+      // You might call this and call the code should be in onNewIntent
+      // onNewIntent(getIntent());
+   }
+
+   /** Called when the activity is about to become visible. */
+   @Override
+   protected void onStart() {
+      super.onStart();
+      Log.d(msg, "The onStart() event");
+   }
+
+   /** Called when the activity has become visible. */
+   @Override
+   protected void onResume() {
+      super.onResume();
+      Log.d(msg, "The onResume() event");
+   }
+
+   /** Called when another activity is taking focus. */
+   @Override
+   protected void onPause() {
+      super.onPause();
+      Log.d(msg, "The onPause() event");
+   }
+
+   /** Called when the activity is no longer visible. */
+   @Override
+   protected void onStop() {
+      super.onStop();
+      Log.d(msg, "The onStop() event");
+   }
+
+   /** Called just before the activity is destroyed. */
+   @Override
+   public void onDestroy() {
+      super.onDestroy();
+      Log.d(msg, "The onDestroy() event");
+   }
+
+   // Save /STore State - https://inthecheesefactory.com/blog/fragment-state-saving-best-practices/en
+   // These variable are destroyed along with Activity
+   private int someVarA;
+   private String someVarB;
+
+   @Override
+   protected void onSaveInstanceState(Bundle outState) {
+       super.onSaveInstanceState(outState);
+       outState.putInt("someVarA", someVarA);
+       outState.putString("someVarB", someVarB);
+       Log.d(msg, "The onSaveInstanceState() event");
+   }
+
+   @Override
+   protected void onRestoreInstanceState(Bundle savedInstanceState) {
+       super.onRestoreInstanceState(savedInstanceState);
+       someVarA = savedInstanceState.getInt("someVarA");
+       someVarB = savedInstanceState.getString("someVarB");
+       Log.d(msg, "The onRestoreInstanceState() event");
+   }
+
+   // onNewIntent() is meant as entry point for singleTop activities which already run somewhere else in the stack and therefore can't call onCreate()
+   @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        // getIntent() should always return the most recent
+        setIntent(intent);
+    }
+
+    // Run time Permission
+    private void askPermission(){
+      if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
+          if (!checkIfAlreadyhavePermission()) {
+              requestForSpecificPermission();
+          } else{
+            proceedAfterPermission();
+          }
+      } else{
+        proceedAfterPermission();
+      }
+    }
+
+    private boolean checkIfAlreadyhavePermission() {
+        int result = ContextCompat.checkSelfPermission(this, Manifest.permission.GET_ACCOUNTS);
+        if (result == PackageManager.PERMISSION_GRANTED) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private void requestForSpecificPermission() {
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.GET_ACCOUNTS, Manifest.permission.RECEIVE_SMS, Manifest.permission.READ_SMS, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 101);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case 101:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    //granted
+                } else {
+                    //not granted
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_PERMISSION_SETTING) {
+            if (ActivityCompat.checkSelfPermission(MultiplePermissionsActivity.this, permissionsRequired[0]) == PackageManager.PERMISSION_GRANTED) {
+                //Got Permission
+                proceedAfterPermission();
+            }
+        }
+    }
+
+    private void proceedAfterPermission() {
+        txtPermissions.setText("We've got all permissions");
+        Toast.makeText(getBaseContext(), "We got All Permissions", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        if (sentToSettings) {
+            if (ActivityCompat.checkSelfPermission(MultiplePermissionsActivity.this, permissionsRequired[0]) == PackageManager.PERMISSION_GRANTED) {
+                //Got Permission
+                proceedAfterPermission();
+            }
+        }
+    }
+
+}
+}}}
+You need to add permission String in the menifest.
+{{{
+<uses-permission android:name="android.permission.CAMERA" />
+<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+}}}
+
+# Android Services Templates
+A Service is an Android application component without a UI that runs on the main thread (of the hosting process). It also has to be declared in the AndroidManifest.xml
+1. A Started Service can be started by calling the startService(Intent)method in your Activity or Service. This Intent has to be an explicit Intent, which means that you either make a reference to the Service’s class
+2.
+
+A Service can be started multiple times and each time  onStartCommand() is called, we can pass extra while stated which is received by this callback. Even if you start a Service multiple times, it will only call onCreate() only once. To stop a service by calling stopSelf() from it. If you stop from outside, you must call as stopService.When the Service does stop then it will call onDestroy().
+
+Service might be crashed or killed. In that case Service might be restarted base don the flag as it returned by onStartCommand.
+1. Service.START_STICKY - Service is restarted if it gets terminated. Intent data passed to the onStartCommand method is null. Used for services which manages their own state and do not depend on the Intent data.
+2. Service.START_NOT_STICKY - Service is not restarted. this is used for services which are periodically triggered anyway. The service is only restarted if the runtime has pending startService() calls since the service termination.
+3. Service.START_REDELIVER_INTENT - Similar to Service.START_STICKY but the original Intent is re-delivered to the onStartCommand method.
+
+We can have comminucation between service and Activity. The service receives the intent data from the starting Android component and performs its work. So the communication from Activity to service is statght forword. However, We need to use Receive for communicating service to activity. In this case your activity can register a broadcast receiver for an event and the service sends outs corresponding events. Android provides the LocalBroadcastManager class in the support library v4. This is a helper class to register for and send broadcasts of Intents to local objects within your process.
+
+
+
+A sample service is giving as below:
+1. First Create a Service Calss.
+{{{
+import android.app.Service;
+import android.os.IBinder;
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.Toast;
+public class HelloService extends Service {
+   /** indicates how to behave if the service is killed */
+   int mStartMode;
+
+   /** interface for clients that bind */
+   IBinder mBinder;
+
+   /** indicates whether onRebind should be used */
+   boolean mAllowRebind;
+
+   /** Called when the service is being created. */
+   @Override
+   public void onCreate() {
+
+   }
+
+   /** The service is starting, due to a call to startService() */
+   @Override
+   public int onStartCommand(Intent intent, int flags, int startId) {
+      //process intent
+      Toast.makeText(this, "Service Started", Toast.LENGTH_LONG).show();
+      return START_STICKY;
+   }
+
+   /** A client is binding to the service with bindService() */
+   @Override
+   public IBinder onBind(Intent intent) {
+      return mBinder;
+   }
+
+   /** Called when all clients have unbound with unbindService() */
+   @Override
+   public boolean onUnbind(Intent intent) {
+      return mAllowRebind;
+   }
+
+   /** Called when a client is binding to the service with bindService()*/
+   @Override
+   public void onRebind(Intent intent) {
+   }
+
+   /** Called when The service is no longer used and is being destroyed */
+   @Override
+   public void onDestroy() {
+   super.onDestroy();
+   Toast.makeText(this, "Service Destroyed", Toast.LENGTH_LONG).show();
+   }
+}
+}}}
+
+Step 2: Activity can start or stop Service as below:
+{{{
+import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+
+import android.os.Bundle;
+import android.app.Activity;
+import android.util.Log;
+import android.view.View;
+
+public class MainActivity extends Activity {
+   String msg = "Android : ";
+
+   /** Called when the activity is first created. */
+   @Override
+   public void onCreate(Bundle savedInstanceState) {
+      super.onCreate(savedInstanceState);
+      setContentView(R.layout.activity_main);
+      Log.d(msg, "The onCreate() event");
+   }
+
+   public void startService(View view) {
+      startService(new Intent(getBaseContext(), MyService.class));
+   }
+
+   // Method to stop the service
+   public void stopService(View view) {
+      stopService(new Intent(getBaseContext(), MyService.class));
+   }
+}
+}}}
+
+Step 3: Dont forget to put thease into menufest.
+{{{
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+   package="com.example.tutorialspoint7.myapplication">
+   <application
+      android:allowBackup="true"
+      android:icon="@mipmap/ic_launcher"
+      android:label="@string/app_name"
+      android:supportsRtl="true"
+      android:theme="@style/AppTheme">
+      <activity android:name=".MainActivity">
+         <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+         </intent-filter>
+      </activity>
+      <service android:name=".MyService" />
+   </application>
+</manifest>
+}}}
+
+We have another kind of service call intent servivce: The Service can be used in tasks with no UI, but shouldn't be too long. If you need to perform long tasks, you must use threads within Service. The IntentService can be used in long tasks usually with no communication to Main Thread. If communication is required, can use Main Thread handler or broadcast intents. Another case of use is when callbacks are needed.
+
+Below example shows an Intent Service and a comminucation from service to Activity.
+Step1: Let;s have the service here.
+{{{
+import android.app.IntentService;
+import android.content.Intent;
+public class CashbackIntentService extends IntentService{
+    final static String CASHBACK_INFO = "cashback_info";
+    public CashbackIntentService() {
+        super("Cashback IntentService");
+    }
+
+    @Override
+    protected void onHandleIntent(Intent intent) {
+        String cb_category = intent.getStringExtra("cashback_cat");
+        String cbinfo = getCashbackInfo(cb_category);
+        sendCashbackInfoToClient(cbinfo);
+    }
+    private String getCashbackInfo(String cbcat){
+        String cashback;
+        if("electronics".equals(cbcat)){
+            cashback = "Upto 20% cashback on electronics";
+        }else if("fashion".equals(cbcat)){
+            cashback = "Upto 60% cashbak on all fashion items";
+        }else{
+            cashback = "All other categories except fashion and electronics, flat 30% cashback";
+        }
+        return cashback;
+    }
+    // This runs on a worker thread.
+    private void sendCashbackInfoToClient(String msg){
+        Intent intent = new Intent();
+        intent.setAction(CASHBACK_INFO);
+        intent.putExtra("cashback",msg);
+        sendBroadcast(intent);
+        // LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+    }
+}
+}}}
+
+Step2: Let;s have the activity and Have a Broadcast Receiver.
+{{{
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
+
+public class IntentServiceActivity extends AppCompatActivity {
+    private CashbackReciver cashbackReciver;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_intentservice);
+        registerCashbackReceiver();
+        startCashbackService();
+    }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unregisterReceiver(cashbackReciver);
+    }
+
+    public void startCashbackService(View view){
+        Intent cbIntent =  new Intent();
+        cbIntent.setClass(this, CashbackIntentService.class);
+        cbIntent.putExtra("cashback_cat", "SomeText");
+        startService(cbIntent);
+    }
+
+    private void registerCashbackReceiver(){
+        cashbackReciver = new CashbackReciver();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(CashbackIntentService.CASHBACK_INFO);
+        registerReceiver(cashbackReciver, intentFilter);
+    }
+    private class CashbackReciver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String cbinfo = intent.getStringExtra("cashback");
+        }
+    }
+}
+}}}
+
+# Android Content Providers
+
+
+# Android Broadcast Receiver
+
+
+# Android UI designs
+
+
+# Android fragments
+A fragment is a reusable class implementing a portion of an activity.
+-  Reuseness: It's basically a combination of an XML layout file and a java class much like an Activity which encapsulate views and logic so that it is easier to reuse within activities.
+- Standalone: Fragments are standalone components that can contain views, events and logic.
+- Navigation patatrens: In a fragment-oriented architecture, activities become navigational containers that are primarily responsible for navigation fragment tp fragemnts/activity - presenting fragments and passing data.
+- Activities are navigation controllers primarily responsible for navigation to other activities through intents, where as Fragments are content controllers and contain most views, layouts, and event logic.
+- Like Activity, A fragment has an XML layout file and a Java class that represents the Fragment controller.
+- Fragment has it;s own lifecyclic callback functions: The onCreateView() method is called when Fragment should create its View object hierarchy. onViewCreated()  is triggered soon after onCreateView() and any view setup should performed here. Her have a list of other methos given Below
+-- onAttach() is called when a fragment is connected to an activity.
+-- onCreate() is called to do initial creation of the fragment.
+-- onCreateView() is called by Android once the Fragment should inflate a view.
+-- onViewCreated() is called after onCreateView() and ensures that the fragment's root view is non-null. Any view setup should happen here. E.g., view lookups, attaching listeners.
+-- onActivityCreated() is called when host activity has completed its onCreate() method.
+-- onStart() is called once the fragment is ready to be displayed on screen.
+-- onResume() - Allocate “expensive” resources such as registering for location, sensor updates, etc.
+-- onPause() - Release “expensive” resources. Commit any changes.
+-- onDestroyView() is called when fragment's view is being destroyed, but the fragment is still kept around.
+-- onDestroy() is called when fragment is no longer in use.
+-- onDetach() is called when fragment is no longer connected to the activity.
+
+- Fragment can't work by alone. It must be embeded inside the Activity  - either in XML files or adding it dynamically. It can be noted that, Before embedding a "support" fragment in an Activity make sure the Activity is changed to extend from FragmentActivity or AppCompatActivity which adds support for the fragment manager to all Android versions.
+- If we have Fragment Holder, it is possible to add, remkove and replace fragemnts uisng  FragmentTransaction .
+- Fragments should generally only communicate with their direct parent activity. If two fragemnts needs to comunicate, they should do that though Activity. Here, Activity is treaed as the controller managing all interaction with each of the fragments contained within. fragments should not directly communicate with each other as they needs to be modular, standalone and reusable component. Here are the possible way to do the communication:
+1. Activities can initialize fragments with data during construction: pass data though the constracter of fragmnets.
+2. Activities can pass data to fragments using methods on the fragment instance: Pass data using member function of fragments,
+3. Fragments can communicate up to their parent activity using an interface and listeners: Fragemnt defines the callback inetrface and Parenet implementing it.
+4. Fragments should pass data to other fragments only routed through their parent activity
+5. Fragments can pass data to and from dialog fragments though the interface like sendBackResult.
+6. Fragments can contain nested child fragments as outlined here
+
+
+
+
+First, let;s define a xml file which will be render as a part of fragemnts
+{{{
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical" >
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button" />
+</LinearLayout>
+}}}
+
+Second, Let's define the Fragment class which influate the view in xmlns
+{{{
+import android.support.v4.app.Fragment;
+public class FooFragment extends Fragment {
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_foo, parent, false);
+    }
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        // EditText etFoo = (EditText) view.findViewById(R.id.etFoo);
+        // Add listners
+    }
+}
+}}}
+
+Thirds, Now we can add the fragemnts inside activity layout as
+{{{
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    <fragment
+        android:name="com.example.android.FooFragment"
+        android:id="@+id/fooFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>
+}}}
+OR
+{{{
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+  <FrameLayout
+       android:id="@+id/your_placeholder" <<< Placeholder
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
+  </FrameLayout>
+</LinearLayout>
+}}}
+
+Forth, This can now refer by Activity( if it is statically linked) or can be loaded dynamically using FragmentManager. We can lookup fragments either using ID or TAG or Pagers
+{{{
+public class MainActivity extends AppCompatActivity {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (savedInstanceState == null) {
+          // Look up by ID.
+          DemoFragment fragmentDemo = (DemoFragment)
+              getSupportFragmentManager().findFragmentById(R.id.fragmentDemo);
+
+          //ADD THE TAG
+          getSupportFragmentManager().beginTransaction().
+              replace(R.id.flContainer, new DemoFragment(), "SOMETAG").
+              commit();
+          // Now later we can lookup the fragment by tag
+          DemoFragment fragmentDemo = (DemoFragment)
+              getSupportFragmentManager().findFragmentByTag("SOMETAG");
+
+          // If you have view pager do this like.
+          adapterViewPager.getRegisteredFragment(0);
+
+          // Add Fragemnts Dynamically: It;s a three step procress.
+          FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+          ft.replace(R.id.your_placeholder, new FooFragment());
+          ft.commit();
+        }
+    }
+}
+}}}
+
+Fifth, Let;s pass some data to the fragment while creating, generally It can be done using static method. This is because a Fragment must have only a constructor with no arguments.
+{{{
+public class DemoFragment extends Fragment {
+    // Creates a new fragment given an int and title
+    // DemoFragment.newInstance(5, "Hello");
+    public static DemoFragment newInstance(int someInt, String someTitle) {
+        DemoFragment fragmentDemo = new DemoFragment();
+        Bundle args = new Bundle();
+        args.putInt("someInt", someInt);
+        args.putString("someTitle", someTitle);
+        fragmentDemo.setArguments(args);
+        return fragmentDemo;
+    }
+   @Override
+   public void onCreate(Bundle savedInstanceState) {
+       super.onCreate(savedInstanceState);
+       int SomeInt = getArguments().getInt("someInt", 0);
+       String someTitle = getArguments().getString("someTitle", "");
+   }
+}
+// Calls from Activity.
+public class MainActivity extends AppCompatActivity {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        DemoFragment fragmentDemo = DemoFragment.newInstance(5, "my title");
+        ft.replace(R.id.your_placeholder, fragmentDemo);
+        ft.commit();
+    }
+}
+}}}
+
+Let's define a fragemnt and pass the data on runtime.
+{{{
+// Have Fragment
+public class DemoFragment extends Fragment {
+  public void doSomething(String param) {
+      // handle this data.
+  }
+}
+// In Activity.
+public class MainActivity extends AppCompatActivity {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        DemoFragment fragmentDemo = (DemoFragment)
+            getSupportFragmentManager().findFragmentById(R.id.fragmentDemo);
+        fragmentDemo.doSomething("some param");
+    }
+}
+}}}
+
+Now, Let;s try to pass some data from fragemnt to Activity.
+{{{
+import android.support.v4.app.Fragment;
+public class MyListFragment extends Fragment {
+  private OnItemSelectedListener listener;
+
+  public interface OnItemSelectedListener {
+    public void onItemSelected(String link);
+  }
+
+  // Store the listener (activity) that will have events fired once the fragment is attached
+  @Override
+  public void onAttach(Context context) {
+      super.onAttach(context);
+      if (context instanceof OnItemSelectedListener) {
+        listener = (OnItemSelectedListener) context;
+      } else {
+        throw new ClassCastException(context.toString()
+            + " must implement MyListFragment.OnItemSelectedListener");
+      }
+  }
+
+  public void onSomeClick(View v) {
+     listener.onItemSelected("some link");
+  }
+}
+// Activity implements the Callback.
+import android.support.v7.app.AppCompatActivity;
+public class RssfeedActivity extends AppCompatActivity implements MyListFragment.OnItemSelectedListener {
+    private DetailFragment fragment;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_rssfeed);
+        fragment = (DetailFragment) getSupportFragmentManager() .findFragmentById(R.id.detailFragment);
+  }
+
+  @Override
+  public void onItemSelected(String link) {
+      if (fragment != null && fragment.isInLayout()) {
+          // Handle the result.
+      }
+  }
+}
+}}}
+
+The FragmentManager is responsible for all runtime management of fragments including adding, removing, hiding, showing, or otherwise navigating between fragments. It suppprts below method to do some work:
+1. addOnBackStackChangedListener - Add a new listener for changes to the fragment back stack.
+2. beginTransaction() - Creates a new transaction to change fragments at runtime.
+3. findFragmentById(int id) -	Finds a fragment by id usually inflated from activity XML layout.
+4. findFragmentByTag(String tag):	Finds a fragment by tag usually for a runtime added fragment.
+5. popBackStack() -	Remove a fragment from the backstack.
+6. executePendingTransactions()	Forces committed transactions to be applied.
+
+Here is an example of Fragment Trasation:
+{{{
+
+}}}
+
+Using fragmen, it is possible to customize the backStack operation. A record of all Fragment transactions is kept for each Activity by the FragmentManager. When used properly, this allows the user to hit the device’s back button to remove previously added Fragments.
+{{{
+//add to backStack
+FragmentTransaction fts = getSupportFragmentManager().beginTransaction();
+fts.replace(R.id.flContainer, new FirstFragment());
+fts.addToBackStack("optional_tag");
+fts.commit();
+
+// Just remove the lastly added.
+FragmentManager fragmentManager = getSupportFragmentManager();
+if (fragmentManager.getBackStackEntryCount() > 0) {
+    fragmentManager.popBackStack();
+}
+
+//Just go back to specif TAG
+FragmentManager fragmentManager = getSupportFragmentManager();
+if (fragmentManager.getBackStackEntryCount() > 0) {
+    fragmentManager.popBackStack("optional_tag");
+}
+}}}
+
+We can easily show/hide the fragemnt then calling replaces - This can be good because this will release memory and make the UI snappier. For example :
+{{{
+private FragmentA fragmentA;
+private FragmentB fragmentB;
+private FragmentC fragmentC;
+
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+    if (savedInstanceState == null) {
+        fragmentA = FragmentA.newInstance("foo");
+        fragmentB = FragmentB.newInstance("bar");
+        fragmentC = FragmentC.newInstance("baz");
+    }
+}
+
+// NOT so good
+protected void displayFragmentA() {
+    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+    // removes the existing fragment calling onDestroy
+    ft.replace(R.id.flContainer, fragmentA);
+    ft.commit();
+}
+
+// Better
+protected void displayFragmentA() {
+    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+    if (fragmentA.isAdded()) { // if the fragment is already in container
+        ft.show(fragmentA);
+    } else { // fragment needs to be added to frame container
+        ft.add(R.id.flContainer, fragmentA, "A");
+    }
+    // Hide fragment B
+    if (fragmentB.isAdded()) { ft.hide(fragmentB); }
+    // Hide fragment C
+    if (fragmentC.isAdded()) { ft.hide(fragmentC); }
+    // Commit changes
+    ft.commit();
+}
+}}}
+
+
+# Executing Async Jobs in android.
+
+
+# WebSocket Support to Android
+
+Step1: Let's consider the below example for build the server.
+{{{
+const WebSocket = require('ws');
+const wss = new WebSocket.Server({ port: 8080 });
+wss.on('connection', function connection(ws) {
+  ws.on('message', function incoming(message) {
+    console.log('received: %s', message);
+  });
+  ws.send('something');
+});
+
+// Store this as server.js file.
+// $node server.js
+}}}
+
+
+Step2: Let's test the code from sample HTML
+{{{
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title> WebSocket</title>
+  <script src="/socket.io/socket.io.js" ></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
+  <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+  <script>
+      var socket = io.connect('http://0.0.0.0:8088');
+      socket.on('message', function (data) {
+        console.log(data);
+        socket.emit('my other event', { my: 'data' });
+      });
+      function send(){
+        socket.emit('message', {tag: 'info',data:"hello"});
+      }
+  </script>
+</head>
+<body>
+  <button type="button" onclick="send();">Click Me!</button>
+</body>
+</html>
+}}}
+Step3: Now let's write android plagins to send and recv data from our server.
+{{{
+
+}}}
+
+
+#

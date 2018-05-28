@@ -1,33 +1,43 @@
-
+html{
+  font-size: 100%;
+}
 a{text-decoration: none;color: rgba(0,0,0,0.40);    cursor: pointer;}
 a:hover{color:#009688;}
-body,.back{
+div { box-sizing: border-box;}
+body{
   height:100%;
   width: 100%;
-  padding:0;
-  font-size: 200%;
-  margin:0;
+  font-size: 100%;
   font-family: 'Raleway', sans-serif;
-  font-size: 1em;
   color: rgba(0,0,0,0.40);
-  position: relative;
+  font-size: 1em;
   line-height: 1.4;
-}
-.back .top{
-  height: 210px;
-  width: 100%;
-  text-align: center;
-  background-color: #009688;
-}
-
-.back .buttom{
-  height:calc(100% - 210px);
-  width: 100%;
+  margin:0;
   background-color: #dfdfdf;
 }
+
+.back{
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 210px;
+  width: 100%;
+  z-index: -1;
+  background-color: #009688;
+}
+img {
+  border-radius: 50%;
+  width: 100px;
+  margin-left: calc(50% - 50px);
+}
+
 .box{
+  position: absolute;
+  top: 0;
   height: auto;
-  max-height: calc(100% - 82px);
+  width: 820px;
+  left: calc(50% - 410px);
+
   margin: 0 auto;
   margin-top: 40px;
   margin-bottom: 40px;
@@ -35,26 +45,21 @@ body,.back{
   background-color: #FFF;
   border-radius: 3px;
   box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.06), 0 2px 5px 0 rgba(0, 0, 0, 0.2);
-  top: 0;
-  position: fixed;
   z-index: 2;
-  width: 80%;
-  left: 10%;
   min-width: 320px;
-
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
 }
 .box .top{
   padding: 60px;
-  width:calc(100% -120px);
+  width:100%;
   position: relative;
 }
 .box .buttom{
   position: relative;
-  padding: 40px 60px;
-  width:calc(100% -120px)%;
+  padding: 20px;
+  width:100%;
   background-color: #f6f8f8;
   margin-top: auto;
 }
@@ -62,7 +67,7 @@ body,.back{
   padding-left: 15px;
 }
 .box .top p {
-  margin-bottom: 50px;
+  margin: 0px auto 60px auto;
   text-align: center;
 }
 .title{
@@ -86,23 +91,26 @@ ul {
     text-align: justify;
     line-height: 0;
 }
-ul li {
+ul > li {
     width: 32%;
     list-style-type: none;
     display: inline-block;
     margin: 0;
     padding: 0;
     line-height: 1.5;
+    margin-bottom: 20px;
     position: relative;
     text-align: center;
 }
-/*Overrides*/
-@media only screen and (min-width: 840px) {
-  body{
-    font-size: 100%;
+
+/* Use a media query to add a breakpoint at 800px: */
+/* The width is 100%, when the viewport is 800px or smaller */
+@media screen and (max-width: 800px) {
+  .box {
+    width: 80%;
+    left: 10%;
   }
-  .box{
-    width: 820px;
-    left: calc(50% - 410px);
+  ul > li {
+    width: 100%;
   }
 }
