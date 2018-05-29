@@ -12,3 +12,11 @@ int main(){
   printf("hello World");
 }
 }}}
+
+Table: This is a Table
+Col1 -- Col2 --Col3
+aa -- aa -- aa
+
+Table: Table2
+Col1 -- Col2 --Col3
+aa -- aa -- aa

@@ -3,6 +3,7 @@ import sys
 from string import Template
 import os
 import stat;
+import pdb
 fname = sys.argv[1]
 TEMPLATE="""
 <html>
@@ -61,6 +62,22 @@ TEMPLATE="""
 
     body.dark,body.dark .top, body.dark a {background: #353535;color: #a7a0a0;}
     body.dark div.code {color: #0daf32;}
+
+    /* Table Style */
+    table {
+        border-collapse: collapse;
+        width:100%;
+        margin-bottom: 50px;
+    }
+    table caption{
+        background: rgba(0,0,0,0.75);
+        color: white;
+        font-weight: bold;
+    }
+    table th, table td, table caption{
+        border: 1px solid rgba(0,0,0,0.1);
+        padding: 10px;
+    }
 </style>
 <script>
 </script>
@@ -95,19 +112,32 @@ def es(s):
 
 def is_start_num(line):
     return re.search('^\d+\. ',line)
+def getTableRow(line):
+    return '<tr>'+''.join(['<td>'+x.strip()+'</td>' for x in line.split("--")]) +'</tr>'
 
 with open(fname) as f:
     content = f.readlines()
 content += ["\n"]
 
+def ignoreBlankLine(line):
+    return code_start == False and  table_start == False and  line.strip().replace("\n","") == ""
 output=[]
 block_start = False
 num_start = False
 code_start = False;
+
+table_start = False;
 menu=""
 id = 0;
-for line in content:
-    if code_start == False and line.strip().replace("\n","") == "":
+
+index = 0;
+while index < len(content):
+    if index == 15:
+        pass
+        #pdb.set_trace()
+    line = content[index]
+    if ignoreBlankLine(line):
+        index = index +1
         continue;
     if block_start and not line.startswith("- "):
         output.append("</ul>")
@@ -116,7 +146,16 @@ for line in content:
     if num_start and is_start_num(line) == None:
         output.append("</ol>")
         num_start = False
+    if table_start:
+        if line.strip() == '':
+            output.append("</table>")
+            table_start = False
+        else:
+            output.append(getTableRow(line))
+        index = index + 1
+        continue
 
+    # New Things found..
     if line.startswith("## "):
         id = id +1;
         hashid = "hashid"+str(id)
@@ -143,12 +182,18 @@ for line in content:
     elif line.startswith("}}}"):
         output.append("</div>")
         code_start = False
+    elif line.startswith("Table: "):
+        table_start = True
+        output.append("<table>")
+        output.append("<caption>"+line+"</caption>")
     else:
         if not code_start and not num_start and not block_start :
             output.append("<div class='x3'>"+line.strip()+"</div>")
         else:
             if line.strip():
                 output.append(es(line.replace("\n", "")))
+    # Update index
+    index = index + 1
 
 output = "\n".join(output)
 html  = Template(TEMPLATE).substitute({'CONTENT':output,'MENU':menu})

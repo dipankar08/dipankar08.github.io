@@ -812,4 +812,6 @@ Step3: Now let's write android plagins to send and recv data from our server.
 }}}
 
 
-#
+## Experince multiple devices size, Locals and Themes.
+
+# Suppor
