@@ -55,6 +55,22 @@
 
     body.dark,body.dark .top, body.dark a {background: #353535;color: #a7a0a0;}
     body.dark div.code {color: #0daf32;}
+
+    /* Table Style */
+    table {
+        border-collapse: collapse;
+        width:100%;
+        margin-bottom: 50px;
+    }
+    table caption{
+        background: rgba(0,0,0,0.75);
+        color: white;
+        font-weight: bold;
+    }
+    table th, table td, table caption{
+        border: 1px solid rgba(0,0,0,0.1);
+        padding: 10px;
+    }
 </style>
 <script>
 </script>
@@ -68,7 +84,7 @@
     </span>
 </div>
 <div class="middle">
-    <div class="left" style=""><a class='a1' href='#hashid1'+>Android Examples</a><a class='a2' href='#hashid2'+>Android Simple Activity</a><a class='a2' href='#hashid3'+>Activity Life Cycle Callback</a><a class='a2' href='#hashid4'+>Android Services Templates</a><a class='a2' href='#hashid5'+>Android Content Providers</a><a class='a2' href='#hashid6'+>Android Broadcast Receiver</a><a class='a2' href='#hashid7'+>Android UI designs</a><a class='a2' href='#hashid8'+>Android fragments</a><a class='a2' href='#hashid9'+>Executing Async Jobs in android.</a><a class='a2' href='#hashid10'+>WebSocket Support to Android</a></div>
+    <div class="left" style=""><a class='a1' href='#hashid1'+>Android Examples</a><a class='a2' href='#hashid2'+>Android Simple Activity</a><a class='a2' href='#hashid3'+>Activity Life Cycle Callback</a><a class='a2' href='#hashid4'+>Android Services Templates</a><a class='a2' href='#hashid5'+>Android Content Providers</a><a class='a2' href='#hashid6'+>Android Broadcast Receiver</a><a class='a2' href='#hashid7'+>Android UI designs</a><a class='a2' href='#hashid8'+>Android fragments</a><a class='a2' href='#hashid9'+>Executing Async Jobs in android.</a><a class='a2' href='#hashid10'+>WebSocket Support to Android</a><a class='a1' href='#hashid11'+>Support personalize Experice.</a><a class='a2' href='#hashid12'+>Supporting mutiple languages</a><a class='a2' href='#hashid13'+>Supporting seperate layout for differnt devices.</a><a class='a2' href='#hashid14'+>Supporting different button width for diffent devices.</a><a class='a2' href='#hashid15'+>Supporting multiple images</a><a class='a2' href='#hashid16'+>Next</a></div>
     <div class="right" style=""><div class='x1' id='hashid1'>Android Examples</div>
 <div class='x3'>This tutorials is mainly design for providing templates for android devlopment and helping out my copy-paste efficiency.</div>
 <div class='x2' id='hashid2'>Android Simple Activity</div>
@@ -802,7 +818,202 @@ wss.on('connection', function connection(ws) {
 <div class='x3'>Step3: Now let's write android plagins to send and recv data from our server.</div>
 <div class='code'>
 </div>
-<div class='x3'>#</div></div>
+<div class='x1' id='hashid11'>Support personalize Experice.</div>
+<div class='x3'>In this perticulr section, i will be discussion with how to personalized your app experince for the user. The term "Personlization" means that your app should resposnce perfactly for the multiple devices, user can choose their languages and user can have their own theme etc.</div>
+<div class='x2' id='hashid12'>Supporting mutiple languages</div>
+<div class='x3'>Let's consider supporting hindi and english langues for a app.</div>
+<div class='x3'>Step1: Let;s have this layout. Note that we NOT hardcoding the string.</div>
+<div class='code'>
+</div>
+<div class='x3'>Step2: Define the defalut string in res/values/strings.xml.</div>
+<div class='code'>
+</div>
+<div class='x3'>Step3: Define the hindi language string in res/values/strings-hi.xml. You can support mutiple languages using the file name as res/values/strings-<language-code>.xml</div>
+<div class='code'>
+</div>
+<div class='x3'>Step 4: Now we we just have the  fun. You can go the device setting -> personal -> languages -> choose language and You will see the language of the app has chnages. We can do it programitically as below:</div>
+<div class='code'>
+import android.app.Activity;
+import android.content.res.Configuration;
+import android.os.Bundle;
+public class Main extends Activity {
+  /** Called when the activity is first created. */
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    String languageToLoad  = "fa"; // your language "hi" for hindi and "en" for english
+    Locale locale = new Locale(languageToLoad);
+    Locale.setDefault(locale);
+    Configuration config = new Configuration();
+    config.locale = locale;
+    getBaseContext().getResources().updateConfiguration(config,
+      getBaseContext().getResources().getDisplayMetrics());
+    this.setContentView(R.layout.main);
+  }
+  private void change(){
+    Resources res = context.getResources();
+    // Change locale settings in the app.
+    DisplayMetrics dm = res.getDisplayMetrics();
+    android.content.res.Configuration conf = res.getConfiguration();
+    conf.setLocale(new Locale(language_code.toLowerCase())); // API 17+ only.
+    // Use conf.locale = new Locale(...) if targeting lower versions
+    res.updateConfiguration(conf, dm);
+  }
+}
+</div>
+<div class='x3'>Step 5: You can persisit the language choice for the app as below:</div>
+<div class='code'>
+public class BaseActivity extends AppCompatActivity {
+    private Locale mCurrentLocale;
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mCurrentLocale = getResources().getConfiguration().locale;
+    }
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Locale locale = getLocale(this);
+        if (!locale.equals(mCurrentLocale)) {
+            mCurrentLocale = locale;
+            recreate();
+        }
+    }
+    public static Locale getLocale(Context context){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String lang = sharedPreferences.getString("language", "en");
+        switch (lang) {
+            case "English":
+                lang = "en";
+                break;
+            case "Spanish":
+                lang = "es";
+                break;
+        }
+        return new Locale(lang);
+    }
+}
+public class App extends Application {
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        setLocale();
+    }
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        setLocale();
+    }
+    private void setLocale() {
+        final Resources resources = getResources();
+        final Configuration configuration = resources.getConfiguration();
+        final Locale locale = getLocale(this);
+        if (!configuration.locale.equals(locale)) {
+            configuration.setLocale(locale);
+            resources.updateConfiguration(configuration, null);
+        }
+    }
+}
+</div>
+<div class='x2' id='hashid13'>Supporting seperate layout for differnt devices.</div>
+<div class='x3'>Sometime it's required to have multiple layout of the UI for phone or tablet. We can easilty do that by spacifying mutple layout file. We can alos spacify multiple dimention files to spacidify differnet weidth of the buttons for phone and tablet.</div>
+<div class='x3'>Step1: We can have two diffetnt layoyt for phone and 7 each tablet in res/layout/main_activity.xml    and res/layout-sw600dp/main_activity.xml(600dp or bigger).</div>
+<div class='code'>
+</div>
+<table>
+<caption>Table: Topical screen size:
+</caption>
+<tr><td>320dp</td><td>a typical phone screen (240x320 ldpi, 320x480 mdpi, 480x800 hdpi, etc). 4 inch phone</td></tr>
+<tr><td>480dp</td><td>a large phone screen ~5" (480x800 mdpi). 5 inch phone</td></tr>
+<tr><td>600dp</td><td>a small 7” tablet (600x1024 mdpi).</td></tr>
+<tr><td>720dp</td><td>a 10” Larget tablet (720x1280 mdpi, 800x1280 mdpi, etc).</td></tr>
+<tr><td>840dp</td><td>larget tablet</td></tr>
+<tr><td>960dp</td><td>Very large tablet</td></tr>
+<tr><td>1280dp</td><td>large</td></tr>
+<tr><td>1440dp</td><td>large</td></tr>
+<tr><td>1600dp</td><td>large</td></tr>
+<tr><td>1920dp</td><td>Extra large</td></tr>
+</table>
+<table>
+<caption>Table: Which file to store what?
+</caption>
+<tr><td>res/layout/main_activity.xml</td><td>For handsets (smaller than 600dp available width)</td></tr>
+<tr><td>res/layout-w600dp/main_activity.xml</td><td>For 7” tablets or any screen with 600dp</td></tr>
+<tr><td>res/layout/main_activity.xml</td><td>For handsets</td></tr>
+<tr><td>res/layout-land/main_activity.xml</td><td>For handsets in landscape</td></tr>
+<tr><td>res/layout-sw600dp/main_activity.xml</td><td>For 7” tablets</td></tr>
+<tr><td>res/layout-sw600dp-land/main_activity.xml</td><td>For 7” tablets in landscape</td></tr>
+<tr><td>res/layout/main_activity.xml</td><td>For handsets (smaller than 640dp x 480dp)</td></tr>
+<tr><td>res/layout-large/main_activity.xml</td><td>For small tablets (640dp x 480dp and bigger)</td></tr>
+<tr><td>res/layout-xlarge/main_activity.xml</td><td>For large tablets (960dp x 720dp and bigger)</td></tr>
+</table>
+<div class='x3'>You could also use layout alias. It can be defined all files inside layout, however, we can distrigushed the by having differnet values file.</div>
+<div class='code'>
+res/layout/main.xml            # single-pane layout
+res/layout/main_twopanes.xml   # two-pane layout
+And add these two files:
+res/values-large/layout.xml:
+&lt;resources&gt;
+    &lt;item name="main" type="layout"&gt;@layout/main_twopanes&lt;/item&gt;
+&lt;/resources&gt;
+res/values-sw600dp/layout.xml:
+&lt;resources&gt;
+    &lt;item name="main" type="layout"&gt;@layout/main_twopanes&lt;/item&gt;
+&lt;/resources&gt;
+</div>
+<div class='x2' id='hashid14'>Supporting different button width for diffent devices.</div>
+<div class='x3'>You must understand the diff betwen dip and sp. Yhen you specify spacing between two views, use dp and When specifying text size, always use sp:</div>
+<div class='code'>
+&lt;Button android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/clickme"
+    android:layout_marginTop="20dp" /&gt;
+&lt;TextView android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:textSize="20sp" /&gt;
+</div>
+<div class='x3'>For example, You have a button view and You would like to have multiple dimention for this button for multiple devices. How to do that? Let's creates values folders and a dimens files in each folder. Based on your requirement you can give padding or any dimen values. As you  given, you should give same name for dimen in all the folders. Android will  automatically pick the dimen value based on your screen size.</div>
+<div class='code'>
+&lt;textView
+  android:padding="@dimen/padding_1
+  /&gt;
+values/dimens.xml
+&lt;dimen name="padding_1"&gt;5dp&lt;/dimen&gt;
+values-sw360dp/dimens.xml
+&lt;dimen name="padding_1"&gt;5dp&lt;/dimen&gt;
+values-sw480dp/dimens.xml
+&lt;dimen name="padding_1"&gt;8dp&lt;/dimen&gt;
+values-sw600dp/dimens.xml
+&lt;dimen name="padding_1"&gt;10dp&lt;/dimen&gt;
+values-sw720dp/dminen.xml
+&lt;dimen name="padding_1"&gt;13dp&lt;/dimen&gt;
+</div>
+<div class='x2' id='hashid15'>Supporting multiple images</div>
+<div class='x3'>When you want to use image, you must provides the below variabtion:</div>
+<div class='code'>
+res/
+  drawable-xxxhdpi/
+    awesome-image.png
+  drawable-xxhdpi/
+    awesome-image.png
+  drawable-xhdpi/
+    awesome-image.png
+  drawable-hdpi/
+    awesome-image.png
+  drawable-mdpi/
+    awesome-image.png
+</div>
+<table>
+<caption>Table: This table is showing image size of each
+</caption>
+<tr><td>36x36</td><td>(0.75x) for low-density (ldpi)</td></tr>
+<tr><td>48x48</td><td>(1.0x baseline) for medium-density (mdpi)</td></tr>
+<tr><td>72x72</td><td>(1.5x) for high-density (hdpi)</td></tr>
+<tr><td>96x96</td><td>(2.0x) for extra-high-density (xhdpi)</td></tr>
+<tr><td>144x144</td><td>(3.0x) for extra-extra-high-density (xxhdpi)</td></tr>
+<tr><td>192x192</td><td>(4.0x) for extra-extra-extra-high-density (xxxhdpi)</td></tr>
+</table>
+<div class='x2' id='hashid16'>Next</div></div>
 </div>
 <div class="footer">
 <p> Do you know this book/HTML is generated from a text file? I traied to use MS word and other software and its seems to be very hard to maintain, sync and reformat - So i get into this crazy idea - just have a text file and write into it. I have a python svript whcih just convert this text into html.</p>

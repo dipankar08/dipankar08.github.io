@@ -812,6 +812,218 @@ Step3: Now let's write android plagins to send and recv data from our server.
 }}}
 
 
-## Experince multiple devices size, Locals and Themes.
+## Support personalize Experice.
+In this perticulr section, i will be discussion with how to personalized your app experince for the user. The term "Personlization" means that your app should resposnce perfactly for the multiple devices, user can choose their languages and user can have their own theme etc.
 
-# Suppor
+# Supporting mutiple languages
+Let's consider supporting hindi and english langues for a app.
+Step1: Let;s have this layout. Note that we NOT hardcoding the string.
+{{{
+
+}}}
+Step2: Define the defalut string in res/values/strings.xml.
+{{{
+
+}}}
+Step3: Define the hindi language string in res/values/strings-hi.xml. You can support mutiple languages using the file name as res/values/strings-<language-code>.xml
+{{{
+
+}}}
+
+Step 4: Now we we just have the  fun. You can go the device setting -> personal -> languages -> choose language and You will see the language of the app has chnages. We can do it programitically as below:
+{{{
+import android.app.Activity;
+import android.content.res.Configuration;
+import android.os.Bundle;
+
+public class Main extends Activity {
+  /** Called when the activity is first created. */
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+
+    String languageToLoad  = "fa"; // your language "hi" for hindi and "en" for english
+    Locale locale = new Locale(languageToLoad);
+    Locale.setDefault(locale);
+    Configuration config = new Configuration();
+    config.locale = locale;
+    getBaseContext().getResources().updateConfiguration(config,
+      getBaseContext().getResources().getDisplayMetrics());
+    this.setContentView(R.layout.main);
+  }
+  private void change(){
+    Resources res = context.getResources();
+    // Change locale settings in the app.
+    DisplayMetrics dm = res.getDisplayMetrics();
+    android.content.res.Configuration conf = res.getConfiguration();
+    conf.setLocale(new Locale(language_code.toLowerCase())); // API 17+ only.
+    // Use conf.locale = new Locale(...) if targeting lower versions
+    res.updateConfiguration(conf, dm);
+  }
+}
+}}}
+Step 5: You can persisit the language choice for the app as below:
+{{{
+public class BaseActivity extends AppCompatActivity {
+    private Locale mCurrentLocale;
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mCurrentLocale = getResources().getConfiguration().locale;
+    }
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Locale locale = getLocale(this);
+        if (!locale.equals(mCurrentLocale)) {
+            mCurrentLocale = locale;
+            recreate();
+        }
+    }
+    public static Locale getLocale(Context context){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String lang = sharedPreferences.getString("language", "en");
+        switch (lang) {
+            case "English":
+                lang = "en";
+                break;
+            case "Spanish":
+                lang = "es";
+                break;
+        }
+        return new Locale(lang);
+    }
+}
+public class App extends Application {
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        setLocale();
+    }
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        setLocale();
+    }
+    private void setLocale() {
+        final Resources resources = getResources();
+        final Configuration configuration = resources.getConfiguration();
+        final Locale locale = getLocale(this);
+        if (!configuration.locale.equals(locale)) {
+            configuration.setLocale(locale);
+            resources.updateConfiguration(configuration, null);
+        }
+    }
+}
+}}}
+
+
+# Supporting seperate layout for differnt devices.
+Sometime it's required to have multiple layout of the UI for phone or tablet. We can easilty do that by spacifying mutple layout file. We can alos spacify multiple dimention files to spacidify differnet weidth of the buttons for phone and tablet.
+
+Step1: We can have two diffetnt layoyt for phone and 7 each tablet in res/layout/main_activity.xml    and res/layout-sw600dp/main_activity.xml(600dp or bigger).
+{{{
+
+}}}
+Table: Topical screen size:
+320dp   # a typical phone screen (240x320 ldpi, 320x480 mdpi, 480x800 hdpi, etc). 4 inch phone
+480dp   # a large phone screen ~5" (480x800 mdpi). 5 inch phone
+600dp   # a small 7” tablet (600x1024 mdpi).
+720dp   # a 10” Larget tablet (720x1280 mdpi, 800x1280 mdpi, etc).
+840dp   # larget tablet
+960dp   # Very large tablet
+1280dp  # large
+1440dp  # large
+1600dp  # large
+1920dp  # Extra large
+
+Table: Which file to store what?
+res/layout/main_activity.xml                # For handsets (smaller than 600dp available width)
+res/layout-w600dp/main_activity.xml         # For 7” tablets or any screen with 600dp
+res/layout/main_activity.xml                # For handsets
+res/layout-land/main_activity.xml           # For handsets in landscape
+res/layout-sw600dp/main_activity.xml        # For 7” tablets
+res/layout-sw600dp-land/main_activity.xml   # For 7” tablets in landscape
+res/layout/main_activity.xml           # For handsets (smaller than 640dp x 480dp)
+res/layout-large/main_activity.xml     # For small tablets (640dp x 480dp and bigger)
+res/layout-xlarge/main_activity.xml    # For large tablets (960dp x 720dp and bigger)
+
+You could also use layout alias. It can be defined all files inside layout, however, we can distrigushed the by having differnet values file.
+{{{
+res/layout/main.xml            # single-pane layout
+res/layout/main_twopanes.xml   # two-pane layout
+
+And add these two files:
+res/values-large/layout.xml:
+<resources>
+    <item name="main" type="layout">@layout/main_twopanes</item>
+</resources>
+
+res/values-sw600dp/layout.xml:
+<resources>
+    <item name="main" type="layout">@layout/main_twopanes</item>
+</resources>
+}}}
+
+
+# Supporting different button width for diffent devices.
+You must understand the diff betwen dip and sp. Yhen you specify spacing between two views, use dp and When specifying text size, always use sp:
+{{{
+<Button android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/clickme"
+    android:layout_marginTop="20dp" />
+
+
+<TextView android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:textSize="20sp" />
+}}}
+
+For example, You have a button view and You would like to have multiple dimention for this button for multiple devices. How to do that? Let's creates values folders and a dimens files in each folder. Based on your requirement you can give padding or any dimen values. As you  given, you should give same name for dimen in all the folders. Android will  automatically pick the dimen value based on your screen size.
+{{{
+<textView
+  android:padding="@dimen/padding_1
+  />
+
+values/dimens.xml
+<dimen name="padding_1">5dp</dimen>
+
+values-sw360dp/dimens.xml
+<dimen name="padding_1">5dp</dimen>
+
+values-sw480dp/dimens.xml
+<dimen name="padding_1">8dp</dimen>
+
+values-sw600dp/dimens.xml
+<dimen name="padding_1">10dp</dimen>
+
+values-sw720dp/dminen.xml
+<dimen name="padding_1">13dp</dimen>
+
+}}}
+
+# Supporting multiple images
+When you want to use image, you must provides the below variabtion:
+{{{
+res/
+  drawable-xxxhdpi/
+    awesome-image.png
+  drawable-xxhdpi/
+    awesome-image.png
+  drawable-xhdpi/
+    awesome-image.png
+  drawable-hdpi/
+    awesome-image.png
+  drawable-mdpi/
+    awesome-image.png
+}}}
+Table: This table is showing image size of each
+36x36 # (0.75x) for low-density (ldpi)
+48x48 # (1.0x baseline) for medium-density (mdpi)
+72x72 # (1.5x) for high-density (hdpi)
+96x96 # (2.0x) for extra-high-density (xhdpi)
+144x144 # (3.0x) for extra-extra-high-density (xxhdpi)
+192x192 # (4.0x) for extra-extra-extra-high-density (xxxhdpi)
+
+# Next

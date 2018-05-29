@@ -113,7 +113,7 @@ def es(s):
 def is_start_num(line):
     return re.search('^\d+\. ',line)
 def getTableRow(line):
-    return '<tr>'+''.join(['<td>'+x.strip()+'</td>' for x in line.split("--")]) +'</tr>'
+    return '<tr>'+''.join(['<td>'+x.strip()+'</td>' for x in line.split("# ")]) +'</tr>'
 
 with open(fname) as f:
     content = f.readlines()
