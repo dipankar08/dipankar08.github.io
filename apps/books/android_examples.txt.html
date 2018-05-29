@@ -68,7 +68,7 @@
     </span>
 </div>
 <div class="middle">
-    <div class="left" style=""><a class='a1' href='#hashid1'+>Android Examples</a><a class='a2' href='#hashid2'+>Android Simple Activity</a><a class='a2' href='#hashid3'+>Activity Life Cycle Callback</a><a class='a2' href='#hashid4'+>Android Services Templates</a><a class='a2' href='#hashid5'+>Android Content Providers</a><a class='a2' href='#hashid6'+>Android Broadcast Receiver</a><a class='a2' href='#hashid7'+>Android UI designs</a><a class='a2' href='#hashid8'+>Android fragments</a><a class='a2' href='#hashid9'+>Executing Async Jobs in android.</a></div>
+    <div class="left" style=""><a class='a1' href='#hashid1'+>Android Examples</a><a class='a2' href='#hashid2'+>Android Simple Activity</a><a class='a2' href='#hashid3'+>Activity Life Cycle Callback</a><a class='a2' href='#hashid4'+>Android Services Templates</a><a class='a2' href='#hashid5'+>Android Content Providers</a><a class='a2' href='#hashid6'+>Android Broadcast Receiver</a><a class='a2' href='#hashid7'+>Android UI designs</a><a class='a2' href='#hashid8'+>Android fragments</a><a class='a2' href='#hashid9'+>Executing Async Jobs in android.</a><a class='a2' href='#hashid10'+>WebSocket Support to Android</a></div>
     <div class="right" style=""><div class='x1' id='hashid1'>Android Examples</div>
 <div class='x3'>This tutorials is mainly design for providing templates for android devlopment and helping out my copy-paste efficiency.</div>
 <div class='x2' id='hashid2'>Android Simple Activity</div>
@@ -759,6 +759,49 @@ protected void displayFragmentA() {
 }
 </div>
 <div class='x2' id='hashid9'>Executing Async Jobs in android.</div>
+<div class='x2' id='hashid10'>WebSocket Support to Android</div>
+<div class='x3'>Step1: Let's consider the below example for build the server.</div>
+<div class='code'>
+const WebSocket = require('ws');
+const wss = new WebSocket.Server({ port: 8080 });
+wss.on('connection', function connection(ws) {
+  ws.on('message', function incoming(message) {
+    console.log('received: %s', message);
+  });
+  ws.send('something');
+});
+// Store this as server.js file.
+// $node server.js
+</div>
+<div class='x3'>Step2: Let's test the code from sample HTML</div>
+<div class='code'>
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+	&lt;meta charset="utf-8"&gt;
+	&lt;title&gt; WebSocket&lt;/title&gt;
+  &lt;script src="/socket.io/socket.io.js" &gt;&lt;/script&gt;
+  &lt;script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"&gt;&lt;/script&gt;
+  &lt;script src="http://code.jquery.com/jquery-1.10.1.min.js"&gt;&lt;/script&gt;
+  &lt;script&gt;
+      var socket = io.connect('http://0.0.0.0:8088');
+      socket.on('message', function (data) {
+        console.log(data);
+        socket.emit('my other event', { my: 'data' });
+      });
+      function send(){
+        socket.emit('message', {tag: 'info',data:"hello"});
+      }
+  &lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;button type="button" onclick="send();"&gt;Click Me!&lt;/button&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</div>
+<div class='x3'>Step3: Now let's write android plagins to send and recv data from our server.</div>
+<div class='code'>
+</div>
 <div class='x3'>#</div></div>
 </div>
 <div class="footer">
