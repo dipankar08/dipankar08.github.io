@@ -108,7 +108,7 @@ ul > li {
 @media screen and (max-width: 800px) {
   .box {
     width: 80%;
-    left: 10%;
+    left: calc(10% - 2px);
   }
   ul > li {
     width: 100%;
