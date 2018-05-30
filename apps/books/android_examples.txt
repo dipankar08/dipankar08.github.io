@@ -1,4 +1,4 @@
-## Android Examples
+## Andorid components
 This tutorials is mainly design for providing templates for android devlopment and helping out my copy-paste efficiency.
 
 # Android Simple Activity
@@ -451,8 +451,22 @@ public class IntentServiceActivity extends AppCompatActivity {
 
 # Android Broadcast Receiver
 
+## Android UI Designs
+# Android layouts
 
-# Android UI designs
+# Android Widgets
+
+# Android List views
+
+# Andorid Notification and Dialogs
+
+# Android Custom views
+
+# Android View Pagers
+
+# Android Menus and Navigation Patterns
+
+
 
 
 # Android fragments
@@ -463,17 +477,18 @@ A fragment is a reusable class implementing a portion of an activity.
 - Activities are navigation controllers primarily responsible for navigation to other activities through intents, where as Fragments are content controllers and contain most views, layouts, and event logic.
 - Like Activity, A fragment has an XML layout file and a Java class that represents the Fragment controller.
 - Fragment has it;s own lifecyclic callback functions: The onCreateView() method is called when Fragment should create its View object hierarchy. onViewCreated()  is triggered soon after onCreateView() and any view setup should performed here. Her have a list of other methos given Below
--- onAttach() is called when a fragment is connected to an activity.
--- onCreate() is called to do initial creation of the fragment.
--- onCreateView() is called by Android once the Fragment should inflate a view.
--- onViewCreated() is called after onCreateView() and ensures that the fragment's root view is non-null. Any view setup should happen here. E.g., view lookups, attaching listeners.
--- onActivityCreated() is called when host activity has completed its onCreate() method.
--- onStart() is called once the fragment is ready to be displayed on screen.
--- onResume() - Allocate “expensive” resources such as registering for location, sensor updates, etc.
--- onPause() - Release “expensive” resources. Commit any changes.
--- onDestroyView() is called when fragment's view is being destroyed, but the fragment is still kept around.
--- onDestroy() is called when fragment is no longer in use.
--- onDetach() is called when fragment is no longer connected to the activity.
+Table: Callbacks
+onAttach()    # is called when a fragment is connected to an activity.
+onCreate()    # is called to do initial creation of the fragment.
+onCreateView() # is called by Android once the Fragment should inflate a view.
+onViewCreated() # is called after onCreateView() and ensures that the fragment's root view is non-null. Any view setup should happen here. E.g., view lookups, attaching listeners.
+onActivityCreated() # is called when host activity has completed its onCreate() method.
+onStart() # is called once the fragment is ready to be displayed on screen.
+onResume() # Allocate “expensive” resources such as registering for location, sensor updates, etc.
+onPause() # Release “expensive” resources. Commit any changes.
+onDestroyView() # is called when fragment's view is being destroyed, but the fragment is still kept around.
+onDestroy() # is called when fragment is no longer in use.
+onDetach() # is called when fragment is no longer connected to the activity.
 
 - Fragment can't work by alone. It must be embeded inside the Activity  - either in XML files or adding it dynamically. It can be noted that, Before embedding a "support" fragment in an Activity make sure the Activity is changed to extend from FragmentActivity or AppCompatActivity which adds support for the fragment manager to all Android versions.
 - If we have Fragment Holder, it is possible to add, remkove and replace fragemnts uisng  FragmentTransaction .
@@ -1522,4 +1537,187 @@ Handing Timeouts for each call
       System.out.println("Response 2 failed: " + e);
     }
   }
+}}}
+
+# Having HTTP server inside android App
+
+Step1: Add Dependency
+{{{
+    compile 'org.nanohttpd:nanohttpd:2.2.0'
+}}}
+Write your own Server Utils
+{{{
+package in.co.dipankar.quickandorid.utils;
+
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.Map;
+import fi.iki.elonen.NanoHTTPD;
+
+public class HttpdUtils extends NanoHTTPD {
+    public interface Result{
+        public String getStatus();
+        public String getData();
+    }
+
+    public interface Callback{
+        public Result Handle(String key);
+        public void onSuccess(String msg);
+        public void onError(String msg);
+    }
+
+    private Callback mCallback;
+    public HttpdUtils(Callback callback) {
+        super(8081);
+        mCallback = callback;
+        this.start();
+    }
+
+    @Override public Response serve(IHTTPSession session) {
+        Method method = session.getMethod();
+        String uri = session.getUri();
+        System.out.println(method + " '" + uri + "' ");
+        Result result = mCallback.Handle(uri);
+
+        return NanoHTTPD.newFixedLengthResponse(result.getData());
+    }
+
+    @Override
+    public void start(){
+        try {
+            super.start();
+            mCallback.onSuccess("started");
+        } catch (IOException e) {
+            e.printStackTrace();
+            mCallback.onError("Not able start");
+        }
+    }
+
+    @Override
+    public void stop(){
+        super.stop();
+        mCallback.onSuccess("stoped");
+    }
+}
+}}}
+Now when you start your app the server will start
+Is my server is runing : 
+{{{
+$ adb shell
+$ generic_x86:/ # lsof  -l | grep 8081 
+kandroide 24907      10088   54u     IPv6                          0t0    1569923 TCP []:8081->[]:0 (LISTEN) 
+}}}
+Now connect it from your host and Hit the BOX
+{{{
+$ adb forward tcp:8081 tcp:8081
+$ curl http://localhost:8081/gsf
+}}}
+
+With this infra, we can build our own App Automation and App helper to execute any code for debugging, Let's consider the below Remote Debugger which allows us to set and get the Pref from your laptop.
+{{{
+    package in.co.dipankar.quickandorid.utils;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+
+import static android.content.Context.MODE_PRIVATE;
+
+public class RemoteDebug {
+    private HttpdUtils mHttpdUtils;
+    private Context mContext;
+
+    public RemoteDebug(Context context){
+        mContext = context;
+        mHttpdUtils = new HttpdUtils(8081, new HttpdUtils.Callback() {
+            @Override
+            public String Handle(String method, String key, Map<String, String> param) {
+                String data = param.get("data");
+                switch (key){
+                    case "/setPref":
+                        return setPerf(data);
+                    case "/getPref":
+                        return getPerf(data);
+                    default:
+                        return "Invalid command Sent!\n";
+
+                }
+            }
+            @Override
+            public void onSuccess(String msg) {}
+
+            @Override
+            public void onError(String msg) {}
+        });
+    }
+    private String setPerf(String data){
+        if(data == null || data.length() < 1){
+            return "Please pass some args\n";
+        }
+        List<String> tokens = Arrays.asList(data.split(" "));
+        if(tokens.size() < 3){
+            return "Less args sent";
+        }
+        SharedPreferences.Editor editor = mContext.getSharedPreferences("test", MODE_PRIVATE).edit();
+        switch(tokens.get(0)){
+            case "S":
+                editor.putString(tokens.get(1), tokens.get(2));
+                editor.apply();
+                return "Set Successfully";
+            case "I":
+                editor.putInt(tokens.get(1), Integer.parseInt(tokens.get(2)));
+                editor.apply();
+                return "Set Successfully";
+
+        }
+        return "Not able to set the shared pref";
+    }
+    private String getPerf(String data){
+        if(data == null || data.length() < 1){
+            return "Please send some args\n";
+        }
+        List<String> tokens = Arrays.asList(data.split(" "));
+        if(tokens.size() < 2){
+            return "Less args sent";
+        }
+        SharedPreferences prefs = mContext.getSharedPreferences("test", MODE_PRIVATE);
+
+        switch(tokens.get(0)){
+            case "S":
+                return prefs.getString(tokens.get(1),"null");
+            case "I":
+                int x =  prefs.getInt(tokens.get(1),-1);
+                return x+"";
+
+        }
+        return "Not able to get the shared pref";
+    }
+}
+
+}}}
+
+From Activity, You needs to initilized this:
+{{{
+    private void testRemoteDebuging() {
+    RemoteDebug remoteDebug = new RemoteDebug(this);
+}
+}}}
+
+Ans how it can be used:
+{{{
+dip-pro:books dip$ curl http://localhost:8081/getPref?data=I%20me%2010
+10
+dip-pro:books dip$ curl http://localhost:8081/setPref?data=I%20me%20100
+Set Successfully
+dip-pro:books dip$ curl http://localhost:8081/getPref?data=I%20me%2010
+100
+dip-pro:books dip$ curl http://localhost:8081/getPref?data=I%20me%2010
+100
+dip-pro:books dip$ curl http://localhost:8081/setPref?data=I%20me%20100
+Set Successfully
+dip-pro:books dip$ 
 }}}
