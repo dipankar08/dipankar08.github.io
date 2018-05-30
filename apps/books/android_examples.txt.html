@@ -90,8 +90,7 @@
 <div class='x2' id='hashid2'>Android Simple Activity</div>
 <div class='x3'>Below I am providing a simple templates for having a easy Activity which just have a Click buttons Clicking of that button shows a Toast. extremely Simple.</div>
 <div class='x3'>Step1: Here is the Manifest.</div>
-<div class='code'>
-&lt;?xml version="1.0" encoding="utf-8"?&gt;
+<div class='code'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
 &lt;manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="in.co.dipankar.app"&gt;
     &lt;application
@@ -110,8 +109,7 @@
 &lt;/manifest&gt;
 </div>
 <div class='x3'>Step 2: Here is the Layout</div>
-<div class='code'>
-&lt;RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<div class='code'>&lt;RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent" &gt;
@@ -124,8 +122,7 @@
 &lt;/RelativeLayout&gt;
 </div>
 <div class='x3'>Step 3: Here is the code:</div>
-<div class='code'>
-import android.os.Bundle;
+<div class='code'>import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
@@ -155,12 +152,13 @@ public class MainActivity extends Activity {
 <li>How to handle intent when app is already running.</li>
 <li>How to ask Run time permission and how to handle that?</li>
 </ul>
-<div class='code'>
-import android.os.Bundle;
+<div class='code'>import android.os.Bundle;
 import android.app.Activity;
 import android.util.Log;
+
 public class MainActivity extends Activity {
    String msg = "Android : ";
+
    /** Called when the activity is first created. */
    @Override
    public void onCreate(Bundle savedInstanceState) {
@@ -170,40 +168,47 @@ public class MainActivity extends Activity {
       // You might call this and call the code should be in onNewIntent
       // onNewIntent(getIntent());
    }
+
    /** Called when the activity is about to become visible. */
    @Override
    protected void onStart() {
       super.onStart();
       Log.d(msg, "The onStart() event");
    }
+
    /** Called when the activity has become visible. */
    @Override
    protected void onResume() {
       super.onResume();
       Log.d(msg, "The onResume() event");
    }
+
    /** Called when another activity is taking focus. */
    @Override
    protected void onPause() {
       super.onPause();
       Log.d(msg, "The onPause() event");
    }
+
    /** Called when the activity is no longer visible. */
    @Override
    protected void onStop() {
       super.onStop();
       Log.d(msg, "The onStop() event");
    }
+
    /** Called just before the activity is destroyed. */
    @Override
    public void onDestroy() {
       super.onDestroy();
       Log.d(msg, "The onDestroy() event");
    }
+
    // Save /STore State - https://inthecheesefactory.com/blog/fragment-state-saving-best-practices/en
    // These variable are destroyed along with Activity
    private int someVarA;
    private String someVarB;
+
    @Override
    protected void onSaveInstanceState(Bundle outState) {
        super.onSaveInstanceState(outState);
@@ -211,6 +216,7 @@ public class MainActivity extends Activity {
        outState.putString("someVarB", someVarB);
        Log.d(msg, "The onSaveInstanceState() event");
    }
+
    @Override
    protected void onRestoreInstanceState(Bundle savedInstanceState) {
        super.onRestoreInstanceState(savedInstanceState);
@@ -218,6 +224,7 @@ public class MainActivity extends Activity {
        someVarB = savedInstanceState.getString("someVarB");
        Log.d(msg, "The onRestoreInstanceState() event");
    }
+
    // onNewIntent() is meant as entry point for singleTop activities which already run somewhere else in the stack and therefore can't call onCreate()
    @Override
     protected void onNewIntent(Intent intent) {
@@ -225,6 +232,7 @@ public class MainActivity extends Activity {
         // getIntent() should always return the most recent
         setIntent(intent);
     }
+
     // Run time Permission
     private void askPermission(){
       if (Build.VERSION.SDK_INT &gt; Build.VERSION_CODES.LOLLIPOP_MR1) {
@@ -237,6 +245,7 @@ public class MainActivity extends Activity {
         proceedAfterPermission();
       }
     }
+
     private boolean checkIfAlreadyhavePermission() {
         int result = ContextCompat.checkSelfPermission(this, Manifest.permission.GET_ACCOUNTS);
         if (result == PackageManager.PERMISSION_GRANTED) {
@@ -245,9 +254,11 @@ public class MainActivity extends Activity {
             return false;
         }
     }
+
     private void requestForSpecificPermission() {
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.GET_ACCOUNTS, Manifest.permission.RECEIVE_SMS, Manifest.permission.READ_SMS, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 101);
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
@@ -262,6 +273,7 @@ public class MainActivity extends Activity {
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -272,10 +284,12 @@ public class MainActivity extends Activity {
             }
         }
     }
+
     private void proceedAfterPermission() {
         txtPermissions.setText("We've got all permissions");
         Toast.makeText(getBaseContext(), "We got All Permissions", Toast.LENGTH_LONG).show();
     }
+
     @Override
     protected void onPostResume() {
         super.onPostResume();
@@ -286,11 +300,11 @@ public class MainActivity extends Activity {
             }
         }
     }
+
 }
 </div>
 <div class='x3'>You need to add permission String in the menifest.</div>
-<div class='code'>
-&lt;uses-permission android:name="android.permission.CAMERA" /&gt;
+<div class='code'>&lt;uses-permission android:name="android.permission.CAMERA" /&gt;
 &lt;uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /&gt;
 &lt;uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /&gt;
 </div>
@@ -312,8 +326,7 @@ public class MainActivity extends Activity {
 <ol>
 <li>First Create a Service Calss.</li>
 </ol>
-<div class='code'>
-import android.app.Service;
+<div class='code'>import android.app.Service;
 import android.os.IBinder;
 import android.content.Intent;
 import android.os.Bundle;
@@ -321,14 +334,19 @@ import android.widget.Toast;
 public class HelloService extends Service {
    /** indicates how to behave if the service is killed */
    int mStartMode;
+
    /** interface for clients that bind */
    IBinder mBinder;
+
    /** indicates whether onRebind should be used */
    boolean mAllowRebind;
+
    /** Called when the service is being created. */
    @Override
    public void onCreate() {
+
    }
+
    /** The service is starting, due to a call to startService() */
    @Override
    public int onStartCommand(Intent intent, int flags, int startId) {
@@ -336,20 +354,24 @@ public class HelloService extends Service {
       Toast.makeText(this, "Service Started", Toast.LENGTH_LONG).show();
       return START_STICKY;
    }
+
    /** A client is binding to the service with bindService() */
    @Override
    public IBinder onBind(Intent intent) {
       return mBinder;
    }
+
    /** Called when all clients have unbound with unbindService() */
    @Override
    public boolean onUnbind(Intent intent) {
       return mAllowRebind;
    }
+
    /** Called when a client is binding to the service with bindService()*/
    @Override
    public void onRebind(Intent intent) {
    }
+
    /** Called when The service is no longer used and is being destroyed */
    @Override
    public void onDestroy() {
@@ -359,16 +381,18 @@ public class HelloService extends Service {
 }
 </div>
 <div class='x3'>Step 2: Activity can start or stop Service as below:</div>
-<div class='code'>
-import android.content.Intent;
+<div class='code'>import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.util.Log;
 import android.view.View;
+
 public class MainActivity extends Activity {
    String msg = "Android : ";
+
    /** Called when the activity is first created. */
    @Override
    public void onCreate(Bundle savedInstanceState) {
@@ -376,9 +400,11 @@ public class MainActivity extends Activity {
       setContentView(R.layout.activity_main);
       Log.d(msg, "The onCreate() event");
    }
+
    public void startService(View view) {
       startService(new Intent(getBaseContext(), MyService.class));
    }
+
    // Method to stop the service
    public void stopService(View view) {
       stopService(new Intent(getBaseContext(), MyService.class));
@@ -386,8 +412,7 @@ public class MainActivity extends Activity {
 }
 </div>
 <div class='x3'>Step 3: Dont forget to put thease into menufest.</div>
-<div class='code'>
-&lt;?xml version="1.0" encoding="utf-8"?&gt;
+<div class='code'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
 &lt;manifest xmlns:android="http://schemas.android.com/apk/res/android"
    package="com.example.tutorialspoint7.myapplication"&gt;
    &lt;application
@@ -409,14 +434,14 @@ public class MainActivity extends Activity {
 <div class='x3'>We have another kind of service call intent servivce: The Service can be used in tasks with no UI, but shouldn't be too long. If you need to perform long tasks, you must use threads within Service. The IntentService can be used in long tasks usually with no communication to Main Thread. If communication is required, can use Main Thread handler or broadcast intents. Another case of use is when callbacks are needed.</div>
 <div class='x3'>Below example shows an Intent Service and a comminucation from service to Activity.</div>
 <div class='x3'>Step1: Let;s have the service here.</div>
-<div class='code'>
-import android.app.IntentService;
+<div class='code'>import android.app.IntentService;
 import android.content.Intent;
 public class CashbackIntentService extends IntentService{
     final static String CASHBACK_INFO = "cashback_info";
     public CashbackIntentService() {
         super("Cashback IntentService");
     }
+
     @Override
     protected void onHandleIntent(Intent intent) {
         String cb_category = intent.getStringExtra("cashback_cat");
@@ -445,8 +470,7 @@ public class CashbackIntentService extends IntentService{
 }
 </div>
 <div class='x3'>Step2: Let;s have the activity and Have a Broadcast Receiver.</div>
-<div class='code'>
-import android.content.BroadcastReceiver;
+<div class='code'>import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -455,6 +479,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+
 public class IntentServiceActivity extends AppCompatActivity {
     private CashbackReciver cashbackReciver;
     @Override
@@ -469,12 +494,14 @@ public class IntentServiceActivity extends AppCompatActivity {
         super.onStop();
         unregisterReceiver(cashbackReciver);
     }
+
     public void startCashbackService(View view){
         Intent cbIntent =  new Intent();
         cbIntent.setClass(this, CashbackIntentService.class);
         cbIntent.putExtra("cashback_cat", "SomeText");
         startService(cbIntent);
     }
+
     private void registerCashbackReceiver(){
         cashbackReciver = new CashbackReciver();
         IntentFilter intentFilter = new IntentFilter();
@@ -538,8 +565,7 @@ public class IntentServiceActivity extends AppCompatActivity {
 <li>Fragments can contain nested child fragments as outlined here</li>
 </ol>
 <div class='x3'>First, let;s define a xml file which will be render as a part of fragemnts</div>
-<div class='code'>
-&lt;?xml version="1.0" encoding="utf-8"?&gt;
+<div class='code'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
 &lt;LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
     android:orientation="vertical" &gt;
@@ -556,8 +582,7 @@ public class IntentServiceActivity extends AppCompatActivity {
 &lt;/LinearLayout&gt;
 </div>
 <div class='x3'>Second, Let's define the Fragment class which influate the view in xmlns</div>
-<div class='code'>
-import android.support.v4.app.Fragment;
+<div class='code'>import android.support.v4.app.Fragment;
 public class FooFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
@@ -571,8 +596,7 @@ public class FooFragment extends Fragment {
 }
 </div>
 <div class='x3'>Thirds, Now we can add the fragemnts inside activity layout as</div>
-<div class='code'>
-&lt;?xml version="1.0" encoding="utf-8"?&gt;
+<div class='code'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
 &lt;LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -585,8 +609,7 @@ public class FooFragment extends Fragment {
 &lt;/LinearLayout&gt;
 </div>
 <div class='x3'>OR</div>
-<div class='code'>
-&lt;?xml version="1.0" encoding="utf-8"?&gt;
+<div class='code'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
 &lt;LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -599,8 +622,7 @@ public class FooFragment extends Fragment {
 &lt;/LinearLayout&gt;
 </div>
 <div class='x3'>Forth, This can now refer by Activity( if it is statically linked) or can be loaded dynamically using FragmentManager. We can lookup fragments either using ID or TAG or Pagers</div>
-<div class='code'>
-public class MainActivity extends AppCompatActivity {
+<div class='code'>public class MainActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -608,6 +630,7 @@ public class MainActivity extends AppCompatActivity {
           // Look up by ID.
           DemoFragment fragmentDemo = (DemoFragment)
               getSupportFragmentManager().findFragmentById(R.id.fragmentDemo);
+
           //ADD THE TAG
           getSupportFragmentManager().beginTransaction().
               replace(R.id.flContainer, new DemoFragment(), "SOMETAG").
@@ -615,8 +638,10 @@ public class MainActivity extends AppCompatActivity {
           // Now later we can lookup the fragment by tag
           DemoFragment fragmentDemo = (DemoFragment)
               getSupportFragmentManager().findFragmentByTag("SOMETAG");
+
           // If you have view pager do this like.
           adapterViewPager.getRegisteredFragment(0);
+
           // Add Fragemnts Dynamically: It;s a three step procress.
           FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
           ft.replace(R.id.your_placeholder, new FooFragment());
@@ -626,8 +651,7 @@ public class MainActivity extends AppCompatActivity {
 }
 </div>
 <div class='x3'>Fifth, Let;s pass some data to the fragment while creating, generally It can be done using static method. This is because a Fragment must have only a constructor with no arguments.</div>
-<div class='code'>
-public class DemoFragment extends Fragment {
+<div class='code'>public class DemoFragment extends Fragment {
     // Creates a new fragment given an int and title
     // DemoFragment.newInstance(5, "Hello");
     public static DemoFragment newInstance(int someInt, String someTitle) {
@@ -658,8 +682,7 @@ public class MainActivity extends AppCompatActivity {
 }
 </div>
 <div class='x3'>Let's define a fragemnt and pass the data on runtime.</div>
-<div class='code'>
-// Have Fragment
+<div class='code'>// Have Fragment
 public class DemoFragment extends Fragment {
   public void doSomething(String param) {
       // handle this data.
@@ -677,13 +700,14 @@ public class MainActivity extends AppCompatActivity {
 }
 </div>
 <div class='x3'>Now, Let;s try to pass some data from fragemnt to Activity.</div>
-<div class='code'>
-import android.support.v4.app.Fragment;
+<div class='code'>import android.support.v4.app.Fragment;
 public class MyListFragment extends Fragment {
   private OnItemSelectedListener listener;
+
   public interface OnItemSelectedListener {
     public void onItemSelected(String link);
   }
+
   // Store the listener (activity) that will have events fired once the fragment is attached
   @Override
   public void onAttach(Context context) {
@@ -695,6 +719,7 @@ public class MyListFragment extends Fragment {
             + " must implement MyListFragment.OnItemSelectedListener");
       }
   }
+
   public void onSomeClick(View v) {
      listener.onItemSelected("some link");
   }
@@ -709,6 +734,7 @@ public class RssfeedActivity extends AppCompatActivity implements MyListFragment
         setContentView(R.layout.activity_rssfeed);
         fragment = (DetailFragment) getSupportFragmentManager() .findFragmentById(R.id.detailFragment);
   }
+
   @Override
   public void onItemSelected(String link) {
       if (fragment != null && fragment.isInLayout()) {
@@ -730,17 +756,18 @@ public class RssfeedActivity extends AppCompatActivity implements MyListFragment
 <div class='code'>
 </div>
 <div class='x3'>Using fragmen, it is possible to customize the backStack operation. A record of all Fragment transactions is kept for each Activity by the FragmentManager. When used properly, this allows the user to hit the device’s back button to remove previously added Fragments.</div>
-<div class='code'>
-//add to backStack
+<div class='code'>//add to backStack
 FragmentTransaction fts = getSupportFragmentManager().beginTransaction();
 fts.replace(R.id.flContainer, new FirstFragment());
 fts.addToBackStack("optional_tag");
 fts.commit();
+
 // Just remove the lastly added.
 FragmentManager fragmentManager = getSupportFragmentManager();
 if (fragmentManager.getBackStackEntryCount() &gt; 0) {
     fragmentManager.popBackStack();
 }
+
 //Just go back to specif TAG
 FragmentManager fragmentManager = getSupportFragmentManager();
 if (fragmentManager.getBackStackEntryCount() &gt; 0) {
@@ -748,10 +775,10 @@ if (fragmentManager.getBackStackEntryCount() &gt; 0) {
 }
 </div>
 <div class='x3'>We can easily show/hide the fragemnt then calling replaces - This can be good because this will release memory and make the UI snappier. For example :</div>
-<div class='code'>
-private FragmentA fragmentA;
+<div class='code'>private FragmentA fragmentA;
 private FragmentB fragmentB;
 private FragmentC fragmentC;
+
 @Override
 protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -762,6 +789,7 @@ protected void onCreate(Bundle savedInstanceState) {
         fragmentC = FragmentC.newInstance("baz");
     }
 }
+
 // NOT so good
 protected void displayFragmentA() {
     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -769,6 +797,7 @@ protected void displayFragmentA() {
     ft.replace(R.id.flContainer, fragmentA);
     ft.commit();
 }
+
 // Better
 protected void displayFragmentA() {
     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -788,8 +817,7 @@ protected void displayFragmentA() {
 <div class='x2' id='hashid16'>Executing Async Jobs in android.</div>
 <div class='x2' id='hashid17'>WebSocket Support to Android</div>
 <div class='x3'>Step1: Let's consider the below example for build the server.</div>
-<div class='code'>
-const WebSocket = require('ws');
+<div class='code'>const WebSocket = require('ws');
 const wss = new WebSocket.Server({ port: 8080 });
 wss.on('connection', function connection(ws) {
   ws.on('message', function incoming(message) {
@@ -797,12 +825,12 @@ wss.on('connection', function connection(ws) {
   });
   ws.send('something');
 });
+
 // Store this as server.js file.
 // $node server.js
 </div>
 <div class='x3'>Step2: Let's test the code from sample HTML</div>
-<div class='code'>
-&lt;!DOCTYPE html&gt;
+<div class='code'>&lt;!DOCTYPE html&gt;
 &lt;html&gt;
 &lt;head&gt;
 	&lt;meta charset="utf-8"&gt;
@@ -843,15 +871,16 @@ wss.on('connection', function connection(ws) {
 <div class='code'>
 </div>
 <div class='x3'>Step 4: Now we we just have the  fun. You can go the device setting -> personal -> languages -> choose language and You will see the language of the app has chnages. We can do it programitically as below:</div>
-<div class='code'>
-import android.app.Activity;
+<div class='code'>import android.app.Activity;
 import android.content.res.Configuration;
 import android.os.Bundle;
+
 public class Main extends Activity {
   /** Called when the activity is first created. */
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+
     String languageToLoad  = "fa"; // your language "hi" for hindi and "en" for english
     Locale locale = new Locale(languageToLoad);
     Locale.setDefault(locale);
@@ -873,8 +902,7 @@ public class Main extends Activity {
 }
 </div>
 <div class='x3'>Step 5: You can persisit the language choice for the app as below:</div>
-<div class='code'>
-public class BaseActivity extends AppCompatActivity {
+<div class='code'>public class BaseActivity extends AppCompatActivity {
     private Locale mCurrentLocale;
     @Override
     protected void onStart() {
@@ -959,14 +987,15 @@ public class App extends Application {
 <tr><td>res/layout-xlarge/main_activity.xml</td><td>For large tablets (960dp x 720dp and bigger)</td></tr>
 </table>
 <div class='x3'>You could also use layout alias. It can be defined all files inside layout, however, we can distrigushed the by having differnet values file.</div>
-<div class='code'>
-res/layout/main.xml            # single-pane layout
+<div class='code'>res/layout/main.xml            # single-pane layout
 res/layout/main_twopanes.xml   # two-pane layout
+
 And add these two files:
 res/values-large/layout.xml:
 &lt;resources&gt;
     &lt;item name="main" type="layout"&gt;@layout/main_twopanes&lt;/item&gt;
 &lt;/resources&gt;
+
 res/values-sw600dp/layout.xml:
 &lt;resources&gt;
     &lt;item name="main" type="layout"&gt;@layout/main_twopanes&lt;/item&gt;
@@ -974,35 +1003,40 @@ res/values-sw600dp/layout.xml:
 </div>
 <div class='x2' id='hashid21'>Supporting different button width for diffent devices.</div>
 <div class='x3'>You must understand the diff betwen dip and sp. Yhen you specify spacing between two views, use dp and When specifying text size, always use sp:</div>
-<div class='code'>
-&lt;Button android:layout_width="wrap_content"
+<div class='code'>&lt;Button android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:text="@string/clickme"
     android:layout_marginTop="20dp" /&gt;
+
+
 &lt;TextView android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:textSize="20sp" /&gt;
 </div>
 <div class='x3'>For example, You have a button view and You would like to have multiple dimention for this button for multiple devices. How to do that? Let's creates values folders and a dimens files in each folder. Based on your requirement you can give padding or any dimen values. As you  given, you should give same name for dimen in all the folders. Android will  automatically pick the dimen value based on your screen size.</div>
-<div class='code'>
-&lt;textView
+<div class='code'>&lt;textView
   android:padding="@dimen/padding_1
   /&gt;
+
 values/dimens.xml
 &lt;dimen name="padding_1"&gt;5dp&lt;/dimen&gt;
+
 values-sw360dp/dimens.xml
 &lt;dimen name="padding_1"&gt;5dp&lt;/dimen&gt;
+
 values-sw480dp/dimens.xml
 &lt;dimen name="padding_1"&gt;8dp&lt;/dimen&gt;
+
 values-sw600dp/dimens.xml
 &lt;dimen name="padding_1"&gt;10dp&lt;/dimen&gt;
+
 values-sw720dp/dminen.xml
 &lt;dimen name="padding_1"&gt;13dp&lt;/dimen&gt;
+
 </div>
 <div class='x2' id='hashid22'>Supporting multiple images</div>
 <div class='x3'>When you want to use image, you must provides the below variabtion:</div>
-<div class='code'>
-res/
+<div class='code'>res/
   drawable-xxxhdpi/
     awesome-image.png
   drawable-xxhdpi/
@@ -1027,21 +1061,22 @@ res/
 <div class='x1' id='hashid23'>Android Networking</div>
 <div class='x2' id='hashid24'>Connecting websocket</div>
 <div class='x3'>WebSocket providing full-duplex communication channels over a single TCP connection. It is supported in HTML 5. Since the version 3.5 of the OkHttp library, you can also use WebSockets connection in your Android applications. Let's try to use it.</div>
-<div class='code'>
-Step1: Add Dependency
+<div class='code'>Step1: Add Dependency
 compile 'com.squareup.okhttp3:okhttp:3.6.0'
 </div>
 <div class='x3'>Step2:</div>
 <div class='x3'>package in.co.dipankar.quickandorid.utils;</div>
-<div class='code'>
-package in.co.dipankar.quickandorid.utils;
+<div class='code'>package in.co.dipankar.quickandorid.utils;
+
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
 import okio.ByteString;
+
 public class WSUtils {
+
     private String mUrl;
     private OkHttpClient mClient;
     public interface Callback{
@@ -1052,6 +1087,7 @@ public class WSUtils {
     }
     private  WebSocket mWebSocket;
     private Callback mCallback;
+
     public  WSUtils(String url, Callback callback){
         mUrl = url;
         mCallback = callback;
@@ -1067,34 +1103,41 @@ public class WSUtils {
                 mCallback.onConnected();
                 mWebSocket = webSocket;
             }
+
             @Override
             public void onMessage(WebSocket webSocket, String text) {
                 super.onMessage(webSocket, text);
                 mCallback.onMessage(text);
             }
+
             @Override
             public void onMessage(WebSocket webSocket, ByteString bytes) {
                 super.onMessage(webSocket, bytes);
                 mCallback.onMessage(bytes.toString());
             }
+
             @Override
             public void onClosing(WebSocket webSocket, int code, String reason) {
                 super.onClosing(webSocket, code, reason);
                 mWebSocket.close(1, null);
                 mWebSocket = null;
             }
+
             @Override
             public void onClosed(WebSocket webSocket, int code, String reason) {
                 super.onClosed(webSocket, code, reason);
                 mCallback.onDisconnected();
             }
+
             @Override
             public void onFailure(WebSocket webSocket, Throwable t, Response response) {
                 super.onFailure(webSocket, t, response);
                 mCallback.onError();
             }
         });
+
     }
+
     public boolean sendMessage(String message){
         if(mWebSocket != null){
             mWebSocket.send(message);
@@ -1104,6 +1147,7 @@ public class WSUtils {
             return false;
         }
     }
+
     public boolean connect(){
         return true;
     }
@@ -1118,21 +1162,24 @@ public class WSUtils {
 }
 </div>
 <div class='x3'>Step 3: Here is how it can be used form your activity:</div>
-<div class='code'>
-private void testWebSocket() {
+<div class='code'>private void testWebSocket() {
     WSUtils ws = new WSUtils("ws://echo.websocket.org", new WSUtils.Callback(){
+
         @Override
         public void onConnected() {
             DLog.e("WS onConnected");
         }
+
         @Override
         public void onDisconnected() {
             DLog.e("WS onDisconnected");
         }
+
         @Override
         public void onMessage(String message) {
             DLog.e("WS onMessage");
         }
+
         @Override
         public void onError() {
             DLog.e("WS onError");
@@ -1144,22 +1191,26 @@ private void testWebSocket() {
 </div>
 <div class='x2' id='hashid25'>Simple Network Calls to parse JSON.</div>
 <div class='x3'>Similar to web socket, we can have our simple network Module to send web request as given as example.</div>
-<div class='code'>
-    compile 'com.squareup.okhttp3:okhttp:3.2.0'
+<div class='code'>    compile 'com.squareup.okhttp3:okhttp:3.2.0'
 </div>
 <div class='x3'>Step2: Now you have some simple Utils class like this:</div>
-<div class='code'>
-package in.co.dipankar.quickandorid.utils;
+<div class='code'>package in.co.dipankar.quickandorid.utils;
+
+
 import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.Map;
+
 import okhttp3.Call;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+
 public class HTTPUtils {
+
     public interface  Callback{
         public void onBeforeSend();
         public void onSuccess(JSONObject obj);
@@ -1169,6 +1220,7 @@ public class HTTPUtils {
     public HTTPUtils(){
         mClient = new OkHttpClient();
     }
+
     public boolean get(String url, final Callback callback){
         Request request = new Request.Builder()
                 .url(url)
@@ -1199,6 +1251,7 @@ public class HTTPUtils {
         });
         return true;
     }
+
     public boolean post(String url, Map&lt;String, String&gt; data, final  Callback callback){
         JSONObject json = new JSONObject();
         if(data!= null) {
@@ -1222,6 +1275,7 @@ public class HTTPUtils {
                     callback.onError(e.toString());
                 }
             }
+
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if (callback != null) {
@@ -1241,14 +1295,14 @@ public class HTTPUtils {
 }
 </div>
 <div class='x3'>Step3: He is how you can call thease utils from your android Activity or from whatever you want:</div>
-<div class='code'>
-    private void testHTTPUtils() {
+<div class='code'>    private void testHTTPUtils() {
         HTTPUtils httpUtils = new HTTPUtils();
         httpUtils.get("http://simplestore.dipankar.co.in/api/test", new HTTPUtils.Callback() {
             @Override
             public void onBeforeSend() {
                 DLog.e("HTTPUtils onBeforeSend");
             }
+
             @Override
             public void onSuccess(JSONObject obj)  {
                 try {
@@ -1257,11 +1311,13 @@ public class HTTPUtils {
                     e.printStackTrace();
                 }
             }
+
             @Override
             public void onError(String msg) {
                 DLog.e("HTTPUtils onError");
             }
         });
+
         Map&lt;String, String&gt; data = new HashMap&lt;&gt;();
         data.put("name", "dipankar");
         httpUtils.post("http://simplestore.dipankar.co.in/api/test", data, new HTTPUtils.Callback() {
@@ -1269,6 +1325,7 @@ public class HTTPUtils {
             public void onBeforeSend() {
                 DLog.e("HTTPUtils onBeforeSend");
             }
+
             @Override
             public void onSuccess(JSONObject obj)  {
                 try {
@@ -1277,6 +1334,7 @@ public class HTTPUtils {
                     e.printStackTrace();
                 }
             }
+
             @Override
             public void onError(String msg) {
                 DLog.e("HTTPUtils onError");
@@ -1285,8 +1343,7 @@ public class HTTPUtils {
     }
 </div>
 <div class='x3'>Synchronous Get</div>
-<div class='code'>
-    OkHttpClient client = new OkHttpClient();
+<div class='code'>    OkHttpClient client = new OkHttpClient();
 Request request = new Request.Builder()
   .url("http://www.ssaurel.com/tmp/toto.txt")
   .build();
@@ -1305,8 +1362,7 @@ for (int i = 0; i &lt; responseHeaders.size(); i++) {
 Log.i(response.body().string());
 </div>
 <div class='x3'>Aync Get Request</div>
-<div class='code'>
-    OkHttpClient client = new OkHttpClient();
+<div class='code'>    OkHttpClient client = new OkHttpClient();
 Request request = new Request.Builder()
   .url("http://www.ssaurel.com/tmp/toto.txt")
   .build();
@@ -1331,8 +1387,8 @@ client.newCall(request).enqueue(new Callback() {
 });
 </div>
 <div class='x3'>Accessing headers</div>
-<div class='code'>
-    private final OkHttpClient client = new OkHttpClient();
+<div class='code'>    private final OkHttpClient client = new OkHttpClient();
+
   public void run() throws Exception {
     Request request = new Request.Builder()
         .url("https://api.github.com/repos/square/okhttp/issues")
@@ -1340,8 +1396,10 @@ client.newCall(request).enqueue(new Callback() {
         .addHeader("Accept", "application/json; q=0.5")
         .addHeader("Accept", "application/vnd.github.v3+json")
         .build();
+
     try (Response response = client.newCall(request).execute()) {
       if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+
       System.out.println("Server: " + response.header("Server"));
       System.out.println("Date: " + response.header("Date"));
       System.out.println("Vary: " + response.headers("Vary"));
@@ -1349,8 +1407,7 @@ client.newCall(request).enqueue(new Callback() {
   }
 </div>
 <div class='x3'>POST jSON Request</div>
-<div class='code'>
-public static final MediaType JSON
+<div class='code'>public static final MediaType JSON
 = MediaType.parse("application/json; charset=utf-8");
 OkHttpClient client = new OkHttpClient();
 String url = "http://www.ssaurel.com/tmp/jsonService";
@@ -1371,25 +1428,29 @@ Response response = client.newCall(request).enqueue(new Callback() {
 });
 </div>
 <div class='x3'>Posting a file</div>
-<div class='code'>
-ublic static final MediaType MEDIA_TYPE_MARKDOWN
+<div class='code'>ublic static final MediaType MEDIA_TYPE_MARKDOWN
       = MediaType.parse("text/x-markdown; charset=utf-8");
+
   private final OkHttpClient client = new OkHttpClient();
+
   public void run() throws Exception {
     File file = new File("README.md");
+
     Request request = new Request.Builder()
         .url("https://api.github.com/markdown/raw")
         .post(RequestBody.create(MEDIA_TYPE_MARKDOWN, file))
         .build();
+
     try (Response response = client.newCall(request).execute()) {
       if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+
       System.out.println(response.body().string());
     }
   }
 </div>
 <div class='x3'>Post Request with form params</div>
-<div class='code'>
-    private final OkHttpClient client = new OkHttpClient();
+<div class='code'>    private final OkHttpClient client = new OkHttpClient();
+
   public void run() throws Exception {
     RequestBody formBody = new FormBody.Builder()
         .add("search", "Jurassic Park")
@@ -1398,24 +1459,27 @@ ublic static final MediaType MEDIA_TYPE_MARKDOWN
         .url("https://en.wikipedia.org/w/index.php")
         .post(formBody)
         .build();
+
     try (Response response = client.newCall(request).execute()) {
       if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+
       System.out.println(response.body().string());
     }
   }
 </div>
 <div class='x3'>OKHTTP Cacheing</div>
-<div class='code'>
-    int cacheSize = 10 * 1024 * 1024; // 10MB
+<div class='code'>    int cacheSize = 10 * 1024 * 1024; // 10MB
 OkHttpClient.Builder builder = new OkHttpClient.Builder()
         .cache(new Cache(context.getCacheDir(), cacheSize)
         ....
+
 new Request.Builder().cacheControl(CacheControl.FORCE_CACHE)
     ...;
+
 </div>
 <div class='x3'>Handing Timeouts for all calls</div>
-<div class='code'>
-    private final OkHttpClient client;
+<div class='code'>    private final OkHttpClient client;
+
   public ConfigureTimeouts() throws Exception {
     client = new OkHttpClient.Builder()
         .connectTimeout(10, TimeUnit.SECONDS)
@@ -1423,22 +1487,25 @@ new Request.Builder().cacheControl(CacheControl.FORCE_CACHE)
         .readTimeout(30, TimeUnit.SECONDS)
         .build();
   }
+
   public void run() throws Exception {
     Request request = new Request.Builder()
         .url("http://httpbin.org/delay/2") // This URL is served with a 2 second delay.
         .build();
+
     try (Response response = client.newCall(request).execute()) {
       System.out.println("Response completed: " + response);
     }
   }
 </div>
 <div class='x3'>Handing Timeouts for each call</div>
-<div class='code'>
-    private final OkHttpClient client = new OkHttpClient();
+<div class='code'>    private final OkHttpClient client = new OkHttpClient();
+
   public void run() throws Exception {
     Request request = new Request.Builder()
         .url("http://httpbin.org/delay/1") // This URL is served with a 1 second delay.
         .build();
+
     // Copy to customize OkHttp for this request.
     OkHttpClient client1 = client.newBuilder()
         .readTimeout(500, TimeUnit.MILLISECONDS)
@@ -1448,6 +1515,7 @@ new Request.Builder().cacheControl(CacheControl.FORCE_CACHE)
     } catch (IOException e) {
       System.out.println("Response 1 failed: " + e);
     }
+
     // Copy to customize OkHttp for this request.
     OkHttpClient client2 = client.newBuilder()
         .readTimeout(3000, TimeUnit.MILLISECONDS)
@@ -1461,39 +1529,45 @@ new Request.Builder().cacheControl(CacheControl.FORCE_CACHE)
 </div>
 <div class='x2' id='hashid26'>Having HTTP server inside android App</div>
 <div class='x3'>Step1: Add Dependency</div>
-<div class='code'>
-    compile 'org.nanohttpd:nanohttpd:2.2.0'
+<div class='code'>    compile 'org.nanohttpd:nanohttpd:2.2.0'
 </div>
 <div class='x3'>Write your own Server Utils</div>
-<div class='code'>
-package in.co.dipankar.quickandorid.utils;
+<div class='code'>package in.co.dipankar.quickandorid.utils;
+
 import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.Map;
 import fi.iki.elonen.NanoHTTPD;
+
 public class HttpdUtils extends NanoHTTPD {
     public interface Result{
         public String getStatus();
         public String getData();
     }
+
     public interface Callback{
         public Result Handle(String key);
         public void onSuccess(String msg);
         public void onError(String msg);
     }
+
     private Callback mCallback;
     public HttpdUtils(Callback callback) {
         super(8081);
         mCallback = callback;
         this.start();
     }
+
     @Override public Response serve(IHTTPSession session) {
         Method method = session.getMethod();
         String uri = session.getUri();
         System.out.println(method + " '" + uri + "' ");
         Result result = mCallback.Handle(uri);
+
         return NanoHTTPD.newFixedLengthResponse(result.getData());
     }
+
     @Override
     public void start(){
         try {
@@ -1504,6 +1578,7 @@ public class HttpdUtils extends NanoHTTPD {
             mCallback.onError("Not able start");
         }
     }
+
     @Override
     public void stop(){
         super.stop();
@@ -1513,28 +1588,30 @@ public class HttpdUtils extends NanoHTTPD {
 </div>
 <div class='x3'>Now when you start your app the server will start</div>
 <div class='x3'>Is my server is runing :</div>
-<div class='code'>
-$ adb shell
+<div class='code'>$ adb shell
 $ generic_x86:/ # lsof  -l | grep 8081 
 kandroide 24907      10088   54u     IPv6                          0t0    1569923 TCP []:8081-&gt;[]:0 (LISTEN) 
 </div>
 <div class='x3'>Now connect it from your host and Hit the BOX</div>
-<div class='code'>
-$ adb forward tcp:8081 tcp:8081
+<div class='code'>$ adb forward tcp:8081 tcp:8081
 $ curl http://localhost:8081/gsf
 </div>
 <div class='x3'>With this infra, we can build our own App Automation and App helper to execute any code for debugging, Let's consider the below Remote Debugger which allows us to set and get the Pref from your laptop.</div>
-<div class='code'>
-    package in.co.dipankar.quickandorid.utils;
+<div class='code'>    package in.co.dipankar.quickandorid.utils;
+
 import android.content.Context;
 import android.content.SharedPreferences;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+
 import static android.content.Context.MODE_PRIVATE;
+
 public class RemoteDebug {
     private HttpdUtils mHttpdUtils;
     private Context mContext;
+
     public RemoteDebug(Context context){
         mContext = context;
         mHttpdUtils = new HttpdUtils(8081, new HttpdUtils.Callback() {
@@ -1548,10 +1625,12 @@ public class RemoteDebug {
                         return getPerf(data);
                     default:
                         return "Invalid command Sent!\n";
+
                 }
             }
             @Override
             public void onSuccess(String msg) {}
+
             @Override
             public void onError(String msg) {}
         });
@@ -1574,6 +1653,7 @@ public class RemoteDebug {
                 editor.putInt(tokens.get(1), Integer.parseInt(tokens.get(2)));
                 editor.apply();
                 return "Set Successfully";
+
         }
         return "Not able to set the shared pref";
     }
@@ -1586,26 +1666,27 @@ public class RemoteDebug {
             return "Less args sent";
         }
         SharedPreferences prefs = mContext.getSharedPreferences("test", MODE_PRIVATE);
+
         switch(tokens.get(0)){
             case "S":
                 return prefs.getString(tokens.get(1),"null");
             case "I":
                 int x =  prefs.getInt(tokens.get(1),-1);
                 return x+"";
+
         }
         return "Not able to get the shared pref";
     }
 }
+
 </div>
 <div class='x3'>From Activity, You needs to initilized this:</div>
-<div class='code'>
-    private void testRemoteDebuging() {
+<div class='code'>    private void testRemoteDebuging() {
     RemoteDebug remoteDebug = new RemoteDebug(this);
 }
 </div>
 <div class='x3'>Ans how it can be used:</div>
-<div class='code'>
-dip-pro:books dip$ curl http://localhost:8081/getPref?data=I%20me%2010
+<div class='code'>dip-pro:books dip$ curl http://localhost:8081/getPref?data=I%20me%2010
 10
 dip-pro:books dip$ curl http://localhost:8081/setPref?data=I%20me%20100
 Set Successfully

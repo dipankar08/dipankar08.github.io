@@ -190,12 +190,13 @@ while index < len(content):
         if not code_start and not num_start and not block_start :
             output.append("<div class='x3'>"+line.strip()+"</div>")
         else:
-            if line.strip():
-                output.append(es(line.replace("\n", "")))
+            output.append(es(line.replace("\n", "")))
     # Update index
     index = index + 1
 
 output = "\n".join(output)
+# Fix : Rempve leading line after the code
+output = output.replace("<div class='code'>\n","<div class='code'>")
 html  = Template(TEMPLATE).substitute({'CONTENT':output,'MENU':menu})
 FILE_NAME = fname+".html"
 #os.chmod(FILE_NAME, stat.S_IWRITE|stat.S_IWGRP|stat.S_IWOTH)
