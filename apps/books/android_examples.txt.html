@@ -41,7 +41,7 @@
     }
     .middle { }
     .top .t { padding: 10px; margin-right:10px}
-    .left {position:fixed;left: 0px;top: 50px;padding:5px;width: 300px;height: 100%; display:none;overflow: auto;border-right: 1px solid #575757;}
+    .left {position:fixed;left: 0px;top: 50px;padding:5px;width: 300px;height: calc(100% - 60px); display:none;overflow: auto;border-right: 1px solid #575757;}
     .right{max-width: 800px; margin: 10px auto;padding:15px; margin-top:50px}
 
     a {display: block;font-family: 'Source Sans Pro', sans-serif; text-decoration: none; margin-bottom: 8px;}
@@ -84,7 +84,7 @@
     </span>
 </div>
 <div class="middle">
-    <div class="left" style=""><a class='a1' href='#hashid1'+>Andorid components</a><a class='a2' href='#hashid2'+>Android Simple Activity</a><a class='a2' href='#hashid3'+>Activity Life Cycle Callback</a><a class='a2' href='#hashid4'+>Android Services Templates</a><a class='a2' href='#hashid5'+>Android Content Providers</a><a class='a2' href='#hashid6'+>Android Broadcast Receiver</a><a class='a1' href='#hashid7'+>Android UI Designs</a><a class='a2' href='#hashid8'+>Layouts</a><a class='a2' href='#hashid9'+>Controls</a><a class='a2' href='#hashid10'+>Navigations</a><a class='a2' href='#hashid11'+>Dialog and Navigation</a><a class='a2' href='#hashid12'+>Events and Guestures</a><a class='a2' href='#hashid13'+>Android fragments</a><a class='a2' href='#hashid14'+>Executing Async Jobs in android.</a><a class='a2' href='#hashid15'+>WebSocket Support to Android</a><a class='a1' href='#hashid16'+>Support personalize Experice.</a><a class='a2' href='#hashid17'+>Supporting mutiple languages</a><a class='a2' href='#hashid18'+>Supporting seperate layout for differnt devices.</a><a class='a2' href='#hashid19'+>Supporting different button width for diffent devices.</a><a class='a2' href='#hashid20'+>Supporting multiple images</a><a class='a1' href='#hashid21'+>Android Networking</a><a class='a2' href='#hashid22'+>Connecting websocket</a><a class='a2' href='#hashid23'+>Simple Network Calls to parse JSON.</a><a class='a2' href='#hashid24'+>Having HTTP server inside android App</a></div>
+    <div class="left" style=""><a class='a1' href='#hashid1'+>Andorid components</a><a class='a2' href='#hashid2'+>Android Simple Activity</a><a class='a2' href='#hashid3'+>Activity Life Cycle Callback</a><a class='a2' href='#hashid4'+>Android Services Templates</a><a class='a2' href='#hashid5'+>Android Content Providers</a><a class='a2' href='#hashid6'+>Android Broadcast Receiver</a><a class='a1' href='#hashid7'+>Android UI Designs</a><a class='a2' href='#hashid8'+>Layouts</a><a class='a2' href='#hashid9'+>Controls</a><a class='a2' href='#hashid10'+>Navigations</a><a class='a2' href='#hashid11'+>Dialog and Navigation</a><a class='a2' href='#hashid12'+>Events and Guestures</a><a class='a2' href='#hashid13'+>Android fragments</a><a class='a2' href='#hashid14'+>Executing Async Jobs in android.</a><a class='a2' href='#hashid15'+>WebSocket Support to Android</a><a class='a1' href='#hashid16'+>Support personalize Experice.</a><a class='a2' href='#hashid17'+>Supporting mutiple languages</a><a class='a2' href='#hashid18'+>Supporting seperate layout for differnt devices.</a><a class='a2' href='#hashid19'+>Supporting different button width for diffent devices.</a><a class='a2' href='#hashid20'+>Supporting multiple images</a><a class='a1' href='#hashid21'+>Android Networking</a><a class='a2' href='#hashid22'+>Connecting websocket</a><a class='a2' href='#hashid23'+>Simple Network Calls to parse JSON.</a><a class='a2' href='#hashid24'+>Having HTTP server inside android App</a><a class='a1' href='#hashid25'+>Android Performance</a><a class='a2' href='#hashid26'+>Android Thread and process</a></div>
     <div class="right" style=""><div class='x1' id='hashid1'>Andorid components</div>
 <div class='x3'>This tutorials is mainly design for providing templates for android devlopment and helping out my copy-paste efficiency.</div>
 <div class='x2' id='hashid2'>Android Simple Activity</div>
@@ -2336,6 +2336,257 @@ dip-pro:books dip$ curl http://localhost:8081/getPref?data=I%20me%2010
 dip-pro:books dip$ curl http://localhost:8081/setPref?data=I%20me%20100
 Set Successfully
 dip-pro:books dip$ 
+</div>
+<div class='x1' id='hashid25'>Android Performance</div>
+<div class='x2' id='hashid26'>Android Thread and process</div>
+<table>
+<caption>Table: Android Ways to post a Job to UI Threass
+</caption>
+<tr><td>Activity.runOnUiThread(Runnable)</td><td>Post a job from avcativity.</td></tr>
+<tr><td>View.post(Runnable)</td><td>Post a runnable when you have soem async job in View.</td></tr>
+<tr><td>View.postDelayed(Runnable, long)</td><td>Post a Job with a delay.</td></tr>
+<tr><td>Handler + myRunnable</td><td>With</td></tr>
+</table>
+<table>
+<caption>Table: Working on a sparate threads
+</caption>
+<tr><td>Java Thread(Runnable)</td><td>Java Thread</td></tr>
+<tr><td>Android AsyncTask</td><td>It performs the blocking operations in a worker thread and then publishes the results on the UI thread, without requiring you to handle threads and/or handlers yourself.</td></tr>
+<tr><td>Android Hanlder + Lopper</td><td>Android Hanlder</td></tr>
+<tr><td>Android HandlerThread</td><td>Hanlder and Looper Combo.</td></tr>
+<tr><td>Android IntentService</td><td>Andorid IntentSrevices</td></tr>
+<tr><td>Android Loader</td><td>Andorid Apis</td></tr>
+<tr><td>Android JobScheduler</td><td>Andorid Jobs</td></tr>
+<tr><td>Android GcmNetworkManager</td><td>Andorid APIS</td></tr>
+<tr><td>Android AlarmManager</td><td>Android Alerm to setup Jobs</td></tr>
+<tr><td>Java Executor/Thread Pool</td><td>Java Spacific</td></tr>
+<tr><td>Java FutureTask</td><td>Java APIS</td></tr>
+<tr><td>Android CountDownTimer</td><td>Android API</td></tr>
+<tr><td>Java Timer</td><td>Java APIs</td></tr>
+<tr><td>Java ScheduledThreadPoolExecutor</td><td>Java APIs</td></tr>
+</table>
+<div class='x3'>Using Java Threads: Post a Job in backgroud thread and when it is done post the result in UI- Unfortunately, these classes and methods also tend to make your code more complicated and more difficult to read.</div>
+<div class='code'>    public void onClick(View v) {
+  new Thread(new Runnable() {
+    public void run() {
+      final Bitmap b = loadImageFromNetwork();
+      mImageView.post(new Runnable() {
+        public void run() {
+          mImageView.setImageBitmap(b);
+        }
+      });
+    }
+  }).start();
+}
+</div>
+<div class='x3'>Using Async Task: Perhaps the best known of the asynchronous API, AsyncTask is easy to implement and returns results on the main thread</div>
+<ul>
+<li>You can specify the type, using generics, of the parameters, the progress values and the final value of the task</li>
+<li>The method doInBackground() executes automatically on a worker thread</li>
+</ul>
+<div class='x3'>onPreExecute(), onPostExecute() and onProgressUpdate() are all invoked on the UI thread</div>
+<ul>
+<li>The value returned by doInBackground() is sent to onPostExecute()</li>
+</ul>
+<div class='x3'>You can call publishProgress() at anytime in doInBackground() to execute onProgressUpdate() on the UI thread</div>
+<ul>
+<li>You can cancel the task at any time, from any thread</li>
+</ul>
+<div class='code'>    public void onClick(View v) {
+  new DownloadImageTask().execute("http://example.com/image.png");
+}
+
+private class DownloadImageTask extends AsyncTask {
+     protected Bitmap doInBackground(String... urls) {
+         return loadImageFromNetwork(urls[0]);
+     }
+
+     protected void onPostExecute(Bitmap result) {
+         mImageView.setImageBitmap(result);
+     }
+}
+</div>
+<div class='x3'>Anotehr example;</div>
+<div class='code'>    new AsyncTask&lt;URL, Integer, Long&gt;() {
+     protected Long doInBackground(URL... urls) {
+         int count = urls.length;
+         long totalSize = 0;
+         for (int i = 0; i &lt; count; i++) {
+             totalSize += Downloader.downloadFile(urls[i]);
+             publishProgress((int) ((i / (float) count) * 100));
+             // Escape early if cancel() is called 
+             if (isCancelled()) break;
+         } 
+         return totalSize;
+     } 
+ 
+     protected void onProgressUpdate(Integer... progress) {
+         setProgressPercent(progress[0]);
+     } 
+ 
+     protected void onPostExecute(Long result) {
+         showDialog("Downloaded " + result + " bytes");
+     } 
+ }.execute(url1, url2, url3);
+</div>
+<div class='x3'>There are some issues with AsyncTask, for example, they are not aware of the activity or fragment lifecycle and so it is the programmer's responsibility to handle the AsyncTasks behaviour when the activity is destroyed. This means that they are not the best option for long running operations and also, if the app is in the background and the app is terminated by Android, your background processing is also terminated.</div>
+<div class='x3'>IntentService: This is the defacto choice for long running processing on Android, a good example would be to upload or download large files. The upload and download may continue even if the user exits the app and you certainly do not want to block the user from being able to use the app while these tasks are going on.</div>
+<div class='code'>public class RSSPullService extends IntentService {
+    @Override 
+    protected void onHandleIntent(Intent workIntent) {
+        // Gets data from the incoming Intent 
+        String dataString = workIntent.getDataString();
+        ... 
+        // Do work here, based on the contents of dataString 
+        ... 
+    } 
+}
+    // AndroidManifest.xml
+    &lt;application
+        android:icon="@drawable/icon"
+        android:label="@string/app_name"&gt;
+        ...
+        &lt;!--
+        Because android:exported is set to "false",
+        the service is only available to this app.
+        --&gt;
+        &lt;service
+            android:name=".RSSPullService"
+            android:exported="false"/&gt;
+        ...
+    &lt;application/&gt;
+</div>
+<div class='x3'>Loader: Loaders are a complex topic, any single implementation of Loaders probably deserved a post all for itself. For now it would be worth pointing out that Loaders were introduced in Android Honeycomb and are part of the compatibility library.</div>
+<div class='x3'>JobScheduler: JobScheduler is the Android framework API for scheduling tasks or work. It first became available in Android. JobScheduler is implemented in the platform, which allows it to collect information about jobs that need to run across all apps. This information is used to schedule jobs to run at, or around, the same time. Batching job execution in this fashion allows the device to enter and stay in sleep states longer, preserving battery life.</div>
+<div class='code'>// Step1:
+public class JobSchedulerService extends JobService {
+    @Override
+    public boolean onStartJob(JobParameters params) {
+        return false;
+    }
+    @Override
+    public boolean onStopJob(JobParameters params) {
+        return false;
+    }
+}
+[more] https://code.tutsplus.com/tutorials/using-the-jobscheduler-api-on-android-lollipop--cms-23562
+</div>
+<div class='x3'>AlarmManager: The AlarmManager API is another option that the framework provides for scheduling tasks. This API is useful in cases in which an app needs to post a notification or set off an alarm at a very specific time.</div>
+<div class='x3'>Firebase JobDispatcher: Firebase JobDispatcher is an open-source library that provides an API similar to JobScheduler in the Android platform. Firebase JobDispatcher serves as a JobScheduler-compatibility layer for apps targeting versions of Android lower than 5.0.</div>
+<div class='x3'>GcmNetworkManager: It allow to do Schedule tasks and chedule a one-off task when network is connected.</div>
+<div class='code'>mGcmNetworkManager = GcmNetworkManager.getInstance(this);
+//Schedule a one-off task when network is connected
+OneoffTask task = new OneoffTask.Builder()
+        .setService(MyTaskService.class)
+        .setTag(TASK_TAG_WIFI)
+        .setExecutionWindow(0L, 3600L)
+        .setRequiredNetwork(Task.NETWORK_STATE_UNMETERED)
+        .build();
+
+mGcmNetworkManager.schedule(task);
+/// Schedule a periodic task
+PeriodicTask task = new PeriodicTask.Builder()
+        .setService(MyTaskService.class)
+        .setTag(TASK_TAG_PERIODIC)
+        .setPeriod(30L)
+        .build();
+
+mGcmNetworkManager.schedule(task);
+
+// Schedule a persistent task
+adb shell dumpsys activity service GcmService --endpoints YOUR_ENDPOINT
+
+</div>
+<div class='x3'>CountDownTimer:</div>
+<div class='code'>    new CountDownTimer() {
+    		@Override
+    		public void onFinish() {
+    		}
+@Override
+    		public void onTick(long millisUntilFinished) {
+    		}
+	}.start();
+</div>
+<div class='x3'>Looper, Handler, and HandlerThread:   Java threads are one-time use only and die after executing its run method.To ensure, thread reusability, the thread should  kept alive, in a loop via it’s run() method.The task is executed serially by that thread and is maintained in a queue (MessageQueue).Then, thread must be terminated when done. The above model is implemented in the Android via Looper, Handler, and HandlerThread</div>
+<ul>
+<li>MessageQueue is a queue that has tasks called messages which should be processed.</li>
+<li>Handler enqueues task in the MessageQueue using Looper and also executes them when the task comes out of the MessageQueue.</li>
+<li>Looper is a worker that keeps a thread alive, loops through MessageQueue and sends messages to the corresponding handler to process.</li>
+<li>Finally Thread gets terminated by calling Looper’s quit() method.</li>
+</ul>
+<div class='x3'>An sample example of looper thread is as below:</div>
+<div class='code'>    class LooperThread extends Thread {
+      public Handler mHandler; 
+      public void run() { 
+          Looper.prepare();
+          mHandler = new Handler() { 
+              public void handleMessage(Message msg) { 
+                 // process incoming messages here
+                 // this will run in non-ui/background thread
+              } 
+          }; 
+
+          Looper.loop();
+      } 
+  }
+</div>
+<div class='x3'>FutureTask: FutureTask performs asynchronous processing, however, if the result is not ready yet or processing has not complete, calling get() will be block the thread.</div>
+<div class='code'>RequestFuture&lt;JSONObject&gt; future = RequestFuture.newFuture();
+JsonObjectRequest request = new JsonObjectRequest(URL, null, future, future);
+requestQueue.add(request);
+
+try { 
+  JSONObject response = future.get(); // this will block (forever)
+} catch (InterruptedException e) {
+  // exception handling 
+} catch (ExecutionException e) {
+  // exception handling 
+}
+</div>
+<div class='x3'>Java Timer : An example of using Java Timer to do something after 5 seconds. These can be used to schedule some processing on a background thread. There are other ways to handle the same in Android, you could use a Handler with</div>
+<div class='code'>Timer timer = new Timer();
+timer.schedule(new TimerTask(){
+  public void run() {
+    // time ran out.
+    timer.cancel(); 
+  }
+}, 5000);
+</div>
+<div class='x3'>ScheduledThreadPoolExecutor: A ThreadPoolExecutor that can additionally schedule commands to run after a given delay, or to execute periodically. This class is preferable to Timer when multiple worker threads are needed, or when the additional flexibility or capabilities of ThreadPoolExecutor (which this class extends) are required. Delayed tasks execute no sooner than they are enabled, but without any real-time guarantees about when, after they are enabled, they will commence. Tasks scheduled for exactly the same execution time are enabled in first-in-first-out (FIFO) order of submission.</div>
+<div class='x3'>The ScheduledThreadPoolExecutor suffers from a lot of the same problems on Android as Timer and Java Threads. If you need to update the UI you’ll need to use a Handler to post messages to the UI thread or pass in a Listener. A ScheduledThreadPoolExecutor is part of Java, it’s not aware of the Activity or Fragment lifecycle and as such any Listeners will have to be cleaned up or replaced manually in order to prevent memory leaks.</div>
+<div class='code'>public class CustomScheduledExecutor extends ScheduledThreadPoolExecutor {
+   static class CustomTask&lt;V&gt; implements RunnableScheduledFuture&lt;V&gt; { ... }
+   protected &lt;V&gt; RunnableScheduledFuture&lt;V&gt; decorateTask(
+                Runnable r, RunnableScheduledFuture&lt;V&gt; task) {
+       return new CustomTask&lt;V&gt;(r, task);
+   }
+   protected &lt;V&gt; RunnableScheduledFuture&lt;V&gt; decorateTask(
+                Callable&lt;V&gt; c, RunnableScheduledFuture&lt;V&gt; task) {
+       return new CustomTask&lt;V&gt;(c, task);
+   }
+   // ... add constructors, etc.
+ }
+// Code from Java API
+</div>
+<div class='x3'>Example1: In service, We have created thread(s) for doing some background task. Now, thread need to post certain task on main thread's(UI) message queue, for example a Runnable. Here is way to access from a worker thread in a service</div>
+<div class='code'>Case 1. If your background thread has a reference to a Context object, Get a handler that can be used to post to the main thread
+Handler mainHandler = new Handler(context.getMainLooper());
+Runnable myRunnable = new Runnable() {
+    @Override 
+    public void run() {....} // This is your code
+};
+mainHandler.post(myRunnable);
+
+Case 2. If your background thread does not have (or need) a Context object, Get a handler that can be used to post to the main thread
+Handler mainHandler = new Handler(Looper.getMainLooper());
+Runnable myRunnable = new Runnable() {
+    @Override 
+    public void run() {....} // This is your code
+};
+mainHandler.post(myRunnable);
+
+Case 3. Simple:
+new Handler(Looper.getMainLooper()).post(mYourUiThreadRunnable);
 </div></div>
 </div>
 <div class="footer">
