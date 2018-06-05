@@ -35,7 +35,13 @@ TEMPLATE="""
         font-family: monospace;
     }
 
-    div.x1{ font-size: 3rem; text-align: center;margin-top: 50px;margin-bottom: 100px;}
+    div.x1 { 
+        font-size: 3rem;
+        text-align: left;
+        margin-top: 150px;
+        margin-bottom: 20px;
+        border-bottom: 1px solid #eee;
+    }
     div.x2{ font-size: 1.5rem;margin-bottom: 25px;margin-top: 20px;}
     div.x3{ font-size: 1rem;margin-bottom: 10px;text-align: justify;}
 

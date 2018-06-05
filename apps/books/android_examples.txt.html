@@ -28,7 +28,13 @@
         font-family: monospace;
     }
 
-    div.x1{ font-size: 3rem; text-align: center;margin-top: 50px;margin-bottom: 100px;}
+    div.x1 { 
+        font-size: 3rem;
+        text-align: left;
+        margin-top: 150px;
+        margin-bottom: 20px;
+        border-bottom: 1px solid #eee;
+    }
     div.x2{ font-size: 1.5rem;margin-bottom: 25px;margin-top: 20px;}
     div.x3{ font-size: 1rem;margin-bottom: 10px;text-align: justify;}
 
@@ -84,9 +90,19 @@
     </span>
 </div>
 <div class="middle">
-    <div class="left" style=""><a class='a1' href='#hashid1'+>Andorid components</a><a class='a2' href='#hashid2'+>Android Simple Activity</a><a class='a2' href='#hashid3'+>Activity Life Cycle Callback</a><a class='a2' href='#hashid4'+>Android Services Templates</a><a class='a2' href='#hashid5'+>Android Content Providers</a><a class='a2' href='#hashid6'+>Android Broadcast Receiver</a><a class='a1' href='#hashid7'+>Android UI Designs</a><a class='a2' href='#hashid8'+>Layouts</a><a class='a2' href='#hashid9'+>Controls</a><a class='a2' href='#hashid10'+>Navigations</a><a class='a2' href='#hashid11'+>Dialog and Navigation</a><a class='a2' href='#hashid12'+>Events and Guestures</a><a class='a2' href='#hashid13'+>Android fragments</a><a class='a2' href='#hashid14'+>Executing Async Jobs in android.</a><a class='a2' href='#hashid15'+>WebSocket Support to Android</a><a class='a1' href='#hashid16'+>Support personalize Experice.</a><a class='a2' href='#hashid17'+>Supporting mutiple languages</a><a class='a2' href='#hashid18'+>Supporting seperate layout for differnt devices.</a><a class='a2' href='#hashid19'+>Supporting different button width for diffent devices.</a><a class='a2' href='#hashid20'+>Supporting multiple images</a><a class='a1' href='#hashid21'+>Android Networking</a><a class='a2' href='#hashid22'+>Connecting websocket</a><a class='a2' href='#hashid23'+>Simple Network Calls to parse JSON.</a><a class='a2' href='#hashid24'+>Having HTTP server inside android App</a><a class='a1' href='#hashid25'+>Android Performance</a><a class='a2' href='#hashid26'+>Android Thread and process</a></div>
+    <div class="left" style=""><a class='a1' href='#hashid1'+>Andorid components</a><a class='a2' href='#hashid2'+>Android Simple Activity</a><a class='a2' href='#hashid3'+>Activity Life Cycle Callback</a><a class='a2' href='#hashid4'+>Android Services Templates</a><a class='a2' href='#hashid5'+>Android Content Providers</a><a class='a2' href='#hashid6'+>Android Broadcast Receiver</a><a class='a1' href='#hashid7'+>Android UI Designs</a><a class='a2' href='#hashid8'+>Layouts</a><a class='a2' href='#hashid9'+>Controls</a><a class='a2' href='#hashid10'+>Navigations</a><a class='a2' href='#hashid11'+>Dialog and Navigation</a><a class='a2' href='#hashid12'+>Events and Guestures</a><a class='a2' href='#hashid13'+>View pager End to end.</a><a class='a2' href='#hashid14'+>Android fragments</a><a class='a2' href='#hashid15'+>Executing Async Jobs in android.</a><a class='a2' href='#hashid16'+>WebSocket Support to Android</a><a class='a1' href='#hashid17'+>Support personalize Experice.</a><a class='a2' href='#hashid18'+>Supporting mutiple languages</a><a class='a2' href='#hashid19'+>Supporting seperate layout for differnt devices.</a><a class='a2' href='#hashid20'+>Supporting different button width for diffent devices.</a><a class='a2' href='#hashid21'+>Supporting multiple images</a><a class='a1' href='#hashid22'+>Android Networking</a><a class='a2' href='#hashid23'+>Connecting websocket</a><a class='a2' href='#hashid24'+>Simple Network Calls to parse JSON.</a><a class='a2' href='#hashid25'+>Having HTTP server inside android App</a><a class='a1' href='#hashid26'+>Android Performance</a><a class='a2' href='#hashid27'+>Android Thread and process</a><a class='a1' href='#hashid28'+>Android Design</a></div>
     <div class="right" style=""><div class='x1' id='hashid1'>Andorid components</div>
 <div class='x3'>This tutorials is mainly design for providing templates for android devlopment and helping out my copy-paste efficiency.</div>
+<div class='x3'>In this section, we wil mainly discussed abount the android compoents as shown in the table:</div>
+<table>
+<caption>Table: Android Compoenent Summary
+</caption>
+<tr><td>Activity</td><td>An example of sample android Action, We will also discuss actibity and application life cycle callback.</td></tr>
+<tr><td>Android Service</td><td>A simple of Android Service example and how to start, stop and communicate with android service.</td></tr>
+<tr><td>Android Content Providers</td><td>An example of Android Content Providers</td></tr>
+<tr><td>Android Broadcast Receiver</td><td>An example of Android Broadcast Receiver</td></tr>
+<tr><td>Fragemnt</td><td>An sample example of creating reusable compoents</td></tr>
+</table>
 <div class='x2' id='hashid2'>Android Simple Activity</div>
 <div class='x3'>Below I am providing a simple templates for having a easy Activity which just have a Click buttons Clicking of that button shows a Toast. extremely Simple.</div>
 <div class='x3'>Step1: Here is the Manifest.</div>
@@ -520,6 +536,16 @@ public class IntentServiceActivity extends AppCompatActivity {
 <div class='x2' id='hashid6'>Android Broadcast Receiver</div>
 <div class='x1' id='hashid7'>Android UI Designs</div>
 <div class='x3'>In this section, I am mainly concentret on android UI Design. In andorid, we can build UI either using XML files or Programitically. We need Layouts and Controls to have a Layout. Layouts are the holders of the Controls and Controls are the actual Objects like button or TextView etc.</div>
+<div class='x3'>The summary of the section is as below:</div>
+<table>
+<caption>Table: Summary of Andorid UI compoents
+</caption>
+<tr><td>Layouts</td><td>A way to align UI contraols</td></tr>
+<tr><td>Controls</td><td>The indivsial UI componenet</td></tr>
+<tr><td>Events and Guestures</td><td>Handlaing user inputs</td></tr>
+<tr><td>Navigation</td><td>A way to perform android Navigations</td></tr>
+<tr><td>Dialog and Notification</td><td>A way to show alert and Notification.</td></tr>
+</table>
 <div class='x2' id='hashid8'>Layouts</div>
 <table>
 <caption>Table: List of All Layoit supported by Android
@@ -587,6 +613,299 @@ public class IntentServiceActivity extends AppCompatActivity {
 <tr><td>GestureDetector.SimpleOnGestureListener</td><td>Detect Android provides special types of touch screen events such as pinch , double tap, scrolls , long presses and flinch. These are all known as gestures.</td></tr>
 <tr><td>ScaleGestureDetector</td><td>Delect the scale events.</td></tr>
 </table>
+<div class='x2' id='hashid13'>View pager End to end.</div>
+<div class='x3'>Step 1. Layout :</div>
+<div class='code'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"&gt;
+ 
+    &lt;android.support.v4.view.ViewPager
+        android:id="@+id/vpPager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"&gt;
+    &lt;/android.support.v4.view.ViewPager&gt;
+&lt;/LinearLayout&gt;
+
+OR
+
+&lt;android.support.v4.view.ViewPager
+   android:id="@+id/vpPager"
+   android:layout_width="match_parent"
+   android:layout_height="wrap_content"&gt;
+   &lt;android.support.v4.view.PagerTabStrip
+        android:id="@+id/pager_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:paddingBottom="4dp"
+        android:paddingTop="4dp" /&gt;
+&lt;/android.support.v4.view.ViewPager&gt;
+
+OR
+
+&lt;com.viewpagerindicator.TitlePageIndicator
+	android:id="@+id/titles"
+	android:layout_height="wrap_content"
+	android:layout_width="fill_parent" /&gt;
+</div>
+<div class='x3'>Step 2: Define multiple Fragemnts</div>
+<div class='code'>public class FirstFragment extends Fragment {
+	// Store instance variables
+	private String title;
+	private int page;
+	// newInstance constructor for creating fragment with arguments
+	public static FirstFragment newInstance(int page, String title) {
+		FirstFragment fragmentFirst = new FirstFragment();
+		Bundle args = new Bundle();
+		args.putInt("someInt", page);
+		args.putString("someTitle", title);
+		fragmentFirst.setArguments(args);
+		return fragmentFirst;
+	}
+
+	// Store instance variables based on arguments passed
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		page = getArguments().getInt("someInt", 0);
+		title = getArguments().getString("someTitle");
+	}
+
+	// Inflate the view for the fragment based on layout XML
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, 
+            Bundle savedInstanceState) {
+		View view = inflater.inflate(R.layout.fragment_first, container, false);
+		TextView tvLabel = (TextView) view.findViewById(R.id.tvLabel);
+		tvLabel.setText(page + " -- " + title);
+		return view;
+	}
+}  
+</div>
+<div class='x3'>Step 3: Define Adapters which wil provides View.</div>
+<div class='code'>public static class MyPagerAdapter extends FragmentPagerAdapter {
+	    private static int NUM_ITEMS = 3;
+        public MyPagerAdapter(FragmentManager fragmentManager) {
+            super(fragmentManager);
+        }
+        // Returns total number of pages
+        @Override
+        public int getCount() {
+            return NUM_ITEMS;
+        }
+        // Returns the fragment to display for that page
+        @Override
+        public Fragment getItem(int position) {
+            switch (position) {
+            case 0: // Fragment # 0 - This will show FirstFragment
+                return FirstFragment.newInstance(0, "Page # 1");
+            case 1: // Fragment # 0 - This will show FirstFragment different title
+                return FirstFragment.newInstance(1, "Page # 2");
+            case 2: // Fragment # 1 - This will show SecondFragment
+                return SecondFragment.newInstance(2, "Page # 3");
+            default:
+            	return null;
+            }
+        }
+        // Returns the page title for the top indicator
+        @Override
+        public CharSequence getPageTitle(int position) {
+        	return "Page " + position;
+        }
+    }
+</div>
+<div class='x3'>Step 4: Binding everyting in main Activity and Manipulates</div>
+<div class='code'>public class MainActivity extends AppCompatActivity {
+	FragmentPagerAdapter adapterViewPager;
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_home);
+        // get View pager
+		ViewPager vpPager = (ViewPager) findViewById(R.id.vpPager);
+        // Build adapter
+		adapterViewPager = new MyPagerAdapter(getSupportFragmentManager());
+        // binds
+		vpPager.setAdapter(adapterViewPager);
+	}
+	
+	// Set and get pages
+    vpPager.getCurrentItem(); // --&gt; 2
+    vpPager.setCurrentItem(2)
+
+    // Attach the page change listener inside the activity
+    vpPager.addOnPageChangeListener(new OnPageChangeListener() {
+        @Override
+        public void onPageSelected(int position) {
+            Toast.makeText(HomeActivity.this, "Selected page position: " + position, Toast.LENGTH_SHORT).show();
+            // This method will be invoked when a new page becomes selected.
+        }
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            // This method will be invoked when the current page is scrolled
+        }
+        @Override
+        public void onPageScrollStateChanged(int state) {
+            // Called when the scroll state changes: 
+            // SCROLL_STATE_IDLE, SCROLL_STATE_DRAGGING, SCROLL_STATE_SETTLING
+        }
+    });
+
+    // Set Offscreen Page Limit: provided by ViewPager to set how many page instances you want the system to keep in memory on either side of your current page. 
+    vpPager.setOffscreenPageLimit(3);
+
+    // Defien gaps between Pagers
+    // http://blog.neteril.org/blog/2013/10/14/android-tip-viewpager-with-protruding-children/
+    vpPager.setClipToPadding(false);
+    vpPager.setPageMargin(12);
+
+    //
+}   
+</div>
+<div class='x3'>Step 5: Using Custom animation. We can customize how the pages animate as they are being swiped between using the PageTransformer.</div>
+<div class='code'>    // compile 'com.ToxicBakery.viewpager.transforms:view-pager-transforms:1.2.32@aar'
+    pager = (ViewPager) findViewById(R.id.container);
+    pager.setAdapter(mAdapter);
+    pager.setPageTransformer(true, new RotateUpTransformer());
+    // https://github.com/ToxicBakery/ViewPagerTransforms/tree/master/library/src/main/java/com/ToxicBakery/viewpager/transforms
+
+    // Build your own.
+    vpPager.setPageTransformer(false, new ViewPager.PageTransformer() { 
+        @Override
+        public void transformPage(View page, float position) {
+            int pageWidth = view.getWidth();
+            int pageHeight = view.getHeight();
+
+            if (position &lt; -1) { // [-Infinity,-1)
+                // This page is way off-screen to the left.
+                view.setAlpha(0);
+            } else if(position &lt;= 1){ // Page to the left, page centered, page to the right
+            // modify page view animations here for pages in view 
+            } else { // (1,+Infinity]
+                // This page is way off-screen to the right.
+                view.setAlpha(0);
+            }
+        }
+    });
+</div>
+<div class='x3'>Step 6: Handling Dynamically genenarated pages</div>
+<div class='code'>public class mAdapter extends PagerAdapter {
+    List&lt;View&gt; mlist;
+
+    public void addView(View view, int index) {
+        mList.add(index, view);
+        notifyDataSetChanged();
+    }
+
+    public void removeView(int index) {
+        mList.remove(index);
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public int getItemPosition(Object object) {
+        if (mList.contains((View) object) {
+            return mList.indexOf((View) object);
+        } else {
+            return POSITION_NONE;
+        }
+    }
+}
+
+</div>
+<div class='x3'>Step 7: Custom Pages without Fragments</div>
+<div class='code'>class CustomPagerAdapter extends PagerAdapter {
+    Context mContext;
+    LayoutInflater mLayoutInflater;
+    ArrayList&lt;Page&gt; pages = new ArrayList&lt;&gt;(); 
+    public CustomPagerAdapter(Context context) {
+        mContext = context;
+        mLayoutInflater = LayoutInflater.from(mContext);
+    }
+    // Returns the number of pages to be displayed in the ViewPager.
+    @Override
+    public int getCount() {
+        return pages.size();
+    }
+    // Returns true if a particular object (page) is from a particular page
+    @Override
+    public boolean isViewFromObject(View view, Object object) {
+        return view == object;
+    }
+    // This method should create the page for the given position passed to it as an argument. 
+    @Override
+    public Object instantiateItem(ViewGroup container, int position) {
+        // Inflate the layout for the page
+        View itemView = mLayoutInflater.inflate(R.layout.pager_item, container, false);
+        // Find and populate data into the page (i.e set the image)
+        ImageView imageView = (ImageView) itemView.findViewById(R.id.imageView);
+        // ...
+        // Add the page to the container
+        container.addView(itemView);
+        // Return the page
+        return itemView;
+    }
+    // Removes the page from the container for the given position.
+    @Override
+    public void destroyItem(ViewGroup container, int position, Object object) {
+        container.removeView((View) object);
+    }
+}
+
+OR
+class CustomPagerAdapter extends PagerAdapter {
+    Context mContext;
+    LayoutInflater mLayoutInflater;
+    int[] mResources = {
+        R.drawable.first,
+        R.drawable.second,
+        R.drawable.third,
+        R.drawable.fourth,
+        R.drawable.fifth,
+        R.drawable.sixth
+    };
+
+    public CustomPagerAdapter(Context context) {
+        mContext = context;
+        mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    }
+    @Override
+    public int getCount() {
+        return mResources.length;
+    }
+
+    @Override
+    public boolean isViewFromObject(View view, Object object) {
+        return view == ((LinearLayout) object);
+    }
+ 
+    @Override
+    public Object instantiateItem(ViewGroup container, int position) {
+        View itemView = mLayoutInflater.inflate(R.layout.pager_item, container, false);
+        ImageView imageView = (ImageView) itemView.findViewById(R.id.imageView);
+        imageView.setImageResource(mResources[position]);
+        container.addView(itemView);
+        return itemView;
+    }
+    @Override
+    public void destroyItem(ViewGroup container, int position, Object object) {
+        container.removeView((LinearLayout) object);
+    }
+}
+// res/layout/pager_item.xml
+&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"&gt;
+    &lt;ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/imageView" /&gt;
+&lt;/LinearLayout&gt;
+</div>
 <div class='x3'>Example: Listen text xhnage of Edit Text</div>
 <div class='code'>EditText value = (EditText) view.findViewById(R.id.value);
 value.addTextChangedListener(new TextWatcher()
@@ -1165,7 +1484,7 @@ public class MainActivity extends Activity {
     int min = timePicker1.getCurrentMinute();
 }
 </div>
-<div class='x2' id='hashid13'>Android fragments</div>
+<div class='x2' id='hashid14'>Android fragments</div>
 <div class='x3'>A fragment is a reusable class implementing a portion of an activity.</div>
 <ul>
 <li>Reuseness: It's basically a combination of an XML layout file and a java class much like an Activity which encapsulate views and logic so that it is easier to reuse within activities.</li>
@@ -1453,8 +1772,8 @@ protected void displayFragmentA() {
     ft.commit();
 }
 </div>
-<div class='x2' id='hashid14'>Executing Async Jobs in android.</div>
-<div class='x2' id='hashid15'>WebSocket Support to Android</div>
+<div class='x2' id='hashid15'>Executing Async Jobs in android.</div>
+<div class='x2' id='hashid16'>WebSocket Support to Android</div>
 <div class='x3'>Step1: Let's consider the below example for build the server.</div>
 <div class='code'>const WebSocket = require('ws');
 const wss = new WebSocket.Server({ port: 8080 });
@@ -1496,9 +1815,17 @@ wss.on('connection', function connection(ws) {
 <div class='x3'>Step3: Now let's write android plagins to send and recv data from our server.</div>
 <div class='code'>
 </div>
-<div class='x1' id='hashid16'>Support personalize Experice.</div>
+<div class='x1' id='hashid17'>Support personalize Experice.</div>
 <div class='x3'>In this perticulr section, i will be discussion with how to personalized your app experince for the user. The term "Personlization" means that your app should resposnce perfactly for the multiple devices, user can choose their languages and user can have their own theme etc.</div>
-<div class='x2' id='hashid17'>Supporting mutiple languages</div>
+<table>
+<caption>Table: Summary of having a better Personalized experince
+</caption>
+<tr><td>Supporting mutiple languages</td><td>Example to support mutiple languages</td></tr>
+<tr><td>Supporting seperate layout for differnt devices</td><td>Having different layout for diffent devices.</td></tr>
+<tr><td>Supporting diffent dimens for diffent devices</td><td>Having multiple dimes for diff devices.</td></tr>
+<tr><td>Supporting multiple images</td><td>Supporting multiple images for diffent size device</td></tr>
+</table>
+<div class='x2' id='hashid18'>Supporting mutiple languages</div>
 <div class='x3'>Let's consider supporting hindi and english langues for a app.</div>
 <div class='x3'>Step1: Let;s have this layout. Note that we NOT hardcoding the string.</div>
 <div class='code'>
@@ -1593,7 +1920,7 @@ public class App extends Application {
     }
 }
 </div>
-<div class='x2' id='hashid18'>Supporting seperate layout for differnt devices.</div>
+<div class='x2' id='hashid19'>Supporting seperate layout for differnt devices.</div>
 <div class='x3'>Sometime it's required to have multiple layout of the UI for phone or tablet. We can easilty do that by spacifying mutple layout file. We can alos spacify multiple dimention files to spacidify differnet weidth of the buttons for phone and tablet.</div>
 <div class='x3'>Step1: We can have two diffetnt layoyt for phone and 7 each tablet in res/layout/main_activity.xml    and res/layout-sw600dp/main_activity.xml(600dp or bigger).</div>
 <div class='code'>
@@ -1640,7 +1967,7 @@ res/values-sw600dp/layout.xml:
     &lt;item name="main" type="layout"&gt;@layout/main_twopanes&lt;/item&gt;
 &lt;/resources&gt;
 </div>
-<div class='x2' id='hashid19'>Supporting different button width for diffent devices.</div>
+<div class='x2' id='hashid20'>Supporting different button width for diffent devices.</div>
 <div class='x3'>You must understand the diff betwen dip and sp. Yhen you specify spacing between two views, use dp and When specifying text size, always use sp:</div>
 <div class='code'>&lt;Button android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -1673,7 +2000,7 @@ values-sw720dp/dminen.xml
 &lt;dimen name="padding_1"&gt;13dp&lt;/dimen&gt;
 
 </div>
-<div class='x2' id='hashid20'>Supporting multiple images</div>
+<div class='x2' id='hashid21'>Supporting multiple images</div>
 <div class='x3'>When you want to use image, you must provides the below variabtion:</div>
 <div class='code'>res/
   drawable-xxxhdpi/
@@ -1697,8 +2024,15 @@ values-sw720dp/dminen.xml
 <tr><td>144x144</td><td>(3.0x) for extra-extra-high-density (xxhdpi)</td></tr>
 <tr><td>192x192</td><td>(4.0x) for extra-extra-extra-high-density (xxxhdpi)</td></tr>
 </table>
-<div class='x1' id='hashid21'>Android Networking</div>
-<div class='x2' id='hashid22'>Connecting websocket</div>
+<div class='x1' id='hashid22'>Android Networking</div>
+<table>
+<caption>Table: Summary of Android Networking supports
+</caption>
+<tr><td>Accessing HTTP</td><td>using okhttp3</td></tr>
+<tr><td>Accessing WebSocket</td><td>using okHTTP3 agains</td></tr>
+<tr><td>HTTP srever</td><td>We will show an example how to create HTTP server inside andorid app and from outside app.</td></tr>
+</table>
+<div class='x2' id='hashid23'>Connecting websocket</div>
 <div class='x3'>WebSocket providing full-duplex communication channels over a single TCP connection. It is supported in HTML 5. Since the version 3.5 of the OkHttp library, you can also use WebSockets connection in your Android applications. Let's try to use it.</div>
 <div class='code'>Step1: Add Dependency
 compile 'com.squareup.okhttp3:okhttp:3.6.0'
@@ -1828,7 +2162,7 @@ public class WSUtils {
     ws.disconnect();
 }
 </div>
-<div class='x2' id='hashid23'>Simple Network Calls to parse JSON.</div>
+<div class='x2' id='hashid24'>Simple Network Calls to parse JSON.</div>
 <div class='x3'>Similar to web socket, we can have our simple network Module to send web request as given as example.</div>
 <div class='code'>    compile 'com.squareup.okhttp3:okhttp:3.2.0'
 </div>
@@ -2166,7 +2500,7 @@ new Request.Builder().cacheControl(CacheControl.FORCE_CACHE)
     }
   }
 </div>
-<div class='x2' id='hashid24'>Having HTTP server inside android App</div>
+<div class='x2' id='hashid25'>Having HTTP server inside android App</div>
 <div class='x3'>Step1: Add Dependency</div>
 <div class='code'>    compile 'org.nanohttpd:nanohttpd:2.2.0'
 </div>
@@ -2337,8 +2671,8 @@ dip-pro:books dip$ curl http://localhost:8081/setPref?data=I%20me%20100
 Set Successfully
 dip-pro:books dip$ 
 </div>
-<div class='x1' id='hashid25'>Android Performance</div>
-<div class='x2' id='hashid26'>Android Thread and process</div>
+<div class='x1' id='hashid26'>Android Performance</div>
+<div class='x2' id='hashid27'>Android Thread and process</div>
 <table>
 <caption>Table: Android Ways to post a Job to UI Threass
 </caption>
@@ -2587,7 +2921,19 @@ mainHandler.post(myRunnable);
 
 Case 3. Simple:
 new Handler(Looper.getMainLooper()).post(mYourUiThreadRunnable);
-</div></div>
+</div>
+<div class='x1' id='hashid28'>Android Design</div>
+<div class='x3'>In this section, I will discusstion the common design to be followed by :</div>
+<table>
+<caption>Table: Android Design Patterns
+</caption>
+<tr><td>Spalsh Screen Design</td><td>This will tell how to design First time user Experice</td></tr>
+<tr><td>Loading screen Design</td><td>How to design loading screen when the app is laucnhed for second time.</td></tr>
+<tr><td>Muti-Page App with Activitys</td><td>How Design multi-page aplication with mutiple activity.</td></tr>
+<tr><td>Multi-Page with Multiple Fragemnts</td><td>In this section, we will discuss how to design a app with same activity with mutiple screen</td></tr>
+<tr><td>MVC</td><td>This section discuss how to decouple UI login with Contrler logic using MVC Patterns</td></tr>
+<tr><td>MVVC</td><td>Design discussion on MV-VP patatrens</td></tr>
+</table></div>
 </div>
 <div class="footer">
 <p> Do you know this book/HTML is generated from a text file? I traied to use MS word and other software and its seems to be very hard to maintain, sync and reformat - So i get into this crazy idea - just have a text file and write into it. I have a python svript whcih just convert this text into html.</p>

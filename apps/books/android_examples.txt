@@ -1,5 +1,14 @@
 ## Andorid components
-This tutorials is mainly design for providing templates for android devlopment and helping out my copy-paste efficiency.
+This tutorials is mainly design for providing templates for android devlopment and helping out my copy-paste efficiency. 
+
+In this section, we wil mainly discussed abount the android compoents as shown in the table:
+Table: Android Compoenent Summary
+Activity                   # An example of sample android Action, We will also discuss actibity and application life cycle callback.
+Android Service            # A simple of Android Service example and how to start, stop and communicate with android service.
+Android Content Providers  # An example of Android Content Providers
+Android Broadcast Receiver # An example of Android Broadcast Receiver
+Fragemnt                   # An sample example of creating reusable compoents
+
 
 # Android Simple Activity
 Below I am providing a simple templates for having a easy Activity which just have a Click buttons Clicking of that button shows a Toast. extremely Simple.
@@ -453,6 +462,15 @@ public class IntentServiceActivity extends AppCompatActivity {
 
 ## Android UI Designs
 In this section, I am mainly concentret on android UI Design. In andorid, we can build UI either using XML files or Programitically. We need Layouts and Controls to have a Layout. Layouts are the holders of the Controls and Controls are the actual Objects like button or TextView etc.
+The summary of the section is as below:
+
+Table: Summary of Andorid UI compoents
+Layouts              # A way to align UI contraols
+Controls             # The indivsial UI componenet 
+Events and Guestures # Handlaing user inputs
+Navigation           # A way to perform android Navigations
+Dialog and Notification        # A way to show alert and Notification.
+
 
 # Layouts
 Table: List of All Layoit supported by Android
@@ -490,6 +508,8 @@ ViewPager #
 Navigation #
 Menu #
 
+
+
 # Dialog and Navigation
 Table: Dialog and Notifications
 AlertDiloags # A Dialog is small window that prompts the user to a decision or enter additional information. You might show some info and Ok button or Ask some confirmation ( OK/Cancel) or Misght show a list or might ask for selecet item from a list.
@@ -510,6 +530,316 @@ onMenuItemClick # This is called when the user selects a menu item. You will use
 onCreateContextMenu # This is called when the context menu is being built(as the result of a sustained "long click)
 GestureDetector.SimpleOnGestureListener # Detect Android provides special types of touch screen events such as pinch , double tap, scrolls , long presses and flinch. These are all known as gestures.
 ScaleGestureDetector # Delect the scale events.
+
+
+# View pager End to end.
+
+
+Step 1. Layout :
+{{{
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+ 
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vpPager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </android.support.v4.view.ViewPager>
+</LinearLayout>
+
+OR
+
+<android.support.v4.view.ViewPager
+   android:id="@+id/vpPager"
+   android:layout_width="match_parent"
+   android:layout_height="wrap_content">
+   <android.support.v4.view.PagerTabStrip
+        android:id="@+id/pager_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:paddingBottom="4dp"
+        android:paddingTop="4dp" />
+</android.support.v4.view.ViewPager>
+
+OR
+
+<com.viewpagerindicator.TitlePageIndicator
+	android:id="@+id/titles"
+	android:layout_height="wrap_content"
+	android:layout_width="fill_parent" />
+}}}
+
+Step 2: Define multiple Fragemnts
+{{{
+public class FirstFragment extends Fragment {
+	// Store instance variables
+	private String title;
+	private int page;
+	// newInstance constructor for creating fragment with arguments
+	public static FirstFragment newInstance(int page, String title) {
+		FirstFragment fragmentFirst = new FirstFragment();
+		Bundle args = new Bundle();
+		args.putInt("someInt", page);
+		args.putString("someTitle", title);
+		fragmentFirst.setArguments(args);
+		return fragmentFirst;
+	}
+
+	// Store instance variables based on arguments passed
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		page = getArguments().getInt("someInt", 0);
+		title = getArguments().getString("someTitle");
+	}
+
+	// Inflate the view for the fragment based on layout XML
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, 
+            Bundle savedInstanceState) {
+		View view = inflater.inflate(R.layout.fragment_first, container, false);
+		TextView tvLabel = (TextView) view.findViewById(R.id.tvLabel);
+		tvLabel.setText(page + " -- " + title);
+		return view;
+	}
+}  
+}}}
+
+Step 3: Define Adapters which wil provides View.
+{{{
+public static class MyPagerAdapter extends FragmentPagerAdapter {
+	    private static int NUM_ITEMS = 3;
+        public MyPagerAdapter(FragmentManager fragmentManager) {
+            super(fragmentManager);
+        }
+        // Returns total number of pages
+        @Override
+        public int getCount() {
+            return NUM_ITEMS;
+        }
+        // Returns the fragment to display for that page
+        @Override
+        public Fragment getItem(int position) {
+            switch (position) {
+            case 0: // Fragment # 0 - This will show FirstFragment
+                return FirstFragment.newInstance(0, "Page # 1");
+            case 1: // Fragment # 0 - This will show FirstFragment different title
+                return FirstFragment.newInstance(1, "Page # 2");
+            case 2: // Fragment # 1 - This will show SecondFragment
+                return SecondFragment.newInstance(2, "Page # 3");
+            default:
+            	return null;
+            }
+        }
+        // Returns the page title for the top indicator
+        @Override
+        public CharSequence getPageTitle(int position) {
+        	return "Page " + position;
+        }
+    }
+}}}
+
+Step 4: Binding everyting in main Activity and Manipulates
+{{{
+public class MainActivity extends AppCompatActivity {
+	FragmentPagerAdapter adapterViewPager;
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_home);
+        // get View pager
+		ViewPager vpPager = (ViewPager) findViewById(R.id.vpPager);
+        // Build adapter
+		adapterViewPager = new MyPagerAdapter(getSupportFragmentManager());
+        // binds
+		vpPager.setAdapter(adapterViewPager);
+	}
+	
+	// Set and get pages
+    vpPager.getCurrentItem(); // --> 2
+    vpPager.setCurrentItem(2)
+
+    // Attach the page change listener inside the activity
+    vpPager.addOnPageChangeListener(new OnPageChangeListener() {
+        @Override
+        public void onPageSelected(int position) {
+            Toast.makeText(HomeActivity.this, "Selected page position: " + position, Toast.LENGTH_SHORT).show();
+            // This method will be invoked when a new page becomes selected.
+        }
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            // This method will be invoked when the current page is scrolled
+        }
+        @Override
+        public void onPageScrollStateChanged(int state) {
+            // Called when the scroll state changes: 
+            // SCROLL_STATE_IDLE, SCROLL_STATE_DRAGGING, SCROLL_STATE_SETTLING
+        }
+    });
+
+    // Set Offscreen Page Limit: provided by ViewPager to set how many page instances you want the system to keep in memory on either side of your current page. 
+    vpPager.setOffscreenPageLimit(3);
+
+    // Defien gaps between Pagers
+    // http://blog.neteril.org/blog/2013/10/14/android-tip-viewpager-with-protruding-children/
+    vpPager.setClipToPadding(false);
+    vpPager.setPageMargin(12);
+
+    //
+}   
+}}} 
+
+Step 5: Using Custom animation. We can customize how the pages animate as they are being swiped between using the PageTransformer. 
+{{{
+    // compile 'com.ToxicBakery.viewpager.transforms:view-pager-transforms:1.2.32@aar'
+    pager = (ViewPager) findViewById(R.id.container);
+    pager.setAdapter(mAdapter);
+    pager.setPageTransformer(true, new RotateUpTransformer());
+    // https://github.com/ToxicBakery/ViewPagerTransforms/tree/master/library/src/main/java/com/ToxicBakery/viewpager/transforms
+
+    // Build your own.
+    vpPager.setPageTransformer(false, new ViewPager.PageTransformer() { 
+        @Override
+        public void transformPage(View page, float position) {
+            int pageWidth = view.getWidth();
+            int pageHeight = view.getHeight();
+
+            if (position < -1) { // [-Infinity,-1)
+                // This page is way off-screen to the left.
+                view.setAlpha(0);
+            } else if(position <= 1){ // Page to the left, page centered, page to the right
+            // modify page view animations here for pages in view 
+            } else { // (1,+Infinity]
+                // This page is way off-screen to the right.
+                view.setAlpha(0);
+            }
+        }
+    });
+}}}
+
+Step 6: Handling Dynamically genenarated pages 
+{{{
+public class mAdapter extends PagerAdapter {
+    List<View> mlist;
+
+    public void addView(View view, int index) {
+        mList.add(index, view);
+        notifyDataSetChanged();
+    }
+
+    public void removeView(int index) {
+        mList.remove(index);
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public int getItemPosition(Object object) {
+        if (mList.contains((View) object) {
+            return mList.indexOf((View) object);
+        } else {
+            return POSITION_NONE;
+        }
+    }
+}
+
+}}}
+
+Step 7: Custom Pages without Fragments
+{{{
+class CustomPagerAdapter extends PagerAdapter {
+    Context mContext;
+    LayoutInflater mLayoutInflater;
+    ArrayList<Page> pages = new ArrayList<>(); 
+    public CustomPagerAdapter(Context context) {
+        mContext = context;
+        mLayoutInflater = LayoutInflater.from(mContext);
+    }
+    // Returns the number of pages to be displayed in the ViewPager.
+    @Override
+    public int getCount() {
+        return pages.size();
+    }
+    // Returns true if a particular object (page) is from a particular page
+    @Override
+    public boolean isViewFromObject(View view, Object object) {
+        return view == object;
+    }
+    // This method should create the page for the given position passed to it as an argument. 
+    @Override
+    public Object instantiateItem(ViewGroup container, int position) {
+        // Inflate the layout for the page
+        View itemView = mLayoutInflater.inflate(R.layout.pager_item, container, false);
+        // Find and populate data into the page (i.e set the image)
+        ImageView imageView = (ImageView) itemView.findViewById(R.id.imageView);
+        // ...
+        // Add the page to the container
+        container.addView(itemView);
+        // Return the page
+        return itemView;
+    }
+    // Removes the page from the container for the given position.
+    @Override
+    public void destroyItem(ViewGroup container, int position, Object object) {
+        container.removeView((View) object);
+    }
+}
+
+OR
+class CustomPagerAdapter extends PagerAdapter {
+    Context mContext;
+    LayoutInflater mLayoutInflater;
+    int[] mResources = {
+        R.drawable.first,
+        R.drawable.second,
+        R.drawable.third,
+        R.drawable.fourth,
+        R.drawable.fifth,
+        R.drawable.sixth
+    };
+
+    public CustomPagerAdapter(Context context) {
+        mContext = context;
+        mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    }
+    @Override
+    public int getCount() {
+        return mResources.length;
+    }
+
+    @Override
+    public boolean isViewFromObject(View view, Object object) {
+        return view == ((LinearLayout) object);
+    }
+ 
+    @Override
+    public Object instantiateItem(ViewGroup container, int position) {
+        View itemView = mLayoutInflater.inflate(R.layout.pager_item, container, false);
+        ImageView imageView = (ImageView) itemView.findViewById(R.id.imageView);
+        imageView.setImageResource(mResources[position]);
+        container.addView(itemView);
+        return itemView;
+    }
+    @Override
+    public void destroyItem(ViewGroup container, int position, Object object) {
+        container.removeView((LinearLayout) object);
+    }
+}
+// res/layout/pager_item.xml
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/imageView" />
+</LinearLayout>
+}}}
 
 
 Example: Listen text xhnage of Edit Text
@@ -1470,6 +1800,12 @@ Step3: Now let's write android plagins to send and recv data from our server.
 ## Support personalize Experice.
 In this perticulr section, i will be discussion with how to personalized your app experince for the user. The term "Personlization" means that your app should resposnce perfactly for the multiple devices, user can choose their languages and user can have their own theme etc.
 
+Table: Summary of having a better Personalized experince
+Supporting mutiple languages # Example to support mutiple languages
+Supporting seperate layout for differnt devices # Having different layout for diffent devices.
+Supporting diffent dimens for diffent devices # Having multiple dimes for diff devices.
+Supporting multiple images # Supporting multiple images for diffent size device
+
 # Supporting mutiple languages
 Let's consider supporting hindi and english langues for a app.
 Step1: Let;s have this layout. Note that we NOT hardcoding the string.
@@ -1682,6 +2018,11 @@ Table: This table is showing image size of each
 192x192 # (4.0x) for extra-extra-extra-high-density (xxxhdpi)
 
 ## Android Networking
+
+Table: Summary of Android Networking supports
+Accessing HTTP               # using okhttp3
+Accessing WebSocket          # using okHTTP3 agains
+HTTP srever                  # We will show an example how to create HTTP server inside andorid app and from outside app.
 
 # Connecting websocket
  WebSocket providing full-duplex communication channels over a single TCP connection. It is supported in HTML 5. Since the version 3.5 of the OkHttp library, you can also use WebSockets connection in your Android applications. Let's try to use it.
@@ -2633,3 +2974,15 @@ mainHandler.post(myRunnable);
 Case 3. Simple:
 new Handler(Looper.getMainLooper()).post(mYourUiThreadRunnable);
 }}}
+
+
+## Android Design
+In this section, I will discusstion the common design to be followed by :
+Table: Android Design Patterns
+Spalsh Screen Design  # This will tell how to design First time user Experice
+Loading screen Design # How to design loading screen when the app is laucnhed for second time.
+Muti-Page App with Activitys # How Design multi-page aplication with mutiple activity.
+Multi-Page with Multiple Fragemnts # In this section, we will discuss how to design a app with same activity with mutiple screen
+MVC # This section discuss how to decouple UI login with Contrler logic using MVC Patterns
+MVVC # Design discussion on MV-VP patatrens
+
