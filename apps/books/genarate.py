@@ -54,7 +54,7 @@ TEMPLATE="""
     }
     .middle { }
     .top .t { padding: 10px; margin-right:10px}
-    .left {position:fixed;left: 0px;top: 50px;padding:5px;width: 300px;height: calc(100% - 60px); display:none;overflow: auto;border-right: 1px solid #575757;}
+    .left {position:fixed;left: 0px;top: 50px;padding:5px;width: 300px;height: calc(100% - 60px); display:none;overflow: auto;}
     .right{max-width: 800px; margin: 10px auto;padding:15px; margin-top:50px}
 
     a {display: block;font-family: 'Source Sans Pro', sans-serif; text-decoration: none; margin-bottom: 8px;}
