@@ -28,7 +28,13 @@
         font-family: monospace;
     }
 
-    div.x1{ font-size: 3rem; text-align: center;margin-top: 50px;margin-bottom: 100px;}
+    div.x1 { 
+        font-size: 3rem;
+        text-align: left;
+        margin-top: 150px;
+        margin-bottom: 20px;
+        border-bottom: 1px solid #eee;
+    }
     div.x2{ font-size: 1.5rem;margin-bottom: 25px;margin-top: 20px;}
     div.x3{ font-size: 1rem;margin-bottom: 10px;text-align: justify;}
 
@@ -41,7 +47,7 @@
     }
     .middle { }
     .top .t { padding: 10px; margin-right:10px}
-    .left {position:fixed;left: 0px;top: 50px;padding:5px;width: 300px;height: 100%; display:none;overflow: auto;border-right: 1px solid #575757;}
+    .left {position:fixed;left: 0px;top: 50px;padding:5px;width: 300px;height: calc(100% - 60px); display:none;overflow: auto;border-right: 1px solid #575757;}
     .right{max-width: 800px; margin: 10px auto;padding:15px; margin-top:50px}
 
     a {display: block;font-family: 'Source Sans Pro', sans-serif; text-decoration: none; margin-bottom: 8px;}
@@ -55,6 +61,22 @@
 
     body.dark,body.dark .top, body.dark a {background: #353535;color: #a7a0a0;}
     body.dark div.code {color: #0daf32;}
+
+    /* Table Style */
+    table {
+        border-collapse: collapse;
+        width:100%;
+        margin-bottom: 50px;
+    }
+    table caption{
+        background: rgba(0,0,0,0.75);
+        color: white;
+        font-weight: bold;
+    }
+    table th, table td, table caption{
+        border: 1px solid rgba(0,0,0,0.1);
+        padding: 10px;
+    }
 </style>
 <script>
 </script>
@@ -68,12 +90,17 @@
     </span>
 </div>
 <div class="middle">
-    <div class="left" style=""><a class='a1' href='#hashid1'+>Linux tools and Techniques</a><a class='a1' href='#hashid2'+>Source Controls</a><a class='a1' href='#hashid3'+>Debugging Skills.</a><a class='a1' href='#hashid4'+>Linting and Static analysis</a></div>
+    <div class="left" style=""><a class='a1' href='#hashid1'+>Linux tools and Techniques</a><a class='a2' href='#hashid2'+>Shell Script Essentials.</a><a class='a2' href='#hashid3'+>An Quick Touch of find.</a><a class='a2' href='#hashid4'+>An Quick tour of grep</a><a class='a2' href='#hashid5'+>An Quick tour of Vim</a><a class='a2' href='#hashid6'+>An Quick touch of sed</a><a class='a1' href='#hashid7'+>Source Controls</a><a class='a1' href='#hashid8'+>Debugging Skills.</a><a class='a1' href='#hashid9'+>Linting and Static analysis</a></div>
     <div class="right" style=""><div class='x3'>### Pro Devlopers</div>
 <div class='x1' id='hashid1'>Linux tools and Techniques</div>
-<div class='x1' id='hashid2'>Source Controls</div>
-<div class='x1' id='hashid3'>Debugging Skills.</div>
-<div class='x1' id='hashid4'>Linting and Static analysis</div></div>
+<div class='x2' id='hashid2'>Shell Script Essentials.</div>
+<div class='x2' id='hashid3'>An Quick Touch of find.</div>
+<div class='x2' id='hashid4'>An Quick tour of grep</div>
+<div class='x2' id='hashid5'>An Quick tour of Vim</div>
+<div class='x2' id='hashid6'>An Quick touch of sed</div>
+<div class='x1' id='hashid7'>Source Controls</div>
+<div class='x1' id='hashid8'>Debugging Skills.</div>
+<div class='x1' id='hashid9'>Linting and Static analysis</div></div>
 </div>
 <div class="footer">
 <p> Do you know this book/HTML is generated from a text file? I traied to use MS word and other software and its seems to be very hard to maintain, sync and reformat - So i get into this crazy idea - just have a text file and write into it. I have a python svript whcih just convert this text into html.</p>

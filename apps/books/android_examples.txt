@@ -2983,6 +2983,382 @@ Spalsh Screen Design  # This will tell how to design First time user Experice
 Loading screen Design # How to design loading screen when the app is laucnhed for second time.
 Muti-Page App with Activitys # How Design multi-page aplication with mutiple activity.
 Multi-Page with Multiple Fragemnts # In this section, we will discuss how to design a app with same activity with mutiple screen
-MVC # This section discuss how to decouple UI login with Contrler logic using MVC Patterns
+MVP # This section discuss how to decouple UI login with Contrler logic using MVC Patterns
 MVVC # Design discussion on MV-VP patatrens
 
+# MVP Patterns in details
+The Model View Presenter (MVP) design pattern dictates that you separate your presentation (the View) from the business logic and the data sources (the Presenter and the Model). The design mainly consist of 3 things.
+1. Model: it is an interface responsible for managing data.
+2. Presenter: the presenter is the middle-man between model and view. The presenter is responsible for querying the model and updating the view, reacting to user interactions updating the model.
+3. View: it is only responsible for presenting data in a way decided by the presenter. The view can be implemented by Activities, Fragments, any Android widget.
+
+The correct design of the MVP should be based on below priciples:
+1. Make View dumb and passive - that means delegates all evnets to presenter so - if you have a username/password form and a “submit” button, you don’t write the validation logic inside the view but inside the presenter. 
+2. Make presenter framework-independent: make sure that presenter doesn’t depend on Android classes but only have Java deps. It gives two advantage : unit test - flexyable.
+3. Write a contract to describe the interaction between View and Presenter: describes the communication between view and presenter. It should bundle ViewContracts and Presenter contracts like this.
+{{{
+public interface SearchRepositoriesContract {
+  interface View {
+    void addResults(List<Repository> repos);
+    void clearResults();
+    void showContentLoading();
+    void hideContentLoading();
+    void showListLoading();
+    void hideListLoading();
+    void showContentError();
+    void hideContentError();
+    void showListError();
+    void showEmptyResultsView();
+    void hideEmptyResultsView();
+  }
+  interface Presenter extends BasePresenter<View> {
+    void load();
+    void loadMore();
+    void queryChanged(String query);
+    void repositoryClick(Repository repo);
+  }
+}
+}}}
+4. The presenter must depend on the View interface and not directly on the Activity or the real View..
+
+5. Define a naming convention to separate responsibilities: All Presenter methods should be an actions like Load() , where as all view methods will be userEvents. like queryChanged(), onButtonClick or UI functions like Show/Hide/Render().
+
+6. Do not create Activity-lifecycle-style callbacks in the Presenter interface:  presenter shouldn’t have methods like onCreate(...), onStart(), onResume() as The presenter shouldn’t have a so complex lifecycle.
+
+7. Presenter has a 1-to-1 relation with the view - The presenter doesn’t make sense without a view. It comes with the view and goes when the view is destroyed as It should  manages one and only view. How to pass View to presentre, either pass it by constracter( which is not so good)- better we can have attach(View view) and detach() ( which makes View nullbale and we need to have darty null check everwhere). We can solve the problem using  BasePresenter<V>  as below:
+{{{
+public interface BasePresenter<V> {
+  void attach(V view);
+  void detach();
+  @Nubbale V getView();
+}
+}}}
+7. Statleless presentre: (a) Do not save the state inside the presenter - as You can’t serialize data into a Bundle because presenter would be coupled with an Android class. Presentre should be stateless. (b)Do not retain the presenter - kill it when app destry and recrate it. (c) Provide a cache for the Model to restore the View state.
+
+
+In this section, I will discussss to alternative Design for MVP Patterns
+
+Step1: Define contracts.
+{{{
+public interface Contracts{
+    public interface IMainView {
+        void showProgress();
+        void hideProgress();
+        void setItems(List<String> items);
+        void showMessage(String message);
+    }
+    public interface IMainPresenter {
+        void onAttach();
+        void onItemClicked(int position);
+        void onDetach();
+    }
+    //model
+    public interface IItemProvider {
+        interface OnFinishedListener {
+            void onFinished(List<String> items);
+        }
+        void loadItems(OnFinishedListener listener);
+    }
+}
+}}}
+
+Step2: Define Concreate implements: Note that:
+-  MainPresenter implements IMainPresenter , MainActivity implement IMainView and so on. 
+- MainView instancite the Presenter and Model and Pass them both to presneter. (If you use attach or detech - then they should be bind at onViewAttch and OnViewDetacj )
+{{{
+// implement presentation
+public class MainPresenter implements IMainPresenter, IItemProvider.OnFinishedListener {
+    private IMainView mainView; <<<< Not that it's an interface.
+    private IItemProvider itemProvider;
+    public MainPresenter(IMainView mainView, IItemProvider itemProvider) {
+        this.mainView = mainView;
+        this.itemProvider = itemProvider;
+    }
+
+    @Override public void onAttach() {
+        if (mainView != null) {
+            mainView.showProgress();
+        }
+        itemProvider.loadItems(this);
+    }
+
+    @Override public void onItemClicked(int position) {
+        if (mainView != null) {
+            mainView.showMessage(String.format("Position %d clicked", position + 1));
+        }
+    }
+
+    @Override public void onDetach() {
+        mainView = null;
+    }
+    @Override public void onFinished(List<String> items) {
+        if (mainView != null) {
+            mainView.setItems(items);
+            mainView.hideProgress();
+        }
+    }
+    public IMainView getMainView() {
+        return mainView;
+    }
+}
+
+// implement model
+public class ItemProvider implements IItemProvider{
+    @Override public void loadItems(final IItemProvider.OnFinishedListener listener) {
+        new Handler().postDelayed(new Runnable() {
+            @Override public void run() {
+                listener.onFinished(createArrayList());
+            }
+        }, 2000);
+    }
+
+    private List<String> createArrayList() {
+        return Arrays.asList(
+                "Item 1",
+                "Item 2",
+                "Item 3",
+                "Item 4",
+                "Item 5",
+                "Item 6",
+                "Item 7",
+                "Item 8",
+                "Item 9",
+                "Item 10"
+        );
+    }
+}
+
+// implement view.
+public class MainActivity extends Activity implements IMainView, AdapterView.OnItemClickListener {
+
+    private ListView listView;
+    private ProgressBar progressBar;
+    private IMainPresenter presenter;
+
+    @Override protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        listView = (ListView) findViewById(R.id.list);
+        listView.setOnItemClickListener(this);
+        progressBar = (ProgressBar) findViewById(R.id.progress);
+        // Presneter created and passes. 
+        presenter = new MainPresenter(this, new ItemProvider() {
+        
+        });
+    }
+
+    @Override protected void onResume() {
+        super.onResume();
+        presenter.onAttach();
+    }
+
+    @Override protected void onDestroy() {
+        presenter.onDetach();
+        super.onDestroy();
+    }
+
+    @Override public void showProgress() {
+        progressBar.setVisibility(View.VISIBLE);
+        listView.setVisibility(View.INVISIBLE);
+    }
+
+    @Override public void hideProgress() {
+        progressBar.setVisibility(View.INVISIBLE);
+        listView.setVisibility(View.VISIBLE);
+    }
+
+    @Override public void setItems(List<String> items) {
+        listView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items));
+    }
+
+    @Override public void showMessage(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+    }
+
+    @Override public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        presenter.onItemClicked(position);
+    }
+}
+}}}
+
+
+Example 2: This is an alternative way to do that: 
+
+Step 1: Define common Base MVP infra
+{{{
+public interface MvpView {
+    void showLoading(String msg);
+    void hideLoading();
+    void showError(String errorMsg);
+}
+public interface Presenter<V extends MvpView> {
+    void attachView(V mvpView);
+    void detachView();
+}
+public class BasePresenter<V extends MvpView> implements Presenter<V> {
+    private V mvpView;
+    @Override
+    public void attachView(V mvpView) {
+        this.mvpView = mvpView;
+    }
+    @Override
+    public void detachView() {
+        this.mvpView = null;
+    }
+    public boolean isViewAttached() {
+        return mvpView != null;
+    }
+    public V getMvpView() {
+        return mvpView;
+    }
+
+    public void checkViewAttached() {
+        if (!isViewAttached()) {
+            throw new MvpViewNotAttachedException();
+        }
+    }
+
+    public static class MvpViewNotAttachedException extends RuntimeException {
+        public MvpViewNotAttachedException() {
+            super("You must call attachView(MvpView)");
+        }
+    }
+}
+}}}
+
+Step2: Now Define your customView and Presenter which deps on the infra.
+{{{
+public interface ILoginPresenter {
+    public void login();
+}
+
+public class LoginPresenter extends BasePresenter<ILoginView> implements ILoginPresenter {
+    private IUserModel userModel;
+    public LoginPresenter(IUserModel userModel) {
+        this.userModel = userModel;
+    }
+
+    @Override
+    public void login() {
+        checkViewAttached();
+        getMvpView().showLoading("登录中..."); <<< SEE How to invoke the common infra.
+        userModel.login(getMvpView().getUsername(), getMvpView().getPassword(), new Callback() {
+            @Override
+            public void onSuccess() {
+                if (isViewAttached()) { <<<< Common Infra
+                    getMvpView().hideLoading();
+                    getMvpView().showResult("Success");
+                }
+            }
+
+            @Override
+            public void onFailure(String errorMsg) {
+                if (isViewAttached()) {
+                    getMvpView().hideLoading();
+                    getMvpView().showResult(errorMsg);
+                }
+            }
+        });
+    }
+}
+
+}}}
+
+Step 3: Define Views. 
+
+{{{
+public interface ILoginView extends MvpView {
+    String getUsername();
+    String getPassword();
+    void showResult(String result);
+}
+
+public class LoginActivity extends AppCompatActivity implements ILoginView, View.OnClickListener {
+
+    private EditText username;
+    private EditText password;
+    private ProgressDialog progressDialog;
+    private LoginPresenter presenter;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
+        username = (EditText) findViewById(R.id.username);
+        password = (EditText) findViewById(R.id.password);
+        findViewById(R.id.login).setOnClickListener(this);
+        progressDialog = new ProgressDialog(this);
+        presenter = new LoginPresenter(new UserModel());
+        presenter.attachView(this); <<<< Attch iT. 
+    }
+
+    @Override
+    protected void onDestroy() {
+        presenter.detachView(); >>>> Call the base MVP Infra
+        super.onDestroy();
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.login:
+                presenter.login(); <<<< Just deligate here.
+                break;
+        }
+    }
+
+    @Override
+    public String getUsername() {
+        return username.getText().toString().trim();
+    }
+    @Override
+    public String getPassword() {
+        return password.getText().toString().trim();
+    }
+    @Override
+    public void showResult(String result) {
+        Toast.makeText(LoginActivity.this, result, Toast.LENGTH_SHORT).show();
+    }
+    
+    @Override
+    public void showLoading(String msg) {
+        progressDialog.setMessage(msg);
+        if (!progressDialog.isShowing()) {
+            progressDialog.show();
+        }
+    }
+
+    @Override
+    public void hideLoading() {
+        if (progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
+    }
+
+    @Override
+    public void showError(String errorMsg) {
+        Toast.makeText(LoginActivity.this, errorMsg, Toast.LENGTH_SHORT).show();
+    }
+}
+
+}}}
+
+Step 4: An beter way to attch and detach:
+{{{
+public interface BasePresenter {
+    void onViewAttached(MVPView view); 
+    void onViewDetached();
+}
+// In case of Activity.
+public class BaseActivity extends AppCompatActivity { 
+  @Override 
+  protected void onStart() { 
+    super.onStart();
+    presenter.onViewAttached(this);
+  }
+@Override protected void onStop() { 
+    super.onStop();
+    presenter.onViewDetached();
+  } 
+}
+}}}

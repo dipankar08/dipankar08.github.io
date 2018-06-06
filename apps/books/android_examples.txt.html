@@ -90,7 +90,7 @@
     </span>
 </div>
 <div class="middle">
-    <div class="left" style=""><a class='a1' href='#hashid1'+>Andorid components</a><a class='a2' href='#hashid2'+>Android Simple Activity</a><a class='a2' href='#hashid3'+>Activity Life Cycle Callback</a><a class='a2' href='#hashid4'+>Android Services Templates</a><a class='a2' href='#hashid5'+>Android Content Providers</a><a class='a2' href='#hashid6'+>Android Broadcast Receiver</a><a class='a1' href='#hashid7'+>Android UI Designs</a><a class='a2' href='#hashid8'+>Layouts</a><a class='a2' href='#hashid9'+>Controls</a><a class='a2' href='#hashid10'+>Navigations</a><a class='a2' href='#hashid11'+>Dialog and Navigation</a><a class='a2' href='#hashid12'+>Events and Guestures</a><a class='a2' href='#hashid13'+>View pager End to end.</a><a class='a2' href='#hashid14'+>Android fragments</a><a class='a2' href='#hashid15'+>Executing Async Jobs in android.</a><a class='a2' href='#hashid16'+>WebSocket Support to Android</a><a class='a1' href='#hashid17'+>Support personalize Experice.</a><a class='a2' href='#hashid18'+>Supporting mutiple languages</a><a class='a2' href='#hashid19'+>Supporting seperate layout for differnt devices.</a><a class='a2' href='#hashid20'+>Supporting different button width for diffent devices.</a><a class='a2' href='#hashid21'+>Supporting multiple images</a><a class='a1' href='#hashid22'+>Android Networking</a><a class='a2' href='#hashid23'+>Connecting websocket</a><a class='a2' href='#hashid24'+>Simple Network Calls to parse JSON.</a><a class='a2' href='#hashid25'+>Having HTTP server inside android App</a><a class='a1' href='#hashid26'+>Android Performance</a><a class='a2' href='#hashid27'+>Android Thread and process</a><a class='a1' href='#hashid28'+>Android Design</a></div>
+    <div class="left" style=""><a class='a1' href='#hashid1'+>Andorid components</a><a class='a2' href='#hashid2'+>Android Simple Activity</a><a class='a2' href='#hashid3'+>Activity Life Cycle Callback</a><a class='a2' href='#hashid4'+>Android Services Templates</a><a class='a2' href='#hashid5'+>Android Content Providers</a><a class='a2' href='#hashid6'+>Android Broadcast Receiver</a><a class='a1' href='#hashid7'+>Android UI Designs</a><a class='a2' href='#hashid8'+>Layouts</a><a class='a2' href='#hashid9'+>Controls</a><a class='a2' href='#hashid10'+>Navigations</a><a class='a2' href='#hashid11'+>Dialog and Navigation</a><a class='a2' href='#hashid12'+>Events and Guestures</a><a class='a2' href='#hashid13'+>View pager End to end.</a><a class='a2' href='#hashid14'+>Android fragments</a><a class='a2' href='#hashid15'+>Executing Async Jobs in android.</a><a class='a2' href='#hashid16'+>WebSocket Support to Android</a><a class='a1' href='#hashid17'+>Support personalize Experice.</a><a class='a2' href='#hashid18'+>Supporting mutiple languages</a><a class='a2' href='#hashid19'+>Supporting seperate layout for differnt devices.</a><a class='a2' href='#hashid20'+>Supporting different button width for diffent devices.</a><a class='a2' href='#hashid21'+>Supporting multiple images</a><a class='a1' href='#hashid22'+>Android Networking</a><a class='a2' href='#hashid23'+>Connecting websocket</a><a class='a2' href='#hashid24'+>Simple Network Calls to parse JSON.</a><a class='a2' href='#hashid25'+>Having HTTP server inside android App</a><a class='a1' href='#hashid26'+>Android Performance</a><a class='a2' href='#hashid27'+>Android Thread and process</a><a class='a1' href='#hashid28'+>Android Design</a><a class='a2' href='#hashid29'+>MVP Patterns in details</a></div>
     <div class="right" style=""><div class='x1' id='hashid1'>Andorid components</div>
 <div class='x3'>This tutorials is mainly design for providing templates for android devlopment and helping out my copy-paste efficiency.</div>
 <div class='x3'>In this section, we wil mainly discussed abount the android compoents as shown in the table:</div>
@@ -2931,9 +2931,372 @@ new Handler(Looper.getMainLooper()).post(mYourUiThreadRunnable);
 <tr><td>Loading screen Design</td><td>How to design loading screen when the app is laucnhed for second time.</td></tr>
 <tr><td>Muti-Page App with Activitys</td><td>How Design multi-page aplication with mutiple activity.</td></tr>
 <tr><td>Multi-Page with Multiple Fragemnts</td><td>In this section, we will discuss how to design a app with same activity with mutiple screen</td></tr>
-<tr><td>MVC</td><td>This section discuss how to decouple UI login with Contrler logic using MVC Patterns</td></tr>
+<tr><td>MVP</td><td>This section discuss how to decouple UI login with Contrler logic using MVC Patterns</td></tr>
 <tr><td>MVVC</td><td>Design discussion on MV-VP patatrens</td></tr>
-</table></div>
+</table>
+<div class='x2' id='hashid29'>MVP Patterns in details</div>
+<div class='x3'>The Model View Presenter (MVP) design pattern dictates that you separate your presentation (the View) from the business logic and the data sources (the Presenter and the Model). The design mainly consist of 3 things.</div>
+<ol>
+<li>Model: it is an interface responsible for managing data.</li>
+<li>Presenter: the presenter is the middle-man between model and view. The presenter is responsible for querying the model and updating the view, reacting to user interactions updating the model.</li>
+<li>View: it is only responsible for presenting data in a way decided by the presenter. The view can be implemented by Activities, Fragments, any Android widget.</li>
+</ol>
+<div class='x3'>The correct design of the MVP should be based on below priciples:</div>
+<ol>
+<li>Make View dumb and passive - that means delegates all evnets to presenter so - if you have a username/password form and a “submit” button, you don’t write the validation logic inside the view but inside the presenter.</li>
+<li>Make presenter framework-independent: make sure that presenter doesn’t depend on Android classes but only have Java deps. It gives two advantage : unit test - flexyable.</li>
+<li>Write a contract to describe the interaction between View and Presenter: describes the communication between view and presenter. It should bundle ViewContracts and Presenter contracts like this.</li>
+</ol>
+<div class='code'>public interface SearchRepositoriesContract {
+  interface View {
+    void addResults(List&lt;Repository&gt; repos);
+    void clearResults();
+    void showContentLoading();
+    void hideContentLoading();
+    void showListLoading();
+    void hideListLoading();
+    void showContentError();
+    void hideContentError();
+    void showListError();
+    void showEmptyResultsView();
+    void hideEmptyResultsView();
+  }
+  interface Presenter extends BasePresenter&lt;View&gt; {
+    void load();
+    void loadMore();
+    void queryChanged(String query);
+    void repositoryClick(Repository repo);
+  }
+}
+</div>
+<ol>
+<li>The presenter must depend on the View interface and not directly on the Activity or the real View..</li>
+<li>Define a naming convention to separate responsibilities: All Presenter methods should be an actions like Load() , where as all view methods will be userEvents. like queryChanged(), onButtonClick or UI functions like Show/Hide/Render().</li>
+<li>Do not create Activity-lifecycle-style callbacks in the Presenter interface:  presenter shouldn’t have methods like onCreate(...), onStart(), onResume() as The presenter shouldn’t have a so complex lifecycle.</li>
+<li>Presenter has a 1-to-1 relation with the view - The presenter doesn’t make sense without a view. It comes with the view and goes when the view is destroyed as It should  manages one and only view. How to pass View to presentre, either pass it by constracter( which is not so good)- better we can have attach(View view) and detach() ( which makes View nullbale and we need to have darty null check everwhere). We can solve the problem using  BasePresenter<V>  as below:</li>
+</ol>
+<div class='code'>public interface BasePresenter&lt;V&gt; {
+  void attach(V view);
+  void detach();
+  @Nubbale V getView();
+}
+</div>
+<ol>
+<li>Statleless presentre: (a) Do not save the state inside the presenter - as You can’t serialize data into a Bundle because presenter would be coupled with an Android class. Presentre should be stateless. (b)Do not retain the presenter - kill it when app destry and recrate it. (c) Provide a cache for the Model to restore the View state.</li>
+</ol>
+<div class='x3'>In this section, I will discussss to alternative Design for MVP Patterns</div>
+<div class='x3'>Step1: Define contracts.</div>
+<div class='code'>public interface Contracts{
+    public interface IMainView {
+        void showProgress();
+        void hideProgress();
+        void setItems(List&lt;String&gt; items);
+        void showMessage(String message);
+    }
+    public interface IMainPresenter {
+        void onAttach();
+        void onItemClicked(int position);
+        void onDetach();
+    }
+    //model
+    public interface IItemProvider {
+        interface OnFinishedListener {
+            void onFinished(List&lt;String&gt; items);
+        }
+        void loadItems(OnFinishedListener listener);
+    }
+}
+</div>
+<div class='x3'>Step2: Define Concreate implements: Note that:</div>
+<ul>
+<li>MainPresenter implements IMainPresenter , MainActivity implement IMainView and so on.</li>
+<li>MainView instancite the Presenter and Model and Pass them both to presneter. (If you use attach or detech - then they should be bind at onViewAttch and OnViewDetacj )</li>
+</ul>
+<div class='code'>// implement presentation
+public class MainPresenter implements IMainPresenter, IItemProvider.OnFinishedListener {
+    private IMainView mainView; &lt;&lt;&lt;&lt; Not that it's an interface.
+    private IItemProvider itemProvider;
+    public MainPresenter(IMainView mainView, IItemProvider itemProvider) {
+        this.mainView = mainView;
+        this.itemProvider = itemProvider;
+    }
+
+    @Override public void onAttach() {
+        if (mainView != null) {
+            mainView.showProgress();
+        }
+        itemProvider.loadItems(this);
+    }
+
+    @Override public void onItemClicked(int position) {
+        if (mainView != null) {
+            mainView.showMessage(String.format("Position %d clicked", position + 1));
+        }
+    }
+
+    @Override public void onDetach() {
+        mainView = null;
+    }
+    @Override public void onFinished(List&lt;String&gt; items) {
+        if (mainView != null) {
+            mainView.setItems(items);
+            mainView.hideProgress();
+        }
+    }
+    public IMainView getMainView() {
+        return mainView;
+    }
+}
+
+// implement model
+public class ItemProvider implements IItemProvider{
+    @Override public void loadItems(final IItemProvider.OnFinishedListener listener) {
+        new Handler().postDelayed(new Runnable() {
+            @Override public void run() {
+                listener.onFinished(createArrayList());
+            }
+        }, 2000);
+    }
+
+    private List&lt;String&gt; createArrayList() {
+        return Arrays.asList(
+                "Item 1",
+                "Item 2",
+                "Item 3",
+                "Item 4",
+                "Item 5",
+                "Item 6",
+                "Item 7",
+                "Item 8",
+                "Item 9",
+                "Item 10"
+        );
+    }
+}
+
+// implement view.
+public class MainActivity extends Activity implements IMainView, AdapterView.OnItemClickListener {
+
+    private ListView listView;
+    private ProgressBar progressBar;
+    private IMainPresenter presenter;
+
+    @Override protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        listView = (ListView) findViewById(R.id.list);
+        listView.setOnItemClickListener(this);
+        progressBar = (ProgressBar) findViewById(R.id.progress);
+        // Presneter created and passes. 
+        presenter = new MainPresenter(this, new ItemProvider() {
+        
+        });
+    }
+
+    @Override protected void onResume() {
+        super.onResume();
+        presenter.onAttach();
+    }
+
+    @Override protected void onDestroy() {
+        presenter.onDetach();
+        super.onDestroy();
+    }
+
+    @Override public void showProgress() {
+        progressBar.setVisibility(View.VISIBLE);
+        listView.setVisibility(View.INVISIBLE);
+    }
+
+    @Override public void hideProgress() {
+        progressBar.setVisibility(View.INVISIBLE);
+        listView.setVisibility(View.VISIBLE);
+    }
+
+    @Override public void setItems(List&lt;String&gt; items) {
+        listView.setAdapter(new ArrayAdapter&lt;&gt;(this, android.R.layout.simple_list_item_1, items));
+    }
+
+    @Override public void showMessage(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+    }
+
+    @Override public void onItemClick(AdapterView&lt;?&gt; parent, View view, int position, long id) {
+        presenter.onItemClicked(position);
+    }
+}
+</div>
+<div class='x3'>Example 2: This is an alternative way to do that:</div>
+<div class='x3'>Step 1: Define common Base MVP infra</div>
+<div class='code'>public interface MvpView {
+    void showLoading(String msg);
+    void hideLoading();
+    void showError(String errorMsg);
+}
+public interface Presenter&lt;V extends MvpView&gt; {
+    void attachView(V mvpView);
+    void detachView();
+}
+public class BasePresenter&lt;V extends MvpView&gt; implements Presenter&lt;V&gt; {
+    private V mvpView;
+    @Override
+    public void attachView(V mvpView) {
+        this.mvpView = mvpView;
+    }
+    @Override
+    public void detachView() {
+        this.mvpView = null;
+    }
+    public boolean isViewAttached() {
+        return mvpView != null;
+    }
+    public V getMvpView() {
+        return mvpView;
+    }
+
+    public void checkViewAttached() {
+        if (!isViewAttached()) {
+            throw new MvpViewNotAttachedException();
+        }
+    }
+
+    public static class MvpViewNotAttachedException extends RuntimeException {
+        public MvpViewNotAttachedException() {
+            super("You must call attachView(MvpView)");
+        }
+    }
+}
+</div>
+<div class='x3'>Step2: Now Define your customView and Presenter which deps on the infra.</div>
+<div class='code'>public interface ILoginPresenter {
+    public void login();
+}
+
+public class LoginPresenter extends BasePresenter&lt;ILoginView&gt; implements ILoginPresenter {
+    private IUserModel userModel;
+    public LoginPresenter(IUserModel userModel) {
+        this.userModel = userModel;
+    }
+
+    @Override
+    public void login() {
+        checkViewAttached();
+        getMvpView().showLoading("登录中..."); &lt;&lt;&lt; SEE How to invoke the common infra.
+        userModel.login(getMvpView().getUsername(), getMvpView().getPassword(), new Callback() {
+            @Override
+            public void onSuccess() {
+                if (isViewAttached()) { &lt;&lt;&lt;&lt; Common Infra
+                    getMvpView().hideLoading();
+                    getMvpView().showResult("Success");
+                }
+            }
+
+            @Override
+            public void onFailure(String errorMsg) {
+                if (isViewAttached()) {
+                    getMvpView().hideLoading();
+                    getMvpView().showResult(errorMsg);
+                }
+            }
+        });
+    }
+}
+
+</div>
+<div class='x3'>Step 3: Define Views.</div>
+<div class='code'>public interface ILoginView extends MvpView {
+    String getUsername();
+    String getPassword();
+    void showResult(String result);
+}
+
+public class LoginActivity extends AppCompatActivity implements ILoginView, View.OnClickListener {
+
+    private EditText username;
+    private EditText password;
+    private ProgressDialog progressDialog;
+    private LoginPresenter presenter;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
+        username = (EditText) findViewById(R.id.username);
+        password = (EditText) findViewById(R.id.password);
+        findViewById(R.id.login).setOnClickListener(this);
+        progressDialog = new ProgressDialog(this);
+        presenter = new LoginPresenter(new UserModel());
+        presenter.attachView(this); &lt;&lt;&lt;&lt; Attch iT. 
+    }
+
+    @Override
+    protected void onDestroy() {
+        presenter.detachView(); &gt;&gt;&gt;&gt; Call the base MVP Infra
+        super.onDestroy();
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.login:
+                presenter.login(); &lt;&lt;&lt;&lt; Just deligate here.
+                break;
+        }
+    }
+
+    @Override
+    public String getUsername() {
+        return username.getText().toString().trim();
+    }
+    @Override
+    public String getPassword() {
+        return password.getText().toString().trim();
+    }
+    @Override
+    public void showResult(String result) {
+        Toast.makeText(LoginActivity.this, result, Toast.LENGTH_SHORT).show();
+    }
+    
+    @Override
+    public void showLoading(String msg) {
+        progressDialog.setMessage(msg);
+        if (!progressDialog.isShowing()) {
+            progressDialog.show();
+        }
+    }
+
+    @Override
+    public void hideLoading() {
+        if (progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
+    }
+
+    @Override
+    public void showError(String errorMsg) {
+        Toast.makeText(LoginActivity.this, errorMsg, Toast.LENGTH_SHORT).show();
+    }
+}
+
+</div>
+<div class='x3'>Step 4: An beter way to attch and detach:</div>
+<div class='code'>public interface BasePresenter {
+    void onViewAttached(MVPView view); 
+    void onViewDetached();
+}
+// In case of Activity.
+public class BaseActivity extends AppCompatActivity { 
+  @Override 
+  protected void onStart() { 
+    super.onStart();
+    presenter.onViewAttached(this);
+  }
+@Override protected void onStop() { 
+    super.onStop();
+    presenter.onViewDetached();
+  } 
+}
+</div></div>
 </div>
 <div class="footer">
 <p> Do you know this book/HTML is generated from a text file? I traied to use MS word and other software and its seems to be very hard to maintain, sync and reformat - So i get into this crazy idea - just have a text file and write into it. I have a python svript whcih just convert this text into html.</p>

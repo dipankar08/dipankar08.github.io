@@ -1,7 +1,16 @@
 ### Pro Devlopers
 
 ## Linux tools and Techniques
+# Shell Script Essentials.
 
+# An Quick Touch of find.
+
+# An Quick tour of grep
+
+
+# An Quick tour of Vim
+
+# An Quick touch of sed
 
 ## Source Controls
 
