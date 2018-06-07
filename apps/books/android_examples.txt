@@ -535,8 +535,8 @@ ScaleGestureDetector # Delect the scale events.
 # View pager End to end.
 
 
-Step 1. Layout :
-{{{
+Step 1. Let's define the layout which holds ViewPager.
+{{{e
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -573,8 +573,8 @@ OR
 	android:layout_width="fill_parent" />
 }}}
 
-Step 2: Define multiple Fragemnts
-{{{
+Step 2: Now Let's define some Fragemnets like FirstFragment, FirstFragment etc which will actually conatins of view for each page.
+{{{e
 public class FirstFragment extends Fragment {
 	// Store instance variables
 	private String title;
@@ -609,8 +609,8 @@ public class FirstFragment extends Fragment {
 }  
 }}}
 
-Step 3: Define Adapters which wil provides View.
-{{{
+Step 3: Now We need to provides a Adapter extending FragmentPagerAdapter, which is essentially holds all thrree fragments - will create and send it back as requested.
+{{{e
 public static class MyPagerAdapter extends FragmentPagerAdapter {
 	    private static int NUM_ITEMS = 3;
         public MyPagerAdapter(FragmentManager fragmentManager) {
@@ -643,8 +643,8 @@ public static class MyPagerAdapter extends FragmentPagerAdapter {
     }
 }}}
 
-Step 4: Binding everyting in main Activity and Manipulates
-{{{
+Step 4: Now Let's define the activity whihc will bind everything - it will get the view pager view and initilize the adapter and then bind adapter with ViewPager.
+{{{e
 public class MainActivity extends AppCompatActivity {
 	FragmentPagerAdapter adapterViewPager;
 	@Override
@@ -694,7 +694,7 @@ public class MainActivity extends AppCompatActivity {
 }}} 
 
 Step 5: Using Custom animation. We can customize how the pages animate as they are being swiped between using the PageTransformer. 
-{{{
+{{{e
     // compile 'com.ToxicBakery.viewpager.transforms:view-pager-transforms:1.2.32@aar'
     pager = (ViewPager) findViewById(R.id.container);
     pager.setAdapter(mAdapter);
@@ -722,7 +722,7 @@ Step 5: Using Custom animation. We can customize how the pages animate as they a
 }}}
 
 Step 6: Handling Dynamically genenarated pages 
-{{{
+{{{e
 public class mAdapter extends PagerAdapter {
     List<View> mlist;
 
@@ -749,7 +749,7 @@ public class mAdapter extends PagerAdapter {
 }}}
 
 Step 7: Custom Pages without Fragments
-{{{
+{{{e
 class CustomPagerAdapter extends PagerAdapter {
     Context mContext;
     LayoutInflater mLayoutInflater;
@@ -789,6 +789,7 @@ class CustomPagerAdapter extends PagerAdapter {
 }
 
 OR
+
 class CustomPagerAdapter extends PagerAdapter {
     Context mContext;
     LayoutInflater mLayoutInflater;
@@ -1681,7 +1682,7 @@ Here is an example of Fragment Trasation:
 }}}
 
 Using fragmen, it is possible to customize the backStack operation. A record of all Fragment transactions is kept for each Activity by the FragmentManager. When used properly, this allows the user to hit the device’s back button to remove previously added Fragments.
-{{{
+{{{e
 //add to backStack
 FragmentTransaction fts = getSupportFragmentManager().beginTransaction();
 fts.replace(R.id.flContainer, new FirstFragment());

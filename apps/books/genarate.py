@@ -20,6 +20,7 @@ TEMPLATE="""
         line-height: 1.6;
         font-family: 'Source Sans Pro', sans-serif;
     }
+    .hide { display: none;}
     body, a, body .top{ margin: 0 auto; color: #575757;background:white;}
     ol,ul{margin-bottom: 15px; margin-top:0;text-align: justify;}
     li{ margin-bottom: 5px;}
@@ -33,6 +34,10 @@ TEMPLATE="""
         font-size: 0.9rem;
         letter-spacing: .05px;
         font-family: monospace;
+    }
+
+    a.codeexpand{
+        color:blue;
     }
 
     div.x1 { 
@@ -86,6 +91,10 @@ TEMPLATE="""
     }
 </style>
 <script>
+    $$( document ).ready(function() {
+        console.log( "ready!" );
+        $$('.codeexpand').click(function(){ $$($$(this).next()).toggleClass('hide')})
+    });
 </script>
 </head>
 <body>
@@ -184,7 +193,11 @@ while index < len(content):
         output.append("<li>"+line[3:].strip()+"</li>")
     elif line.startswith("{{{"):
         code_start = True
-        output.append("<div class='code'>")
+        if line.startswith("{{{e"):
+            output.append("<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>")
+            output.append("<div class='code hide'>")
+        else:
+            output.append("<div class='code'>")
     elif line.startswith("}}}"):
         output.append("</div>")
         code_start = False

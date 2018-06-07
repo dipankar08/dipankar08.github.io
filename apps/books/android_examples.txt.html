@@ -13,6 +13,7 @@
         line-height: 1.6;
         font-family: 'Source Sans Pro', sans-serif;
     }
+    .hide { display: none;}
     body, a, body .top{ margin: 0 auto; color: #575757;background:white;}
     ol,ul{margin-bottom: 15px; margin-top:0;text-align: justify;}
     li{ margin-bottom: 5px;}
@@ -26,6 +27,10 @@
         font-size: 0.9rem;
         letter-spacing: .05px;
         font-family: monospace;
+    }
+
+    a.codeexpand{
+        color:blue;
     }
 
     div.x1 { 
@@ -79,6 +84,10 @@
     }
 </style>
 <script>
+    $( document ).ready(function() {
+        console.log( "ready!" );
+        $('.codeexpand').click(function(){ $($(this).next()).toggleClass('hide')})
+    });
 </script>
 </head>
 <body>
@@ -614,8 +623,10 @@ public class IntentServiceActivity extends AppCompatActivity {
 <tr><td>ScaleGestureDetector</td><td>Delect the scale events.</td></tr>
 </table>
 <div class='x2' id='hashid13'>View pager End to end.</div>
-<div class='x3'>Step 1. Layout :</div>
-<div class='code'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+<div class='x3'>Step 1. Let's define the layout which holds ViewPager.</div>
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+&lt;?xml version="1.0" encoding="utf-8"?&gt;
 &lt;LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -650,8 +661,10 @@ OR
 	android:layout_height="wrap_content"
 	android:layout_width="fill_parent" /&gt;
 </div>
-<div class='x3'>Step 2: Define multiple Fragemnts</div>
-<div class='code'>public class FirstFragment extends Fragment {
+<div class='x3'>Step 2: Now Let's define some Fragemnets like FirstFragment, FirstFragment etc which will actually conatins of view for each page.</div>
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+public class FirstFragment extends Fragment {
 	// Store instance variables
 	private String title;
 	private int page;
@@ -684,8 +697,10 @@ OR
 	}
 }  
 </div>
-<div class='x3'>Step 3: Define Adapters which wil provides View.</div>
-<div class='code'>public static class MyPagerAdapter extends FragmentPagerAdapter {
+<div class='x3'>Step 3: Now We need to provides a Adapter extending FragmentPagerAdapter, which is essentially holds all thrree fragments - will create and send it back as requested.</div>
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+public static class MyPagerAdapter extends FragmentPagerAdapter {
 	    private static int NUM_ITEMS = 3;
         public MyPagerAdapter(FragmentManager fragmentManager) {
             super(fragmentManager);
@@ -716,8 +731,10 @@ OR
         }
     }
 </div>
-<div class='x3'>Step 4: Binding everyting in main Activity and Manipulates</div>
-<div class='code'>public class MainActivity extends AppCompatActivity {
+<div class='x3'>Step 4: Now Let's define the activity whihc will bind everything - it will get the view pager view and initilize the adapter and then bind adapter with ViewPager.</div>
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+public class MainActivity extends AppCompatActivity {
 	FragmentPagerAdapter adapterViewPager;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -765,7 +782,9 @@ OR
 }   
 </div>
 <div class='x3'>Step 5: Using Custom animation. We can customize how the pages animate as they are being swiped between using the PageTransformer.</div>
-<div class='code'>    // compile 'com.ToxicBakery.viewpager.transforms:view-pager-transforms:1.2.32@aar'
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+    // compile 'com.ToxicBakery.viewpager.transforms:view-pager-transforms:1.2.32@aar'
     pager = (ViewPager) findViewById(R.id.container);
     pager.setAdapter(mAdapter);
     pager.setPageTransformer(true, new RotateUpTransformer());
@@ -791,7 +810,9 @@ OR
     });
 </div>
 <div class='x3'>Step 6: Handling Dynamically genenarated pages</div>
-<div class='code'>public class mAdapter extends PagerAdapter {
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+public class mAdapter extends PagerAdapter {
     List&lt;View&gt; mlist;
 
     public void addView(View view, int index) {
@@ -816,7 +837,9 @@ OR
 
 </div>
 <div class='x3'>Step 7: Custom Pages without Fragments</div>
-<div class='code'>class CustomPagerAdapter extends PagerAdapter {
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+class CustomPagerAdapter extends PagerAdapter {
     Context mContext;
     LayoutInflater mLayoutInflater;
     ArrayList&lt;Page&gt; pages = new ArrayList&lt;&gt;(); 
@@ -855,6 +878,7 @@ OR
 }
 
 OR
+
 class CustomPagerAdapter extends PagerAdapter {
     Context mContext;
     LayoutInflater mLayoutInflater;
@@ -1714,7 +1738,9 @@ public class RssfeedActivity extends AppCompatActivity implements MyListFragment
 <div class='code'>
 </div>
 <div class='x3'>Using fragmen, it is possible to customize the backStack operation. A record of all Fragment transactions is kept for each Activity by the FragmentManager. When used properly, this allows the user to hit the device’s back button to remove previously added Fragments.</div>
-<div class='code'>//add to backStack
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+//add to backStack
 FragmentTransaction fts = getSupportFragmentManager().beginTransaction();
 fts.replace(R.id.flContainer, new FirstFragment());
 fts.addToBackStack("optional_tag");
