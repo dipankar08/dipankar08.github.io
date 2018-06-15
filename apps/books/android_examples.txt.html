@@ -99,7 +99,7 @@
     </span>
 </div>
 <div class="middle">
-    <div class="left" style=""><a class='a1' href='#hashid1'+>Andorid components</a><a class='a2' href='#hashid2'+>Android Simple Activity</a><a class='a2' href='#hashid3'+>Activity Life Cycle Callback</a><a class='a2' href='#hashid4'+>Android Services Templates</a><a class='a2' href='#hashid5'+>Android Content Providers</a><a class='a2' href='#hashid6'+>Android Broadcast Receiver</a><a class='a1' href='#hashid7'+>Android UI Designs</a><a class='a2' href='#hashid8'+>Layouts</a><a class='a2' href='#hashid9'+>Controls</a><a class='a2' href='#hashid10'+>Navigations</a><a class='a2' href='#hashid11'+>Dialog and Navigation</a><a class='a2' href='#hashid12'+>Events and Guestures</a><a class='a2' href='#hashid13'+>View pager End to end.</a><a class='a2' href='#hashid14'+>Android fragments</a><a class='a2' href='#hashid15'+>Executing Async Jobs in android.</a><a class='a2' href='#hashid16'+>WebSocket Support to Android</a><a class='a1' href='#hashid17'+>Support personalize Experice.</a><a class='a2' href='#hashid18'+>Supporting mutiple languages</a><a class='a2' href='#hashid19'+>Supporting seperate layout for differnt devices.</a><a class='a2' href='#hashid20'+>Supporting different button width for diffent devices.</a><a class='a2' href='#hashid21'+>Supporting multiple images</a><a class='a1' href='#hashid22'+>Android Networking</a><a class='a2' href='#hashid23'+>Connecting websocket</a><a class='a2' href='#hashid24'+>Simple Network Calls to parse JSON.</a><a class='a2' href='#hashid25'+>Having HTTP server inside android App</a><a class='a1' href='#hashid26'+>Android Performance</a><a class='a2' href='#hashid27'+>Android Thread and process</a><a class='a1' href='#hashid28'+>Android Design</a><a class='a2' href='#hashid29'+>MVP Patterns in details</a></div>
+    <div class="left" style=""><a class='a1' href='#hashid1'+>Andorid components</a><a class='a2' href='#hashid2'+>Android Simple Activity</a><a class='a2' href='#hashid3'+>Activity Life Cycle Callback</a><a class='a2' href='#hashid4'+>Android Services Templates</a><a class='a2' href='#hashid5'+>Android Content Providers</a><a class='a2' href='#hashid6'+>Android Broadcast Receiver</a><a class='a1' href='#hashid7'+>Android UI Designs</a><a class='a2' href='#hashid8'+>Layouts</a><a class='a2' href='#hashid9'+>Controls</a><a class='a2' href='#hashid10'+>Navigations</a><a class='a2' href='#hashid11'+>Dialog and Navigation</a><a class='a2' href='#hashid12'+>Events and Guestures</a><a class='a2' href='#hashid13'+>Android Dialog and Light dismiss End to End.</a><a class='a2' href='#hashid14'+>View pager End to end.</a><a class='a2' href='#hashid15'+>Android fragments</a><a class='a2' href='#hashid16'+>Executing Async Jobs in android.</a><a class='a2' href='#hashid17'+>WebSocket Support to Android</a><a class='a1' href='#hashid18'+>Support personalize Experice.</a><a class='a2' href='#hashid19'+>Supporting mutiple languages</a><a class='a2' href='#hashid20'+>Supporting seperate layout for differnt devices.</a><a class='a2' href='#hashid21'+>Supporting different button width for diffent devices.</a><a class='a2' href='#hashid22'+>Supporting multiple images</a><a class='a1' href='#hashid23'+>Android Networking</a><a class='a2' href='#hashid24'+>Connecting websocket</a><a class='a2' href='#hashid25'+>Simple Network Calls to parse JSON.</a><a class='a2' href='#hashid26'+>Having HTTP server inside android App</a><a class='a1' href='#hashid27'+>Android Performance</a><a class='a2' href='#hashid28'+>Android Thread and process</a><a class='a1' href='#hashid29'+>Android Design</a><a class='a2' href='#hashid30'+>MVP Patterns in details</a></div>
     <div class="right" style=""><div class='x1' id='hashid1'>Andorid components</div>
 <div class='x3'>This tutorials is mainly design for providing templates for android devlopment and helping out my copy-paste efficiency.</div>
 <div class='x3'>In this section, we wil mainly discussed abount the android compoents as shown in the table:</div>
@@ -622,7 +622,305 @@ public class IntentServiceActivity extends AppCompatActivity {
 <tr><td>GestureDetector.SimpleOnGestureListener</td><td>Detect Android provides special types of touch screen events such as pinch , double tap, scrolls , long presses and flinch. These are all known as gestures.</td></tr>
 <tr><td>ScaleGestureDetector</td><td>Delect the scale events.</td></tr>
 </table>
-<div class='x2' id='hashid13'>View pager End to end.</div>
+<div class='x2' id='hashid13'>Android Dialog and Light dismiss End to End.</div>
+<div class='x3'>Below Example shows, how you can create a dilog of below type:</div>
+<ol>
+<li>A Simple alert diloag to show some messange</li>
+<li>Here is an example of YES/NO confirm dialog.</li>
+</ol>
+<div class='code'>// Simple Alert Diloag.
+new AlertDialog.Builder(YourActivity.this)
+              .setTitle("Your Alert")
+              .setMessage("Your Message")
+              .setCancelable(false)
+              .setPositiveButton("ok", new OnClickListener() {
+                  @Override
+                  public void onClick(DialogInterface dialog, int which) {
+                      // Whatever...
+                  }
+              }).show();
+// Two Button
+new AlertDialog.Builder(this)
+        .setTitle("AlertDialog");
+        .setMessage("Would you like to continue learning how to use Android alerts?");
+        .setPositiveButton("Continue", null),
+        .setNegativeButton("Cancel", null);
+        .show();
+
+// Three button.
+new AlertDialog.Builder(this)
+        .setTitle("Notice")
+        .setMessage("Launching this missile will destroy the entire universe. Is this what you intended to do?")
+        .setPositiveButton("Launch missile", null)
+        .setNeutralButton("Remind me later", null)
+        .setNegativeButton("Cancel", null)
+        .show();
+
+// Hanlde buuton clicks
+builder.setPositiveButton("Launch missile", new DialogInterface.OnClickListener() {
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+
+        // do something like...
+        launchMissile();
+    }
+});
+// Having a builder and create dialogs.
+AlertDialog.Builder builder;
+if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.LOLLIPOP) {
+    builder = new AlertDialog.Builder(context, android.R.style.Theme_Material_Dialog_Alert);
+} else {
+    builder = new AlertDialog.Builder(context);
+}
+...
+ // create and show the alert dialog
+AlertDialog dialog = builder.create();
+dialog.show();
+
+// Traditional single-choice list: Hvaing a list of item in Dilogas and choose one of them/
+AlertDialog.Builder builder = new AlertDialog.Builder(this);
+builder.setTitle("Choose an animal");
+String[] animals = {"horse", "cow", "camel", "sheep", "goat"};
+builder.setItems(animals, new DialogInterface.OnClickListener() {
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+        switch (which) {
+            case 0: // horse
+            case 1: // cow
+            case 2: // camel
+            case 3: // sheep
+            case 4: // goat
+        }
+    }
+});
+AlertDialog dialog = builder.create();
+dialog.show();
+
+// Persistent single-choice list (radio buttons): Dillog with radio button list:
+AlertDialog.Builder builder = new AlertDialog.Builder(context);
+builder.setTitle("Choose an animal");
+String[] animals = {"horse", "cow", "camel", "sheep", "goat"};
+int checkedItem = 1; // cow
+builder.setSingleChoiceItems(animals, checkedItem, new DialogInterface.OnClickListener() {
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+        // user checked an item
+    }
+});
+// add OK and Cancel buttons
+builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+        // user clicked OK
+    }
+});
+builder.setNegativeButton("Cancel", null);
+AlertDialog dialog = builder.create();
+dialog.show();
+
+// Persistent multiple-choice list (checkboxes)
+AlertDialog.Builder builder = new AlertDialog.Builder(context);
+builder.setTitle("Choose some animals");
+String[] animals = {"horse", "cow", "camel", "sheep", "goat"};
+boolean[] checkedItems = {true, false, false, true, false};
+builder.setMultiChoiceItems(animals, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
+    @Override
+    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+        // user checked or unchecked a box
+    }
+});
+builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+        // user clicked OK
+    }
+});
+builder.setNegativeButton("Cancel", null);
+AlertDialog dialog = builder.create();
+dialog.show()
+</div>
+<div class='x3'>Example 2: This is example, I will show how to create a Custom Dilog:</div>
+<div class='x3'>Step1: have your own custom_layout.xml</div>
+<div class='code'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:paddingLeft="20dp"
+              android:paddingRight="20dp"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"&gt;
+    &lt;EditText
+        android:id="@+id/editText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/&gt;
+&lt;/LinearLayout&gt;
+</div>
+<div class='x3'>Step2: Add this code in your main activity.</div>
+<div class='code'>    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Name");
+        // set the custom layout
+        final View customLayout = getLayoutInflater().inflate(R.layout.custom_layout, null);
+        builder.setView(customLayout);
+        // add a button
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // send data from the AlertDialog to the Activity
+                EditText editText = customLayout.findViewById(R.id.editText);
+                sendDialogDataToActivity(editText.getText().toString());
+            }
+        });
+        // create and show the alert dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
+</div>
+<div class='x3'>Example 3: Dialog Fragemnets: DialogFragment is a specialized Fragment used when you want to display an overlay modal window within an activity that floats on top of the rest of the content.</div>
+<div class='x3'>Step1: Custom Layout.</div>
+<div class='code'>    &lt;!-- fragment_edit_name.xml --&gt;
+&lt;LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/edit_name"
+	android:layout_width="wrap_content" android:layout_height="wrap_content"
+	android:layout_gravity="center" android:orientation="vertical"  &gt;
+
+	&lt;TextView
+		android:id="@+id/lbl_your_name" android:text="Your name" 
+		android:layout_width="wrap_content" android:layout_height="wrap_content" /&gt;
+
+	&lt;EditText
+		android:id="@+id/txt_your_name"
+		android:layout_width="match_parent"  android:layout_height="wrap_content" 
+		android:inputType="text"
+		android:imeOptions="actionDone" /&gt;
+&lt;/LinearLayout&gt;
+</div>
+<div class='x3'>Step 2: extends DialogFragment</div>
+<div class='code'>public class EditNameDialogFragment extends DialogFragment {
+	private EditText mEditText;
+	public EditNameDialogFragment() {
+		// Empty constructor is required for DialogFragment
+	}
+
+	public static EditNameDialogFragment newInstance(String title) {
+		EditNameDialogFragment frag = new EditNameDialogFragment();
+		Bundle args = new Bundle();
+		args.putString("title", title);
+		frag.setArguments(args);
+		return frag;
+	}
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		return inflater.inflate(R.layout.fragment_edit_name, container);
+	}
+
+	@Override
+	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
+		// Get field from view
+		mEditText = (EditText) view.findViewById(R.id.txt_your_name);
+		// Fetch arguments from bundle and set title
+		String title = getArguments().getString("title", "Enter Name");
+		getDialog().setTitle(title);
+		// Show soft keyboard automatically and request focus to field
+		mEditText.requestFocus();
+		getDialog().getWindow().setSoftInputMode(
+		    WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+	}
+}
+</div>
+<div class='x3'>Step3: Now Show the dialog from teh actibity:</div>
+<div class='code'>public class DialogDemoActivity extends AppCompatActivity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+      super.onCreate(savedInstanceState);
+      setContentView(R.layout.main);
+      showEditDialog();
+  }
+  private void showEditDialog() {
+      FragmentManager fm = getSupportFragmentManager();
+      EditNameDialogFragment editNameDialogFragment = EditNameDialogFragment.newInstance("Some Title");
+      editNameDialogFragment.show(fm, "fragment_edit_name");
+  }
+}
+</div>
+<div class='x3'>Step4: We can create traditinal dialog using DialogFragemnt as below:</div>
+<div class='code'>class MyAlertDialogFragment extends DialogFragment {
+    public MyAlertDialogFragment() {
+          // Empty constructor required for DialogFragment
+    }
+    public static MyAlertDialogFragment newInstance(String title) {
+        MyAlertDialogFragment frag = new MyAlertDialogFragment();
+    	Bundle args = new Bundle();
+    	args.putString("title", title);
+    	frag.setArguments(args);
+    	return frag;
+    }
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        String title = getArguments().getString("title");
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+        alertDialogBuilder.setTitle(title);
+        alertDialogBuilder.setMessage("Are you sure?");
+        alertDialogBuilder.setPositiveButton("OK",  new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // on success
+            }
+        });
+        alertDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            if (dialog != null && dialog.isShowing()) { 
+                 dialog.dismiss();
+              }
+            }
+        });
+        return alertDialogBuilder.create();
+    }
+}
+</div>
+<div class='x3'>Step5: Passing data to activity Using Custom Callback mechisam. . You can also do that using customCreated Listner. In short: you Define an interface with methods that can be invoked to pass data result to the activity, etup a view event which invokes the custom listener passing data through the method abd Implement the interface in the Activity defining behavior for when the event is triggere</div>
+<div class='code'>public class EditNameDialogFragment extends DialogFragment implements OnEditorActionListener {
+    private EditText mEditText;
+    // 1. Defines the listener interface with a method passing back data result.
+    public interface EditNameDialogListener {
+        void onFinishEditDialog(String inputText);
+    }
+	
+    // ...
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        // ...
+        // 2. Setup a callback when the "Done" button is pressed on keyboard
+        mEditText.setOnEditorActionListener(this);
+    }
+	// Step 3: Fires
+    @Override
+    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+        if (EditorInfo.IME_ACTION_DONE == actionId) {
+            // Return input text back to activity through the implemented listener
+            EditNameDialogListener listener = (EditNameDialogListener) getActivity();
+            // Calls Here ---&gt;
+            listener.onFinishEditDialog(mEditText.getText().toString());
+            // Close the dialog and return back to the parent activity
+            dismiss();
+            return true;
+        }
+        return false;
+    }
+}
+
+And your activity needs to implement
+public class DialogDemoActivity extends AppCompatActivity implements EditNameDialogListener {
+    // This method is invoked in the activity when the listener is triggered Access the data result passed to the activity here
+  @Override
+  public void onFinishEditDialog(String inputText) {
+  	Toast.makeText(this, "Hi, " + inputText, Toast.LENGTH_SHORT).show();
+  }
+}
+
+</div>
+<div class='x2' id='hashid14'>View pager End to end.</div>
 <div class='x3'>Step 1. Let's define the layout which holds ViewPager.</div>
 <a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
 <div class='code hide'>
@@ -1508,7 +1806,7 @@ public class MainActivity extends Activity {
     int min = timePicker1.getCurrentMinute();
 }
 </div>
-<div class='x2' id='hashid14'>Android fragments</div>
+<div class='x2' id='hashid15'>Android fragments</div>
 <div class='x3'>A fragment is a reusable class implementing a portion of an activity.</div>
 <ul>
 <li>Reuseness: It's basically a combination of an XML layout file and a java class much like an Activity which encapsulate views and logic so that it is easier to reuse within activities.</li>
@@ -1798,8 +2096,8 @@ protected void displayFragmentA() {
     ft.commit();
 }
 </div>
-<div class='x2' id='hashid15'>Executing Async Jobs in android.</div>
-<div class='x2' id='hashid16'>WebSocket Support to Android</div>
+<div class='x2' id='hashid16'>Executing Async Jobs in android.</div>
+<div class='x2' id='hashid17'>WebSocket Support to Android</div>
 <div class='x3'>Step1: Let's consider the below example for build the server.</div>
 <div class='code'>const WebSocket = require('ws');
 const wss = new WebSocket.Server({ port: 8080 });
@@ -1841,7 +2139,7 @@ wss.on('connection', function connection(ws) {
 <div class='x3'>Step3: Now let's write android plagins to send and recv data from our server.</div>
 <div class='code'>
 </div>
-<div class='x1' id='hashid17'>Support personalize Experice.</div>
+<div class='x1' id='hashid18'>Support personalize Experice.</div>
 <div class='x3'>In this perticulr section, i will be discussion with how to personalized your app experince for the user. The term "Personlization" means that your app should resposnce perfactly for the multiple devices, user can choose their languages and user can have their own theme etc.</div>
 <table>
 <caption>Table: Summary of having a better Personalized experince
@@ -1851,7 +2149,7 @@ wss.on('connection', function connection(ws) {
 <tr><td>Supporting diffent dimens for diffent devices</td><td>Having multiple dimes for diff devices.</td></tr>
 <tr><td>Supporting multiple images</td><td>Supporting multiple images for diffent size device</td></tr>
 </table>
-<div class='x2' id='hashid18'>Supporting mutiple languages</div>
+<div class='x2' id='hashid19'>Supporting mutiple languages</div>
 <div class='x3'>Let's consider supporting hindi and english langues for a app.</div>
 <div class='x3'>Step1: Let;s have this layout. Note that we NOT hardcoding the string.</div>
 <div class='code'>
@@ -1946,7 +2244,7 @@ public class App extends Application {
     }
 }
 </div>
-<div class='x2' id='hashid19'>Supporting seperate layout for differnt devices.</div>
+<div class='x2' id='hashid20'>Supporting seperate layout for differnt devices.</div>
 <div class='x3'>Sometime it's required to have multiple layout of the UI for phone or tablet. We can easilty do that by spacifying mutple layout file. We can alos spacify multiple dimention files to spacidify differnet weidth of the buttons for phone and tablet.</div>
 <div class='x3'>Step1: We can have two diffetnt layoyt for phone and 7 each tablet in res/layout/main_activity.xml    and res/layout-sw600dp/main_activity.xml(600dp or bigger).</div>
 <div class='code'>
@@ -1993,7 +2291,7 @@ res/values-sw600dp/layout.xml:
     &lt;item name="main" type="layout"&gt;@layout/main_twopanes&lt;/item&gt;
 &lt;/resources&gt;
 </div>
-<div class='x2' id='hashid20'>Supporting different button width for diffent devices.</div>
+<div class='x2' id='hashid21'>Supporting different button width for diffent devices.</div>
 <div class='x3'>You must understand the diff betwen dip and sp. Yhen you specify spacing between two views, use dp and When specifying text size, always use sp:</div>
 <div class='code'>&lt;Button android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -2026,7 +2324,7 @@ values-sw720dp/dminen.xml
 &lt;dimen name="padding_1"&gt;13dp&lt;/dimen&gt;
 
 </div>
-<div class='x2' id='hashid21'>Supporting multiple images</div>
+<div class='x2' id='hashid22'>Supporting multiple images</div>
 <div class='x3'>When you want to use image, you must provides the below variabtion:</div>
 <div class='code'>res/
   drawable-xxxhdpi/
@@ -2050,7 +2348,7 @@ values-sw720dp/dminen.xml
 <tr><td>144x144</td><td>(3.0x) for extra-extra-high-density (xxhdpi)</td></tr>
 <tr><td>192x192</td><td>(4.0x) for extra-extra-extra-high-density (xxxhdpi)</td></tr>
 </table>
-<div class='x1' id='hashid22'>Android Networking</div>
+<div class='x1' id='hashid23'>Android Networking</div>
 <table>
 <caption>Table: Summary of Android Networking supports
 </caption>
@@ -2058,7 +2356,7 @@ values-sw720dp/dminen.xml
 <tr><td>Accessing WebSocket</td><td>using okHTTP3 agains</td></tr>
 <tr><td>HTTP srever</td><td>We will show an example how to create HTTP server inside andorid app and from outside app.</td></tr>
 </table>
-<div class='x2' id='hashid23'>Connecting websocket</div>
+<div class='x2' id='hashid24'>Connecting websocket</div>
 <div class='x3'>WebSocket providing full-duplex communication channels over a single TCP connection. It is supported in HTML 5. Since the version 3.5 of the OkHttp library, you can also use WebSockets connection in your Android applications. Let's try to use it.</div>
 <div class='code'>Step1: Add Dependency
 compile 'com.squareup.okhttp3:okhttp:3.6.0'
@@ -2188,7 +2486,7 @@ public class WSUtils {
     ws.disconnect();
 }
 </div>
-<div class='x2' id='hashid24'>Simple Network Calls to parse JSON.</div>
+<div class='x2' id='hashid25'>Simple Network Calls to parse JSON.</div>
 <div class='x3'>Similar to web socket, we can have our simple network Module to send web request as given as example.</div>
 <div class='code'>    compile 'com.squareup.okhttp3:okhttp:3.2.0'
 </div>
@@ -2526,7 +2824,7 @@ new Request.Builder().cacheControl(CacheControl.FORCE_CACHE)
     }
   }
 </div>
-<div class='x2' id='hashid25'>Having HTTP server inside android App</div>
+<div class='x2' id='hashid26'>Having HTTP server inside android App</div>
 <div class='x3'>Step1: Add Dependency</div>
 <div class='code'>    compile 'org.nanohttpd:nanohttpd:2.2.0'
 </div>
@@ -2697,8 +2995,8 @@ dip-pro:books dip$ curl http://localhost:8081/setPref?data=I%20me%20100
 Set Successfully
 dip-pro:books dip$ 
 </div>
-<div class='x1' id='hashid26'>Android Performance</div>
-<div class='x2' id='hashid27'>Android Thread and process</div>
+<div class='x1' id='hashid27'>Android Performance</div>
+<div class='x2' id='hashid28'>Android Thread and process</div>
 <table>
 <caption>Table: Android Ways to post a Job to UI Threass
 </caption>
@@ -2948,7 +3246,7 @@ mainHandler.post(myRunnable);
 Case 3. Simple:
 new Handler(Looper.getMainLooper()).post(mYourUiThreadRunnable);
 </div>
-<div class='x1' id='hashid28'>Android Design</div>
+<div class='x1' id='hashid29'>Android Design</div>
 <div class='x3'>In this section, I will discusstion the common design to be followed by :</div>
 <table>
 <caption>Table: Android Design Patterns
@@ -2960,7 +3258,7 @@ new Handler(Looper.getMainLooper()).post(mYourUiThreadRunnable);
 <tr><td>MVP</td><td>This section discuss how to decouple UI login with Contrler logic using MVC Patterns</td></tr>
 <tr><td>MVVC</td><td>Design discussion on MV-VP patatrens</td></tr>
 </table>
-<div class='x2' id='hashid29'>MVP Patterns in details</div>
+<div class='x2' id='hashid30'>MVP Patterns in details</div>
 <div class='x3'>The Model View Presenter (MVP) design pattern dictates that you separate your presentation (the View) from the business logic and the data sources (the Presenter and the Model). The design mainly consist of 3 things.</div>
 <ol>
 <li>Model: it is an interface responsible for managing data.</li>

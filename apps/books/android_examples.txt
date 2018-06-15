@@ -532,9 +532,423 @@ GestureDetector.SimpleOnGestureListener # Detect Android provides special types 
 ScaleGestureDetector # Delect the scale events.
 
 
+# Android Notification End-to-End
+
+Steo1: Define Notifcation Layouts:
+
+{{{
+// Notificationlayout.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="fill_parent"
+android:layout_height="fill_parent" >
+
+<TextView
+    android:id="@+id/msglbl"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="test" />
+
+<TextView
+    android:id="@+id/message"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_toRightOf="@+id/msglbl" />
+
+<Button
+    android:id="@+id/btn1"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="play" android:layout_margin="10dp"/>
+
+</RelativeLayout>
+}}}
+Step 2: Define Your Notification calls.
+{{{
+public class MyNotification extends Notification {
+
+private Context ctx;
+private NotificationManager mNotificationManager;
+
+public MyNotification(Context ctx){
+    super();
+    this.ctx=ctx;
+    String ns = Context.NOTIFICATION_SERVICE;
+    mNotificationManager = (NotificationManager) ctx.getSystemService(ns);
+    CharSequence tickerText = "Shortcuts";
+    long when = System.currentTimeMillis();
+    Notification.Builder builder = new Notification.Builder(ctx);
+
+    Notification notification=builder.getNotification();
+    notification.when=when;
+    notification.tickerText=tickerText;
+    notification.icon=R.drawable.ic_launcher;
+
+    RemoteViews contentView=new RemoteViews(ctx.getPackageName(), R.layout.messageview);
+
+    //set the button listeners
+    setListeners(contentView);
+
+    notification.contentView = contentView;
+    notification.flags |= Notification.FLAG_ONGOING_EVENT;
+    CharSequence contentTitle = "From Shortcuts";
+    mNotificationManager.notify(548853, notification);
+}
+
+public void setListeners(RemoteViews view){
+    //radio listener
+    Intent radio=new Intent(ctx,HelperActivity.class);
+    radio.putExtra("DO", "radio");
+    PendingIntent pRadio = PendingIntent.getActivity(ctx, 0, radio, 0);
+    view.setOnClickPendingIntent(R.id.radio, pRadio);
+
+    //volume listener
+    Intent volume=new Intent(ctx, HelperActivity.class);
+    volume.putExtra("DO", "volume");
+    PendingIntent pVolume = PendingIntent.getActivity(ctx, 1, volume, 0);
+    view.setOnClickPendingIntent(R.id.volume, pVolume);
+
+    //reboot listener
+    Intent reboot=new Intent(ctx, HelperActivity.class);
+    reboot.putExtra("DO", "reboot");
+    PendingIntent pReboot = PendingIntent.getActivity(ctx, 5, reboot, 0);
+    view.setOnClickPendingIntent(R.id.reboot, pReboot);
+
+    //top listener
+    Intent top=new Intent(ctx, HelperActivity.class);
+    top.putExtra("DO", "top");
+    PendingIntent pTop = PendingIntent.getActivity(ctx, 3, top, 0);
+    view.setOnClickPendingIntent(R.id.top, pTop);*/
+
+    //app listener
+    Intent app=new Intent(ctx, com.example.demo.HelperActivity.class);
+    app.putExtra("DO", "app");
+    PendingIntent pApp = PendingIntent.getActivity(ctx, 4, app, 0);
+    view.setOnClickPendingIntent(R.id.btn1, pApp);
+}
+
+}
+}}}
+
+Step3: Invoke it from the activity:
+{{{
+    public void showNotification(View view){
+        new MyNotification(this);
+        finish();
+    }
+}}}
+
+# Android Dialog and Light dismiss End to End.
+
+Below Example shows, how you can create a dilog of below type:
+1. A Simple alert diloag to show some messange
+2. Here is an example of YES/NO confirm dialog.
+{{{
+// Simple Alert Diloag.
+new AlertDialog.Builder(YourActivity.this)
+              .setTitle("Your Alert")
+              .setMessage("Your Message")
+              .setCancelable(false)
+              .setPositiveButton("ok", new OnClickListener() {
+                  @Override
+                  public void onClick(DialogInterface dialog, int which) {
+                      // Whatever...
+                  }
+              }).show();
+// Two Button
+new AlertDialog.Builder(this)
+        .setTitle("AlertDialog");
+        .setMessage("Would you like to continue learning how to use Android alerts?");
+        .setPositiveButton("Continue", null),
+        .setNegativeButton("Cancel", null);
+        .show();
+
+// Three button.
+new AlertDialog.Builder(this)
+        .setTitle("Notice")
+        .setMessage("Launching this missile will destroy the entire universe. Is this what you intended to do?")
+        .setPositiveButton("Launch missile", null)
+        .setNeutralButton("Remind me later", null)
+        .setNegativeButton("Cancel", null)
+        .show();
+
+// Hanlde buuton clicks
+builder.setPositiveButton("Launch missile", new DialogInterface.OnClickListener() {
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+
+        // do something like...
+        launchMissile();
+    }
+});
+// Having a builder and create dialogs.
+AlertDialog.Builder builder;
+if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+    builder = new AlertDialog.Builder(context, android.R.style.Theme_Material_Dialog_Alert);
+} else {
+    builder = new AlertDialog.Builder(context);
+}
+...
+ // create and show the alert dialog
+AlertDialog dialog = builder.create();
+dialog.show();
+
+// Traditional single-choice list: Hvaing a list of item in Dilogas and choose one of them/
+AlertDialog.Builder builder = new AlertDialog.Builder(this);
+builder.setTitle("Choose an animal");
+String[] animals = {"horse", "cow", "camel", "sheep", "goat"};
+builder.setItems(animals, new DialogInterface.OnClickListener() {
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+        switch (which) {
+            case 0: // horse
+            case 1: // cow
+            case 2: // camel
+            case 3: // sheep
+            case 4: // goat
+        }
+    }
+});
+AlertDialog dialog = builder.create();
+dialog.show();
+
+// Persistent single-choice list (radio buttons): Dillog with radio button list:
+AlertDialog.Builder builder = new AlertDialog.Builder(context);
+builder.setTitle("Choose an animal");
+String[] animals = {"horse", "cow", "camel", "sheep", "goat"};
+int checkedItem = 1; // cow
+builder.setSingleChoiceItems(animals, checkedItem, new DialogInterface.OnClickListener() {
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+        // user checked an item
+    }
+});
+// add OK and Cancel buttons
+builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+        // user clicked OK
+    }
+});
+builder.setNegativeButton("Cancel", null);
+AlertDialog dialog = builder.create();
+dialog.show();
+
+// Persistent multiple-choice list (checkboxes)
+AlertDialog.Builder builder = new AlertDialog.Builder(context);
+builder.setTitle("Choose some animals");
+String[] animals = {"horse", "cow", "camel", "sheep", "goat"};
+boolean[] checkedItems = {true, false, false, true, false};
+builder.setMultiChoiceItems(animals, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
+    @Override
+    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+        // user checked or unchecked a box
+    }
+});
+builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+        // user clicked OK
+    }
+});
+builder.setNegativeButton("Cancel", null);
+AlertDialog dialog = builder.create();
+dialog.show()
+}}}
+
+Example 2: This is example, I will show how to create a Custom Dilog:
+Step1: have your own custom_layout.xml
+{{{
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:paddingLeft="20dp"
+              android:paddingRight="20dp"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</LinearLayout>
+}}}
+Step2: Add this code in your main activity.
+{{{
+    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Name");
+        // set the custom layout
+        final View customLayout = getLayoutInflater().inflate(R.layout.custom_layout, null);
+        builder.setView(customLayout);
+        // add a button
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // send data from the AlertDialog to the Activity
+                EditText editText = customLayout.findViewById(R.id.editText);
+                sendDialogDataToActivity(editText.getText().toString());
+            }
+        });
+        // create and show the alert dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
+}}}
+
+Example 3: Dialog Fragemnets: DialogFragment is a specialized Fragment used when you want to display an overlay modal window within an activity that floats on top of the rest of the content.
+Step1: Custom Layout.
+{{{
+    <!-- fragment_edit_name.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/edit_name"
+	android:layout_width="wrap_content" android:layout_height="wrap_content"
+	android:layout_gravity="center" android:orientation="vertical"  >
+
+	<TextView
+		android:id="@+id/lbl_your_name" android:text="Your name" 
+		android:layout_width="wrap_content" android:layout_height="wrap_content" />
+
+	<EditText
+		android:id="@+id/txt_your_name"
+		android:layout_width="match_parent"  android:layout_height="wrap_content" 
+		android:inputType="text"
+		android:imeOptions="actionDone" />
+</LinearLayout>
+}}}
+
+Step 2: extends DialogFragment 
+{{{
+public class EditNameDialogFragment extends DialogFragment {
+	private EditText mEditText;
+	public EditNameDialogFragment() {
+		// Empty constructor is required for DialogFragment
+	}
+
+	public static EditNameDialogFragment newInstance(String title) {
+		EditNameDialogFragment frag = new EditNameDialogFragment();
+		Bundle args = new Bundle();
+		args.putString("title", title);
+		frag.setArguments(args);
+		return frag;
+	}
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		return inflater.inflate(R.layout.fragment_edit_name, container);
+	}
+
+	@Override
+	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
+		// Get field from view
+		mEditText = (EditText) view.findViewById(R.id.txt_your_name);
+		// Fetch arguments from bundle and set title
+		String title = getArguments().getString("title", "Enter Name");
+		getDialog().setTitle(title);
+		// Show soft keyboard automatically and request focus to field
+		mEditText.requestFocus();
+		getDialog().getWindow().setSoftInputMode(
+		    WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+	}
+}
+}}}
+Step3: Now Show the dialog from teh actibity:
+{{{
+public class DialogDemoActivity extends AppCompatActivity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+      super.onCreate(savedInstanceState);
+      setContentView(R.layout.main);
+      showEditDialog();
+  }
+  private void showEditDialog() {
+      FragmentManager fm = getSupportFragmentManager();
+      EditNameDialogFragment editNameDialogFragment = EditNameDialogFragment.newInstance("Some Title");
+      editNameDialogFragment.show(fm, "fragment_edit_name");
+  }
+}
+}}}
+Step4: We can create traditinal dialog using DialogFragemnt as below:
+{{{
+class MyAlertDialogFragment extends DialogFragment {
+    public MyAlertDialogFragment() {
+          // Empty constructor required for DialogFragment
+    }
+    public static MyAlertDialogFragment newInstance(String title) {
+        MyAlertDialogFragment frag = new MyAlertDialogFragment();
+    	Bundle args = new Bundle();
+    	args.putString("title", title);
+    	frag.setArguments(args);
+    	return frag;
+    }
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        String title = getArguments().getString("title");
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+        alertDialogBuilder.setTitle(title);
+        alertDialogBuilder.setMessage("Are you sure?");
+        alertDialogBuilder.setPositiveButton("OK",  new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // on success
+            }
+        });
+        alertDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            if (dialog != null && dialog.isShowing()) { 
+                 dialog.dismiss();
+              }
+            }
+        });
+        return alertDialogBuilder.create();
+    }
+}
+}}}
+Step5: Passing data to activity Using Custom Callback mechisam. . You can also do that using customCreated Listner. In short: you Define an interface with methods that can be invoked to pass data result to the activity, etup a view event which invokes the custom listener passing data through the method abd Implement the interface in the Activity defining behavior for when the event is triggere
+{{{
+public class EditNameDialogFragment extends DialogFragment implements OnEditorActionListener {
+    private EditText mEditText;
+    // 1. Defines the listener interface with a method passing back data result.
+    public interface EditNameDialogListener {
+        void onFinishEditDialog(String inputText);
+    }
+	
+    // ...
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        // ...
+        // 2. Setup a callback when the "Done" button is pressed on keyboard
+        mEditText.setOnEditorActionListener(this);
+    }
+	// Step 3: Fires
+    @Override
+    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+        if (EditorInfo.IME_ACTION_DONE == actionId) {
+            // Return input text back to activity through the implemented listener
+            EditNameDialogListener listener = (EditNameDialogListener) getActivity();
+            // Calls Here --->
+            listener.onFinishEditDialog(mEditText.getText().toString());
+            // Close the dialog and return back to the parent activity
+            dismiss();
+            return true;
+        }
+        return false;
+    }
+}
+
+And your activity needs to implement
+public class DialogDemoActivity extends AppCompatActivity implements EditNameDialogListener {
+    // This method is invoked in the activity when the listener is triggered Access the data result passed to the activity here
+  @Override
+  public void onFinishEditDialog(String inputText) {
+  	Toast.makeText(this, "Hi, " + inputText, Toast.LENGTH_SHORT).show();
+  }
+}
+
+}}}
+
 # View pager End to end.
-
-
 Step 1. Let's define the layout which holds ViewPager.
 {{{e
 <?xml version="1.0" encoding="utf-8"?>
