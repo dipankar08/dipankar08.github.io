@@ -3119,8 +3119,50 @@ dip-pro:books dip$
 }}}
 
 
-## Android Performance
-# Android Thread and process
+## Android Thread and process
+
+# Application SandBox 
+Android application are mainly sandboxed. They are executed in it's own process and have their secure storage area. Every application has it's own Application to UserID mappaing , assigned by the android system while installation.
+
+# interprocess communication:
+
+Table: Way to to interprocess communication.
+Unix IPC  # Not suited from Android.
+Network based IPC # Avilable under android but not efficent.
+Intent # Generic, extensible message. They contains “addressable” content (Action, category) and Android delivers appropriately. They can have Additional payload. Android Efficiently “routed” between apps which make sApps can become like plug-ins they can be used to return data possible.
+Mesenger # Another way to do IPC. They use Cross process Handler reference. It Sends Message to specific process and Other process must support this.
+ContentResolver # Mainly Storage centric IPC,  Used to interface with ContentProvider. it Supports standard SQL type operations like Insert, Delete, Query and also Support custom method calls
+IBinder and Binder Object # This is Base IPC mechanism in Android and Other IPC mechanism layered on top. It Leverages Android specific kernel feature like Shared memory between processes It Uses a special serialized data format which Serialized data via Parcel, Supports any object implementing Parcelable - Non-permanent serial form of data. It Can define custom interfaces or methods. It is Used by internal framework Services. This is the bast to acive Cross-process method calls. It required defing AIDL. 
+
+
+# Sharing private data, resource and processes by multiple app.
+What if I need something different? Is there a way to get re-use and access existing data? Is there a way to get better efficiency? Yes it is possible.
+
+Table: Effective way of sharing across apps.
+The Almost-Unique User ID # We know the Unique User ID is assigned app at install time. However, we can override it in menufest by pspacifying  android:sharedUserId="com.example.sharedId">. Shared ID is a string and Not the real user ID! but anndoid system lookup for this string to assign unique user id. We also needs to sign the app using same certificate to avoid security concern. advantage of Shared User ID :  access other app data like Files, Resources and SharedPreferences, Howvery they are not RAM efficient as both process needs to be loaded. Another concern is access other app data is hard.
+Sharing Proces   # Allow sharing process  by having <application android:process = "dipnkar.example.sharedProcess">. Startwith‘:’forprivateprocessinapp and Star twith a lower case character for global(sharable). It must share user ID. 
+
+Table: advantage of Process sharing:
+Reduced IPC: IBinder # IBinder is efficient, right? Yes, but is still cross-process Memory still has to be marshalled. Process context switch. But IBinder is smart, process aware, As they know two app running on the same process they calls target interface directly which reduce context switch and memoery marshalling.
+Reduced IPC: ContentProvider # It Meant for exposing storage schema globally and it is Process aware which helps Reduced memory usage and Reduced context switching.
+
+# Android Threads.
+In this section we will discuss concurrenact vis android thread.
+1. Android == Concurrency -
+2. unresponsive UI thread and ANR demo: The UI unresposive happens when app fail to respond to user input after timeout ( 5 sec) or BroadcastReceiver fails to complete after timeout( 10 sec) or  app in  a Critical error state. We will give a demo of unresponsive.
+3. Main thraed( UI thread)- UI thread is central to app. All the compoents like- Activity, Service and BroadcastReceive runs on UI thread. 
+
+Table: Top ways to having backgroud operations:
+Option1 :Thread/Looper/Handler comibination # Thread class, defined by Java, Executes a specific Runnable and it is the Base class for other threading options. It is Primitive, not hooked into framework. It is a Single invocation ( that means will do one task and then terminates), can be long running. Looper bound to a specific Thread instance. Looper waits for Message objects and Looper hands Message objects to Handler. We can create hanlder by Extend Handler or provide Handler.Callback. It Used for well-defined interfaces like handling Message contents or Can execute Runnables in Handler. This is also Not directly tied to framework states.
+Option 2: HandlerThread # Simplified Thread/Looper/Handler construct by andorid. It Automatically creates Thread and Looper . Can hook when Looper initialized - Extend the class, provide onLooperPrepared() It is also Single invocation ( Can be used once), can be long running.
+Option 3: AsyncTask # Automatically handles coordination with UI thread and perfact for  Short lived operations. It has Restrictions on creation, execution. It's Operations changed with Android versions( very bad). Originally serially executed on background thread, then Donut used parallel execution and breaks a lot of apps. then Honeycomb reverted to serial execution but support parranl ops whihc Can be overridden using executeOnExecutorwith THREAD_POOL_EXECUTOR it is Single invocation only. But is Easy to leak resource and should be taken care properly.
+Option 4: Thread Pools #  Extensible framework for offloading like Longer running tasks which supports Parallel/serial operations. It is Efficient thread usage via re-use It alos support different policies for cancel, reject. We can also se pool size.
+Option 5: Native C++ Threads# C/C++ accessible via Java which Requires the Android NDK and  Requires JNI. We can have Two options available (1) Threads in Java, access native methods or (2) Native pthreads behind the scenes. It is Very flexible, super high performance and No built-in framework coordination.
+
+
+
+
+
 
 
 Table: Android Ways to post a Job to UI Threass
@@ -3391,6 +3433,75 @@ new Handler(Looper.getMainLooper()).post(mYourUiThreadRunnable);
 }}}
 
 
+Example: Example of an Generic Thread Utils class:
+{{{
+import android.os.Handler;
+import android.os.Looper;
+
+public interface ThreadUtil {
+  boolean isUiThread();
+  void runOnUiThread(Runnable runnable);
+  void postToUiThread(Runnable runnable);
+  void postToUiThread(Runnable runnable, long delayMs);
+
+  public void postToCurrentThread(Runnable runnable) ;
+  public void postToCurrentThread(Runnable runnable, long delayMs);
+
+  public void sleep(long timeMillis);
+}
+
+public class MyThreadUtil implements ThreadUtil {
+  private static final MyThreadUtil INSTANCE = new MyThreadUtil();
+    private static final Thread MAIN_THREAD = Looper.getMainLooper().getThread();
+  private Handler mUiThreadHandler;
+  private MyThreadUtil() {
+    mUiThreadHandler = new Handler(Looper.getMainLooper());
+  }
+
+  @Override
+  public boolean isUiThread() {
+    return MAIN_THREAD == Thread.currentThread();
+  }
+
+  @Override
+  public void runOnUiThread(Runnable runnable) {
+    if (isUiThread()) {
+      runnable.run();
+    } else {
+      mUiThreadHandler.post(runnable);
+    }
+  }
+
+  @Override
+  public void postToUiThread(Runnable runnable) {
+    mUiThreadHandler.post(runnable);
+  }
+
+  @Override
+  public void postToUiThread(Runnable runnable, long delayMs) {
+    mUiThreadHandler.postDelayed(runnable, delayMs);
+  }
+
+  public static MyThreadUtil get() {
+    return INSTANCE;
+  }
+  public void postToCurrentHandlerThread(Runnable runnable) {	
+    Handler handler = new Handler();	
+    handler.post(runnable);	
+  }
+
+   @Override	
+  public void postToCurrentHandlerThread(Runnable runnable, long delayMs) {	
+    Handler handler = new Handler();	
+    handler.postDelayed(runnable, delayMs);	
+  }
+
+  @Override
+  public void sleep(long timeMillis) throws InterruptedException {	
+    Thread.sleep(timeMillis);	
+  }
+}
+}}}
 ## Android Design
 In this section, I will discusstion the common design to be followed by :
 Table: Android Design Patterns
@@ -3599,8 +3710,8 @@ public class MainActivity extends Activity implements IMainView, AdapterView.OnI
 
 Example 2: This is an alternative way to do that: 
 
-Step 1: Define common Base MVP infra
-{{{
+Step 1: Define common Base MVP infra like base presenter and base activity.
+{{{e
 public interface MvpView {
     void showLoading(String msg);
     void hideLoading();
@@ -3642,7 +3753,7 @@ public class BasePresenter<V extends MvpView> implements Presenter<V> {
 }}}
 
 Step2: Now Define your customView and Presenter which deps on the infra.
-{{{
+{{{e
 public interface ILoginPresenter {
     public void login();
 }
@@ -3679,9 +3790,9 @@ public class LoginPresenter extends BasePresenter<ILoginView> implements ILoginP
 
 }}}
 
-Step 3: Define Views. 
+Step 3: Define Concreate Views
 
-{{{
+{{{ e
 public interface ILoginView extends MvpView {
     String getUsername();
     String getPassword();
@@ -3759,7 +3870,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginView, View
 }}}
 
 Step 4: An beter way to attch and detach:
-{{{
+{{{e
 public interface BasePresenter {
     void onViewAttached(MVPView view); 
     void onViewDetached();
@@ -3777,3 +3888,489 @@ public class BaseActivity extends AppCompatActivity {
   } 
 }
 }}}
+
+
+Example 4: An alternative design for MVP.
+We saw that View Despends on presenter anyway. 
+Step1: Have a BaseViewPresenter 
+{{{
+public abstract class BaseViewPresenter<V> {
+
+  private V mView; 
+  
+  public final void attachView(V view) {
+    if (view == null) {
+      return;
+    }
+
+    mView = view;
+    onViewAttached();
+  }
+  protected void onViewAttached() {}
+  
+  public final void detachView() {
+    onViewDetached();
+    mView = null;
+  }
+
+  protected void onViewDetached() {}
+    
+  public @Nullable V getView() {
+    return mView;
+  }
+}
+
+}}}
+Step2: Have a LoginViewPresenter - which says what needs on View Side.
+{{{
+public class LoginViewPresenter<	
+        V extends BaseViewPresenter.ViewContract>	
+    extends BaseViewPresenter<V> {	
+	
+  public interface ViewContract {	
+    void onAuthSuccess();	
+    void onAuthFailure();	
+  }	
+	
+  public LoginViewPresenter(....) {	
+      ....
+  }	
+	
+  public void doLogin(credentials) {	
+    LoginUtil.doLogin(credentials,	
+        new Callback<Result>() {	
+          @Override	
+          public void onSuccess(Result result) {	
+            UiHandler.post(	
+                new Runnable() {	
+                  @Override	
+                  public void run() {	
+                    onAuthSuccess();	
+                  }	
+                });	
+          }	
+	
+          @Override	
+          public void onFailure() {	
+            UiHandler.post(	
+                new Runnable() {	
+                  @Override	
+                  public void run() {	
+                    onAuthFailure();	
+                  }	
+                });	
+          }	
+        });	
+  }	
+	
+  private void onAuthSuccess() {	
+    if (getView() == null) {	
+      return;	
+    }	
+    getView().onAuthSuccess();	
+  }	
+
+    private void onAuthSuccess() {	
+    if (getView() == null) {	
+      return;	
+    }	
+    getView().onAuthSuccess();	
+  }
+}
+}}}
+Step3: Define the View which will do all the stuff required by presenter.
+{{{
+public class LoginView extends BaseView	
+    implements LoginViewPresenter.ViewContract {		
+	...
+  public LoginView(Context context) {	
+    this(context, null, 0);	
+  }	
+	
+  public LoginView(Context context, @Nullable AttributeSet attrs) {	
+    this(context, attrs, 0);	
+  }	
+	
+  public LoginView(Context context, @Nullable AttributeSet attrs, int defStyle) {	
+    super(context, attrs, defStyle);	
+    setContentView(R.layout.my_view);	
+    mLoginViewPresenter = ....
+	....
+    mLoginViewPresenter.doLogin(....)
+  }	
+	
+  @Override	
+  protected void onAttachedToWindow() {	
+    super.onAttachedToWindow();	
+    mLoginViewPresenter.attachView(this);		
+  }	
+	
+  @Override	
+  protected void onDetachedFromWindow() {	
+    mLoginViewPresenter.detachView();	
+    super.onDetachedFromWindow();	
+  }	
+	
+	
+  @Override	
+  public void onAuthSuccess() {	
+    // Do ops.
+  }	
+	
+  @Override	
+  public void onAuthFailure() {	
+    // DO Ops.	
+  }	
+}
+}}}
+
+
+
+# Design communication between mutiple compoenens in android:
+Table: Communication summary table
+Activity/Fragemnets to CustomView #
+Custom view  to Activity/Fragemnets #
+CustomView to CustomView under same holders #
+Activity to Fragemnt #
+Fragemnt to Activity #
+Fragemnt to Fragemnt #
+Activity to Service #
+Service to Activity #
+
+
+
+## Monitization your app.
+
+# Google AddMob.
+Step1: configure graddle
+To use addmob just add the below configuraration in the graddle files. Then go to AddMob(https://apps.admob.com/v2/home?pli=1) and create new banner add id . 
+Now we are ready to build two type of adds.
+1. Banner add
+2. Full screen add.
+{{{
+     implementation 'com.google.android.gms:play-services-ads:15.0.0'
+}}}
+
+Step2: To have a banner add , please add this view in your layout and do the initilization as shown in code.
+{{{
+// add layout
+<com.google.android.gms.ads.AdView
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/adView"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true"
+    android:layout_alignParentBottom="true"
+    ads:adSize="BANNER" << You may use BANNER | LARGE_BANNER | FULL_BANNER
+    ads:adUnitId="ca-app-pub-3940256099942544/6300978111"> <<< test uit id
+</com.google.android.gms.ads.AdView>
+
+//initilize.
+public class MainActivity extends AppCompatActivity {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        MobileAds.initialize(this, "ca-app-pub-3940256099942544~3347511713"); << Test Id 
+        #MobileAds.initialize(this, "YOUR_ADMOB_APP_ID");
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+        mAdView.setAdListener(new AdListener() {
+            ...
+            @Override
+            public void onAdOpened() {
+            }
+             @Override
+            public void onAdClosed() {
+            }
+        }
+    }
+void createProgramitically()
+    {
+        AdView adView = new AdView(this);
+        adView.setAdSize(AdSize.BANNER);
+        adView.setAdUnitId("ca-app-pub-3940256099942544/6300978111"); <<< test uit Id.
+        // TODO: Add adView to your view hierarchy.
+    }
+}}}
+
+Step 3:  To have a  interstitial ads , No need  to add anythig in your view, but do the initilization as shown in code. they should call show() method to show the add and then you can make some action when the ad is close.
+{{{
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.AdRequest;
+public class MainActivity extends Activity {
+    private InterstitialAd mInterstitialAd;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        MobileAds.initialize(this,"ca-app-pub-3940256099942544~3347511713"); // test id
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712"); //test id
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+
+        mMyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mInterstitialAd.isLoaded()) {
+                    mInterstitialAd.show();
+                } else {
+                    Log.d("TAG", "The interstitial wasn't loaded yet.");
+                }
+            }
+        });
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {}
+
+            @Override
+            public void onAdFailedToLoad(int errorCode) {}
+
+            @Override
+            public void onAdOpened() {}
+
+            @Override
+            public void onAdLeftApplication() {}
+
+            @Override
+            public void onAdClosed() {
+                 // Prepare next add
+                 mInterstitialAd.loadAd(new AdRequest.Builder().build());
+                 MoveToSecondScreen();
+            }
+        });
+    }
+}
+}}}
+
+# Defining a model 
+
+Step 1: Define your models. Note that your model has no setting - which makes them immutable.
+public class User implements Serializable {
+  private static final long serialVersionUID = 0;
+
+  @JsonProperty("user_id")
+  public final String userId;
+
+  @JsonProperty("display_name")
+  public final String displayName;
+
+  public User(UserBuilder builder) {
+    this.userId = builder.getUserId();
+    this.displayName = builder.getDisplayName();
+  }
+
+  /** For JSON deserialization. */
+  public User() {
+    userId = null;
+    displayName = null;
+  }
+
+  public String getProfilePicUri() {
+    return profilePicUri;
+  }
+
+  @Override
+  public String toString() {
+    return toStringHelper().toString();
+  }
+
+  protected MoreObjects.ToStringHelper toStringHelper() {
+    return MoreObjects.toStringHelper(User.class)
+        .add("userId", userId)
+        .add("displayName", displayName)
+  }
+}
+
+#Step2: Now provides a builder class for your model which can set the values ( in any order in a chain ) and then call build method to get the immutable object.
+public class UserBuilder {
+  private String mUserId;
+  private String mDisplayName;
+
+  public UserBuilder() {}
+  public String getUserId() {
+    return mUserId;
+  }
+  public UserBuilder setUserId(String userId) {
+    mUserId = userId;
+    return this;
+  }
+  public String getDisplayName() {
+    return mDisplayName;
+  }
+  public UserBuilder setDisplayName(String displayName) {
+    mDisplayName = displayName;
+    return this;
+  }
+  public User build() {
+    return new User(this);
+  }
+}
+
+
+Step3: Here is how you can use to create the objects using the UserBuilder
+{{{
+  private static User getUser() {	
+    UserBuilder builder = new UserBuilder();	
+    builder.setUserId("123");	
+    builder.setDisplayName("Dipankar");	
+    return builder.build();	
+  }	
+}}}
+
+Step 4: Provides a way to serilize and desrize with json
+Sometime, you get data from network as json string and you might constract the java object by manuualy parsing it.You can use jackson lib to have this.
+{{{
+//First create a mapper :
+import com.fasterxml.jackson.databind.ObjectMapper;// in play 2.3
+ObjectMapper mapper = new ObjectMapper();
+// As Array:
+MyClass[] myObjects = mapper.readValue(json, MyClass[].class);
+// As List:
+List<MyClass> myObjects = mapper.readValue(jsonInput, new TypeReference<List<MyClass>>(){});
+// Another way to specify the List type:
+List<MyClass> myObjects = mapper.readValue(jsonInput, mapper.getTypeFactory().constructCollectionType(List.class, MyClass.class));
+}}}
+
+
+
+## Java Libs for android:
+# Jackson
+{{{
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.8.5'
+compile 'com.fasterxml.jackson.core:jackson-core:2.8.5'
+compile 'com.fasterxml.jackson.core:jackson-annotations:2.8.5'
+
+ObjectMapper mapper = new ObjectMapper();
+
+Person person = new Person();
+mapper.writeValue(new File("/a/path/to/person.json"), person);  // write to file
+String jsonStr = mapper.writeValueAsString(person);            // write to string
+
+Person person1;
+//read from an url
+person1 = mapper.readValue(new URL("https://api.myjson.com/bins/hoh4j"), Person.class);
+
+//read from a string
+String personJsonStr = "{\"firstname\":\"John\",\"lastname\":\"Doe\"}";
+person2 = mapper.readValue(personJsonStr, Person.class);
+
+//read from a file
+person3 = mapper.readValue(new File("/a/path/to/person.json"), Person.class);
+
+}}}
+Sample model class with Jackson annotations for the above json string.
+{{{
+import java.util.HashMap;
+import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonPropertyOrder({
+        "firstname",
+        "lastname"
+})
+public class Person {
+    @JsonProperty("firstname")
+    private String firstname;
+    @JsonProperty("lastname")
+    private String lastname;
+    @JsonIgnore
+    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
+    @JsonProperty("firstname")
+    public String getFirstname() {
+        return firstname;
+    }
+
+    @JsonProperty("firstname")
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    @JsonProperty("lastname")
+    public String getLastname() {
+        return lastname;
+    }
+
+    @JsonProperty("lastname")
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
+    }
+
+    @JsonAnySetter
+    public void setAdditionalProperty(String name, Object value) {
+        this.additionalProperties.put(name, value);
+    }
+}
+}}}
+
+{{{
+private void jsonToObjectUrl() {
+    final ObjectMapper mapper = new ObjectMapper();
+    final Handler handler = new Handler();
+    new Thread(new Runnable() {
+        @Override
+        public void run() {
+            try {
+                Person person = mapper.readValue(new URL("https://api.myjson.com/bins/hoh4j"), Person.class);                                 // read from url
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        tvDisplay.setText("json string -> object\n" + person.getFirstname() + " " + person.getLastname());
+                    }
+                });
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }).start();
+}
+private void objectToJson() {
+    ObjectMapper mapper = new ObjectMapper();
+    try {
+        //mapper.writeValue(new File(getFilesDir(), "person.json"), person);  // write to file
+        String jsonStr = mapper.writeValueAsString(person);                   // write to string
+        tvDisplay.setText("object -> json string\n" + jsonStr);
+    } catch (JsonProcessingException e) {
+        e.printStackTrace();
+        tvDisplay.setText(e.getMessage());
+    } catch (IOException e) {
+        e.printStackTrace();
+        tvDisplay.setText(e.getMessage());
+    }
+}
+}}}
+## Android Pro Dev Trciks.
+
+# Connecting device using wifi
+{{{
+// Set the target device to listen for a TCP/IP connection on port 5555.
+adb tcpip 5555
+
+//Connect the device through usb and get the ip address of the device
+adb shell ip -f inet addr show wlan0
+adb shell ip route | awk '{print $9}'
+
+//Connect the device, 192.168.1.213 is the ip address obtained from the previous step.
+adb connect 192.168.1.213:5555
+//Disconnect the device.
+adb disconnect 192.168.1.213
+//See connected devices.
+adb devices
+}}}
+

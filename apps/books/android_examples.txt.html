@@ -99,7 +99,7 @@
     </span>
 </div>
 <div class="middle">
-    <div class="left" style=""><a class='a1' href='#hashid1'+>Andorid components</a><a class='a2' href='#hashid2'+>Android Simple Activity</a><a class='a2' href='#hashid3'+>Activity Life Cycle Callback</a><a class='a2' href='#hashid4'+>Android Services Templates</a><a class='a2' href='#hashid5'+>Android Content Providers</a><a class='a2' href='#hashid6'+>Android Broadcast Receiver</a><a class='a1' href='#hashid7'+>Android UI Designs</a><a class='a2' href='#hashid8'+>Layouts</a><a class='a2' href='#hashid9'+>Controls</a><a class='a2' href='#hashid10'+>Navigations</a><a class='a2' href='#hashid11'+>Dialog and Navigation</a><a class='a2' href='#hashid12'+>Events and Guestures</a><a class='a2' href='#hashid13'+>Android Dialog and Light dismiss End to End.</a><a class='a2' href='#hashid14'+>View pager End to end.</a><a class='a2' href='#hashid15'+>Android fragments</a><a class='a2' href='#hashid16'+>Executing Async Jobs in android.</a><a class='a2' href='#hashid17'+>WebSocket Support to Android</a><a class='a1' href='#hashid18'+>Support personalize Experice.</a><a class='a2' href='#hashid19'+>Supporting mutiple languages</a><a class='a2' href='#hashid20'+>Supporting seperate layout for differnt devices.</a><a class='a2' href='#hashid21'+>Supporting different button width for diffent devices.</a><a class='a2' href='#hashid22'+>Supporting multiple images</a><a class='a1' href='#hashid23'+>Android Networking</a><a class='a2' href='#hashid24'+>Connecting websocket</a><a class='a2' href='#hashid25'+>Simple Network Calls to parse JSON.</a><a class='a2' href='#hashid26'+>Having HTTP server inside android App</a><a class='a1' href='#hashid27'+>Android Performance</a><a class='a2' href='#hashid28'+>Android Thread and process</a><a class='a1' href='#hashid29'+>Android Design</a><a class='a2' href='#hashid30'+>MVP Patterns in details</a></div>
+    <div class="left" style=""><a class='a1' href='#hashid1'+>Andorid components</a><a class='a2' href='#hashid2'+>Android Simple Activity</a><a class='a2' href='#hashid3'+>Activity Life Cycle Callback</a><a class='a2' href='#hashid4'+>Android Services Templates</a><a class='a2' href='#hashid5'+>Android Content Providers</a><a class='a2' href='#hashid6'+>Android Broadcast Receiver</a><a class='a1' href='#hashid7'+>Android UI Designs</a><a class='a2' href='#hashid8'+>Layouts</a><a class='a2' href='#hashid9'+>Controls</a><a class='a2' href='#hashid10'+>Navigations</a><a class='a2' href='#hashid11'+>Dialog and Navigation</a><a class='a2' href='#hashid12'+>Events and Guestures</a><a class='a2' href='#hashid13'+>Android Notification End-to-End</a><a class='a2' href='#hashid14'+>Android Dialog and Light dismiss End to End.</a><a class='a2' href='#hashid15'+>View pager End to end.</a><a class='a2' href='#hashid16'+>Android fragments</a><a class='a2' href='#hashid17'+>Executing Async Jobs in android.</a><a class='a2' href='#hashid18'+>WebSocket Support to Android</a><a class='a1' href='#hashid19'+>Support personalize Experice.</a><a class='a2' href='#hashid20'+>Supporting mutiple languages</a><a class='a2' href='#hashid21'+>Supporting seperate layout for differnt devices.</a><a class='a2' href='#hashid22'+>Supporting different button width for diffent devices.</a><a class='a2' href='#hashid23'+>Supporting multiple images</a><a class='a1' href='#hashid24'+>Android Networking</a><a class='a2' href='#hashid25'+>Connecting websocket</a><a class='a2' href='#hashid26'+>Simple Network Calls to parse JSON.</a><a class='a2' href='#hashid27'+>Having HTTP server inside android App</a><a class='a1' href='#hashid28'+>Android Thread and process</a><a class='a2' href='#hashid29'+>Application SandBox</a><a class='a2' href='#hashid30'+>interprocess communication:</a><a class='a2' href='#hashid31'+>Sharing private data, resource and processes by multiple app.</a><a class='a2' href='#hashid32'+>Android Threads.</a><a class='a1' href='#hashid33'+>Android Design</a><a class='a2' href='#hashid34'+>MVP Patterns in details</a><a class='a2' href='#hashid35'+>Design communication between mutiple compoenens in android:</a><a class='a1' href='#hashid36'+>Monitization your app.</a><a class='a2' href='#hashid37'+>Google AddMob.</a><a class='a2' href='#hashid38'+>Defining a model</a><a class='a1' href='#hashid39'+>Java Libs for android:</a><a class='a2' href='#hashid40'+>Jackson</a><a class='a1' href='#hashid41'+>Android Pro Dev Trciks.</a><a class='a2' href='#hashid42'+>Connecting device using wifi</a></div>
     <div class="right" style=""><div class='x1' id='hashid1'>Andorid components</div>
 <div class='x3'>This tutorials is mainly design for providing templates for android devlopment and helping out my copy-paste efficiency.</div>
 <div class='x3'>In this section, we wil mainly discussed abount the android compoents as shown in the table:</div>
@@ -622,7 +622,107 @@ public class IntentServiceActivity extends AppCompatActivity {
 <tr><td>GestureDetector.SimpleOnGestureListener</td><td>Detect Android provides special types of touch screen events such as pinch , double tap, scrolls , long presses and flinch. These are all known as gestures.</td></tr>
 <tr><td>ScaleGestureDetector</td><td>Delect the scale events.</td></tr>
 </table>
-<div class='x2' id='hashid13'>Android Dialog and Light dismiss End to End.</div>
+<div class='x2' id='hashid13'>Android Notification End-to-End</div>
+<div class='x3'>Steo1: Define Notifcation Layouts:</div>
+<div class='code'>// Notificationlayout.xml
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="fill_parent"
+android:layout_height="fill_parent" &gt;
+
+&lt;TextView
+    android:id="@+id/msglbl"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="test" /&gt;
+
+&lt;TextView
+    android:id="@+id/message"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_toRightOf="@+id/msglbl" /&gt;
+
+&lt;Button
+    android:id="@+id/btn1"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="play" android:layout_margin="10dp"/&gt;
+
+&lt;/RelativeLayout&gt;
+</div>
+<div class='x3'>Step 2: Define Your Notification calls.</div>
+<div class='code'>public class MyNotification extends Notification {
+
+private Context ctx;
+private NotificationManager mNotificationManager;
+
+public MyNotification(Context ctx){
+    super();
+    this.ctx=ctx;
+    String ns = Context.NOTIFICATION_SERVICE;
+    mNotificationManager = (NotificationManager) ctx.getSystemService(ns);
+    CharSequence tickerText = "Shortcuts";
+    long when = System.currentTimeMillis();
+    Notification.Builder builder = new Notification.Builder(ctx);
+
+    Notification notification=builder.getNotification();
+    notification.when=when;
+    notification.tickerText=tickerText;
+    notification.icon=R.drawable.ic_launcher;
+
+    RemoteViews contentView=new RemoteViews(ctx.getPackageName(), R.layout.messageview);
+
+    //set the button listeners
+    setListeners(contentView);
+
+    notification.contentView = contentView;
+    notification.flags |= Notification.FLAG_ONGOING_EVENT;
+    CharSequence contentTitle = "From Shortcuts";
+    mNotificationManager.notify(548853, notification);
+}
+
+public void setListeners(RemoteViews view){
+    //radio listener
+    Intent radio=new Intent(ctx,HelperActivity.class);
+    radio.putExtra("DO", "radio");
+    PendingIntent pRadio = PendingIntent.getActivity(ctx, 0, radio, 0);
+    view.setOnClickPendingIntent(R.id.radio, pRadio);
+
+    //volume listener
+    Intent volume=new Intent(ctx, HelperActivity.class);
+    volume.putExtra("DO", "volume");
+    PendingIntent pVolume = PendingIntent.getActivity(ctx, 1, volume, 0);
+    view.setOnClickPendingIntent(R.id.volume, pVolume);
+
+    //reboot listener
+    Intent reboot=new Intent(ctx, HelperActivity.class);
+    reboot.putExtra("DO", "reboot");
+    PendingIntent pReboot = PendingIntent.getActivity(ctx, 5, reboot, 0);
+    view.setOnClickPendingIntent(R.id.reboot, pReboot);
+
+    //top listener
+    Intent top=new Intent(ctx, HelperActivity.class);
+    top.putExtra("DO", "top");
+    PendingIntent pTop = PendingIntent.getActivity(ctx, 3, top, 0);
+    view.setOnClickPendingIntent(R.id.top, pTop);*/
+
+    //app listener
+    Intent app=new Intent(ctx, com.example.demo.HelperActivity.class);
+    app.putExtra("DO", "app");
+    PendingIntent pApp = PendingIntent.getActivity(ctx, 4, app, 0);
+    view.setOnClickPendingIntent(R.id.btn1, pApp);
+}
+
+}
+</div>
+<div class='x3'>Step3: Invoke it from the activity:</div>
+<div class='code'>    public void showNotification(View view){
+        new MyNotification(this);
+        finish();
+    }
+</div>
+<div class='x2' id='hashid14'>Android Dialog and Light dismiss End to End.</div>
 <div class='x3'>Below Example shows, how you can create a dilog of below type:</div>
 <ol>
 <li>A Simple alert diloag to show some messange</li>
@@ -920,7 +1020,7 @@ public class DialogDemoActivity extends AppCompatActivity implements EditNameDia
 }
 
 </div>
-<div class='x2' id='hashid14'>View pager End to end.</div>
+<div class='x2' id='hashid15'>View pager End to end.</div>
 <div class='x3'>Step 1. Let's define the layout which holds ViewPager.</div>
 <a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
 <div class='code hide'>
@@ -1806,7 +1906,7 @@ public class MainActivity extends Activity {
     int min = timePicker1.getCurrentMinute();
 }
 </div>
-<div class='x2' id='hashid15'>Android fragments</div>
+<div class='x2' id='hashid16'>Android fragments</div>
 <div class='x3'>A fragment is a reusable class implementing a portion of an activity.</div>
 <ul>
 <li>Reuseness: It's basically a combination of an XML layout file and a java class much like an Activity which encapsulate views and logic so that it is easier to reuse within activities.</li>
@@ -2096,8 +2196,8 @@ protected void displayFragmentA() {
     ft.commit();
 }
 </div>
-<div class='x2' id='hashid16'>Executing Async Jobs in android.</div>
-<div class='x2' id='hashid17'>WebSocket Support to Android</div>
+<div class='x2' id='hashid17'>Executing Async Jobs in android.</div>
+<div class='x2' id='hashid18'>WebSocket Support to Android</div>
 <div class='x3'>Step1: Let's consider the below example for build the server.</div>
 <div class='code'>const WebSocket = require('ws');
 const wss = new WebSocket.Server({ port: 8080 });
@@ -2139,7 +2239,7 @@ wss.on('connection', function connection(ws) {
 <div class='x3'>Step3: Now let's write android plagins to send and recv data from our server.</div>
 <div class='code'>
 </div>
-<div class='x1' id='hashid18'>Support personalize Experice.</div>
+<div class='x1' id='hashid19'>Support personalize Experice.</div>
 <div class='x3'>In this perticulr section, i will be discussion with how to personalized your app experince for the user. The term "Personlization" means that your app should resposnce perfactly for the multiple devices, user can choose their languages and user can have their own theme etc.</div>
 <table>
 <caption>Table: Summary of having a better Personalized experince
@@ -2149,7 +2249,7 @@ wss.on('connection', function connection(ws) {
 <tr><td>Supporting diffent dimens for diffent devices</td><td>Having multiple dimes for diff devices.</td></tr>
 <tr><td>Supporting multiple images</td><td>Supporting multiple images for diffent size device</td></tr>
 </table>
-<div class='x2' id='hashid19'>Supporting mutiple languages</div>
+<div class='x2' id='hashid20'>Supporting mutiple languages</div>
 <div class='x3'>Let's consider supporting hindi and english langues for a app.</div>
 <div class='x3'>Step1: Let;s have this layout. Note that we NOT hardcoding the string.</div>
 <div class='code'>
@@ -2244,7 +2344,7 @@ public class App extends Application {
     }
 }
 </div>
-<div class='x2' id='hashid20'>Supporting seperate layout for differnt devices.</div>
+<div class='x2' id='hashid21'>Supporting seperate layout for differnt devices.</div>
 <div class='x3'>Sometime it's required to have multiple layout of the UI for phone or tablet. We can easilty do that by spacifying mutple layout file. We can alos spacify multiple dimention files to spacidify differnet weidth of the buttons for phone and tablet.</div>
 <div class='x3'>Step1: We can have two diffetnt layoyt for phone and 7 each tablet in res/layout/main_activity.xml    and res/layout-sw600dp/main_activity.xml(600dp or bigger).</div>
 <div class='code'>
@@ -2291,7 +2391,7 @@ res/values-sw600dp/layout.xml:
     &lt;item name="main" type="layout"&gt;@layout/main_twopanes&lt;/item&gt;
 &lt;/resources&gt;
 </div>
-<div class='x2' id='hashid21'>Supporting different button width for diffent devices.</div>
+<div class='x2' id='hashid22'>Supporting different button width for diffent devices.</div>
 <div class='x3'>You must understand the diff betwen dip and sp. Yhen you specify spacing between two views, use dp and When specifying text size, always use sp:</div>
 <div class='code'>&lt;Button android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -2324,7 +2424,7 @@ values-sw720dp/dminen.xml
 &lt;dimen name="padding_1"&gt;13dp&lt;/dimen&gt;
 
 </div>
-<div class='x2' id='hashid22'>Supporting multiple images</div>
+<div class='x2' id='hashid23'>Supporting multiple images</div>
 <div class='x3'>When you want to use image, you must provides the below variabtion:</div>
 <div class='code'>res/
   drawable-xxxhdpi/
@@ -2348,7 +2448,7 @@ values-sw720dp/dminen.xml
 <tr><td>144x144</td><td>(3.0x) for extra-extra-high-density (xxhdpi)</td></tr>
 <tr><td>192x192</td><td>(4.0x) for extra-extra-extra-high-density (xxxhdpi)</td></tr>
 </table>
-<div class='x1' id='hashid23'>Android Networking</div>
+<div class='x1' id='hashid24'>Android Networking</div>
 <table>
 <caption>Table: Summary of Android Networking supports
 </caption>
@@ -2356,7 +2456,7 @@ values-sw720dp/dminen.xml
 <tr><td>Accessing WebSocket</td><td>using okHTTP3 agains</td></tr>
 <tr><td>HTTP srever</td><td>We will show an example how to create HTTP server inside andorid app and from outside app.</td></tr>
 </table>
-<div class='x2' id='hashid24'>Connecting websocket</div>
+<div class='x2' id='hashid25'>Connecting websocket</div>
 <div class='x3'>WebSocket providing full-duplex communication channels over a single TCP connection. It is supported in HTML 5. Since the version 3.5 of the OkHttp library, you can also use WebSockets connection in your Android applications. Let's try to use it.</div>
 <div class='code'>Step1: Add Dependency
 compile 'com.squareup.okhttp3:okhttp:3.6.0'
@@ -2486,7 +2586,7 @@ public class WSUtils {
     ws.disconnect();
 }
 </div>
-<div class='x2' id='hashid25'>Simple Network Calls to parse JSON.</div>
+<div class='x2' id='hashid26'>Simple Network Calls to parse JSON.</div>
 <div class='x3'>Similar to web socket, we can have our simple network Module to send web request as given as example.</div>
 <div class='code'>    compile 'com.squareup.okhttp3:okhttp:3.2.0'
 </div>
@@ -2824,7 +2924,7 @@ new Request.Builder().cacheControl(CacheControl.FORCE_CACHE)
     }
   }
 </div>
-<div class='x2' id='hashid26'>Having HTTP server inside android App</div>
+<div class='x2' id='hashid27'>Having HTTP server inside android App</div>
 <div class='x3'>Step1: Add Dependency</div>
 <div class='code'>    compile 'org.nanohttpd:nanohttpd:2.2.0'
 </div>
@@ -2995,8 +3095,50 @@ dip-pro:books dip$ curl http://localhost:8081/setPref?data=I%20me%20100
 Set Successfully
 dip-pro:books dip$ 
 </div>
-<div class='x1' id='hashid27'>Android Performance</div>
-<div class='x2' id='hashid28'>Android Thread and process</div>
+<div class='x1' id='hashid28'>Android Thread and process</div>
+<div class='x2' id='hashid29'>Application SandBox</div>
+<div class='x3'>Android application are mainly sandboxed. They are executed in it's own process and have their secure storage area. Every application has it's own Application to UserID mappaing , assigned by the android system while installation.</div>
+<div class='x2' id='hashid30'>interprocess communication:</div>
+<table>
+<caption>Table: Way to to interprocess communication.
+</caption>
+<tr><td>Unix IPC</td><td>Not suited from Android.</td></tr>
+<tr><td>Network based IPC</td><td>Avilable under android but not efficent.</td></tr>
+<tr><td>Intent</td><td>Generic, extensible message. They contains “addressable” content (Action, category) and Android delivers appropriately. They can have Additional payload. Android Efficiently “routed” between apps which make sApps can become like plug-ins they can be used to return data possible.</td></tr>
+<tr><td>Mesenger</td><td>Another way to do IPC. They use Cross process Handler reference. It Sends Message to specific process and Other process must support this.</td></tr>
+<tr><td>ContentResolver</td><td>Mainly Storage centric IPC,  Used to interface with ContentProvider. it Supports standard SQL type operations like Insert, Delete, Query and also Support custom method calls</td></tr>
+<tr><td>IBinder and Binder Object</td><td>This is Base IPC mechanism in Android and Other IPC mechanism layered on top. It Leverages Android specific kernel feature like Shared memory between processes It Uses a special serialized data format which Serialized data via Parcel, Supports any object implementing Parcelable - Non-permanent serial form of data. It Can define custom interfaces or methods. It is Used by internal framework Services. This is the bast to acive Cross-process method calls. It required defing AIDL.</td></tr>
+</table>
+<div class='x2' id='hashid31'>Sharing private data, resource and processes by multiple app.</div>
+<div class='x3'>What if I need something different? Is there a way to get re-use and access existing data? Is there a way to get better efficiency? Yes it is possible.</div>
+<table>
+<caption>Table: Effective way of sharing across apps.
+</caption>
+<tr><td>The Almost-Unique User ID</td><td>We know the Unique User ID is assigned app at install time. However, we can override it in menufest by pspacifying  android:sharedUserId="com.example.sharedId">. Shared ID is a string and Not the real user ID! but anndoid system lookup for this string to assign unique user id. We also needs to sign the app using same certificate to avoid security concern. advantage of Shared User ID :  access other app data like Files, Resources and SharedPreferences, Howvery they are not RAM efficient as both process needs to be loaded. Another concern is access other app data is hard.</td></tr>
+<tr><td>Sharing Proces</td><td>Allow sharing process  by having <application android:process = "dipnkar.example.sharedProcess">. Startwith‘:’forprivateprocessinapp and Star twith a lower case character for global(sharable). It must share user ID.</td></tr>
+</table>
+<table>
+<caption>Table: advantage of Process sharing:
+</caption>
+<tr><td>Reduced IPC: IBinder</td><td>IBinder is efficient, right? Yes, but is still cross-process Memory still has to be marshalled. Process context switch. But IBinder is smart, process aware, As they know two app running on the same process they calls target interface directly which reduce context switch and memoery marshalling.</td></tr>
+<tr><td>Reduced IPC: ContentProvider</td><td>It Meant for exposing storage schema globally and it is Process aware which helps Reduced memory usage and Reduced context switching.</td></tr>
+</table>
+<div class='x2' id='hashid32'>Android Threads.</div>
+<div class='x3'>In this section we will discuss concurrenact vis android thread.</div>
+<ol>
+<li>Android == Concurrency -</li>
+<li>unresponsive UI thread and ANR demo: The UI unresposive happens when app fail to respond to user input after timeout ( 5 sec) or BroadcastReceiver fails to complete after timeout( 10 sec) or  app in  a Critical error state. We will give a demo of unresponsive.</li>
+<li>Main thraed( UI thread)- UI thread is central to app. All the compoents like- Activity, Service and BroadcastReceive runs on UI thread.</li>
+</ol>
+<table>
+<caption>Table: Top ways to having backgroud operations:
+</caption>
+<tr><td>Option1 :Thread/Looper/Handler comibination</td><td>Thread class, defined by Java, Executes a specific Runnable and it is the Base class for other threading options. It is Primitive, not hooked into framework. It is a Single invocation ( that means will do one task and then terminates), can be long running. Looper bound to a specific Thread instance. Looper waits for Message objects and Looper hands Message objects to Handler. We can create hanlder by Extend Handler or provide Handler.Callback. It Used for well-defined interfaces like handling Message contents or Can execute Runnables in Handler. This is also Not directly tied to framework states.</td></tr>
+<tr><td>Option 2: HandlerThread</td><td>Simplified Thread/Looper/Handler construct by andorid. It Automatically creates Thread and Looper . Can hook when Looper initialized - Extend the class, provide onLooperPrepared() It is also Single invocation ( Can be used once), can be long running.</td></tr>
+<tr><td>Option 3: AsyncTask</td><td>Automatically handles coordination with UI thread and perfact for  Short lived operations. It has Restrictions on creation, execution. It's Operations changed with Android versions( very bad). Originally serially executed on background thread, then Donut used parallel execution and breaks a lot of apps. then Honeycomb reverted to serial execution but support parranl ops whihc Can be overridden using executeOnExecutorwith THREAD_POOL_EXECUTOR it is Single invocation only. But is Easy to leak resource and should be taken care properly.</td></tr>
+<tr><td>Option 4: Thread Pools</td><td>Extensible framework for offloading like Longer running tasks which supports Parallel/serial operations. It is Efficient thread usage via re-use It alos support different policies for cancel, reject. We can also se pool size.</td></tr>
+<tr><td>Option 5: Native C++ Threads</td><td>C/C++ accessible via Java which Requires the Android NDK and  Requires JNI. We can have Two options available (1) Threads in Java, access native methods or (2) Native pthreads behind the scenes. It is Very flexible, super high performance and No built-in framework coordination.</td></tr>
+</table>
 <table>
 <caption>Table: Android Ways to post a Job to UI Threass
 </caption>
@@ -3246,7 +3388,75 @@ mainHandler.post(myRunnable);
 Case 3. Simple:
 new Handler(Looper.getMainLooper()).post(mYourUiThreadRunnable);
 </div>
-<div class='x1' id='hashid29'>Android Design</div>
+<div class='x3'>Example: Example of an Generic Thread Utils class:</div>
+<div class='code'>import android.os.Handler;
+import android.os.Looper;
+
+public interface ThreadUtil {
+  boolean isUiThread();
+  void runOnUiThread(Runnable runnable);
+  void postToUiThread(Runnable runnable);
+  void postToUiThread(Runnable runnable, long delayMs);
+
+  public void postToCurrentThread(Runnable runnable) ;
+  public void postToCurrentThread(Runnable runnable, long delayMs);
+
+  public void sleep(long timeMillis);
+}
+
+public class MyThreadUtil implements ThreadUtil {
+  private static final MyThreadUtil INSTANCE = new MyThreadUtil();
+    private static final Thread MAIN_THREAD = Looper.getMainLooper().getThread();
+  private Handler mUiThreadHandler;
+  private MyThreadUtil() {
+    mUiThreadHandler = new Handler(Looper.getMainLooper());
+  }
+
+  @Override
+  public boolean isUiThread() {
+    return MAIN_THREAD == Thread.currentThread();
+  }
+
+  @Override
+  public void runOnUiThread(Runnable runnable) {
+    if (isUiThread()) {
+      runnable.run();
+    } else {
+      mUiThreadHandler.post(runnable);
+    }
+  }
+
+  @Override
+  public void postToUiThread(Runnable runnable) {
+    mUiThreadHandler.post(runnable);
+  }
+
+  @Override
+  public void postToUiThread(Runnable runnable, long delayMs) {
+    mUiThreadHandler.postDelayed(runnable, delayMs);
+  }
+
+  public static MyThreadUtil get() {
+    return INSTANCE;
+  }
+  public void postToCurrentHandlerThread(Runnable runnable) {	
+    Handler handler = new Handler();	
+    handler.post(runnable);	
+  }
+
+   @Override	
+  public void postToCurrentHandlerThread(Runnable runnable, long delayMs) {	
+    Handler handler = new Handler();	
+    handler.postDelayed(runnable, delayMs);	
+  }
+
+  @Override
+  public void sleep(long timeMillis) throws InterruptedException {	
+    Thread.sleep(timeMillis);	
+  }
+}
+</div>
+<div class='x1' id='hashid33'>Android Design</div>
 <div class='x3'>In this section, I will discusstion the common design to be followed by :</div>
 <table>
 <caption>Table: Android Design Patterns
@@ -3258,7 +3468,7 @@ new Handler(Looper.getMainLooper()).post(mYourUiThreadRunnable);
 <tr><td>MVP</td><td>This section discuss how to decouple UI login with Contrler logic using MVC Patterns</td></tr>
 <tr><td>MVVC</td><td>Design discussion on MV-VP patatrens</td></tr>
 </table>
-<div class='x2' id='hashid30'>MVP Patterns in details</div>
+<div class='x2' id='hashid34'>MVP Patterns in details</div>
 <div class='x3'>The Model View Presenter (MVP) design pattern dictates that you separate your presentation (the View) from the business logic and the data sources (the Presenter and the Model). The design mainly consist of 3 things.</div>
 <ol>
 <li>Model: it is an interface responsible for managing data.</li>
@@ -3451,8 +3661,10 @@ public class MainActivity extends Activity implements IMainView, AdapterView.OnI
 }
 </div>
 <div class='x3'>Example 2: This is an alternative way to do that:</div>
-<div class='x3'>Step 1: Define common Base MVP infra</div>
-<div class='code'>public interface MvpView {
+<div class='x3'>Step 1: Define common Base MVP infra like base presenter and base activity.</div>
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+public interface MvpView {
     void showLoading(String msg);
     void hideLoading();
     void showError(String errorMsg);
@@ -3492,7 +3704,9 @@ public class BasePresenter&lt;V extends MvpView&gt; implements Presenter&lt;V&gt
 }
 </div>
 <div class='x3'>Step2: Now Define your customView and Presenter which deps on the infra.</div>
-<div class='code'>public interface ILoginPresenter {
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+public interface ILoginPresenter {
     public void login();
 }
 
@@ -3527,7 +3741,7 @@ public class LoginPresenter extends BasePresenter&lt;ILoginView&gt; implements I
 }
 
 </div>
-<div class='x3'>Step 3: Define Views.</div>
+<div class='x3'>Step 3: Define Concreate Views</div>
 <div class='code'>public interface ILoginView extends MvpView {
     String getUsername();
     String getPassword();
@@ -3604,7 +3818,9 @@ public class LoginActivity extends AppCompatActivity implements ILoginView, View
 
 </div>
 <div class='x3'>Step 4: An beter way to attch and detach:</div>
-<div class='code'>public interface BasePresenter {
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+public interface BasePresenter {
     void onViewAttached(MVPView view); 
     void onViewDetached();
 }
@@ -3620,6 +3836,454 @@ public class BaseActivity extends AppCompatActivity {
     presenter.onViewDetached();
   } 
 }
+</div>
+<div class='x3'>Example 4: An alternative design for MVP.</div>
+<div class='x3'>We saw that View Despends on presenter anyway.</div>
+<div class='x3'>Step1: Have a BaseViewPresenter</div>
+<div class='code'>public abstract class BaseViewPresenter&lt;V&gt; {
+
+  private V mView; 
+  
+  public final void attachView(V view) {
+    if (view == null) {
+      return;
+    }
+
+    mView = view;
+    onViewAttached();
+  }
+  protected void onViewAttached() {}
+  
+  public final void detachView() {
+    onViewDetached();
+    mView = null;
+  }
+
+  protected void onViewDetached() {}
+    
+  public @Nullable V getView() {
+    return mView;
+  }
+}
+
+</div>
+<div class='x3'>Step2: Have a LoginViewPresenter - which says what needs on View Side.</div>
+<div class='code'>public class LoginViewPresenter&lt;	
+        V extends BaseViewPresenter.ViewContract&gt;	
+    extends BaseViewPresenter&lt;V&gt; {	
+	
+  public interface ViewContract {	
+    void onAuthSuccess();	
+    void onAuthFailure();	
+  }	
+	
+  public LoginViewPresenter(....) {	
+      ....
+  }	
+	
+  public void doLogin(credentials) {	
+    LoginUtil.doLogin(credentials,	
+        new Callback&lt;Result&gt;() {	
+          @Override	
+          public void onSuccess(Result result) {	
+            UiHandler.post(	
+                new Runnable() {	
+                  @Override	
+                  public void run() {	
+                    onAuthSuccess();	
+                  }	
+                });	
+          }	
+	
+          @Override	
+          public void onFailure() {	
+            UiHandler.post(	
+                new Runnable() {	
+                  @Override	
+                  public void run() {	
+                    onAuthFailure();	
+                  }	
+                });	
+          }	
+        });	
+  }	
+	
+  private void onAuthSuccess() {	
+    if (getView() == null) {	
+      return;	
+    }	
+    getView().onAuthSuccess();	
+  }	
+
+    private void onAuthSuccess() {	
+    if (getView() == null) {	
+      return;	
+    }	
+    getView().onAuthSuccess();	
+  }
+}
+</div>
+<div class='x3'>Step3: Define the View which will do all the stuff required by presenter.</div>
+<div class='code'>public class LoginView extends BaseView	
+    implements LoginViewPresenter.ViewContract {		
+	...
+  public LoginView(Context context) {	
+    this(context, null, 0);	
+  }	
+	
+  public LoginView(Context context, @Nullable AttributeSet attrs) {	
+    this(context, attrs, 0);	
+  }	
+	
+  public LoginView(Context context, @Nullable AttributeSet attrs, int defStyle) {	
+    super(context, attrs, defStyle);	
+    setContentView(R.layout.my_view);	
+    mLoginViewPresenter = ....
+	....
+    mLoginViewPresenter.doLogin(....)
+  }	
+	
+  @Override	
+  protected void onAttachedToWindow() {	
+    super.onAttachedToWindow();	
+    mLoginViewPresenter.attachView(this);		
+  }	
+	
+  @Override	
+  protected void onDetachedFromWindow() {	
+    mLoginViewPresenter.detachView();	
+    super.onDetachedFromWindow();	
+  }	
+	
+	
+  @Override	
+  public void onAuthSuccess() {	
+    // Do ops.
+  }	
+	
+  @Override	
+  public void onAuthFailure() {	
+    // DO Ops.	
+  }	
+}
+</div>
+<div class='x2' id='hashid35'>Design communication between mutiple compoenens in android:</div>
+<table>
+<caption>Table: Communication summary table
+</caption>
+<tr><td>Activity/Fragemnets to CustomView #</td></tr>
+<tr><td>Custom view  to Activity/Fragemnets #</td></tr>
+<tr><td>CustomView to CustomView under same holders #</td></tr>
+<tr><td>Activity to Fragemnt #</td></tr>
+<tr><td>Fragemnt to Activity #</td></tr>
+<tr><td>Fragemnt to Fragemnt #</td></tr>
+<tr><td>Activity to Service #</td></tr>
+<tr><td>Service to Activity #</td></tr>
+</table>
+<div class='x1' id='hashid36'>Monitization your app.</div>
+<div class='x2' id='hashid37'>Google AddMob.</div>
+<div class='x3'>Step1: configure graddle</div>
+<div class='x3'>To use addmob just add the below configuraration in the graddle files. Then go to AddMob(https://apps.admob.com/v2/home?pli=1) and create new banner add id .</div>
+<div class='x3'>Now we are ready to build two type of adds.</div>
+<ol>
+<li>Banner add</li>
+<li>Full screen add.</li>
+</ol>
+<div class='code'>     implementation 'com.google.android.gms:play-services-ads:15.0.0'
+</div>
+<div class='x3'>Step2: To have a banner add , please add this view in your layout and do the initilization as shown in code.</div>
+<div class='code'>// add layout
+&lt;com.google.android.gms.ads.AdView
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/adView"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true"
+    android:layout_alignParentBottom="true"
+    ads:adSize="BANNER" &lt;&lt; You may use BANNER | LARGE_BANNER | FULL_BANNER
+    ads:adUnitId="ca-app-pub-3940256099942544/6300978111"&gt; &lt;&lt;&lt; test uit id
+&lt;/com.google.android.gms.ads.AdView&gt;
+
+//initilize.
+public class MainActivity extends AppCompatActivity {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        MobileAds.initialize(this, "ca-app-pub-3940256099942544~3347511713"); &lt;&lt; Test Id 
+        #MobileAds.initialize(this, "YOUR_ADMOB_APP_ID");
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+        mAdView.setAdListener(new AdListener() {
+            ...
+            @Override
+            public void onAdOpened() {
+            }
+             @Override
+            public void onAdClosed() {
+            }
+        }
+    }
+void createProgramitically()
+    {
+        AdView adView = new AdView(this);
+        adView.setAdSize(AdSize.BANNER);
+        adView.setAdUnitId("ca-app-pub-3940256099942544/6300978111"); &lt;&lt;&lt; test uit Id.
+        // TODO: Add adView to your view hierarchy.
+    }
+</div>
+<div class='x3'>Step 3:  To have a  interstitial ads , No need  to add anythig in your view, but do the initilization as shown in code. they should call show() method to show the add and then you can make some action when the ad is close.</div>
+<div class='code'>import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.AdRequest;
+public class MainActivity extends Activity {
+    private InterstitialAd mInterstitialAd;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        MobileAds.initialize(this,"ca-app-pub-3940256099942544~3347511713"); // test id
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712"); //test id
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+
+        mMyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mInterstitialAd.isLoaded()) {
+                    mInterstitialAd.show();
+                } else {
+                    Log.d("TAG", "The interstitial wasn't loaded yet.");
+                }
+            }
+        });
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {}
+
+            @Override
+            public void onAdFailedToLoad(int errorCode) {}
+
+            @Override
+            public void onAdOpened() {}
+
+            @Override
+            public void onAdLeftApplication() {}
+
+            @Override
+            public void onAdClosed() {
+                 // Prepare next add
+                 mInterstitialAd.loadAd(new AdRequest.Builder().build());
+                 MoveToSecondScreen();
+            }
+        });
+    }
+}
+</div>
+<div class='x2' id='hashid38'>Defining a model</div>
+<div class='x3'>Step 1: Define your models. Note that your model has no setting - which makes them immutable.</div>
+<div class='x3'>public class User implements Serializable {</div>
+<div class='x3'>private static final long serialVersionUID = 0;</div>
+<div class='x3'>@JsonProperty("user_id")</div>
+<div class='x3'>public final String userId;</div>
+<div class='x3'>@JsonProperty("display_name")</div>
+<div class='x3'>public final String displayName;</div>
+<div class='x3'>public User(UserBuilder builder) {</div>
+<div class='x3'>this.userId = builder.getUserId();</div>
+<div class='x3'>this.displayName = builder.getDisplayName();</div>
+<div class='x3'>}</div>
+<div class='x3'>/** For JSON deserialization. */</div>
+<div class='x3'>public User() {</div>
+<div class='x3'>userId = null;</div>
+<div class='x3'>displayName = null;</div>
+<div class='x3'>}</div>
+<div class='x3'>public String getProfilePicUri() {</div>
+<div class='x3'>return profilePicUri;</div>
+<div class='x3'>}</div>
+<div class='x3'>@Override</div>
+<div class='x3'>public String toString() {</div>
+<div class='x3'>return toStringHelper().toString();</div>
+<div class='x3'>}</div>
+<div class='x3'>protected MoreObjects.ToStringHelper toStringHelper() {</div>
+<div class='x3'>return MoreObjects.toStringHelper(User.class)</div>
+<div class='x3'>.add("userId", userId)</div>
+<div class='x3'>.add("displayName", displayName)</div>
+<div class='x3'>}</div>
+<div class='x3'>}</div>
+<div class='x3'>#Step2: Now provides a builder class for your model which can set the values ( in any order in a chain ) and then call build method to get the immutable object.</div>
+<div class='x3'>public class UserBuilder {</div>
+<div class='x3'>private String mUserId;</div>
+<div class='x3'>private String mDisplayName;</div>
+<div class='x3'>public UserBuilder() {}</div>
+<div class='x3'>public String getUserId() {</div>
+<div class='x3'>return mUserId;</div>
+<div class='x3'>}</div>
+<div class='x3'>public UserBuilder setUserId(String userId) {</div>
+<div class='x3'>mUserId = userId;</div>
+<div class='x3'>return this;</div>
+<div class='x3'>}</div>
+<div class='x3'>public String getDisplayName() {</div>
+<div class='x3'>return mDisplayName;</div>
+<div class='x3'>}</div>
+<div class='x3'>public UserBuilder setDisplayName(String displayName) {</div>
+<div class='x3'>mDisplayName = displayName;</div>
+<div class='x3'>return this;</div>
+<div class='x3'>}</div>
+<div class='x3'>public User build() {</div>
+<div class='x3'>return new User(this);</div>
+<div class='x3'>}</div>
+<div class='x3'>}</div>
+<div class='x3'>Step3: Here is how you can use to create the objects using the UserBuilder</div>
+<div class='code'>  private static User getUser() {	
+    UserBuilder builder = new UserBuilder();	
+    builder.setUserId("123");	
+    builder.setDisplayName("Dipankar");	
+    return builder.build();	
+  }	
+</div>
+<div class='x3'>Step 4: Provides a way to serilize and desrize with json</div>
+<div class='x3'>Sometime, you get data from network as json string and you might constract the java object by manuualy parsing it.You can use jackson lib to have this.</div>
+<div class='code'>//First create a mapper :
+import com.fasterxml.jackson.databind.ObjectMapper;// in play 2.3
+ObjectMapper mapper = new ObjectMapper();
+// As Array:
+MyClass[] myObjects = mapper.readValue(json, MyClass[].class);
+// As List:
+List&lt;MyClass&gt; myObjects = mapper.readValue(jsonInput, new TypeReference&lt;List&lt;MyClass&gt;&gt;(){});
+// Another way to specify the List type:
+List&lt;MyClass&gt; myObjects = mapper.readValue(jsonInput, mapper.getTypeFactory().constructCollectionType(List.class, MyClass.class));
+</div>
+<div class='x1' id='hashid39'>Java Libs for android:</div>
+<div class='x2' id='hashid40'>Jackson</div>
+<div class='code'>    compile 'com.fasterxml.jackson.core:jackson-databind:2.8.5'
+compile 'com.fasterxml.jackson.core:jackson-core:2.8.5'
+compile 'com.fasterxml.jackson.core:jackson-annotations:2.8.5'
+
+ObjectMapper mapper = new ObjectMapper();
+
+Person person = new Person();
+mapper.writeValue(new File("/a/path/to/person.json"), person);  // write to file
+String jsonStr = mapper.writeValueAsString(person);            // write to string
+
+Person person1;
+//read from an url
+person1 = mapper.readValue(new URL("https://api.myjson.com/bins/hoh4j"), Person.class);
+
+//read from a string
+String personJsonStr = "{\"firstname\":\"John\",\"lastname\":\"Doe\"}";
+person2 = mapper.readValue(personJsonStr, Person.class);
+
+//read from a file
+person3 = mapper.readValue(new File("/a/path/to/person.json"), Person.class);
+
+</div>
+<div class='x3'>Sample model class with Jackson annotations for the above json string.</div>
+<div class='code'>import java.util.HashMap;
+import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonPropertyOrder({
+        "firstname",
+        "lastname"
+})
+public class Person {
+    @JsonProperty("firstname")
+    private String firstname;
+    @JsonProperty("lastname")
+    private String lastname;
+    @JsonIgnore
+    private Map&lt;String, Object&gt; additionalProperties = new HashMap&lt;String, Object&gt;();
+
+    @JsonProperty("firstname")
+    public String getFirstname() {
+        return firstname;
+    }
+
+    @JsonProperty("firstname")
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    @JsonProperty("lastname")
+    public String getLastname() {
+        return lastname;
+    }
+
+    @JsonProperty("lastname")
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    @JsonAnyGetter
+    public Map&lt;String, Object&gt; getAdditionalProperties() {
+        return this.additionalProperties;
+    }
+
+    @JsonAnySetter
+    public void setAdditionalProperty(String name, Object value) {
+        this.additionalProperties.put(name, value);
+    }
+}
+</div>
+<div class='code'>private void jsonToObjectUrl() {
+    final ObjectMapper mapper = new ObjectMapper();
+    final Handler handler = new Handler();
+    new Thread(new Runnable() {
+        @Override
+        public void run() {
+            try {
+                Person person = mapper.readValue(new URL("https://api.myjson.com/bins/hoh4j"), Person.class);                                 // read from url
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        tvDisplay.setText("json string -&gt; object\n" + person.getFirstname() + " " + person.getLastname());
+                    }
+                });
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }).start();
+}
+private void objectToJson() {
+    ObjectMapper mapper = new ObjectMapper();
+    try {
+        //mapper.writeValue(new File(getFilesDir(), "person.json"), person);  // write to file
+        String jsonStr = mapper.writeValueAsString(person);                   // write to string
+        tvDisplay.setText("object -&gt; json string\n" + jsonStr);
+    } catch (JsonProcessingException e) {
+        e.printStackTrace();
+        tvDisplay.setText(e.getMessage());
+    } catch (IOException e) {
+        e.printStackTrace();
+        tvDisplay.setText(e.getMessage());
+    }
+}
+</div>
+<div class='x1' id='hashid41'>Android Pro Dev Trciks.</div>
+<div class='x2' id='hashid42'>Connecting device using wifi</div>
+<div class='code'>// Set the target device to listen for a TCP/IP connection on port 5555.
+adb tcpip 5555
+
+//Connect the device through usb and get the ip address of the device
+adb shell ip -f inet addr show wlan0
+adb shell ip route | awk '{print $9}'
+
+//Connect the device, 192.168.1.213 is the ip address obtained from the previous step.
+adb connect 192.168.1.213:5555
+//Disconnect the device.
+adb disconnect 192.168.1.213
+//See connected devices.
+adb devices
 </div></div>
 </div>
 <div class="footer">
