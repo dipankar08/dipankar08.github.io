@@ -652,7 +652,7 @@ public class Movie {
 }
 }}}
 Step 2: Adding Recyler view in your layout.
-{{{
+{{{e
 <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:scrollbars="vertical"
@@ -661,7 +661,7 @@ Step 2: Adding Recyler view in your layout.
 }}}
 
 Step 3: Define Item Layout.
-{{{
+{{{e
  movie_list_row.xml
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -1020,7 +1020,7 @@ compile 'com.android.support:cardview-v7:23.3.+'
             android:layout_height="match_parent" />
     </android.support.v7.widget.CardView>
 </LinearLayout>
-}}}
+
 // Define Decorator.
 public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
         private int spanCount;
@@ -1066,6 +1066,7 @@ recyclerView.setLayoutManager(mLayoutManager);
 recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
 recyclerView.setItemAnimator(new DefaultItemAnimator());
 recyclerView.setAdapter(adapter);
+}}}
 
 Step 15: RV With mutiple View Type: is it possible to create RecyclerView with multiple view types? Yes, it's possible. Just implement getItemViewType(), and take care of the viewType parameter in onCreateViewHolder().
 {{{e
@@ -1117,7 +1118,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 }}}
 
 Step 16: efficent updates on rv:
-{{{
+{{{e
 // Insert single item: Add "Pig" at index 2.
 String item = "Pig";
 int insertIndex = 2;
@@ -1207,7 +1208,7 @@ android:layout_height="fill_parent" >
 </RelativeLayout>
 }}}
 Step 2: Define Your Notification calls.
-{{{
+{{{e
 public class MyNotification extends Notification {
 
 private Context ctx;
@@ -1274,7 +1275,7 @@ public void setListeners(RemoteViews view){
 }}}
 
 Step3: Invoke it from the activity:
-{{{
+{{{e
     public void showNotification(View view){
         new MyNotification(this);
         finish();
