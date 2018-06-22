@@ -531,6 +531,106 @@ onCreateContextMenu # This is called when the context menu is being built(as the
 GestureDetector.SimpleOnGestureListener # Detect Android provides special types of touch screen events such as pinch , double tap, scrolls , long presses and flinch. These are all known as gestures.
 ScaleGestureDetector # Delect the scale events.
 
+# Android All Layout Discussion
+This section, We will give some sample templte codes for all mostly used layouts:
+1. Android LinearLayout is a view group that aligns all children in either vertically or horizontally. Some of mostly used attributes are :android:orientation = horizontal| vertical, android:gravity = top, bottom, left, right, center, center_vertical, center_horizontal ( how the elment inside are placed), android:layout_gravity( how itself is placed over parenet),  android:baselineAligned = true | false ( aligning all its children's baselines.), android:weightSum and android:weight.
+A sample tempalte is as below:
+{{{
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   android:layout_width="fill_parent"
+   android:layout_height="fill_parent"
+   android:orientation="vertical" >
+   <Button android:id="@+id/btnStartService"
+      android:layout_width="270dp"
+      android:layout_height="wrap_content"
+      android:text="start_service"/>
+   <Button android:id="@+id/btnPauseService"
+      android:layout_width="270dp"
+      android:layout_height="wrap_content"
+      android:text="pause_service"/>
+   <Button android:id="@+id/btnStopService"
+      android:layout_width="270dp"
+      android:layout_height="wrap_content"
+      android:text="stop_service"/>
+</LinearLayout>
+}}}
+
+2. RelativeLayout: Android RelativeLayout enables you to specify how child views are positioned relative to each other. Some Most common used attribute is: Center spacific: android:layout_centerHorizontal, android:layout_centerInParent, android:layout_centerVertical, (w.r.t parent:) android:layout_alignParentTop,android:layout_alignParentBottom, android:layout_alignParentStart, android:layout_alignParentLeft, android:layout_alignParentRight,android:layout_alignParentStart, android:layout_alignParentEnd,( with resperct to other): android:layout_alignLeft, android:layout_above, android:layout_below, android:layout_toLeftOf, android:layout_toRightOf, android:layout_toStartOf, android:layout_toEndOf. 
+If you dont assign anything- it will just placed at top left corner. A sample example is as below:
+{{{
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ef9b00"
+    android:orientation="vertical">
+    <EditText
+        android:id="@+id/name"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:background="#f8eff8f3"
+        android:hint="Name"
+        android:padding="16dp" />
+    <EditText
+        android:id="@+id/email"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@+id/name"
+        android:background="#f8eff8f3"
+        android:hint="Address"
+        android:padding="16dp" />
+    <EditText
+        android:id="@+id/subject"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/name"
+        android:layout_marginTop="16dp"
+        android:background="#f8eff8f3"
+        android:hint="Subject"
+        android:padding="16dp" />
+    <EditText
+        android:id="@+id/message"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_below="@+id/subject"
+        android:layout_marginTop="16dp"
+        android:background="#f8eff8f3"
+        android:gravity="top"
+        android:hint="Message"
+        android:padding="16dp" />
+    <Button
+        android:id="@+id/submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/message"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:padding="16dp"
+        android:text="Submit" />
+</RelativeLayout>
+}}}
+
+3. Android Constraint Layout: ConstraintLayout allows you to create large and complex layouts with a flat view hierarchy (no nested view groups). It's similar to RelativeLayout but have more flexiable and some advance feature.This design is closely related to iOS’s Constraint Layout. Constraint Layout provide better support for Drag and Drop views.
+The Common constratins is defines as : layout_constraintTop_toTopOf , layout_constraintTop_toBottomOf ,layout_constraintBottom_toTopOf , layout_constraintBottom_toBottomOf etc. Mainly all 16 combination likes:
+layout_constraint[X]_to[Y]Of: where X and Y =>[Left, right, Top, Buttom, Start, End ]: that is total 6*6 = 36 combination.  layout_constraintRight_toTopOf means Align this layout so that the right of this view to the top of another view.
+- It is also possible to make it center alignment using defining top and button constratins 
+- app:layout_constraintBaseline_toBaselineOf="@+id/text_title" used for base line.
+- app:layout_constraintVertical_bias="0.5" or app:layout_constraintHorizontal_bias="0.5" Provides the Veritical Bias in %.
+- 
+
+
+A quick example is as below :
+{{{
+// Add this deps.
+dependencies {
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha3'
+}
+}}}
+
+
 
 # Android Notification End-to-End
 
