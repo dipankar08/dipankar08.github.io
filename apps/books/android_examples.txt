@@ -630,6 +630,123 @@ dependencies {
 }
 }}}
 
+# [EndToEnd] Android Animation: Animation are sapcially useful when screen changes states  like when content loads or new activity chnagesd. Animation can alos add a polished look to your app which give a higher quality feel. Howver, adding too much animation can slow down your app performace.
+        
+There are three types of animation supprted by android.
+
+Table: Android Animations:
+View Animation # Mostly dealsing with chaning the view apperneces but no propert chnages. # They are used to do simple animations like changing size, position, rotation, control transparency - here Their state changes but their property does not change. So Effect will lost once the animation complete.
+Tween Animation # Type of View animation: Perform one or more transformation to a single view, The possible transformation are rotation, scaling, translation, and fading. Two ways to implement View ( Tween ) animation (1) XML file in res/anim directory of the project. (2) Java code
+Frame Animation/ Drawable Animations # An XML file specifying various list of drawables is made which are run one by one just like a roll of a film. Lessed used in the app.
+Property Animations # They are used to alter property of objects (Views or non view objects). We specify certain properties(like translateX, TextScaleX) of the objects to change. Applicable for non-view objects as well as views.Animated object retains it’s new properties i.e. properties of the objects are changed. it can be achived by  Value Animator, Object Animator and Animator Set. Object Animator is the subclass of Value Animator.Two Ways to execute Property Animation (1) XML Resource file – inside Animator Directory and (2) Java file.
+Value Animator # Animates a int, float or object value over time. it Calculates animation values and contains the timing details of each animation. it also carries the information about whether an animation repeats, listeners that receive update events, and the ability to set custom types to evaluate.
+Object Animator # Subclass of Value Animator.
+Evaluators #
+Reveal Effect # 
+Activity transitions #
+Fragment transitions # 
+Shared Element transitions #
+
+Table: Comparims of View Animation and Property Animation
+View Animation # Property Animation
+It only animates the View objects. Do not animate non-view objects # It animates the non-view objects too.
+Helps to animate few aspects of view such as scaling, rotation etc but not the background color. # It overcomes such Limitation of View Animation.
+The actual property of the View is not changed. When the animation finishes the original position is not changed only the view is redrawn. # The actual properties of the objects are modified.
+
+Step 1: Define View/Tween Animation  in XML files: Like all XML file, there must be a single root element.The elements performing animations are:  <alpha>, <scale>, <translate> and <rotate>. Animations elements may be grouped using the <set> element. In addition to other properties, each animation’s starting time and duration are specified allowing for either sequential or simultaneous animation.
+{{{ e
+<alpha
+     android:fromAlpha = “1.0”
+     android:toAlpha   = “0.0”
+     android:duration  = “300”
+/>
+}}}
+Step 2: Load Animation and Perform on Java Code:
+{{{e
+
+}}}
+
+
+Step 3: Adding Animation Listener: Animation listener receives notifications from an animation. such as the end or the repetition of the animation. the Public Methods are onAnimationEnd( Animation anim ), Notifies the end of the Animation, onAnimationRepeat( Animation anim )- Notifies the repetition of the animation and onAnimationStart( Animation anim ) which Notifies the start of the animation.
+{{{e
+
+}}}
+
+Step 4: Tween animation using Java Code: We can have tween animation using java code. We have API like AlphaAnimation(float fromAlpha, float toAlpha).
+{{{e
+
+}}}
+
+
+Step 2A: Use of Interpolator for your animation: An interpolator defines the rate of change of an animation.This allows the basic animation effects (alpha, scale, translate, rotate) to be accelerated, decelerated, repeated, etc.
+{{{e
+
+}}}
+
+Step 2B: Using Animation Set:  <set> Represents an AnimationSet. it;s A container that holds other animation elements ( <alpha>, <scale>, <translate>,
+<rotate> ) or other <set> elements.
+{{{e
+
+}}}
+
+Step 5: Frame Animation Example: Let's have a simple XML based frame aniation.
+{{{e
+
+}}}
+
+Step 6: Demerits of View Aniation and Why Property animation?
+{{{e
+
+}}}
+
+Step 7: Example of Property Animation using  Value Animator:
+{{{
+
+}}}
+
+Step 8: Example of Property Animation using Object Animator
+{{{e
+    
+}}}
+
+Step 9:  Object Animator using XML:
+{{{
+
+}}}
+
+Step 10: Example of Evaluators: Helps to calculate values for a given property over time and Helps to animate ARGB colors and Rect Objects with the help of ofObject method. IntEvaluator (Calculate values for int properties), FloatEvaluator(Calculate values for float properties),  ArgbEvaluator(Calculate values for color properties that are represented as hexidecimal values), TypeEvaluator(An interface that helps us to create own custom evaluator),
+{{{e
+
+}}}
+
+Step 11: Animation on Activity Transitions:
+{{{e
+
+}}}
+
+Step 12: Animation on Fragemnets Transitions:
+{{{e
+
+}}}
+
+Step 13: Animation on Recyler View Transitions:
+{{{e
+
+}}}
+
+Step 14: Shared Elemnet trasitions:
+{{{e
+
+}}}
+
+Step 15: Circular reveal animation support:
+{{{e
+
+}}}
+Step 16: View pager animation support:
+{{{e
+
+}}}
 
 
 # [EndToEnd] Recyler View
