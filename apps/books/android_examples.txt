@@ -632,7 +632,7 @@ dependencies {
 
 
 
-# Recyler View ( End to End)
+# [EndToEnd] Recyler View
 
 Step 0: Adding the dependecy in the graddle
 {{{e
@@ -1326,13 +1326,14 @@ Step3: Invoke it from the activity:
     }
 }}}
 
-# Android Dialog and Light dismiss End to End.
+# [EndToEnd] Toast and Android Dialog.
+Step 1: Building a simple Toast:
+{{{e
+    TODO.
+}}}
 
-Below Example shows, how you can create a dilog of below type:
-1. A Simple alert diloag to show some messange
-2. Here is an example of YES/NO confirm dialog.
-{{{
-// Simple Alert Diloag.
+Step 2: Having a Simple Dialog with OK.
+{{{e
 new AlertDialog.Builder(YourActivity.this)
               .setTitle("Your Alert")
               .setMessage("Your Message")
@@ -1343,14 +1344,19 @@ new AlertDialog.Builder(YourActivity.this)
                       // Whatever...
                   }
               }).show();
-// Two Button
+}}}
+Step 3: Having a Simple Dialog with YES/NO.
+{{{e
 new AlertDialog.Builder(this)
         .setTitle("AlertDialog");
         .setMessage("Would you like to continue learning how to use Android alerts?");
         .setPositiveButton("Continue", null),
         .setNegativeButton("Cancel", null);
         .show();
+}}}
 
+Step 4: Having a Simple Dialog with YES/NO/Cancel.
+{{{e
 // Three button.
 new AlertDialog.Builder(this)
         .setTitle("Notice")
@@ -1359,16 +1365,17 @@ new AlertDialog.Builder(this)
         .setNeutralButton("Remind me later", null)
         .setNegativeButton("Cancel", null)
         .show();
-
 // Hanlde buuton clicks
 builder.setPositiveButton("Launch missile", new DialogInterface.OnClickListener() {
     @Override
     public void onClick(DialogInterface dialog, int which) {
-
         // do something like...
         launchMissile();
     }
 });
+}}}
+Step 5: Using Dialog builder 
+{{{e
 // Having a builder and create dialogs.
 AlertDialog.Builder builder;
 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -1381,7 +1388,9 @@ if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 AlertDialog dialog = builder.create();
 dialog.show();
 
-// Traditional single-choice list: Hvaing a list of item in Dilogas and choose one of them/
+}}}
+Step 6: Traditional single-choice list: Hvaing a list of item in Dilogas and choose one of them
+{{{e
 AlertDialog.Builder builder = new AlertDialog.Builder(this);
 builder.setTitle("Choose an animal");
 String[] animals = {"horse", "cow", "camel", "sheep", "goat"};
@@ -1399,8 +1408,10 @@ builder.setItems(animals, new DialogInterface.OnClickListener() {
 });
 AlertDialog dialog = builder.create();
 dialog.show();
+}}}
 
-// Persistent single-choice list (radio buttons): Dillog with radio button list:
+Step 7: Persistent single-choice list (radio buttons): Dillog with radio button list:
+{{{e
 AlertDialog.Builder builder = new AlertDialog.Builder(context);
 builder.setTitle("Choose an animal");
 String[] animals = {"horse", "cow", "camel", "sheep", "goat"};
@@ -1421,8 +1432,9 @@ builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 builder.setNegativeButton("Cancel", null);
 AlertDialog dialog = builder.create();
 dialog.show();
-
-// Persistent multiple-choice list (checkboxes)
+}}}
+Step 8:  Persistent multiple-choice list (checkboxes)
+{{{e
 AlertDialog.Builder builder = new AlertDialog.Builder(context);
 builder.setTitle("Choose some animals");
 String[] animals = {"horse", "cow", "camel", "sheep", "goat"};
@@ -1444,9 +1456,9 @@ AlertDialog dialog = builder.create();
 dialog.show()
 }}}
 
-Example 2: This is example, I will show how to create a Custom Dilog:
-Step1: have your own custom_layout.xml
-{{{
+Step 9: Having a custom view to a dialog.
+{{{e
+// have your own custom_layout.xml
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
@@ -1459,9 +1471,8 @@ Step1: have your own custom_layout.xml
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 </LinearLayout>
-}}}
-Step2: Add this code in your main activity.
-{{{
+
+// Add this code in your main activity.
     AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Name");
         // set the custom layout
@@ -1481,9 +1492,9 @@ Step2: Add this code in your main activity.
         dialog.show();
 }}}
 
-Example 3: Dialog Fragemnets: DialogFragment is a specialized Fragment used when you want to display an overlay modal window within an activity that floats on top of the rest of the content.
-Step1: Custom Layout.
+Step 10: Uisng Dialog Fragemnets: DialogFragment is a specialized Fragment used when you want to display an overlay modal window within an activity that floats on top of the rest of the content.
 {{{
+
     <!-- fragment_edit_name.xml -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:id="@+id/edit_name"
@@ -1500,16 +1511,11 @@ Step1: Custom Layout.
 		android:inputType="text"
 		android:imeOptions="actionDone" />
 </LinearLayout>
-}}}
-
-Step 2: extends DialogFragment 
-{{{
 public class EditNameDialogFragment extends DialogFragment {
 	private EditText mEditText;
 	public EditNameDialogFragment() {
 		// Empty constructor is required for DialogFragment
 	}
-
 	public static EditNameDialogFragment newInstance(String title) {
 		EditNameDialogFragment frag = new EditNameDialogFragment();
 		Bundle args = new Bundle();
@@ -1517,13 +1523,11 @@ public class EditNameDialogFragment extends DialogFragment {
 		frag.setArguments(args);
 		return frag;
 	}
-
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		return inflater.inflate(R.layout.fragment_edit_name, container);
 	}
-
 	@Override
 	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
@@ -1538,9 +1542,7 @@ public class EditNameDialogFragment extends DialogFragment {
 		    WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 	}
 }
-}}}
-Step3: Now Show the dialog from teh actibity:
-{{{
+// Invoke
 public class DialogDemoActivity extends AppCompatActivity {
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -1555,8 +1557,8 @@ public class DialogDemoActivity extends AppCompatActivity {
   }
 }
 }}}
-Step4: We can create traditinal dialog using DialogFragemnt as below:
-{{{
+Step 11: Uisng Dialog Fragemnets without custom View.: We can create traditinal dialog using DialogFragemnt as below:
+{{{e
 class MyAlertDialogFragment extends DialogFragment {
     public MyAlertDialogFragment() {
           // Empty constructor required for DialogFragment
@@ -1592,8 +1594,8 @@ class MyAlertDialogFragment extends DialogFragment {
     }
 }
 }}}
-Step5: Passing data to activity Using Custom Callback mechisam. . You can also do that using customCreated Listner. In short: you Define an interface with methods that can be invoked to pass data result to the activity, etup a view event which invokes the custom listener passing data through the method abd Implement the interface in the Activity defining behavior for when the event is triggere
-{{{
+Step 12: Passing data to activity Using Custom Callback mechisam. . You can also do that using customCreated Listner. In short: you Define an interface with methods that can be invoked to pass data result to the activity, etup a view event which invokes the custom listener passing data through the method abd Implement the interface in the Activity defining behavior for when the event is triggere
+{{{e
 public class EditNameDialogFragment extends DialogFragment implements OnEditorActionListener {
     private EditText mEditText;
     // 1. Defines the listener interface with a method passing back data result.
@@ -1635,7 +1637,7 @@ public class DialogDemoActivity extends AppCompatActivity implements EditNameDia
 
 }}}
 
-# View pager End to end.
+# [EndToEnd] View pager
 Step 1. Let's define the layout which holds ViewPager.
 {{{e
 <?xml version="1.0" encoding="utf-8"?>
