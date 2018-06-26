@@ -714,7 +714,7 @@ Step 6: Demerits of View Aniation and Why Property animation?
 }}}
 
 Step 7: Example of Property Animation using  Value Animator:
-{{{
+{{{e
 
 }}}
 
@@ -724,7 +724,7 @@ Step 8: Example of Property Animation using Object Animator
 }}}
 
 Step 9:  Object Animator using XML:
-{{{
+{{{e
 
 }}}
 
@@ -1769,7 +1769,11 @@ public class DialogDemoActivity extends AppCompatActivity implements EditNameDia
 }}}
 
 # [EndToEnd] View pager
-Step 1. Let's define the layout which holds ViewPager.
+
+In this section, I will be discussion on View Pager. it allows the user to swipe left or right to see an entirely new screen.
+
+
+Step 1. Adding View pager to your XML. You first need to define the view pager elemnet in the XMP as below:
 {{{e
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -1784,30 +1788,11 @@ Step 1. Let's define the layout which holds ViewPager.
     </android.support.v4.view.ViewPager>
 </LinearLayout>
 
-OR
-
-<android.support.v4.view.ViewPager
-   android:id="@+id/vpPager"
-   android:layout_width="match_parent"
-   android:layout_height="wrap_content">
-   <android.support.v4.view.PagerTabStrip
-        android:id="@+id/pager_header"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top"
-        android:paddingBottom="4dp"
-        android:paddingTop="4dp" />
-</android.support.v4.view.ViewPager>
-
-OR
-
-<com.viewpagerindicator.TitlePageIndicator
-	android:id="@+id/titles"
-	android:layout_height="wrap_content"
-	android:layout_width="fill_parent" />
 }}}
 
-Step 2: Now Let's define some Fragemnets like FirstFragment, FirstFragment etc which will actually conatins of view for each page.
+
+
+Step 2: Define Pages as Fragment: Now you can define the pages as fragemmet. Now Let's define some Fragemnets like FirstFragment, FirstFragment etc which will actually conatins of view for each page.
 {{{e
 public class FirstFragment extends Fragment {
 	// Store instance variables
@@ -1830,7 +1815,6 @@ public class FirstFragment extends Fragment {
 		page = getArguments().getInt("someInt", 0);
 		title = getArguments().getString("someTitle");
 	}
-
 	// Inflate the view for the fragment based on layout XML
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, 
@@ -1843,7 +1827,8 @@ public class FirstFragment extends Fragment {
 }  
 }}}
 
-Step 3: Now We need to provides a Adapter extending FragmentPagerAdapter, which is essentially holds all thrree fragments - will create and send it back as requested.
+Step 3: Define Adapter: Now We need to provides a Adapter extending FragmentPagerAdapter, which is essentially holds all thrree fragments - will create and send it back as requested.
+
 {{{e
 public static class MyPagerAdapter extends FragmentPagerAdapter {
 	    private static int NUM_ITEMS = 3;
@@ -1877,7 +1862,7 @@ public static class MyPagerAdapter extends FragmentPagerAdapter {
     }
 }}}
 
-Step 4: Now Let's define the activity whihc will bind everything - it will get the view pager view and initilize the adapter and then bind adapter with ViewPager.
+Step 4: Bind all together in Activity: Now Let's define the activity whihc will bind everything - it will get the view pager view and initilize the adapter and then bind adapter with ViewPager.
 {{{e
 public class MainActivity extends AppCompatActivity {
 	FragmentPagerAdapter adapterViewPager;
@@ -1885,49 +1870,60 @@ public class MainActivity extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home);
-        // get View pager
+        // 1. get View pager
 		ViewPager vpPager = (ViewPager) findViewById(R.id.vpPager);
-        // Build adapter
+        // 2. Build adapter
 		adapterViewPager = new MyPagerAdapter(getSupportFragmentManager());
-        // binds
+        // 3. binds
 		vpPager.setAdapter(adapterViewPager);
 	}
-	
+    ...
+}
+}}}
+Step 5: Get and Set Current Item: You can programitically get or set a perticulr item as below:
+{{{e
 	// Set and get pages
     vpPager.getCurrentItem(); // --> 2
     vpPager.setCurrentItem(2)
+}}}
 
-    // Attach the page change listener inside the activity
-    vpPager.addOnPageChangeListener(new OnPageChangeListener() {
-        @Override
-        public void onPageSelected(int position) {
-            Toast.makeText(HomeActivity.this, "Selected page position: " + position, Toast.LENGTH_SHORT).show();
-            // This method will be invoked when a new page becomes selected.
-        }
-        @Override
-        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            // This method will be invoked when the current page is scrolled
-        }
-        @Override
-        public void onPageScrollStateChanged(int state) {
-            // Called when the scroll state changes: 
-            // SCROLL_STATE_IDLE, SCROLL_STATE_DRAGGING, SCROLL_STATE_SETTLING
-        }
-    });
+Step 6: Do Something when user chnage any page: You can add listner on when user chnage on some page.
+{{{e
+// Attach the page change listener inside the activity
+vpPager.addOnPageChangeListener(new OnPageChangeListener() {
+    @Override
+    public void onPageSelected(int position) {
+        Toast.makeText(HomeActivity.this, "Selected page position: " + position, Toast.LENGTH_SHORT).show();
+        // This method will be invoked when a new page becomes selected.
+    }
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        // This method will be invoked when the current page is scrolled
+    }
+    @Override
+    public void onPageScrollStateChanged(int state) {
+        // Called when the scroll state changes: 
+        // SCROLL_STATE_IDLE, SCROLL_STATE_DRAGGING, SCROLL_STATE_SETTLING
+    }
+});
+}}}
 
-    // Set Offscreen Page Limit: provided by ViewPager to set how many page instances you want the system to keep in memory on either side of your current page. 
-    vpPager.setOffscreenPageLimit(3);
+Step 7: Define OffScreen Page Limit: user also can set on how many page fragmnet can be live in memeory.
+{{{e
+// Set Offscreen Page Limit: provided by ViewPager to set how many page instances you want the system to keep in memory on either side of your current page. 
+vpPager.setOffscreenPageLimit(3);
+}}}
 
-    // Defien gaps between Pagers
-    // http://blog.neteril.org/blog/2013/10/14/android-tip-viewpager-with-protruding-children/
-    vpPager.setClipToPadding(false);
-    vpPager.setPageMargin(12);
+Step 8: Define gaps between the pages: 
+{{{e
+// Defien gaps between Pagers
+// http://blog.neteril.org/blog/2013/10/14/android-tip-viewpager-with-protruding-children/
+vpPager.setClipToPadding(false);
+vpPager.setPageMargin(12);
+}}}
 
-    //
-}   
-}}} 
 
-Step 5: Using Custom animation. We can customize how the pages animate as they are being swiped between using the PageTransformer. 
+Step 9: Using Custom animation. We can customize how the pages animate as they are being swiped between using the PageTransformer. 
 {{{e
     // compile 'com.ToxicBakery.viewpager.transforms:view-pager-transforms:1.2.32@aar'
     pager = (ViewPager) findViewById(R.id.container);
@@ -1955,7 +1951,7 @@ Step 5: Using Custom animation. We can customize how the pages animate as they a
     });
 }}}
 
-Step 6: Handling Dynamically genenarated pages 
+Step 10: Adapter without Fragemnets : It is also possible to have a View Pager without any Fragemnt. If you provides a list of view, we can have a view pager with fragemnts.
 {{{e
 public class mAdapter extends PagerAdapter {
     List<View> mlist;
@@ -1979,10 +1975,22 @@ public class mAdapter extends PagerAdapter {
         }
     }
 }
-
 }}}
 
-Step 7: Custom Pages without Fragments
+Step 11: ViewPager with Same View but having differnt content: You might needs a view pager where all the pages are the same view - however, the content is different. It can be done as below:
+
+PagerAdapter is the base class providing the adapter to populate pages inside of a ViewPager. You will most likely want to use a more specific implementation of this, such as FragmentPagerAdapter or FragmentStatePagerAdapter. It's inportnt to undertand PagerAdapter LifeCycle when you are are swaping the view.
+
+Table: PagerAdapter LifeCycle
+instantiateItem(ViewGroup, int pos) # this function is called when a page needs to be added as it is asked for. so you need to create the page for posistion "pos" and add the view to "ViewGroup" and return the view. 
+destroyItem(ViewGroup container, int pos, Object view) # this function is called when a page is removed from the view. The Object is mainly view and you need to remove the view from the container.
+getCount() # return the number of pages.
+isViewFromObject(View, Object) # we need to check of the object is a view. 
+getItemPosition # Called when the host view is attempting to determine if an item’s position has changed. Returns POSITION_UNCHANGED if the position of the given item has not changed or POSITION_NONE if the item is no longer present in the adapter.
+
+
+It might be hard to have add or remove in case of fragemnt. so you need to user FragmentStatePagerAdapter which will be taking care of  instantiateItem and destroyItem.( see https://billynyh.github.io/blog/2014/03/02/fragment-state-pager-adapter/)
+
 {{{e
 class CustomPagerAdapter extends PagerAdapter {
     Context mContext;
@@ -2075,6 +2083,154 @@ class CustomPagerAdapter extends PagerAdapter {
         android:id="@+id/imageView" />
 </LinearLayout>
 }}}
+
+Step 12: View Pager with Tab or Navigation Indigator:
+{{{e
+<android.support.v4.view.ViewPager
+   android:id="@+id/vpPager"
+   android:layout_width="match_parent"
+   android:layout_height="wrap_content">
+   <android.support.v4.view.PagerTabStrip
+        android:id="@+id/pager_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:paddingBottom="4dp"
+        android:paddingTop="4dp" />
+</android.support.v4.view.ViewPager>
+
+OR
+
+<com.viewpagerindicator.TitlePageIndicator
+	android:id="@+id/titles"
+	android:layout_height="wrap_content"
+	android:layout_width="fill_parent" />
+}}}
+
+Step 13: FragmentPagerAdapter vs FragmentStatePagerAdapter
+Table: FragmentPagerAdapter vs FragmentStatePagerAdapter
+FragmentPagerAdapter # FragmentStatePagerAdapter
+This version of the pager is best for use when there are a handful of typically more static fragments to be paged through, such as a set of tabs # This version of the pager is more useful when there are a large number of pages, working more like a list view.
+The fragment of each page the user visits will be kept in memory, though its view hierarchy may be destroyed when not visible.#When pages are not visible to the user, their entire fragment may be destroyed, only keeping the saved state of that fragment.
+This can result in using a significant amount of memory since fragment instances can hold on to an arbitrary amount of state - but page switch faster#This allows the pager to hold on to much less memory associated with each visited page as compared to FragmentPagerAdapter at the cost of potentially more overhead when switching between pages. For smaller set of pages #  For larger sets of pages, consider FragmentStatePagerAdapter. 
+Application like having multiple tab like facebook. #If you were to do an application like a book reader, you will not want to load all the fragments into memory at once.
+
+
+Step 14: Vertical Swipe View Pager: 
+{{{e
+public class CustomViewPager extends ViewPager {
+    public static final int HORIZONTAL = 0;
+    public static final int VERTICAL = 1;
+    private int mSwipeOrientation;
+    private ScrollerCustomDuration mScroller = null;
+    public CustomViewPager(Context context) {
+        super(context);
+        mSwipeOrientation = HORIZONTAL;
+    }
+    public CustomViewPager(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        setSwipeOrientation(context, attrs);
+    }
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+       return super.onTouchEvent(mSwipeOrientation == VERTICAL ? swapXY(event) : event);
+    }
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent event) {
+        if (mSwipeOrientation == VERTICAL) {
+            boolean intercepted = super.onInterceptHoverEvent(swapXY(event));
+            swapXY(event);
+            return intercepted;
+        }
+        return super.onInterceptTouchEvent(event);
+    }
+
+    public void setSwipeOrientation(int swipeOrientation) {
+        if (swipeOrientation == HORIZONTAL || swipeOrientation == VERTICAL)
+            mSwipeOrientation = swipeOrientation;
+        else
+            throw new IllegalStateException("Swipe Orientation can be either CustomViewPager.HORIZONTAL" +
+                    " or CustomViewPager.VERTICAL");
+        initSwipeMethods();
+    }
+
+    private void setSwipeOrientation(Context context, AttributeSet attrs) {
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.CustomViewPager);
+        mSwipeOrientation = typedArray.getInteger(R.styleable.CustomViewPager_swipe_orientation, 0);
+        typedArray.recycle();
+        initSwipeMethods();
+    }
+
+    private void initSwipeMethods() {
+        if (mSwipeOrientation == VERTICAL) {
+            // The majority of the work is done over here
+            setPageTransformer(true, new VerticalPageTransformer());
+            // The easiest way to get rid of the overscroll drawing that happens on the left and right
+            setOverScrollMode(OVER_SCROLL_NEVER);
+        }
+    }
+
+    /**
+     * Set the factor by which the duration will change
+     */
+    public void setScrollDurationFactor(double scrollFactor) {
+        mScroller.setScrollDurationFactor(scrollFactor);
+    }
+
+    private MotionEvent swapXY(MotionEvent event) {
+        float width = getWidth();
+        float height = getHeight();
+        float newX = (event.getY() / height) * width;
+        float newY = (event.getX() / width) * height;
+        event.setLocation(newX, newY);
+        return event;
+    }
+
+    private class VerticalPageTransformer implements ViewPager.PageTransformer {
+
+        @Override
+        public void transformPage(View page, float position) {
+            if (position < -1) {
+                // This page is way off-screen to the left
+                page.setAlpha(0);
+            } else if (position <= 1) {
+                page.setAlpha(1);
+
+                // Counteract the default slide transition
+                page.setTranslationX(page.getWidth() * -position);
+
+                // set Y position to swipe in from top
+                float yPosition = position * page.getHeight();
+                page.setTranslationY(yPosition);
+            } else {
+                // This page is way off screen to the right
+                page.setAlpha(0);
+            }
+        }
+    }
+}
+How to user:
+<com.myapp.CustomViewPager 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/view_pager"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:swipe_orientation="vertical" />
+
+}}}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 Example: Listen text xhnage of Edit Text
