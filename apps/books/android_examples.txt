@@ -633,6 +633,54 @@ dependencies {
 
 
 
+# [EndToEnd] Building Custom Views
+Step 1: A basic of creating a simple View.
+{{{e
+public class SampleView1 extends LinearLayout {
+    public SampleView1(Context context) {
+        super(context);
+        init(context);
+    }
+
+    public SampleView1(Context context, @Nullable AttributeSet attrs) {
+        super(context, attrs);
+        init(context);
+    }
+
+    public SampleView1(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        init(context);
+    }
+
+    private  void init(Context context){
+        setBackgroundColor(Color.GRAY);
+        setGravity(Gravity.CENTER);
+        TextView tv1 = new TextView(context);
+        tv1.setText("HELLO DIPANKAR");
+        addView(tv1);
+    }
+}
+public class TestActivity extends AppCompatActivity {
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(new SampleView1(this));
+    }
+}
+}}}
+
+Step 2: Load External XMl file and External Attributes.
+{{{e
+
+}}}
+
+
+Step 3: Communication between Activity <--> Custom View.
+{{{e
+
+}}}
+
+Step 4: 
 
 
 
@@ -669,6 +717,7 @@ The actual property of the View is not changed. When the animation finishes the 
 
 Step 1: Define View/Tween Animation  in XML files: Like all XML file, there must be a single root element.The elements performing animations are:  <alpha>, <scale>, <translate> and <rotate>. Animations elements may be grouped using the <set> element. In addition to other properties, each animation’s starting time and duration are specified allowing for either sequential or simultaneous animation.
 {{{e
+// anim/hide_ani.xml
 <alpha
      android:fromAlpha = “1.0”
      android:toAlpha   = “0.0”
@@ -677,65 +726,345 @@ Step 1: Define View/Tween Animation  in XML files: Like all XML file, there must
 }}}
 Step 2: Load Animation and Perform on Java Code:
 {{{e
-
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+public class MainActivity extends ActionBarActivity{
+    private Animation mAlphaAnim;
+ @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        mImageView = (ImageView) findViewById(R.id.volleyball);
+        
+        // 1. load animation.
+        mAlphaAnim = AnimationUtils.loadAnimation(this, R.anim.alpha_anim);
+        // 2. Start the animation for imageview.
+        mImageView.startAnimation(mAlphaAnim);
+    }
+}
 }}}
 
 
 Step 3: Adding Animation Listener: Animation listener receives notifications from an animation. such as the end or the repetition of the animation. the Public Methods are onAnimationEnd( Animation anim ), Notifies the end of the Animation, onAnimationRepeat( Animation anim )- Notifies the repetition of the animation and onAnimationStart( Animation anim ) which Notifies the start of the animation.
 {{{e
-
+    mAlphaAnim.setAnimationListener( new Animation.AnimationListener(){
+        @Override
+        public void onAnimationStart(Animation animation) {}
+        @Override
+        public void onAnimationEnd(Animation animation) {}
+        @Override
+        public void onAnimationRepeat(Animation animation) {}
+    });
 }}}
 
 Step 4: Tween animation using Java Code: We can have tween animation using java code. We have API like AlphaAnimation(float fromAlpha, float toAlpha).
 {{{e
+public class MainActivity extends ActionBarActivity{
+    private Animation mAlphaAnim;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
+        mImageView = (ImageView) findViewById(R.id.volleyball);
+        
+        // 1. Create Animation object.
+        mAlphaAnim = new AlphaAnimation(1.0f, 0.0f);
+        // 2. Set properies
+        mAlphaAnim.setDuration(2000);
+        mAlphaAnim.setAnimationListener(...);
+        // 3. Apply Start animation on View.
+        mImageView.startAnimation(mAlphaAnim);
+
+        // Some Extra ops as
+        mRotateAnim.setRepeatMode(Animation.REVERSE);
+        mRotateAnim.setRepeatCount(1);
+    }
+}
 }}}
 
 
-Step 2A: Use of Interpolator for your animation: An interpolator defines the rate of change of an animation.This allows the basic animation effects (alpha, scale, translate, rotate) to be accelerated, decelerated, repeated, etc.
-{{{e
-
-}}}
-
-Step 2B: Using Animation Set:  <set> Represents an AnimationSet. it;s A container that holds other animation elements ( <alpha>, <scale>, <translate>,
+Step 5: Using Animation Set and Interpolator : An interpolator defines the rate of change of an animation.This allows the basic animation effects (alpha, scale, translate, rotate) to be accelerated, decelerated, repeated, etc. <set> Represents an AnimationSet. it;s A container that holds other animation elements ( <alpha>, <scale>, <translate>,
 <rotate> ) or other <set> elements.
 {{{e
+// define interpolator_anim.xml
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+     android:shareInterpolator="true"
+     android:interpolator="@android:anim/bounce_interpolator" <<< Define interpolar
+     android:fillAfter="true"> <<< Keep final pos.
+    <scale
+        android:fromXScale="0.0"
+        android:toXScale="2.0"
+        android:fromYScale="0.0"
+        android:toYScale="2.0"
+        android:pivotX="50%"
+        android:pivotY="50%"
+        android:fillAfter="false"
+        android:duration="1000" /> <<< Will happens for 1s
+    <set
+        android:startOffset="1000" >  <<< Start after 1s and They will do parallel.
+        <scale
+            android:fromXScale="1.0"
+            android:toXScale="0.6"
+            android:fromYScale="1.0"
+            android:toYScale="0.6"
+            android:pivotX="50%"
+            android:pivotY="50%"
+            android:duration="1000" />
+        <rotate
+            android:fromDegrees="0"
+            android:toDegrees="360"
+            android:pivotX="50%"
+            android:pivotY="50%"
+            android:duration="1000"
+            />
+    </set>
+</set>
 
+// Use it from main activity.
+Animation tvAnim = AnimationUtils.loadAnimation(this, R.anim.interpolator_anim);
+mImageView.startAnimation(tvAnim);
 }}}
 
+
+Step 6: Demerits of Tween animation : We move a image view and try to click after move but it will not work.
+{{{e 
+public class MainActivity extends ActionBarActivity {
+    ImageView mImageView;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        mImageView = (ImageView) findViewById(R.id.dummyImage);
+        mImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "Image Clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
+        translateAnimation();
+        // after this move the click will not work.
+    }
+    public void translateAnimation() {
+        TranslateAnimation mTranslateAnim = new TranslateAnimation(
+                Animation.ABSOLUTE, 0.0f,
+                Animation.ABSOLUTE, 0.0f,
+                Animation.ABSOLUTE, 0.0f,
+                Animation.ABSOLUTE, 200.0f
+        );
+        mTranslateAnim.setDuration(1000);
+        mTranslateAnim.setFillAfter(true); // stay at the final posssition.
+        mImageView.startAnimation(mTranslateAnim);
+    }
+}
+}}}
 Step 5: Frame Animation Example: Let's have a simple XML based frame aniation.
 {{{e
-
+// define frame.xml inside drawable folder, You also need to place all frame1, frame2 icon inside drabale,
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+                android:oneshot="false">
+    <item android:drawable="@drawable/frame1" android:duration="200" />
+    <item android:drawable="@drawable/frame2" android:duration="200" />
+    <item android:drawable="@drawable/frame3" android:duration="200" />
+    <item android:drawable="@drawable/frame4" android:duration="200" />
+</animation-list>
+// Play it from activity.
+public class MainActivity extends ActionBarActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+    }
+    public void startFrameAnimation(View view) {
+        ImageView dummyFrame = (ImageView) findViewById(R.id.imageFrame);
+        dummyFrame.setBackgroundResource(R.drawable.frame);
+        AnimationDrawable frameAnimation = (AnimationDrawable) dummyFrame.getBackground();
+        if (frameAnimation.isRunning()) {
+            frameAnimation.stop();
+        } else {
+            frameAnimation.stop();
+            frameAnimation.start();
+        }
+    }
+}
 }}}
 
-Step 6: Demerits of View Aniation and Why Property animation?
+Step 7:  Object Animator using programitically:
 {{{e
+import android.animation.AnimatorSet;
+import android.animation.ArgbEvaluator;
+import android.animation.ObjectAnimator;
 
+public class MainActivity extends AppCompatActivity {
+    private ImageView imageView;
+    private RelativeLayout relativeLayout;
+    int ctr = 0;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        imageView = (ImageView) findViewById(R.id.imageview);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "Clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        relativeLayout = (RelativeLayout) findViewById(R.id.rlayout);
+        relativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 1. define Object Animator Object. 
+                ObjectAnimator anim;
+                if(ctr %2 == 0){
+                    anim = ObjectAnimator.ofObject(relativeLayout, "backgroundColor", new ArgbEvaluator(),Color.GREEN, Color.RED);
+                } else{
+                    anim = ObjectAnimator.ofObject(relativeLayout, "backgroundColor", new ArgbEvaluator(),Color.RED, Color.GREEN);
+                }
+                // 2. Set properties.
+                anim.setDuration(2000);
+
+                // 3. Start the animation.
+                anim.start();
+                ctr++;
+            }
+        });
+    }
+    // Another Examples.
+    public void rotateAnimation(View view) {
+        ObjectAnimator anim = ObjectAnimator.ofFloat(imageView, "rotation", 0.0f, 360.0f);
+        anim.setDuration(500);
+        anim.start();
+
+        // ObjectAnimator anim = ObjectAnimator.ofFloat(imageView, "scaleX", 1.0f, 2.0f);
+        // ObjectAnimator anim = ObjectAnimator.ofFloat(imageView, "translationX", 0f, 80f);
+        // ObjectAnimator anim = ObjectAnimator.ofFloat(imageView, "alpha", 1.0f, 0.0f);
+    }
+
+    public void setAnimation(View view) {
+        // Parent
+        AnimatorSet rootSet = new AnimatorSet();
+        // Child 1
+        ObjectAnimator rotate = ObjectAnimator.ofFloat(imageView, "rotation", 0.0f, 360.0f);
+        rotate.setDuration(500);
+        // Child 2
+        AnimatorSet childSet = new AnimatorSet();
+        ObjectAnimator scaleX = ObjectAnimator.ofFloat(imageView, "scaleX", 1.0f, 2.0f);
+        scaleX.setDuration(300);
+        ObjectAnimator scaleY = ObjectAnimator.ofFloat(imageView, "scaleY", 1.0f, 2.0f);
+        scaleY.setDuration(300);
+        // define rule and merge.
+        rootSet.play(rotate).before(childSet);
+        childSet.play(scaleX).with(scaleY);
+        // starts.
+        rootSet.start();
+    }
+}
 }}}
 
-Step 7: Example of Property Animation using  Value Animator:
+Step 8: Example of Property Animation using objectAnimator :
 {{{e
+// define file animator/alpha.xml
+<?xml version="1.0" encoding="utf-8"?>
+<objectAnimator
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:propertyName="alpha" 
+    android:duration="500"
+    android:valueFrom="1"
+    android:valueTo="0"
+    android:valueType="floatType"/>
 
+// Access from MainActivity.
+public class MainActivity extends AppCompatActivity {
+    private ImageView mImage;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        mImage = (ImageView) findViewById(R.id.image);
+    }
+   public void alphaAnimation(View view) {
+        // 1. Load Animation. 
+        Animator anim = AnimatorInflater.loadAnimator(this, R.animator.alpha);
+        // 2. Now Add Image as target
+        anim.setTarget(mImage);
+        // 3. Start the animation.
+        anim.start();
+    }
+}
 }}}
 
-Step 8: Example of Property Animation using Object Animator
+Step 9: Example to define objectAnimator Set:
 {{{e
-    
+<?xml version="1.0" encoding="utf-8"?>
+<set
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:ordering="sequentially"
+    >
+    <objectAnimator
+        android:propertyName="rotation"
+        android:duration="500"
+        android:valueFrom="0"
+        android:valueTo="360"
+        android:valueType="floatType"/>
+
+    <set
+        android:ordering="together"
+        >
+        <objectAnimator
+            android:propertyName="scaleX"
+            android:duration="500"
+            android:valueFrom="1"
+            android:valueTo="1.5"
+            android:valueType="floatType"/>
+        <objectAnimator
+            android:propertyName="scaleY"
+            android:duration="500"
+            android:valueFrom="1"
+            android:valueTo="1.5"
+            android:valueType="floatType"/>
+    </set>
+</set>
 }}}
 
-Step 9:  Object Animator using XML:
-{{{e
-
-}}}
 
 Step 10: Example of Evaluators: Helps to calculate values for a given property over time and Helps to animate ARGB colors and Rect Objects with the help of ofObject method. IntEvaluator (Calculate values for int properties), FloatEvaluator(Calculate values for float properties),  ArgbEvaluator(Calculate values for color properties that are represented as hexidecimal values), TypeEvaluator(An interface that helps us to create own custom evaluator),
 {{{e
 
 }}}
 
-Step 11: Animation on Activity Transitions:
+Step 11: Animation on Activity Transitions: You need to call overridePendingTransition(OpenTraistion, Close Trasition). The way to remeber is overridePendingTransition(open, close);
 {{{e
+    // Put the code in FirstActivity -> SecondActivity.
+    public void slideTransition(View view) {
+        startActivity(new Intent(MainActivity.this, SecondActivity.class));
+        // activity_open_translate apply for second actibity to open,
+        // activity_close_scale apply for outgoing activity which is first activity and which is clsing.
+        overridePendingTransition(R.anim.activity_open_translate,R.anim.activity_close_scale);
+    }
+    // Back Trasition:
 
+public class SecondActivity extends AppCompatActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.second_activity);
+    }
+    @Override
+    protected void onPause(){
+        super.onPause();
+        //closing transition animations
+        // activity_open_scale: Apply to FirstActivity that is opening 
+        // activity_close_translate apply to now activity which is close. 
+        overridePendingTransition(R.anim.activity_open_scale,R.anim.activity_close_translate);
+    }
+    // Do the same for onDestroty and onbackPrssed.
+}
 }}}
 
 Step 12: Animation on Fragemnets Transitions:
@@ -745,7 +1074,46 @@ Step 12: Animation on Fragemnets Transitions:
 
 Step 13: Animation on Recyler View Transitions:
 {{{e
+//1. define a static utils.
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+public class AnimationUtils {
+	public static void animate(RecyclerView.ViewHolder holder ,boolean goesDown){
+        slidingWithBounce(holder, goesDown);
+	}
+    private static void slidingWithBounce(RecyclerView.ViewHolder holder, boolean goesDown){
+        AnimatorSet animatorSet = new AnimatorSet();
+        ObjectAnimator animatorTranslateY = ObjectAnimator.ofFloat(holder.itemView, "translationY", goesDown? 200 : -200, 0);
+        ObjectAnimator animatorTranslateX = ObjectAnimator.ofFloat(holder.itemView,"translationX",-30,30,-20,20,-5,5,0);
 
+        animatorTranslateX.setDuration(1000);
+        animatorTranslateY.setDuration(1000);
+
+        animatorSet.playTogether ( animatorTranslateX, animatorTranslateY);
+        animatorSet.start();
+    }
+}
+// 2. integrate to adapter which is resposible for cerating view and apply the trasition while creating the view.
+public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHolder> {
+    ...
+
+	@Override
+	public void onBindViewHolder(final CustomAdapter.MyViewHolder holder, final int position) {
+        // Where we build the view and this time you just apply the animation.
+		holder.title.setText(data.get(position).title);
+		holder.imageView.setImageResource(data.get(position).ItemId);
+
+		if (position > previousPosition){
+			AnimationUtils.animate(holder,true);
+		}
+		else {
+            AnimationUtils.animate(holder, false);
+		}
+		previousPosition = position;
+        ...
+	}
+    ...
+}
 }}}
 
 Step 14: Shared Elemnet trasitions:
@@ -762,7 +1130,54 @@ Step 16: View pager animation support:
 
 }}}
 
+Step 2A: Some example of other animation:
+{{{
+//Alpha.
+<?xml version="1.0" encoding="utf-8"?>
+<alpha
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:duration="2000"
+    android:fromAlpha="1.0"
+    android:toAlpha="0.0"
+    />
+// Rotation.
+<?xml version="1.0" encoding="utf-8"?>
+<rotate
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fromDegrees="0"
+    android:toDegrees="-180"
+    android:duration="1000"
+    android:pivotX="50%"
+    android:pivotY="50%"
+    android:repeatMode="reverse"
+    android:repeatCount="1"
+    />
+// Scale
+<?xml version="1.0" encoding="utf-8"?>
+<scale xmlns:android="http://schemas.android.com/apk/res/android"
+       android:fromXScale="1.0"
+       android:toXScale="1.5"
+       android:fromYScale="1.0"
+       android:toYScale="1.5"
+       android:pivotX="50%"
+       android:pivotY="50%"
+       android:duration="1000"
+    />
+// Translate 
+<?xml version="1.0" encoding="utf-8"?>
+<translate xmlns:android="http://schemas.android.com/apk/res/android"
+           android:fromXDelta="0"
+           android:toXDelta="150"
+           android:fromYDelta="0"
+           android:toYDelta="0"
+           android:duration="1000"
+    />
+}}}
 
+Step 12: Some Example of mostky useful animation for activity trasitions.
+{{{e
+
+}}}
 # [EndToEnd] Recyler View
 
 Step 0: Adding the dependecy in the graddle
@@ -2111,9 +2526,9 @@ Step 13: FragmentPagerAdapter vs FragmentStatePagerAdapter
 Table: FragmentPagerAdapter vs FragmentStatePagerAdapter
 FragmentPagerAdapter # FragmentStatePagerAdapter
 This version of the pager is best for use when there are a handful of typically more static fragments to be paged through, such as a set of tabs # This version of the pager is more useful when there are a large number of pages, working more like a list view.
-The fragment of each page the user visits will be kept in memory, though its view hierarchy may be destroyed when not visible.#When pages are not visible to the user, their entire fragment may be destroyed, only keeping the saved state of that fragment.
+The fragment of each page the user visits will be kept in memory, though its view hierarchy may be destroyed when not visible. # When pages are not visible to the user, their entire fragment may be destroyed, only keeping the saved state of that fragment.
 This can result in using a significant amount of memory since fragment instances can hold on to an arbitrary amount of state - but page switch faster#This allows the pager to hold on to much less memory associated with each visited page as compared to FragmentPagerAdapter at the cost of potentially more overhead when switching between pages. For smaller set of pages #  For larger sets of pages, consider FragmentStatePagerAdapter. 
-Application like having multiple tab like facebook. #If you were to do an application like a book reader, you will not want to load all the fragments into memory at once.
+Application like having multiple tab like facebook. # If you were to do an application like a book reader, you will not want to load all the fragments into memory at once.
 
 
 Step 14: Vertical Swipe View Pager: 
@@ -2220,7 +2635,24 @@ How to user:
 
 }}}
 
-
+Step 15: ViewPager animation fade in/out instead of slide: 
+{{{
+public class FadePageTransformer implements ViewPager.PageTransformer {
+        public void transformPage(View view, float position) {
+                view.setTranslationX(view.getWidth() * -position);
+            if(position <= -1.0F || position >= 1.0F) {
+                view.setAlpha(0.0F);
+            } else if( position == 0.0F ) {
+                view.setAlpha(1.0F);
+            } else { 
+                // position is between -1.0F & 0.0F OR 0.0F & 1.0F
+                view.setAlpha(1.0F - Math.abs(position));
+            }
+        }
+}
+// Activity:
+mViewPager.setPageTransformer(false, new FadePageTransformer());
+}}}
 
 
 
