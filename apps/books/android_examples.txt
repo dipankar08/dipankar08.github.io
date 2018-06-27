@@ -1067,9 +1067,55 @@ public class SecondActivity extends AppCompatActivity {
 }
 }}}
 
-Step 12: Animation on Fragemnets Transitions:
+Step 12: Animation on Fragemnets Transitions: it can be acive by FragmentTransaction.setCustomAnimations (int enter,int exit, int popEnter, int popExit) API. you need to set specific animation resources to run for the fragments that are entering and exiting in this transaction. The popEnter and popExit animations will be played for enter/exit operations specifically when popping the back stack.Here is an example.
 {{{e
+enter_from_left.xml
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+     android:shareInterpolator="false">
+  <translate 
+      android:fromXDelta="-100%" android:toXDelta="0%"
+      android:fromYDelta="0%" android:toYDelta="0%"
+      android:duration="700"/>
+</set>
 
+enter_from_right.xml
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+     android:shareInterpolator="false">
+  <translate
+     android:fromXDelta="100%" android:toXDelta="0%"
+     android:fromYDelta="0%" android:toYDelta="0%"
+     android:duration="700" />
+</set>
+
+exit_to_left.xml
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+     android:shareInterpolator="false">
+  <translate 
+      android:fromXDelta="0%" android:toXDelta="-100%"
+      android:fromYDelta="0%" android:toYDelta="0%"
+      android:duration="700"/>
+</set>
+
+exit_to_right.xml
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+     android:shareInterpolator="false">
+  <translate
+     android:fromXDelta="0%" android:toXDelta="100%"
+     android:fromYDelta="0%" android:toYDelta="0%"
+     android:duration="700" />
+</set>
+
+FragmentTransaction transaction = supportFragmentManager.beginTransaction();
+transaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_left,
+                                R.anim.slide_out_right, R.anim.slide_in_right)
+
+transaction.replace(R.id.content_frame, fragment);
+transaction.addToBackStack(null);
+transaction.commit();
 }}}
 
 Step 13: Animation on Recyler View Transitions:
@@ -1174,10 +1220,104 @@ Step 2A: Some example of other animation:
     />
 }}}
 
-Step 12: Some Example of mostky useful animation for activity trasitions.
+Step 12: Some Example of mostky useful animation for Displaying some View.
 {{{e
 
+// 1. Animaton on Jumping Logon.
+    objectAnimator = ObjectAnimator.ofPropertyValuesHolder(
+                imageView,
+                PropertyValuesHolder.ofFloat("scaleX", 1.8f),
+                PropertyValuesHolder.ofFloat("scaleY", 1.8f));
+    objectAnimator.setDuration(1000);
+    objectAnimator.setInterpolator(new BounceInterpolator());
+    objectAnimator.setRepeatCount(ObjectAnimator.INFINITE);
+    objectAnimator.setRepeatMode(ObjectAnimator.REVERSE);
+    objectAnimator.start();
+
+// 2. Increae the width of Textbox. 
+    objectAnimator = ObjectAnimator.ofPropertyValuesHolder(editText,
+                PropertyValuesHolder.ofFloat("scaleX", 2.0f));
+    objectAnimator.setDuration(1000);
+    objectAnimator.setInterpolator(timeInterpolator);
+    objectAnimator.start();
+
+// 3. Diff Type of Interpolator:
+    timeInterpolator = new BounceInterpolator();
+    timeInterpolator = new LinearInterpolator();
+    timeInterpolator = new AccelerateInterpolator();
+    timeInterpolator = new AccelerateDecelerateInterpolator();
+    timeInterpolator = new AnticipateInterpolator();
+        
+
 }}}
+
+Step 12: Some Common Anition for Activity Trsaition.
+{{{e
+// Exampel 1: Fade in and Fade Out:
+fade_in.xml
+<?xml version="1.0" encoding="utf-8"?>
+<alpha xmlns:android="http://schemas.android.com/apk/res/android"
+           android:interpolator="@android:anim/accelerate_interpolator"
+           android:fromAlpha="0.0" android:toAlpha="1.0"
+           android:duration="500" />
+
+<?xml version="1.0" encoding="utf-8"?>
+<alpha xmlns:android="http://schemas.android.com/apk/res/android"
+           android:interpolator="@android:anim/accelerate_interpolator"
+           android:fromAlpha="1.0" android:toAlpha="0.0"
+           android:fillAfter="true"
+           android:duration="500" />
+
+Add the below line after startActivity(i), onDestroty onBack.
+overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+
+Example 2: Slide in slide out: 
+slide_in_right.xml
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <translate android:fromXDelta="100%p" android:toXDelta="0"
+        android:duration="@android:integer/config_mediumAnimTime"/>
+</set>
+
+slide_out_left.xml
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <translate android:fromXDelta="0" android:toXDelta="-100%p"
+        android:duration="@android:integer/config_mediumAnimTime"/>
+</set>
+
+slide_in_left.xml
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <translate android:fromXDelta="-100%p" android:toXDelta="0"
+        android:duration="@android:integer/config_mediumAnimTime"/>
+</set>
+
+slide_out_right.xml
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <translate android:fromXDelta="0" android:toXDelta="100%p"
+        android:duration="@android:integer/config_mediumAnimTime"/>
+</set>
+
+public abstract class BaseActivity extends AppCompatActivity {
+    @Override
+    public void startActivity(Intent intent) {
+        super.startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+    }
+    @Override
+    public void startActivity(Intent intent, Bundle options) {
+        super.startActivity(intent, options);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+    }
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+    }
+}
+
 # [EndToEnd] Recyler View
 
 Step 0: Adding the dependecy in the graddle
