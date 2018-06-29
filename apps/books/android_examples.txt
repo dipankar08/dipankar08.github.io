@@ -1318,6 +1318,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 }
 
+}}}
+
 # [EndToEnd] Recyler View
 
 Step 0: Adding the dependecy in the graddle
