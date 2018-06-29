@@ -10,10 +10,10 @@ Android Broadcast Receiver # An example of Android Broadcast Receiver
 Fragemnt                   # An sample example of creating reusable compoents
 
 
-# Android Simple Activity
+# [EndToEnd] Android Activity
 Below I am providing a simple templates for having a easy Activity which just have a Click buttons Clicking of that button shows a Toast. extremely Simple.
-Step1: Here is the Manifest.
-{{{
+Step 1: First, let;s define the menufest with single activity.
+{{{e
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="in.co.dipankar.app">
@@ -32,8 +32,9 @@ Step1: Here is the Manifest.
     </application>
 </manifest>
 }}}
-Step 2: Here is the Layout
-{{{
+
+Step 2: Let's define it's layout Here is the Layout
+{{{e
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -46,8 +47,9 @@ Step 2: Here is the Layout
         android:text="Button" />
 </RelativeLayout>
 }}}
-Step 3: Here is the code:
-{{{
+
+Step 3: Let's define the MainActibity which Extend the Activity/
+{{{e
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
@@ -71,13 +73,13 @@ public class MainActivity extends Activity {
 }
 }}}
 
-# Activity Life Cycle Callback
+Step 4: Let's undersand Activity Life Cycle Callback
 In this section , we will discuss all the override functions of Activity and theoir purpose.
 - We have all the lifecyclic callback.
 - How to support save and restore state
 - How to handle intent when app is already running.
 - How to ask Run time permission and how to handle that?
-{{{
+{{{e
 import android.os.Bundle;
 import android.app.Activity;
 import android.util.Log;
@@ -129,7 +131,10 @@ public class MainActivity extends Activity {
       super.onDestroy();
       Log.d(msg, "The onDestroy() event");
    }
-
+}
+}}}
+Step 5: Save and Restore states of Activity:
+{{{e
    // Save /STore State - https://inthecheesefactory.com/blog/fragment-state-saving-best-practices/en
    // These variable are destroyed along with Activity
    private int someVarA;
@@ -150,7 +155,9 @@ public class MainActivity extends Activity {
        someVarB = savedInstanceState.getString("someVarB");
        Log.d(msg, "The onRestoreInstanceState() event");
    }
-
+}}}
+Step 6: Try to Entry the activity when it is still opend:
+{{{e
    // onNewIntent() is meant as entry point for singleTop activities which already run somewhere else in the stack and therefore can't call onCreate()
    @Override
     protected void onNewIntent(Intent intent) {
@@ -158,7 +165,10 @@ public class MainActivity extends Activity {
         // getIntent() should always return the most recent
         setIntent(intent);
     }
+}}}
 
+Step 7: Handling run time Permission :
+{{{e
     // Run time Permission
     private void askPermission(){
       if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
@@ -228,12 +238,49 @@ public class MainActivity extends Activity {
     }
 
 }
-}}}
-You need to add permission String in the menifest.
-{{{
+// You need to add permission String in the menifest.
 <uses-permission android:name="android.permission.CAMERA" />
 <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+}}}
+
+Step 8: Open Another activity from mainActivity
+{{{e
+
+}}}
+Step 8: Activity BackStack managenet:
+{{{e
+
+}}}
+
+Step 9: Android activity Themes
+{{{e
+
+}}}
+
+Step 10: Full Screen Activity:
+{{{e
+
+}}}
+
+Step 11: Activity with Navigation Drawer:
+{{{e
+
+}}}
+
+Step 12: Activity with Action Bar:
+{{{e
+
+}}}
+
+Step 13: Activity attach and Detach:
+{{{e
+
+}}}
+
+Step 14: Getting result from another activity:
+{{{e
+
 }}}
 
 # Android Services Templates
