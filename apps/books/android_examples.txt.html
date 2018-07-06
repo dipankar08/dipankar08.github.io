@@ -796,17 +796,19 @@ dependencies {
 <tr><td>Simple View</td><td>This is Just a indipent view like Button</td></tr>
 <tr><td>Container</td><td>This a ViewGroup which think as a container ex: Liner layout.</td></tr>
 <tr><td>Compound Control</td><td>This is View where multiple view put together Like Inc/Dec View or a Spinner View.</td></tr>
-<tr><td>Why custom component:</td></tr>
-<tr><td>- Modularize repeated code</td></tr>
-<tr><td>- Access protected methods</td></tr>
-<tr><td>- Optimize rendering speed</td></tr>
-<tr><td>- Complete control with draw, measure and Layout.</td></tr>
-<tr><td>Table 2: Techniques for Building CustomViews:</td></tr>
-<tr><td>Shortcut View</td><td>Extend Nearest veiw to add some feature like VersionView</td></tr>
-<tr><td>Composite View</td><td>Build a collection of View( Like XML) to tread as a single View.</td></tr>
-<tr><td>Custom View</td><td>Extend Views and Apply drawing some Newly looks.</td></tr>
-<tr><td>Custom ViewGroup</td><td>Build new continer of Container for child views ( like Building a Photo Priral and Dialogal or Percemtagelayout)</td></tr>
 </table>
+<div class='x3'>Why custom component:</div>
+<ul>
+<li>Modularize repeated code</li>
+<li>Access protected methods</li>
+<li>Optimize rendering speed</li>
+<li>Complete control with draw, measure and Layout.</li>
+</ul>
+<div class='x3'>Table 2: Techniques for Building CustomViews:</div>
+<div class='x3'>Shortcut View # Extend Nearest veiw to add some feature like VersionView</div>
+<div class='x3'>Composite View # Build a collection of View( Like XML) to tread as a single View.</div>
+<div class='x3'>Custom View # Extend Views and Apply drawing some Newly looks.</div>
+<div class='x3'>Custom ViewGroup # Build new continer of Container for child views ( like Building a Photo Priral and Dialogal or Percemtagelayout)</div>
 <div class='x3'>Step 1: Exending a Simple View to create VersionView. Importnat things to note:</div>
 <ul>
 <li>Needs to override 3 constractir: 3 constructors, 1 for Java,  1 for xml and 1 for xml with style</li>
@@ -1077,8 +1079,8 @@ public class MainActivity extends Activity {
 <tr><td>Measure</td><td>It mesures how much space it requres byt it or by it's child.</td><td>You need to override whne you make squere View</td></tr>
 <tr><td>Layout</td><td>Says how to layout;s it's child</td><td>You need to override on spacisl ordenttaion on view.</td></tr>
 <tr><td>Draw</td><td>Actual Drawing the view</td><td>You need this when you want to draw soemtjing.</td></tr>
-<tr><td>Messure --> Layout --> Draw.</td></tr>
 </table>
+<div class='x3'>Messure --> Layout --> Draw.</div>
 <div class='x3'>Step 5: SquereView: Custom Layout exploring mesusre pahse.</div>
 <ul>
 <li>Needs to override: void onMeasure(int widthMeasureSpec, int heightMeasureSpec);</li>
@@ -1090,9 +1092,25 @@ public class MainActivity extends Activity {
 <a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
 <div class='code hide'>
 
+@Override
+public void onMeasure(int widthSpec, int heightSpec) {
+  super.onMeasure(widthSpec, heightSpec);
+  int size = Math.min(
+    getMeasuredWidth(), getMeasuredHeight());
+  setMeasuredDimension(size, size);
+}
+
+&lt;com.sqisland.android.square_view.SquareView
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:layout_gravity="center"
+  android:layout_margin="48dp"
+  android:background="#c9f" /&gt;
 </div>
 <div class='x3'>Step 7: Photo Spriral View: Exploring onLayout:</div>
 <ul>
+<li>Ask each child to draw itself</li>
+<li>Override for additional logic at ViewGroup level.</li>
 <li>Override onLayout(left, top, button, right) as it would be called for each child and then you need to place accroding.</li>
 <li>We also need to call OnMEasue: Compute the size of the ViewGroup according to its children</li>
 <li>Photo spiral: Has 4 ImageView children having Same size and align as Portrait, landscape, portrait, landscape Do the math and code it.</li>

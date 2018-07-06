@@ -685,11 +685,13 @@ Table: Type of Views
 Simple View # This is Just a indipent view like Button
 Container   # This a ViewGroup which think as a container ex: Liner layout.
 Compound Control # This is View where multiple view put together Like Inc/Dec View or a Spinner View. 
+
 Why custom component:
 - Modularize repeated code
 - Access protected methods
 - Optimize rendering speed
 - Complete control with draw, measure and Layout.
+
 Table 2: Techniques for Building CustomViews:
 Shortcut View # Extend Nearest veiw to add some feature like VersionView
 Composite View # Build a collection of View( Like XML) to tread as a single View.
@@ -961,6 +963,7 @@ Table: How It daws something
 Measure # It mesures how much space it requres byt it or by it's child. # You need to override whne you make squere View
 Layout # Says how to layout;s it's child  # You need to override on spacisl ordenttaion on view.
 Draw # Actual Drawing the view # You need this when you want to draw soemtjing.
+
 Messure --> Layout --> Draw.
 
 Step 5: SquereView: Custom Layout exploring mesusre pahse.
@@ -971,9 +974,25 @@ Step 5: SquereView: Custom Layout exploring mesusre pahse.
 - MeasureSpec Mode can be UNSPECIFIED - anything goes! AT_MOST - as large as the specified size and EXACTLY - as given by parent
 {{{e
 
+@Override
+public void onMeasure(int widthSpec, int heightSpec) {
+  super.onMeasure(widthSpec, heightSpec);
+  int size = Math.min(
+    getMeasuredWidth(), getMeasuredHeight());
+  setMeasuredDimension(size, size);
+}
+
+<com.sqisland.android.square_view.SquareView
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:layout_gravity="center"
+  android:layout_margin="48dp"
+  android:background="#c9f" />
 }}}
 
 Step 7: Photo Spriral View: Exploring onLayout:
+- Ask each child to draw itself
+- Override for additional logic at ViewGroup level.
 - Override onLayout(left, top, button, right) as it would be called for each child and then you need to place accroding.
 - We also need to call OnMEasue: Compute the size of the ViewGroup according to its children
 - Photo spiral: Has 4 ImageView children having Same size and align as Portrait, landscape, portrait, landscape Do the math and code it.
