@@ -113,6 +113,7 @@ TEMPLATE="""
      <span style='float:right'>
         <i class="t fas fa-list-ul" onclick="$$('body').toggleClass('shown_menu');"></i>
         <i class="t fas fa-lightbulb" onclick="$$('body').toggleClass('dark');"></i>
+        <i class="t fas fa-code" onclick="$$('.code').toggleClass('hide');"></i>
     </span>
 </div>
 <div class="middle">

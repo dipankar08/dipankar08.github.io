@@ -681,54 +681,577 @@ dependencies {
 
 
 # [EndToEnd] Building Custom Views
-Step 1: A basic of creating a simple View.
+Table: Type of Views
+Simple View # This is Just a indipent view like Button
+Container   # This a ViewGroup which think as a container ex: Liner layout.
+Compound Control # This is View where multiple view put together Like Inc/Dec View or a Spinner View. 
+Why custom component:
+- Modularize repeated code
+- Access protected methods
+- Optimize rendering speed
+- Complete control with draw, measure and Layout.
+Table 2: Techniques for Building CustomViews:
+Shortcut View # Extend Nearest veiw to add some feature like VersionView
+Composite View # Build a collection of View( Like XML) to tread as a single View.
+Custom View # Extend Views and Apply drawing some Newly looks.
+Custom ViewGroup # Build new continer of Container for child views ( like Building a Photo Priral and Dialogal or Percemtagelayout)
+
+Step 1: Exending a Simple View to create VersionView. Importnat things to note:
+- Needs to override 3 constractir: 3 constructors, 1 for Java,  1 for xml and 1 for xml with style
+- Choose a parent view closest to what you need
+- Add extra functionality as Init.
 {{{e
-public class SampleView1 extends LinearLayout {
-    public SampleView1(Context context) {
-        super(context);
-        init(context);
-    }
+public class VersionView extends TextView {
+  public VersionView(Context context) {
+    super(context);
+    setVersion();
+  }
 
-    public SampleView1(Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
-        init(context);
-    }
+  public VersionView(Context context, AttributeSet attrs) {
+    super(context, attrs);
+    setVersion();
+  }
 
-    public SampleView1(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        init(context);
-    }
+  public VersionView(Context context, AttributeSet attrs, int defStyle) {
+    super(context, attrs, defStyle);
+    setVersion();
+  }
 
-    private  void init(Context context){
-        setBackgroundColor(Color.GRAY);
-        setGravity(Gravity.CENTER);
-        TextView tv1 = new TextView(context);
-        tv1.setText("HELLO DIPANKAR");
-        addView(tv1);
+  private void setVersion() {
+    try {
+      PackageInfo packageInfo = getContext().getPackageManager().getPackageInfo(
+          getContext().getPackageName(), 0);
+      setText(packageInfo.versionName);
+    } catch (PackageManager.NameNotFoundException e) {
     }
+  }
 }
+
 public class TestActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(new SampleView1(this));
+        setContentView(new VersionView(this));
     }
+}
+// in xml:
+<com.sqisland.android.versionview.VersionView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/text"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:textColor="#0f0"
+    android:textSize="40sp"
+    tools:context="com.sqisland.android.versionview.MainActivity"/>
+}}}
+
+Step 2: Builds a Compount Control like a Length Picker: Importnat Steps to builds such view is
+- Thinik how can you do that? LinearLayout with 2 Buttons and a TextView
+- Note that You need to Inflate with merge tag to avoid extra nodes in hierecy(you can't put any properyies in merge )
+- Extract functionality to custom compound control 
+- Expose data to outside.
+- Allow to add Listner on State Chnages.
+- Save and Restore the states
+- Make it possible for resue ( Mutiple uses without meshit up)
+{{{e
+
+// XML:
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android">
+  <Button
+      android:id="@+id/minus_button"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/minus" />
+  <TextView
+      android:id="@+id/text"
+      android:layout_width="96dp"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center"
+      android:gravity="center"
+      android:textAppearance="@android:style/TextAppearance.Large" />
+  <Button
+      android:id="@+id/plus_button"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/plus" />
+</merge>
+
+public class LengthPicker extends LinearLayout {
+
+  public interface OnChangeListener {
+    public void onChange(int length);
+  }
+  private static final String KEY_SUPER_STATE = "superState";
+  private static final String KEY_NUM_INCHES = "numInches";
+  private View mPlusButton;
+  private TextView mTextView;
+  private View mMinusButton;
+  private int mNumInches = 0;
+  private OnChangeListener mListener = null;
+
+  public LengthPicker(Context context) {
+    super(context);
+    init();
+  }
+  public LengthPicker(Context context, AttributeSet attrs) {
+    super(context, attrs);
+    init();
+  }
+  private void init() {
+    LayoutInflater inflater = LayoutInflater.from(getContext());
+    inflater.inflate(R.layout.length_picker, this);
+    mPlusButton = findViewById(R.id.plus_button);
+    mTextView = (TextView) findViewById(R.id.text);
+    mMinusButton = findViewById(R.id.minus_button);
+    updateControls();
+    View.OnClickListener listener = new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        switch (v.getId()) {
+          case R.id.plus_button:
+            mNumInches++;
+            if (mListener != null) {
+              mListener.onChange(mNumInches);
+            }
+            updateControls();
+            break;
+          case R.id.minus_button:
+            if (mNumInches > 0) {
+              mNumInches--;
+              if (mListener != null) {
+                mListener.onChange(mNumInches);
+              }
+              updateControls();
+            }
+            break;
+        }
+      }
+    };
+    mPlusButton.setOnClickListener(listener);
+    mMinusButton.setOnClickListener(listener);
+    setOrientation(LinearLayout.HORIZONTAL);
+  }
+
+  @Override
+  protected Parcelable onSaveInstanceState() {
+    Bundle bundle = new Bundle();
+    bundle.putParcelable(KEY_SUPER_STATE, super.onSaveInstanceState());
+    bundle.putInt(KEY_NUM_INCHES, mNumInches);
+    return bundle;
+  }
+
+  @Override
+  protected void onRestoreInstanceState(Parcelable state) {
+    if (state instanceof Bundle) {
+      Bundle bundle = (Bundle) state;
+      mNumInches = bundle.getInt(KEY_NUM_INCHES);
+      super.onRestoreInstanceState(bundle.getParcelable(KEY_SUPER_STATE));
+    } else {
+      super.onRestoreInstanceState(state);
+    }
+    updateControls();
+  }
+
+  private void updateControls() {
+    int feet = mNumInches / 12;
+    int inches = mNumInches % 12;
+    String text = String.format("%d' %d\"", feet, inches);
+    if (feet == 0) {
+      text = String.format("%d\"", inches);
+    } else {
+      if (inches == 0) {
+        text = String.format("%d'", feet);
+      }
+    }
+    mTextView.setText(text);
+    mMinusButton.setEnabled(mNumInches > 0);
+  }
+
+  public int getNumInches() {
+    return mNumInches;
+  }
+  public void setOnChangeListener(OnChangeListener listener) {
+    mListener = listener;
+  }
+}
+
+public class MainActivity extends Activity {
+  private LengthPicker mWidth;
+  private LengthPicker mHeight;
+  private TextView mArea;
+
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+
+    mWidth = (LengthPicker) findViewById(R.id.width);
+    mHeight = (LengthPicker) findViewById(R.id.height);
+    mArea = (TextView) findViewById(R.id.area);
+
+    LengthPicker.OnChangeListener listener = new LengthPicker.OnChangeListener() {
+      @Override
+      public void onChange(int length) {
+        updateArea();
+      }
+    };
+    mWidth.setOnChangeListener(listener);
+    mHeight.setOnChangeListener(listener);
+  }
+
+  private void updateArea() {
+    int area = mWidth.getNumInches() * mHeight.getNumInches();
+    mArea.setText(area + " sq in");
+  }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+    updateArea();
+  }
+}
+
+// Activity:
+<com.sqisland.android.lengthpicker.LengthPicker
+        android:id="@+id/width"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+<com.sqisland.android.lengthpicker.LengthPicker
+    android:id="@+id/height"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" />
+}}}
+
+
+Step 3: Communication with Activity: Callback and Public APIs
+{{{e
+
+}}}
+
+Step 4: Save and Restore State ( Rotate the Screen)
+{{{e
+  ...
+  @Override
+  protected Parcelable onSaveInstanceState() {
+    Bundle bundle = new Bundle();
+    bundle.putParcelable(KEY_SUPER_STATE, super.onSaveInstanceState());
+    bundle.putInt(KEY_NUM_INCHES, mNumInches);
+    return bundle;
+  }
+
+  @Override
+  protected void onRestoreInstanceState(Parcelable state) {
+    if (state instanceof Bundle) {
+      Bundle bundle = (Bundle) state;
+      mNumInches = bundle.getInt(KEY_NUM_INCHES);
+      super.onRestoreInstanceState(bundle.getParcelable(KEY_SUPER_STATE));
+    } else {
+      super.onRestoreInstanceState(state);
+    }
+    updateControls();
+  }
+  ...
+}}}
+
+Step 5: 3 Steps for Influate Views:
+How Android Draws Views. It;s starts From the root node and do three pass
+Table: How It daws something
+Measure # It mesures how much space it requres byt it or by it's child. # You need to override whne you make squere View
+Layout # Says how to layout;s it's child  # You need to override on spacisl ordenttaion on view.
+Draw # Actual Drawing the view # You need this when you want to draw soemtjing.
+Messure --> Layout --> Draw.
+
+Step 5: SquereView: Custom Layout exploring mesusre pahse.
+- Needs to override: void onMeasure(int widthMeasureSpec, int heightMeasureSpec);
+-  Measure its own size according to measure spec
+- call setMeasuredDimensions() to return the result.
+- MeasureSpec = mode OR actula size
+- MeasureSpec Mode can be UNSPECIFIED - anything goes! AT_MOST - as large as the specified size and EXACTLY - as given by parent
+{{{e
+
+}}}
+
+Step 7: Photo Spriral View: Exploring onLayout:
+- Override onLayout(left, top, button, right) as it would be called for each child and then you need to place accroding.
+- We also need to call OnMEasue: Compute the size of the ViewGroup according to its children
+- Photo spiral: Has 4 ImageView children having Same size and align as Portrait, landscape, portrait, landscape Do the math and code it.
+{{{e
+
+<?xml version="1.0" encoding="utf-8"?>
+<com.sqisland.android.photo_spiral.PhotoSpiral
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="wrap_content"
+  android:layout_height="wrap_content"
+  android:layout_gravity="center">
+  <ImageView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:src="@drawable/petronas_twin_tower" />
+  <ImageView
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:src="@drawable/himeji" />
+  <ImageView
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:src="@drawable/ulm" />
+  <ImageView
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:src="@drawable/chiang_mai" />
+</com.sqisland.android.photo_spiral.PhotoSpiral>
+
+public class PhotoSpiral extends ViewGroup {
+  public PhotoSpiral(Context context) {
+    super(context);
+  }
+  public PhotoSpiral(Context context, AttributeSet attrs) {
+    super(context, attrs);
+  }
+  public PhotoSpiral(Context context, AttributeSet attrs, int defStyle) {
+    super(context, attrs, defStyle);
+  }
+  @Override
+  protected void onMeasure(int widthSpec, int heightSpec) {
+    measureChildren(widthSpec, heightSpec);
+    View first = getChildAt(0);
+    int size = first.getMeasuredWidth() + first.getMeasuredHeight();
+    int width = ViewGroup.resolveSize(size, widthSpec);
+    int height = ViewGroup.resolveSize(size, heightSpec);
+    setMeasuredDimension(width, height);
+  }
+
+  @Override
+  protected void onLayout(boolean changed, int l, int t, int r, int b) {
+    // Assume all children are of the same dimensions
+    // Order: landscape, portrait, landscape, portrait
+    View first = getChildAt(0);
+    final int childWidth = first.getMeasuredWidth();
+    final int childHeight = first.getMeasuredHeight();
+    for (int i = 0; i < getChildCount(); ++i) {
+      View child = getChildAt(i);
+      int x = 0;
+      int y = 0;
+      switch (i) {
+        case 1:
+          x = childWidth;
+          y = 0;
+          break;
+        case 2:
+          x = childHeight;
+          y = childWidth;
+          break;
+        case 3:
+          x = 0;
+          y = childHeight;
+          break;
+      }
+      child.layout(x, y,
+          x + child.getMeasuredWidth(), y + child.getMeasuredHeight());
+    }
+  }
+}
+
+
+}}}
+
+Step 8: Pizza View: Hvaing a onDraw.
+- We need canvus and paint.
+- Must define the paint as init not on OnDraw.
+{{{
+public class Pizza extends View {
+  private Paint paint;
+  private int numWedges = 5;
+  public Pizza(Context context) {
+    super(context);
+    init(context, null);
+  }
+  public Pizza(Context context, AttributeSet attrs) {
+    super(context, attrs);
+    init(context, attrs);
+  }
+  public Pizza(Context context, AttributeSet attrs, int defStyleAttr) {
+    super(context, attrs, defStyleAttr);
+    init(context, attrs);
+  }
+
+  private void init(Context context, AttributeSet attrs) {
+    int strokeWidth = 4;
+    int color = Color.YELLOW;
+    if (attrs != null) {
+      TypedArray array = context.obtainStyledAttributes(
+          attrs, R.styleable.Pizza);
+      strokeWidth = array.getDimensionPixelSize(
+          R.styleable.Pizza_stroke_width, strokeWidth);
+      color = array.getColor(R.styleable.Pizza_color, color);
+      numWedges = array.getInt(R.styleable. Pizza_num_wedges, numWedges);
+    }
+    paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    paint.setStyle(Paint.Style.STROKE);
+    paint.setStrokeWidth(strokeWidth);
+    paint.setColor(color);
+  }
+
+  @Override
+  protected void onDraw(Canvas canvas) {
+    final int width = getWidth() - getPaddingLeft() - getPaddingRight();
+    final int height = getHeight() - getPaddingTop() - getPaddingBottom();
+    final int cx = width / 2 + getPaddingLeft();
+    final int cy = height / 2 + getPaddingTop();
+    final float diameter = Math.min(width, height) - paint.getStrokeWidth();
+    final float radius = diameter / 2;
+    canvas.drawCircle(cx, cy, radius, paint);
+    drawPizzaCuts(canvas, cx, cy, radius);
+  }
+
+  private void drawPizzaCuts(Canvas canvas, float cx, float cy, float radius) {
+    final float degrees = 360f / numWedges;
+    canvas.save();
+    for (int i = 0; i < numWedges; ++i) {
+      canvas.rotate(degrees, cx, cy);
+      canvas.drawLine(cx, cy, cx, cy - radius, paint);
+    }
+    canvas.restore();
+  }
+}
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:gravity="center"
+  android:orientation="horizontal">
+  <com.sqisland.android.pizza.Pizza
+    android:layout_width="120dp"
+    android:layout_height="120dp"
+    android:layout_margin="8dp"
+    app:color="#f00"
+    app:num_wedges="4"/>
+  <com.sqisland.android.pizza.Pizza
+    android:layout_width="160dp"
+    android:layout_height="160dp"
+    android:layout_margin="8dp"
+    app:stroke_width="16dp"
+    app:num_wedges="6"/>
+</LinearLayout>
+
+}}}
+
+Step 9: Suport custom attributes:
+- You needs to define the attruvure
+- You need to parse the attributes.
+- Define public APIs to do the same programitically
+{{{e
+//values/attrs.xml
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <declare-styleable name="Pizza">
+    <attr name="num_wedges" format="integer"/>
+    <attr name="stroke_width" format="dimension"/>
+    <attr name="color" format="color"/>
+  </declare-styleable>
+</resources>
+
+ private void init(Context context, AttributeSet attrs) {
+    int strokeWidth = 4;
+    int color = Color.YELLOW;
+    if (attrs != null) {
+      TypedArray array = context.obtainStyledAttributes(
+          attrs, R.styleable.Pizza);
+      strokeWidth = array.getDimensionPixelSize(
+          R.styleable.Pizza_stroke_width, strokeWidth);
+      color = array.getColor(R.styleable.Pizza_color, color);
+      numWedges = array.getInt(R.styleable. Pizza_num_wedges, numWedges);
+    }
+
+}}}
+
+Step 11: Creating Bar Graph: Dispatch Draw :
+- This allow to some some modifiation after a Draw happens.
+- Below Example is a way to create a BAR Graph using liner Layout.
+{{{e
+
+// XML:
+<com.sqisland.android.sideways_layout.SidewaysLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="wrap_content"
+  android:layout_height="wrap_content"
+  android:layout_gravity="center"
+  android:orientation="vertical" >
+  <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="8dp"
+    android:textColor="@color/yellow"
+    android:background="@color/dark_green"
+    android:text="@string/good_night_moon" />
+  <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingLeft="8dp"
+    android:paddingRight="20dp"
+    android:textColor="@android:color/white"
+    android:background="@color/deep_orange"
+    android:textStyle="bold"
+    android:text="@string/green_eggs_and_ham" />
+  <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingLeft="8dp"
+    android:paddingRight="28dp"
+    android:textColor="@android:color/black"
+    android:background="@color/purple"
+    android:text="@string/matilda" />
+</com.sqisland.android.sideways_layout.SidewaysLayout>
+
+public class SidewaysLayout extends LinearLayout {
+  public SidewaysLayout(Context context) {
+    super(context);
+  }
+
+  public SidewaysLayout(Context context, AttributeSet attrs) {
+    super(context, attrs);
+  }
+
+  @Override
+  protected void onMeasure(int widthSpec, int heightSpec) {
+    super.onMeasure(widthSpec, heightSpec);
+    setMeasuredDimension(getMeasuredHeight(), getMeasuredWidth());
+  }
+
+  // Will call once it dispaths to draw by it's child.
+  @Override
+  protected void dispatchDraw(Canvas canvas) {
+    canvas.save();
+    canvas.translate(0, getHeight());
+    canvas.rotate(-90);
+    // >>> Ask others to draw/
+    super.dispatchDraw(canvas);
+    canvas.restore();
+  }
 }
 }}}
 
-Step 2: Load External XMl file and External Attributes.
-{{{e
+Step 10: When to use custom view and Fragments:
+Use of Fragments
+- Sub-activity
+- Goes through activity lifecycle 
+- Backstack management
 
-}}}
-
-
-Step 3: Communication between Activity <--> Custom View.
-{{{e
-
-}}}
-
-Step 4: 
-
+Use of Custom View:
+- Looks and Feel
+- Customize Size (onMeasure)
+- Customize  Position (onLayout)
+- Customize Appearance (onDraw)
+Table: Example of Uses of Fragment and CustomView.
+Fragment # CustomView
+Take photo(onActivityResult) # Show photo in 4:3 (onMeasure)
+Menu button(onCreateOptionsMenu) # Fan out the photos(onLayout)
+Mavigation # Histogram (onDraw)
 
 
 
