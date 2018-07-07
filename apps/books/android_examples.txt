@@ -301,7 +301,7 @@ We can have comminucation between service and Activity. The service receives the
 
 A sample service is giving as below:
 1. First Create a Service Calss.
-{{{
+{{{e
 import android.app.Service;
 import android.os.IBinder;
 import android.content.Intent;
@@ -358,7 +358,7 @@ public class HelloService extends Service {
 }}}
 
 Step 2: Activity can start or stop Service as below:
-{{{
+{{{e
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -391,7 +391,7 @@ public class MainActivity extends Activity {
 }}}
 
 Step 3: Dont forget to put thease into menufest.
-{{{
+{{{e
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
    package="com.example.tutorialspoint7.myapplication">
@@ -416,7 +416,7 @@ We have another kind of service call intent servivce: The Service can be used in
 
 Below example shows an Intent Service and a comminucation from service to Activity.
 Step1: Let;s have the service here.
-{{{
+{{{e
 import android.app.IntentService;
 import android.content.Intent;
 public class CashbackIntentService extends IntentService{
@@ -454,7 +454,7 @@ public class CashbackIntentService extends IntentService{
 }}}
 
 Step2: Let;s have the activity and Have a Broadcast Receiver.
-{{{
+{{{e
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -582,7 +582,7 @@ ScaleGestureDetector # Delect the scale events.
 This section, We will give some sample templte codes for all mostly used layouts:
 1. Android LinearLayout is a view group that aligns all children in either vertically or horizontally. Some of mostly used attributes are :android:orientation = horizontal| vertical, android:gravity = top, bottom, left, right, center, center_vertical, center_horizontal ( how the elment inside are placed), android:layout_gravity( how itself is placed over parenet),  android:baselineAligned = true | false ( aligning all its children's baselines.), android:weightSum and android:weight.
 A sample tempalte is as below:
-{{{
+{{{e
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
    android:layout_width="fill_parent"
@@ -605,7 +605,7 @@ A sample tempalte is as below:
 
 2. RelativeLayout: Android RelativeLayout enables you to specify how child views are positioned relative to each other. Some Most common used attribute is: Center spacific: android:layout_centerHorizontal, android:layout_centerInParent, android:layout_centerVertical, (w.r.t parent:) android:layout_alignParentTop,android:layout_alignParentBottom, android:layout_alignParentStart, android:layout_alignParentLeft, android:layout_alignParentRight,android:layout_alignParentStart, android:layout_alignParentEnd,( with resperct to other): android:layout_alignLeft, android:layout_above, android:layout_below, android:layout_toLeftOf, android:layout_toRightOf, android:layout_toStartOf, android:layout_toEndOf. 
 If you dont assign anything- it will just placed at top left corner. A sample example is as below:
-{{{
+{{{e
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout 
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -670,7 +670,7 @@ layout_constraint[X]_to[Y]Of: where X and Y =>[Left, right, Top, Buttom, Start, 
 
 
 A quick example is as below :
-{{{
+{{{e
 // Add this deps.
 dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha3'
@@ -1079,7 +1079,7 @@ public class PhotoSpiral extends ViewGroup {
 Step 8: Pizza View: Hvaing a onDraw.
 - We need canvus and paint.
 - Must define the paint as init not on OnDraw.
-{{{
+{{{e
 public class Pizza extends View {
   private Paint paint;
   private int numWedges = 5;
@@ -1766,7 +1766,7 @@ Step 16: View pager animation support:
 }}}
 
 Step 2A: Some example of other animation:
-{{{
+{{{e
 //Alpha.
 <?xml version="1.0" encoding="utf-8"?>
 <alpha
@@ -2451,7 +2451,7 @@ adapter.notifyItemMoved(fromPosition, toPosition);
 }}}
 
 Step 17: Adding Custom animation to RV items when loads: In this case We use ObjectAnimator and animation set to perform some animation. 
-{{{
+{{{e
 public class AnimationUtil {
     public static void animate(RecyclerView.ViewHolder holder ,boolean goesDown){
         AnimatorSet animatorSet = new AnimatorSet();
@@ -2770,7 +2770,7 @@ Step 9: Having a custom view to a dialog.
 }}}
 
 Step 10: Uisng Dialog Fragemnets: DialogFragment is a specialized Fragment used when you want to display an overlay modal window within an activity that floats on top of the rest of the content.
-{{{
+{{{e
 
     <!-- fragment_edit_name.xml -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -3367,7 +3367,7 @@ How to user:
 }}}
 
 Step 15: ViewPager animation fade in/out instead of slide: 
-{{{
+{{{e
 public class FadePageTransformer implements ViewPager.PageTransformer {
         public void transformPage(View view, float position) {
                 view.setTranslationX(view.getWidth() * -position);
@@ -3397,7 +3397,7 @@ mViewPager.setPageTransformer(false, new FadePageTransformer());
 
 
 Example: Listen text xhnage of Edit Text
-{{{
+{{{e
 EditText value = (EditText) view.findViewById(R.id.value);
 value.addTextChangedListener(new TextWatcher()
 {
@@ -3425,7 +3425,7 @@ value.addTextChangedListener(new TextWatcher()
 });
 }}}
 Example: Have a Simple Guesture detcetor
-{{{
+{{{e
 GestureDetector myG;
 myG = new GestureDetector(this,new Gesture());
    
@@ -3491,7 +3491,7 @@ public class MainActivity extends Activity {
 
 }}}
 Example: Click and Long Click
-{{{
+{{{e
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -3533,7 +3533,7 @@ public class MainActivity extends ActionBarActivity {
 }}}
 
 Example: Some Touch Evnets
-{{{
+{{{e
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -3605,7 +3605,7 @@ public class MainActivity extends Activity {
 
 
 Example: Here is the simple Notification example
-{{{
+{{{e
 public class MainActivity extends Activity {
    Button b1;
    @Override
@@ -3642,7 +3642,7 @@ public class MainActivity extends Activity {
 }}}
 
 Example: Here I will sow you of all Kind of alrt dialog
-{{{
+{{{e
 // Simple AlertDiloags
 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 alertDialogBuilder.setPositiveButton(CharSequence text, DialogInterface.OnClickListener listener)
@@ -3728,7 +3728,7 @@ public Dialog onCreateDialog(Bundle savedInstanceState) {
 }}}
 
 Example: Let's have an example of all dialog.
-{{{
+{{{e
 import android.app.ProgressDialog;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -3795,7 +3795,7 @@ public class MainActivity extends ActionBarActivity {
 }}}
 
 Example: Sample Linier layouts
-{{{
+{{{e
 import android.os.Bundle;
 import android.app.Activity;
 
@@ -3828,7 +3828,7 @@ public class MainActivity extends Activity {
 }}}
 
 Example: Let's see an example of all Mostly usefule control :
-{{{
+{{{e
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
    android:layout_width="fill_parent"
@@ -4028,7 +4028,7 @@ onDetach() # is called when fragment is no longer connected to the activity.
 
 
 First, let;s define a xml file which will be render as a part of fragemnts
-{{{
+{{{e
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
@@ -4047,7 +4047,7 @@ First, let;s define a xml file which will be render as a part of fragemnts
 }}}
 
 Second, Let's define the Fragment class which influate the view in xmlns
-{{{
+{{{e
 import android.support.v4.app.Fragment;
 public class FooFragment extends Fragment {
     @Override
@@ -4063,7 +4063,7 @@ public class FooFragment extends Fragment {
 }}}
 
 Thirds, Now we can add the fragemnts inside activity layout as
-{{{
+{{{e
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -4077,7 +4077,7 @@ Thirds, Now we can add the fragemnts inside activity layout as
 </LinearLayout>
 }}}
 OR
-{{{
+{{{e
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -4092,7 +4092,7 @@ OR
 }}}
 
 Forth, This can now refer by Activity( if it is statically linked) or can be loaded dynamically using FragmentManager. We can lookup fragments either using ID or TAG or Pagers
-{{{
+{{{e
 public class MainActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -4123,7 +4123,7 @@ public class MainActivity extends AppCompatActivity {
 }}}
 
 Fifth, Let;s pass some data to the fragment while creating, generally It can be done using static method. This is because a Fragment must have only a constructor with no arguments.
-{{{
+{{{e
 public class DemoFragment extends Fragment {
     // Creates a new fragment given an int and title
     // DemoFragment.newInstance(5, "Hello");
@@ -4156,7 +4156,7 @@ public class MainActivity extends AppCompatActivity {
 }}}
 
 Let's define a fragemnt and pass the data on runtime.
-{{{
+{{{e
 // Have Fragment
 public class DemoFragment extends Fragment {
   public void doSomething(String param) {
@@ -4176,7 +4176,7 @@ public class MainActivity extends AppCompatActivity {
 }}}
 
 Now, Let;s try to pass some data from fragemnt to Activity.
-{{{
+{{{e
 import android.support.v4.app.Fragment;
 public class MyListFragment extends Fragment {
   private OnItemSelectedListener listener;
@@ -4230,7 +4230,7 @@ The FragmentManager is responsible for all runtime management of fragments inclu
 6. executePendingTransactions()	Forces committed transactions to be applied.
 
 Here is an example of Fragment Trasation:
-{{{
+{{{e
 
 }}}
 
@@ -4256,7 +4256,7 @@ if (fragmentManager.getBackStackEntryCount() > 0) {
 }}}
 
 We can easily show/hide the fragemnt then calling replaces - This can be good because this will release memory and make the UI snappier. For example :
-{{{
+{{{e
 private FragmentA fragmentA;
 private FragmentB fragmentB;
 private FragmentC fragmentC;
@@ -4304,7 +4304,7 @@ protected void displayFragmentA() {
 # WebSocket Support to Android
 
 Step1: Let's consider the below example for build the server.
-{{{
+{{{e
 const WebSocket = require('ws');
 const wss = new WebSocket.Server({ port: 8080 });
 wss.on('connection', function connection(ws) {
@@ -4320,7 +4320,7 @@ wss.on('connection', function connection(ws) {
 
 
 Step2: Let's test the code from sample HTML
-{{{
+{{{e
 <!DOCTYPE html>
 <html>
 <head>
@@ -4346,7 +4346,7 @@ Step2: Let's test the code from sample HTML
 </html>
 }}}
 Step3: Now let's write android plagins to send and recv data from our server.
-{{{
+{{{e
 
 }}}
 
@@ -4363,20 +4363,20 @@ Supporting multiple images # Supporting multiple images for diffent size device
 # Supporting mutiple languages
 Let's consider supporting hindi and english langues for a app.
 Step1: Let;s have this layout. Note that we NOT hardcoding the string.
-{{{
+{{{e
 
 }}}
 Step2: Define the defalut string in res/values/strings.xml.
-{{{
+{{{e
 
 }}}
 Step3: Define the hindi language string in res/values/strings-hi.xml. You can support mutiple languages using the file name as res/values/strings-<language-code>.xml
-{{{
+{{{e
 
 }}}
 
 Step 4: Now we we just have the  fun. You can go the device setting -> personal -> languages -> choose language and You will see the language of the app has chnages. We can do it programitically as below:
-{{{
+{{{e
 import android.app.Activity;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -4408,7 +4408,7 @@ public class Main extends Activity {
 }
 }}}
 Step 5: You can persisit the language choice for the app as below:
-{{{
+{{{e
 public class BaseActivity extends AppCompatActivity {
     private Locale mCurrentLocale;
     @Override
@@ -4467,7 +4467,7 @@ public class App extends Application {
 Sometime it's required to have multiple layout of the UI for phone or tablet. We can easilty do that by spacifying mutple layout file. We can alos spacify multiple dimention files to spacidify differnet weidth of the buttons for phone and tablet.
 
 Step1: We can have two diffetnt layoyt for phone and 7 each tablet in res/layout/main_activity.xml    and res/layout-sw600dp/main_activity.xml(600dp or bigger).
-{{{
+{{{e
 
 }}}
 Table: Topical screen size:
@@ -4494,7 +4494,7 @@ res/layout-large/main_activity.xml     # For small tablets (640dp x 480dp and bi
 res/layout-xlarge/main_activity.xml    # For large tablets (960dp x 720dp and bigger)
 
 You could also use layout alias. It can be defined all files inside layout, however, we can distrigushed the by having differnet values file.
-{{{
+{{{e
 res/layout/main.xml            # single-pane layout
 res/layout/main_twopanes.xml   # two-pane layout
 
@@ -4513,7 +4513,7 @@ res/values-sw600dp/layout.xml:
 
 # Supporting different button width for diffent devices.
 You must understand the diff betwen dip and sp. Yhen you specify spacing between two views, use dp and When specifying text size, always use sp:
-{{{
+{{{e
 <Button android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:text="@string/clickme"
@@ -4526,7 +4526,7 @@ You must understand the diff betwen dip and sp. Yhen you specify spacing between
 }}}
 
 For example, You have a button view and You would like to have multiple dimention for this button for multiple devices. How to do that? Let's creates values folders and a dimens files in each folder. Based on your requirement you can give padding or any dimen values. As you  given, you should give same name for dimen in all the folders. Android will  automatically pick the dimen value based on your screen size.
-{{{
+{{{e
 <textView
   android:padding="@dimen/padding_1
   />
@@ -4550,7 +4550,7 @@ values-sw720dp/dminen.xml
 
 # Supporting multiple images
 When you want to use image, you must provides the below variabtion:
-{{{
+{{{e
 res/
   drawable-xxxhdpi/
     awesome-image.png
@@ -4580,14 +4580,14 @@ HTTP srever                  # We will show an example how to create HTTP server
 
 # Connecting websocket
  WebSocket providing full-duplex communication channels over a single TCP connection. It is supported in HTML 5. Since the version 3.5 of the OkHttp library, you can also use WebSockets connection in your Android applications. Let's try to use it.
-{{{
+{{{e
 Step1: Add Dependency
 compile 'com.squareup.okhttp3:okhttp:3.6.0'
 }}}
 Step2: 
 package in.co.dipankar.quickandorid.utils;
 
-{{{
+{{{e
 package in.co.dipankar.quickandorid.utils;
 
 import okhttp3.OkHttpClient;
@@ -4685,7 +4685,7 @@ public class WSUtils {
 }}}
 
 Step 3: Here is how it can be used form your activity:
-{{{
+{{{e
 private void testWebSocket() {
     WSUtils ws = new WSUtils("ws://echo.websocket.org", new WSUtils.Callback(){
 
@@ -4716,12 +4716,12 @@ private void testWebSocket() {
 
 # Simple Network Calls to parse JSON.
 Similar to web socket, we can have our simple network Module to send web request as given as example.
-{{{
+{{{e
     compile 'com.squareup.okhttp3:okhttp:3.2.0'
 }}}
 
 Step2: Now you have some simple Utils class like this:
-{{{
+{{{e
 package in.co.dipankar.quickandorid.utils;
 
 
@@ -4824,7 +4824,7 @@ public class HTTPUtils {
 }}}
 
 Step3: He is how you can call thease utils from your android Activity or from whatever you want:
-{{{
+{{{e
     private void testHTTPUtils() {
         HTTPUtils httpUtils = new HTTPUtils();
         httpUtils.get("http://simplestore.dipankar.co.in/api/test", new HTTPUtils.Callback() {
@@ -4873,7 +4873,7 @@ Step3: He is how you can call thease utils from your android Activity or from wh
     }
 }}}
 Synchronous Get
-{{{
+{{{e
     OkHttpClient client = new OkHttpClient();
 Request request = new Request.Builder()
   .url("http://www.ssaurel.com/tmp/toto.txt")
@@ -4894,7 +4894,7 @@ Log.i(response.body().string());
 }}}
 
 Aync Get Request 
-{{{
+{{{e
     OkHttpClient client = new OkHttpClient();
 Request request = new Request.Builder()
   .url("http://www.ssaurel.com/tmp/toto.txt")
@@ -4921,7 +4921,7 @@ client.newCall(request).enqueue(new Callback() {
 }}}
 
 Accessing headers
-{{{
+{{{e
     private final OkHttpClient client = new OkHttpClient();
 
   public void run() throws Exception {
@@ -4942,7 +4942,7 @@ Accessing headers
   }
 }}}
 POST jSON Request 
-{{{
+{{{e
 public static final MediaType JSON
 = MediaType.parse("application/json; charset=utf-8");
 OkHttpClient client = new OkHttpClient();
@@ -4965,7 +4965,7 @@ Response response = client.newCall(request).enqueue(new Callback() {
 }}}
 
 Posting a file 
-{{{
+{{{e
 ublic static final MediaType MEDIA_TYPE_MARKDOWN
       = MediaType.parse("text/x-markdown; charset=utf-8");
 
@@ -4988,7 +4988,7 @@ ublic static final MediaType MEDIA_TYPE_MARKDOWN
 }}}
 
 Post Request with form params
-{{{
+{{{e
     private final OkHttpClient client = new OkHttpClient();
 
   public void run() throws Exception {
@@ -5009,7 +5009,7 @@ Post Request with form params
 }}}
 
 OKHTTP Cacheing
-{{{
+{{{e
     int cacheSize = 10 * 1024 * 1024; // 10MB
 OkHttpClient.Builder builder = new OkHttpClient.Builder()
         .cache(new Cache(context.getCacheDir(), cacheSize)
@@ -5021,7 +5021,7 @@ new Request.Builder().cacheControl(CacheControl.FORCE_CACHE)
 }}}
 
 Handing Timeouts for all calls
-{{{
+{{{e
     private final OkHttpClient client;
 
   public ConfigureTimeouts() throws Exception {
@@ -5044,7 +5044,7 @@ Handing Timeouts for all calls
 }}}
 
 Handing Timeouts for each call
-{{{
+{{{e
     private final OkHttpClient client = new OkHttpClient();
 
   public void run() throws Exception {
@@ -5077,11 +5077,11 @@ Handing Timeouts for each call
 # Having HTTP server inside android App
 
 Step1: Add Dependency
-{{{
+{{{e
     compile 'org.nanohttpd:nanohttpd:2.2.0'
 }}}
 Write your own Server Utils
-{{{
+{{{e
 package in.co.dipankar.quickandorid.utils;
 
 import org.json.JSONObject;
@@ -5138,19 +5138,19 @@ public class HttpdUtils extends NanoHTTPD {
 }}}
 Now when you start your app the server will start
 Is my server is runing : 
-{{{
+{{{e
 $ adb shell
 $ generic_x86:/ # lsof  -l | grep 8081 
 kandroide 24907      10088   54u     IPv6                          0t0    1569923 TCP []:8081->[]:0 (LISTEN) 
 }}}
 Now connect it from your host and Hit the BOX
-{{{
+{{{e
 $ adb forward tcp:8081 tcp:8081
 $ curl http://localhost:8081/gsf
 }}}
 
 With this infra, we can build our own App Automation and App helper to execute any code for debugging, Let's consider the below Remote Debugger which allows us to set and get the Pref from your laptop.
-{{{
+{{{e
     package in.co.dipankar.quickandorid.utils;
 
 import android.content.Context;
@@ -5236,14 +5236,14 @@ public class RemoteDebug {
 }}}
 
 From Activity, You needs to initilized this:
-{{{
+{{{e
     private void testRemoteDebuging() {
     RemoteDebug remoteDebug = new RemoteDebug(this);
 }
 }}}
 
 Ans how it can be used:
-{{{
+{{{e
 dip-pro:books dip$ curl http://localhost:8081/getPref?data=I%20me%2010
 10
 dip-pro:books dip$ curl http://localhost:8081/setPref?data=I%20me%20100
@@ -5327,7 +5327,7 @@ Java Timer                   # Java APIs
 Java ScheduledThreadPoolExecutor  # Java APIs
 
 Using Java Threads: Post a Job in backgroud thread and when it is done post the result in UI- Unfortunately, these classes and methods also tend to make your code more complicated and more difficult to read. 
-{{{
+{{{e
     public void onClick(View v) {
   new Thread(new Runnable() {
     public void run() {
@@ -5349,7 +5349,7 @@ onPreExecute(), onPostExecute() and onProgressUpdate() are all invoked on the UI
 - The value returned by doInBackground() is sent to onPostExecute()
 You can call publishProgress() at anytime in doInBackground() to execute onProgressUpdate() on the UI thread
 - You can cancel the task at any time, from any thread
-{{{
+{{{e
     public void onClick(View v) {
   new DownloadImageTask().execute("http://example.com/image.png");
 }
@@ -5366,7 +5366,7 @@ private class DownloadImageTask extends AsyncTask {
 }}}
 
 Anotehr example;
-{{{
+{{{e
     new AsyncTask<URL, Integer, Long>() {
      protected Long doInBackground(URL... urls) {
          int count = urls.length;
@@ -5392,7 +5392,7 @@ Anotehr example;
  There are some issues with AsyncTask, for example, they are not aware of the activity or fragment lifecycle and so it is the programmer's responsibility to handle the AsyncTasks behaviour when the activity is destroyed. This means that they are not the best option for long running operations and also, if the app is in the background and the app is terminated by Android, your background processing is also terminated.
 
 IntentService: This is the defacto choice for long running processing on Android, a good example would be to upload or download large files. The upload and download may continue even if the user exits the app and you certainly do not want to block the user from being able to use the app while these tasks are going on.
-{{{
+{{{e
 public class RSSPullService extends IntentService {
     @Override 
     protected void onHandleIntent(Intent workIntent) {
@@ -5422,7 +5422,7 @@ Loader: Loaders are a complex topic, any single implementation of Loaders probab
 
 
 JobScheduler: JobScheduler is the Android framework API for scheduling tasks or work. It first became available in Android. JobScheduler is implemented in the platform, which allows it to collect information about jobs that need to run across all apps. This information is used to schedule jobs to run at, or around, the same time. Batching job execution in this fashion allows the device to enter and stay in sleep states longer, preserving battery life.
-{{{
+{{{e
 // Step1:
 public class JobSchedulerService extends JobService {
     @Override
@@ -5442,7 +5442,7 @@ AlarmManager: The AlarmManager API is another option that the framework provides
 Firebase JobDispatcher: Firebase JobDispatcher is an open-source library that provides an API similar to JobScheduler in the Android platform. Firebase JobDispatcher serves as a JobScheduler-compatibility layer for apps targeting versions of Android lower than 5.0.
 
 GcmNetworkManager: It allow to do Schedule tasks and chedule a one-off task when network is connected.
-{{{
+{{{e
 mGcmNetworkManager = GcmNetworkManager.getInstance(this);
 //Schedule a one-off task when network is connected
 OneoffTask task = new OneoffTask.Builder()
@@ -5468,7 +5468,7 @@ adb shell dumpsys activity service GcmService --endpoints YOUR_ENDPOINT
 }}}
 
 CountDownTimer:
-{{{
+{{{e
     new CountDownTimer() {
     		@Override
     		public void onFinish() {
@@ -5486,7 +5486,7 @@ Looper, Handler, and HandlerThread:   Java threads are one-time use only and die
 - Finally Thread gets terminated by calling Looper’s quit() method.
 
 An sample example of looper thread is as below:
-{{{
+{{{e
     class LooperThread extends Thread {
       public Handler mHandler; 
       public void run() { 
@@ -5506,7 +5506,7 @@ An sample example of looper thread is as below:
 
 FutureTask: FutureTask performs asynchronous processing, however, if the result is not ready yet or processing has not complete, calling get() will be block the thread.
 
-{{{
+{{{e
 RequestFuture<JSONObject> future = RequestFuture.newFuture();
 JsonObjectRequest request = new JsonObjectRequest(URL, null, future, future);
 requestQueue.add(request);
@@ -5521,7 +5521,7 @@ try {
 }}}
 
 Java Timer : An example of using Java Timer to do something after 5 seconds. These can be used to schedule some processing on a background thread. There are other ways to handle the same in Android, you could use a Handler with 
-{{{
+{{{e
 Timer timer = new Timer();
 timer.schedule(new TimerTask(){
   public void run() {
@@ -5533,7 +5533,7 @@ timer.schedule(new TimerTask(){
 
 ScheduledThreadPoolExecutor: A ThreadPoolExecutor that can additionally schedule commands to run after a given delay, or to execute periodically. This class is preferable to Timer when multiple worker threads are needed, or when the additional flexibility or capabilities of ThreadPoolExecutor (which this class extends) are required. Delayed tasks execute no sooner than they are enabled, but without any real-time guarantees about when, after they are enabled, they will commence. Tasks scheduled for exactly the same execution time are enabled in first-in-first-out (FIFO) order of submission.
 The ScheduledThreadPoolExecutor suffers from a lot of the same problems on Android as Timer and Java Threads. If you need to update the UI you’ll need to use a Handler to post messages to the UI thread or pass in a Listener. A ScheduledThreadPoolExecutor is part of Java, it’s not aware of the Activity or Fragment lifecycle and as such any Listeners will have to be cleaned up or replaced manually in order to prevent memory leaks.
-{{{
+{{{e
 public class CustomScheduledExecutor extends ScheduledThreadPoolExecutor {
    static class CustomTask<V> implements RunnableScheduledFuture<V> { ... }
    protected <V> RunnableScheduledFuture<V> decorateTask(
@@ -5550,7 +5550,7 @@ public class CustomScheduledExecutor extends ScheduledThreadPoolExecutor {
 }}}
 
 Example1: In service, We have created thread(s) for doing some background task. Now, thread need to post certain task on main thread's(UI) message queue, for example a Runnable. Here is way to access from a worker thread in a service
-{{{
+{{{e
 Case 1. If your background thread has a reference to a Context object, Get a handler that can be used to post to the main thread
 Handler mainHandler = new Handler(context.getMainLooper());
 Runnable myRunnable = new Runnable() {
@@ -5573,7 +5573,7 @@ new Handler(Looper.getMainLooper()).post(mYourUiThreadRunnable);
 
 
 Example: Example of an Generic Thread Utils class:
-{{{
+{{{e
 import android.os.Handler;
 import android.os.Looper;
 
@@ -5944,7 +5944,7 @@ The correct design of the MVP should be based on below priciples:
 1. Make View dumb and passive - that means delegates all evnets to presenter so - if you have a username/password form and a “submit” button, you don’t write the validation logic inside the view but inside the presenter. 
 2. Make presenter framework-independent: make sure that presenter doesn’t depend on Android classes but only have Java deps. It gives two advantage : unit test - flexyable.
 3. Write a contract to describe the interaction between View and Presenter: describes the communication between view and presenter. It should bundle ViewContracts and Presenter contracts like this.
-{{{
+{{{e
 public interface SearchRepositoriesContract {
   interface View {
     void addResults(List<Repository> repos);
@@ -5974,7 +5974,7 @@ public interface SearchRepositoriesContract {
 6. Do not create Activity-lifecycle-style callbacks in the Presenter interface:  presenter shouldn’t have methods like onCreate(...), onStart(), onResume() as The presenter shouldn’t have a so complex lifecycle.
 
 7. Presenter has a 1-to-1 relation with the view - The presenter doesn’t make sense without a view. It comes with the view and goes when the view is destroyed as It should  manages one and only view. How to pass View to presentre, either pass it by constracter( which is not so good)- better we can have attach(View view) and detach() ( which makes View nullbale and we need to have darty null check everwhere). We can solve the problem using  BasePresenter<V>  as below:
-{{{
+{{{e
 public interface BasePresenter<V> {
   void attach(V view);
   void detach();
@@ -5987,7 +5987,7 @@ public interface BasePresenter<V> {
 In this section, I will discussss to alternative Design for MVP Patterns
 
 Step1: Define contracts.
-{{{
+{{{e
 public interface Contracts{
     public interface IMainView {
         void showProgress();
@@ -6013,7 +6013,7 @@ public interface Contracts{
 Step2: Define Concreate implements: Note that:
 -  MainPresenter implements IMainPresenter , MainActivity implement IMainView and so on. 
 - MainView instancite the Presenter and Model and Pass them both to presneter. (If you use attach or detech - then they should be bind at onViewAttch and OnViewDetacj )
-{{{
+{{{e
 // implement presentation
 public class MainPresenter implements IMainPresenter, IItemProvider.OnFinishedListener {
     private IMainView mainView; <<<< Not that it's an interface.
@@ -6315,7 +6315,7 @@ public class BaseActivity extends AppCompatActivity {
 Example 4: An alternative design for MVP.
 We saw that View Despends on presenter anyway. 
 Step1: Have a BaseViewPresenter 
-{{{
+{{{e
 public abstract class BaseViewPresenter<V> {
 
   private V mView; 
@@ -6344,7 +6344,7 @@ public abstract class BaseViewPresenter<V> {
 
 }}}
 Step2: Have a LoginViewPresenter - which says what needs on View Side.
-{{{
+{{{e
 public class LoginViewPresenter<	
         V extends BaseViewPresenter.ViewContract>	
     extends BaseViewPresenter<V> {	
@@ -6401,7 +6401,7 @@ public class LoginViewPresenter<
 }
 }}}
 Step3: Define the View which will do all the stuff required by presenter.
-{{{
+{{{e
 public class LoginView extends BaseView	
     implements LoginViewPresenter.ViewContract {		
 	...
@@ -6469,12 +6469,12 @@ To use addmob just add the below configuraration in the graddle files. Then go t
 Now we are ready to build two type of adds.
 1. Banner add
 2. Full screen add.
-{{{
+{{{e
      implementation 'com.google.android.gms:play-services-ads:15.0.0'
 }}}
 
 Step2: To have a banner add , please add this view in your layout and do the initilization as shown in code.
-{{{
+{{{e
 // add layout
 <com.google.android.gms.ads.AdView
     xmlns:ads="http://schemas.android.com/apk/res-auto"
@@ -6518,7 +6518,7 @@ void createProgramitically()
 }}}
 
 Step 3:  To have a  interstitial ads , No need  to add anythig in your view, but do the initilization as shown in code. they should call show() method to show the add and then you can make some action when the ad is close.
-{{{
+{{{e
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.AdRequest;
 public class MainActivity extends Activity {
@@ -6633,7 +6633,7 @@ public class UserBuilder {
 
 
 Step3: Here is how you can use to create the objects using the UserBuilder
-{{{
+{{{e
   private static User getUser() {	
     UserBuilder builder = new UserBuilder();	
     builder.setUserId("123");	
@@ -6644,7 +6644,7 @@ Step3: Here is how you can use to create the objects using the UserBuilder
 
 Step 4: Provides a way to serilize and desrize with json
 Sometime, you get data from network as json string and you might constract the java object by manuualy parsing it.You can use jackson lib to have this.
-{{{
+{{{e
 //First create a mapper :
 import com.fasterxml.jackson.databind.ObjectMapper;// in play 2.3
 ObjectMapper mapper = new ObjectMapper();
@@ -6660,7 +6660,7 @@ List<MyClass> myObjects = mapper.readValue(jsonInput, mapper.getTypeFactory().co
 
 ## Java Libs for android:
 # Jackson
-{{{
+{{{e
     compile 'com.fasterxml.jackson.core:jackson-databind:2.8.5'
 compile 'com.fasterxml.jackson.core:jackson-core:2.8.5'
 compile 'com.fasterxml.jackson.core:jackson-annotations:2.8.5'
@@ -6684,7 +6684,7 @@ person3 = mapper.readValue(new File("/a/path/to/person.json"), Person.class);
 
 }}}
 Sample model class with Jackson annotations for the above json string.
-{{{
+{{{e
 import java.util.HashMap;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
@@ -6739,7 +6739,7 @@ public class Person {
 }
 }}}
 
-{{{
+{{{e
 private void jsonToObjectUrl() {
     final ObjectMapper mapper = new ObjectMapper();
     final Handler handler = new Handler();
@@ -6780,7 +6780,7 @@ private void objectToJson() {
 ## Android Pro Dev Trciks.
 
 # Connecting device using wifi
-{{{
+{{{e
 // Set the target device to listen for a TCP/IP connection on port 5555.
 adb tcpip 5555
 

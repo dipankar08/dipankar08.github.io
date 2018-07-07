@@ -419,7 +419,9 @@ public class MainActivity extends Activity {
 <ol>
 <li>First Create a Service Calss.</li>
 </ol>
-<div class='code'>import android.app.Service;
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+import android.app.Service;
 import android.os.IBinder;
 import android.content.Intent;
 import android.os.Bundle;
@@ -474,7 +476,9 @@ public class HelloService extends Service {
 }
 </div>
 <div class='x3'>Step 2: Activity can start or stop Service as below:</div>
-<div class='code'>import android.content.Intent;
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -505,7 +509,9 @@ public class MainActivity extends Activity {
 }
 </div>
 <div class='x3'>Step 3: Dont forget to put thease into menufest.</div>
-<div class='code'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+&lt;?xml version="1.0" encoding="utf-8"?&gt;
 &lt;manifest xmlns:android="http://schemas.android.com/apk/res/android"
    package="com.example.tutorialspoint7.myapplication"&gt;
    &lt;application
@@ -527,7 +533,9 @@ public class MainActivity extends Activity {
 <div class='x3'>We have another kind of service call intent servivce: The Service can be used in tasks with no UI, but shouldn't be too long. If you need to perform long tasks, you must use threads within Service. The IntentService can be used in long tasks usually with no communication to Main Thread. If communication is required, can use Main Thread handler or broadcast intents. Another case of use is when callbacks are needed.</div>
 <div class='x3'>Below example shows an Intent Service and a comminucation from service to Activity.</div>
 <div class='x3'>Step1: Let;s have the service here.</div>
-<div class='code'>import android.app.IntentService;
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+import android.app.IntentService;
 import android.content.Intent;
 public class CashbackIntentService extends IntentService{
     final static String CASHBACK_INFO = "cashback_info";
@@ -563,7 +571,9 @@ public class CashbackIntentService extends IntentService{
 }
 </div>
 <div class='x3'>Step2: Let;s have the activity and Have a Broadcast Receiver.</div>
-<div class='code'>import android.content.BroadcastReceiver;
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -696,7 +706,9 @@ public class IntentServiceActivity extends AppCompatActivity {
 <li>Android LinearLayout is a view group that aligns all children in either vertically or horizontally. Some of mostly used attributes are :android:orientation = horizontal| vertical, android:gravity = top, bottom, left, right, center, center_vertical, center_horizontal ( how the elment inside are placed), android:layout_gravity( how itself is placed over parenet),  android:baselineAligned = true | false ( aligning all its children's baselines.), android:weightSum and android:weight.</li>
 </ol>
 <div class='x3'>A sample tempalte is as below:</div>
-<div class='code'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+&lt;?xml version="1.0" encoding="utf-8"?&gt;
 &lt;LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
    android:layout_width="fill_parent"
    android:layout_height="fill_parent"
@@ -719,7 +731,9 @@ public class IntentServiceActivity extends AppCompatActivity {
 <li>RelativeLayout: Android RelativeLayout enables you to specify how child views are positioned relative to each other. Some Most common used attribute is: Center spacific: android:layout_centerHorizontal, android:layout_centerInParent, android:layout_centerVertical, (w.r.t parent:) android:layout_alignParentTop,android:layout_alignParentBottom, android:layout_alignParentStart, android:layout_alignParentLeft, android:layout_alignParentRight,android:layout_alignParentStart, android:layout_alignParentEnd,( with resperct to other): android:layout_alignLeft, android:layout_above, android:layout_below, android:layout_toLeftOf, android:layout_toRightOf, android:layout_toStartOf, android:layout_toEndOf.</li>
 </ol>
 <div class='x3'>If you dont assign anything- it will just placed at top left corner. A sample example is as below:</div>
-<div class='code'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+&lt;?xml version="1.0" encoding="utf-8"?&gt;
 &lt;RelativeLayout 
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -784,7 +798,9 @@ public class IntentServiceActivity extends AppCompatActivity {
 <li></li>
 </ul>
 <div class='x3'>A quick example is as below :</div>
-<div class='code'>// Add this deps.
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+// Add this deps.
 dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha3'
 }
@@ -1200,7 +1216,9 @@ public class PhotoSpiral extends ViewGroup {
 <li>We need canvus and paint.</li>
 <li>Must define the paint as init not on OnDraw.</li>
 </ul>
-<div class='code'>public class Pizza extends View {
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+public class Pizza extends View {
   private Paint paint;
   private int numWedges = 5;
   public Pizza(Context context) {
@@ -1887,7 +1905,9 @@ public class CustomAdapter extends RecyclerView.Adapter&lt;CustomAdapter.MyViewH
 
 </div>
 <div class='x3'>Step 2A: Some example of other animation:</div>
-<div class='code'>//Alpha.
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+//Alpha.
 &lt;?xml version="1.0" encoding="utf-8"?&gt;
 &lt;alpha
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -2570,7 +2590,9 @@ data.add(toPosition, item);
 adapter.notifyItemMoved(fromPosition, toPosition);
 </div>
 <div class='x3'>Step 17: Adding Custom animation to RV items when loads: In this case We use ObjectAnimator and animation set to perform some animation.</div>
-<div class='code'>public class AnimationUtil {
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+public class AnimationUtil {
     public static void animate(RecyclerView.ViewHolder holder ,boolean goesDown){
         AnimatorSet animatorSet = new AnimatorSet();
         ObjectAnimator animatorTranslateY = ObjectAnimator.ofFloat(holder.itemView, "translationY", goesDown==true ? 200 : -200, 0);
@@ -2891,7 +2913,9 @@ dialog.show()
         dialog.show();
 </div>
 <div class='x3'>Step 10: Uisng Dialog Fragemnets: DialogFragment is a specialized Fragment used when you want to display an overlay modal window within an activity that floats on top of the rest of the content.</div>
-<div class='code'>
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+
     &lt;!-- fragment_edit_name.xml --&gt;
 &lt;LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:id="@+id/edit_name"
@@ -3481,7 +3505,9 @@ How to user:
 
 </div>
 <div class='x3'>Step 15: ViewPager animation fade in/out instead of slide:</div>
-<div class='code'>public class FadePageTransformer implements ViewPager.PageTransformer {
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+public class FadePageTransformer implements ViewPager.PageTransformer {
         public void transformPage(View view, float position) {
                 view.setTranslationX(view.getWidth() * -position);
             if(position &lt;= -1.0F || position &gt;= 1.0F) {
@@ -3498,7 +3524,9 @@ How to user:
 mViewPager.setPageTransformer(false, new FadePageTransformer());
 </div>
 <div class='x3'>Example: Listen text xhnage of Edit Text</div>
-<div class='code'>EditText value = (EditText) view.findViewById(R.id.value);
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+EditText value = (EditText) view.findViewById(R.id.value);
 value.addTextChangedListener(new TextWatcher()
 {
     @Override
@@ -3525,7 +3553,9 @@ value.addTextChangedListener(new TextWatcher()
 });
 </div>
 <div class='x3'>Example: Have a Simple Guesture detcetor</div>
-<div class='code'>GestureDetector myG;
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+GestureDetector myG;
 myG = new GestureDetector(this,new Gesture());
    
 class Gesture extends GestureDetector.SimpleOnGestureListener{
@@ -3590,7 +3620,9 @@ public class MainActivity extends Activity {
 
 </div>
 <div class='x3'>Example: Click and Long Click</div>
-<div class='code'>import android.app.ProgressDialog;
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
@@ -3630,7 +3662,9 @@ public class MainActivity extends ActionBarActivity {
 }
 </div>
 <div class='x3'>Example: Some Touch Evnets</div>
-<div class='code'>import android.app.Activity;
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -3699,7 +3733,9 @@ public class MainActivity extends Activity {
 }
 </div>
 <div class='x3'>Example: Here is the simple Notification example</div>
-<div class='code'>public class MainActivity extends Activity {
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+public class MainActivity extends Activity {
    Button b1;
    @Override
    protected void onCreate(Bundle savedInstanceState) {
@@ -3734,7 +3770,9 @@ public class MainActivity extends Activity {
 }
 </div>
 <div class='x3'>Example: Here I will sow you of all Kind of alrt dialog</div>
-<div class='code'>// Simple AlertDiloags
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+// Simple AlertDiloags
 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 alertDialogBuilder.setPositiveButton(CharSequence text, DialogInterface.OnClickListener listener)
 alertDialogBuilder.setNegativeButton(CharSequence text, DialogInterface.OnClickListener listener)
@@ -3818,7 +3856,9 @@ public Dialog onCreateDialog(Bundle savedInstanceState) {
 }
 </div>
 <div class='x3'>Example: Let's have an example of all dialog.</div>
-<div class='code'>import android.app.ProgressDialog;
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+import android.app.ProgressDialog;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -3883,7 +3923,9 @@ public class MainActivity extends ActionBarActivity {
    };
 </div>
 <div class='x3'>Example: Sample Linier layouts</div>
-<div class='code'>import android.os.Bundle;
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+import android.os.Bundle;
 import android.app.Activity;
 
 public class MainActivity extends Activity {
@@ -3914,7 +3956,9 @@ public class MainActivity extends Activity {
 &lt;/LinearLayout&gt;
 </div>
 <div class='x3'>Example: Let's see an example of all Mostly usefule control :</div>
-<div class='code'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+&lt;?xml version="1.0" encoding="utf-8"?&gt;
 &lt;LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
    android:layout_width="fill_parent"
    android:layout_height="fill_parent"
@@ -4114,7 +4158,9 @@ public class MainActivity extends Activity {
 <li>Fragments can contain nested child fragments as outlined here</li>
 </ol>
 <div class='x3'>First, let;s define a xml file which will be render as a part of fragemnts</div>
-<div class='code'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+&lt;?xml version="1.0" encoding="utf-8"?&gt;
 &lt;LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
     android:orientation="vertical" &gt;
@@ -4131,7 +4177,9 @@ public class MainActivity extends Activity {
 &lt;/LinearLayout&gt;
 </div>
 <div class='x3'>Second, Let's define the Fragment class which influate the view in xmlns</div>
-<div class='code'>import android.support.v4.app.Fragment;
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+import android.support.v4.app.Fragment;
 public class FooFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
@@ -4145,7 +4193,9 @@ public class FooFragment extends Fragment {
 }
 </div>
 <div class='x3'>Thirds, Now we can add the fragemnts inside activity layout as</div>
-<div class='code'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+&lt;?xml version="1.0" encoding="utf-8"?&gt;
 &lt;LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -4158,7 +4208,9 @@ public class FooFragment extends Fragment {
 &lt;/LinearLayout&gt;
 </div>
 <div class='x3'>OR</div>
-<div class='code'>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+&lt;?xml version="1.0" encoding="utf-8"?&gt;
 &lt;LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -4171,7 +4223,9 @@ public class FooFragment extends Fragment {
 &lt;/LinearLayout&gt;
 </div>
 <div class='x3'>Forth, This can now refer by Activity( if it is statically linked) or can be loaded dynamically using FragmentManager. We can lookup fragments either using ID or TAG or Pagers</div>
-<div class='code'>public class MainActivity extends AppCompatActivity {
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+public class MainActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -4200,7 +4254,9 @@ public class FooFragment extends Fragment {
 }
 </div>
 <div class='x3'>Fifth, Let;s pass some data to the fragment while creating, generally It can be done using static method. This is because a Fragment must have only a constructor with no arguments.</div>
-<div class='code'>public class DemoFragment extends Fragment {
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+public class DemoFragment extends Fragment {
     // Creates a new fragment given an int and title
     // DemoFragment.newInstance(5, "Hello");
     public static DemoFragment newInstance(int someInt, String someTitle) {
@@ -4231,7 +4287,9 @@ public class MainActivity extends AppCompatActivity {
 }
 </div>
 <div class='x3'>Let's define a fragemnt and pass the data on runtime.</div>
-<div class='code'>// Have Fragment
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+// Have Fragment
 public class DemoFragment extends Fragment {
   public void doSomething(String param) {
       // handle this data.
@@ -4249,7 +4307,9 @@ public class MainActivity extends AppCompatActivity {
 }
 </div>
 <div class='x3'>Now, Let;s try to pass some data from fragemnt to Activity.</div>
-<div class='code'>import android.support.v4.app.Fragment;
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+import android.support.v4.app.Fragment;
 public class MyListFragment extends Fragment {
   private OnItemSelectedListener listener;
 
@@ -4302,7 +4362,9 @@ public class RssfeedActivity extends AppCompatActivity implements MyListFragment
 <li>executePendingTransactions()	Forces committed transactions to be applied.</li>
 </ol>
 <div class='x3'>Here is an example of Fragment Trasation:</div>
-<div class='code'>
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+
 </div>
 <div class='x3'>Using fragmen, it is possible to customize the backStack operation. A record of all Fragment transactions is kept for each Activity by the FragmentManager. When used properly, this allows the user to hit the device’s back button to remove previously added Fragments.</div>
 <a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
@@ -4326,7 +4388,9 @@ if (fragmentManager.getBackStackEntryCount() &gt; 0) {
 }
 </div>
 <div class='x3'>We can easily show/hide the fragemnt then calling replaces - This can be good because this will release memory and make the UI snappier. For example :</div>
-<div class='code'>private FragmentA fragmentA;
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+private FragmentA fragmentA;
 private FragmentB fragmentB;
 private FragmentC fragmentC;
 
@@ -4368,7 +4432,9 @@ protected void displayFragmentA() {
 <div class='x2' id='hashid20'>Executing Async Jobs in android.</div>
 <div class='x2' id='hashid21'>WebSocket Support to Android</div>
 <div class='x3'>Step1: Let's consider the below example for build the server.</div>
-<div class='code'>const WebSocket = require('ws');
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+const WebSocket = require('ws');
 const wss = new WebSocket.Server({ port: 8080 });
 wss.on('connection', function connection(ws) {
   ws.on('message', function incoming(message) {
@@ -4381,7 +4447,9 @@ wss.on('connection', function connection(ws) {
 // $node server.js
 </div>
 <div class='x3'>Step2: Let's test the code from sample HTML</div>
-<div class='code'>&lt;!DOCTYPE html&gt;
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+&lt;!DOCTYPE html&gt;
 &lt;html&gt;
 &lt;head&gt;
 	&lt;meta charset="utf-8"&gt;
@@ -4406,7 +4474,9 @@ wss.on('connection', function connection(ws) {
 &lt;/html&gt;
 </div>
 <div class='x3'>Step3: Now let's write android plagins to send and recv data from our server.</div>
-<div class='code'>
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+
 </div>
 <div class='x1' id='hashid22'>Support personalize Experice.</div>
 <div class='x3'>In this perticulr section, i will be discussion with how to personalized your app experince for the user. The term "Personlization" means that your app should resposnce perfactly for the multiple devices, user can choose their languages and user can have their own theme etc.</div>
@@ -4421,16 +4491,24 @@ wss.on('connection', function connection(ws) {
 <div class='x2' id='hashid23'>Supporting mutiple languages</div>
 <div class='x3'>Let's consider supporting hindi and english langues for a app.</div>
 <div class='x3'>Step1: Let;s have this layout. Note that we NOT hardcoding the string.</div>
-<div class='code'>
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+
 </div>
 <div class='x3'>Step2: Define the defalut string in res/values/strings.xml.</div>
-<div class='code'>
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+
 </div>
 <div class='x3'>Step3: Define the hindi language string in res/values/strings-hi.xml. You can support mutiple languages using the file name as res/values/strings-<language-code>.xml</div>
-<div class='code'>
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+
 </div>
 <div class='x3'>Step 4: Now we we just have the  fun. You can go the device setting -> personal -> languages -> choose language and You will see the language of the app has chnages. We can do it programitically as below:</div>
-<div class='code'>import android.app.Activity;
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+import android.app.Activity;
 import android.content.res.Configuration;
 import android.os.Bundle;
 
@@ -4461,7 +4539,9 @@ public class Main extends Activity {
 }
 </div>
 <div class='x3'>Step 5: You can persisit the language choice for the app as below:</div>
-<div class='code'>public class BaseActivity extends AppCompatActivity {
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+public class BaseActivity extends AppCompatActivity {
     private Locale mCurrentLocale;
     @Override
     protected void onStart() {
@@ -4516,7 +4596,9 @@ public class App extends Application {
 <div class='x2' id='hashid24'>Supporting seperate layout for differnt devices.</div>
 <div class='x3'>Sometime it's required to have multiple layout of the UI for phone or tablet. We can easilty do that by spacifying mutple layout file. We can alos spacify multiple dimention files to spacidify differnet weidth of the buttons for phone and tablet.</div>
 <div class='x3'>Step1: We can have two diffetnt layoyt for phone and 7 each tablet in res/layout/main_activity.xml    and res/layout-sw600dp/main_activity.xml(600dp or bigger).</div>
-<div class='code'>
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+
 </div>
 <table>
 <caption>Table: Topical screen size:
@@ -4546,7 +4628,9 @@ public class App extends Application {
 <tr><td>res/layout-xlarge/main_activity.xml</td><td>For large tablets (960dp x 720dp and bigger)</td></tr>
 </table>
 <div class='x3'>You could also use layout alias. It can be defined all files inside layout, however, we can distrigushed the by having differnet values file.</div>
-<div class='code'>res/layout/main.xml            # single-pane layout
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+res/layout/main.xml            # single-pane layout
 res/layout/main_twopanes.xml   # two-pane layout
 
 And add these two files:
@@ -4562,7 +4646,9 @@ res/values-sw600dp/layout.xml:
 </div>
 <div class='x2' id='hashid25'>Supporting different button width for diffent devices.</div>
 <div class='x3'>You must understand the diff betwen dip and sp. Yhen you specify spacing between two views, use dp and When specifying text size, always use sp:</div>
-<div class='code'>&lt;Button android:layout_width="wrap_content"
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+&lt;Button android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:text="@string/clickme"
     android:layout_marginTop="20dp" /&gt;
@@ -4573,7 +4659,9 @@ res/values-sw600dp/layout.xml:
     android:textSize="20sp" /&gt;
 </div>
 <div class='x3'>For example, You have a button view and You would like to have multiple dimention for this button for multiple devices. How to do that? Let's creates values folders and a dimens files in each folder. Based on your requirement you can give padding or any dimen values. As you  given, you should give same name for dimen in all the folders. Android will  automatically pick the dimen value based on your screen size.</div>
-<div class='code'>&lt;textView
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+&lt;textView
   android:padding="@dimen/padding_1
   /&gt;
 
@@ -4595,7 +4683,9 @@ values-sw720dp/dminen.xml
 </div>
 <div class='x2' id='hashid26'>Supporting multiple images</div>
 <div class='x3'>When you want to use image, you must provides the below variabtion:</div>
-<div class='code'>res/
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+res/
   drawable-xxxhdpi/
     awesome-image.png
   drawable-xxhdpi/
@@ -4627,12 +4717,16 @@ values-sw720dp/dminen.xml
 </table>
 <div class='x2' id='hashid28'>Connecting websocket</div>
 <div class='x3'>WebSocket providing full-duplex communication channels over a single TCP connection. It is supported in HTML 5. Since the version 3.5 of the OkHttp library, you can also use WebSockets connection in your Android applications. Let's try to use it.</div>
-<div class='code'>Step1: Add Dependency
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+Step1: Add Dependency
 compile 'com.squareup.okhttp3:okhttp:3.6.0'
 </div>
 <div class='x3'>Step2:</div>
 <div class='x3'>package in.co.dipankar.quickandorid.utils;</div>
-<div class='code'>package in.co.dipankar.quickandorid.utils;
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+package in.co.dipankar.quickandorid.utils;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -4728,7 +4822,9 @@ public class WSUtils {
 }
 </div>
 <div class='x3'>Step 3: Here is how it can be used form your activity:</div>
-<div class='code'>private void testWebSocket() {
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+private void testWebSocket() {
     WSUtils ws = new WSUtils("ws://echo.websocket.org", new WSUtils.Callback(){
 
         @Override
@@ -4757,10 +4853,14 @@ public class WSUtils {
 </div>
 <div class='x2' id='hashid29'>Simple Network Calls to parse JSON.</div>
 <div class='x3'>Similar to web socket, we can have our simple network Module to send web request as given as example.</div>
-<div class='code'>    compile 'com.squareup.okhttp3:okhttp:3.2.0'
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+    compile 'com.squareup.okhttp3:okhttp:3.2.0'
 </div>
 <div class='x3'>Step2: Now you have some simple Utils class like this:</div>
-<div class='code'>package in.co.dipankar.quickandorid.utils;
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+package in.co.dipankar.quickandorid.utils;
 
 
 import org.json.JSONObject;
@@ -4861,7 +4961,9 @@ public class HTTPUtils {
 }
 </div>
 <div class='x3'>Step3: He is how you can call thease utils from your android Activity or from whatever you want:</div>
-<div class='code'>    private void testHTTPUtils() {
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+    private void testHTTPUtils() {
         HTTPUtils httpUtils = new HTTPUtils();
         httpUtils.get("http://simplestore.dipankar.co.in/api/test", new HTTPUtils.Callback() {
             @Override
@@ -4909,7 +5011,9 @@ public class HTTPUtils {
     }
 </div>
 <div class='x3'>Synchronous Get</div>
-<div class='code'>    OkHttpClient client = new OkHttpClient();
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+    OkHttpClient client = new OkHttpClient();
 Request request = new Request.Builder()
   .url("http://www.ssaurel.com/tmp/toto.txt")
   .build();
@@ -4928,7 +5032,9 @@ for (int i = 0; i &lt; responseHeaders.size(); i++) {
 Log.i(response.body().string());
 </div>
 <div class='x3'>Aync Get Request</div>
-<div class='code'>    OkHttpClient client = new OkHttpClient();
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+    OkHttpClient client = new OkHttpClient();
 Request request = new Request.Builder()
   .url("http://www.ssaurel.com/tmp/toto.txt")
   .build();
@@ -4953,7 +5059,9 @@ client.newCall(request).enqueue(new Callback() {
 });
 </div>
 <div class='x3'>Accessing headers</div>
-<div class='code'>    private final OkHttpClient client = new OkHttpClient();
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+    private final OkHttpClient client = new OkHttpClient();
 
   public void run() throws Exception {
     Request request = new Request.Builder()
@@ -4973,7 +5081,9 @@ client.newCall(request).enqueue(new Callback() {
   }
 </div>
 <div class='x3'>POST jSON Request</div>
-<div class='code'>public static final MediaType JSON
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+public static final MediaType JSON
 = MediaType.parse("application/json; charset=utf-8");
 OkHttpClient client = new OkHttpClient();
 String url = "http://www.ssaurel.com/tmp/jsonService";
@@ -4994,7 +5104,9 @@ Response response = client.newCall(request).enqueue(new Callback() {
 });
 </div>
 <div class='x3'>Posting a file</div>
-<div class='code'>ublic static final MediaType MEDIA_TYPE_MARKDOWN
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+ublic static final MediaType MEDIA_TYPE_MARKDOWN
       = MediaType.parse("text/x-markdown; charset=utf-8");
 
   private final OkHttpClient client = new OkHttpClient();
@@ -5015,7 +5127,9 @@ Response response = client.newCall(request).enqueue(new Callback() {
   }
 </div>
 <div class='x3'>Post Request with form params</div>
-<div class='code'>    private final OkHttpClient client = new OkHttpClient();
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+    private final OkHttpClient client = new OkHttpClient();
 
   public void run() throws Exception {
     RequestBody formBody = new FormBody.Builder()
@@ -5034,7 +5148,9 @@ Response response = client.newCall(request).enqueue(new Callback() {
   }
 </div>
 <div class='x3'>OKHTTP Cacheing</div>
-<div class='code'>    int cacheSize = 10 * 1024 * 1024; // 10MB
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+    int cacheSize = 10 * 1024 * 1024; // 10MB
 OkHttpClient.Builder builder = new OkHttpClient.Builder()
         .cache(new Cache(context.getCacheDir(), cacheSize)
         ....
@@ -5044,7 +5160,9 @@ new Request.Builder().cacheControl(CacheControl.FORCE_CACHE)
 
 </div>
 <div class='x3'>Handing Timeouts for all calls</div>
-<div class='code'>    private final OkHttpClient client;
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+    private final OkHttpClient client;
 
   public ConfigureTimeouts() throws Exception {
     client = new OkHttpClient.Builder()
@@ -5065,7 +5183,9 @@ new Request.Builder().cacheControl(CacheControl.FORCE_CACHE)
   }
 </div>
 <div class='x3'>Handing Timeouts for each call</div>
-<div class='code'>    private final OkHttpClient client = new OkHttpClient();
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+    private final OkHttpClient client = new OkHttpClient();
 
   public void run() throws Exception {
     Request request = new Request.Builder()
@@ -5095,10 +5215,14 @@ new Request.Builder().cacheControl(CacheControl.FORCE_CACHE)
 </div>
 <div class='x2' id='hashid30'>Having HTTP server inside android App</div>
 <div class='x3'>Step1: Add Dependency</div>
-<div class='code'>    compile 'org.nanohttpd:nanohttpd:2.2.0'
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+    compile 'org.nanohttpd:nanohttpd:2.2.0'
 </div>
 <div class='x3'>Write your own Server Utils</div>
-<div class='code'>package in.co.dipankar.quickandorid.utils;
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+package in.co.dipankar.quickandorid.utils;
 
 import org.json.JSONObject;
 
@@ -5154,16 +5278,22 @@ public class HttpdUtils extends NanoHTTPD {
 </div>
 <div class='x3'>Now when you start your app the server will start</div>
 <div class='x3'>Is my server is runing :</div>
-<div class='code'>$ adb shell
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+$ adb shell
 $ generic_x86:/ # lsof  -l | grep 8081 
 kandroide 24907      10088   54u     IPv6                          0t0    1569923 TCP []:8081-&gt;[]:0 (LISTEN) 
 </div>
 <div class='x3'>Now connect it from your host and Hit the BOX</div>
-<div class='code'>$ adb forward tcp:8081 tcp:8081
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+$ adb forward tcp:8081 tcp:8081
 $ curl http://localhost:8081/gsf
 </div>
 <div class='x3'>With this infra, we can build our own App Automation and App helper to execute any code for debugging, Let's consider the below Remote Debugger which allows us to set and get the Pref from your laptop.</div>
-<div class='code'>    package in.co.dipankar.quickandorid.utils;
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+    package in.co.dipankar.quickandorid.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -5247,12 +5377,16 @@ public class RemoteDebug {
 
 </div>
 <div class='x3'>From Activity, You needs to initilized this:</div>
-<div class='code'>    private void testRemoteDebuging() {
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+    private void testRemoteDebuging() {
     RemoteDebug remoteDebug = new RemoteDebug(this);
 }
 </div>
 <div class='x3'>Ans how it can be used:</div>
-<div class='code'>dip-pro:books dip$ curl http://localhost:8081/getPref?data=I%20me%2010
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+dip-pro:books dip$ curl http://localhost:8081/getPref?data=I%20me%2010
 10
 dip-pro:books dip$ curl http://localhost:8081/setPref?data=I%20me%20100
 Set Successfully
@@ -5335,7 +5469,9 @@ dip-pro:books dip$
 <tr><td>Java ScheduledThreadPoolExecutor</td><td>Java APIs</td></tr>
 </table>
 <div class='x3'>Using Java Threads: Post a Job in backgroud thread and when it is done post the result in UI- Unfortunately, these classes and methods also tend to make your code more complicated and more difficult to read.</div>
-<div class='code'>    public void onClick(View v) {
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+    public void onClick(View v) {
   new Thread(new Runnable() {
     public void run() {
       final Bitmap b = loadImageFromNetwork();
@@ -5361,7 +5497,9 @@ dip-pro:books dip$
 <ul>
 <li>You can cancel the task at any time, from any thread</li>
 </ul>
-<div class='code'>    public void onClick(View v) {
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+    public void onClick(View v) {
   new DownloadImageTask().execute("http://example.com/image.png");
 }
 
@@ -5376,7 +5514,9 @@ private class DownloadImageTask extends AsyncTask {
 }
 </div>
 <div class='x3'>Anotehr example;</div>
-<div class='code'>    new AsyncTask&lt;URL, Integer, Long&gt;() {
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+    new AsyncTask&lt;URL, Integer, Long&gt;() {
      protected Long doInBackground(URL... urls) {
          int count = urls.length;
          long totalSize = 0;
@@ -5400,7 +5540,9 @@ private class DownloadImageTask extends AsyncTask {
 </div>
 <div class='x3'>There are some issues with AsyncTask, for example, they are not aware of the activity or fragment lifecycle and so it is the programmer's responsibility to handle the AsyncTasks behaviour when the activity is destroyed. This means that they are not the best option for long running operations and also, if the app is in the background and the app is terminated by Android, your background processing is also terminated.</div>
 <div class='x3'>IntentService: This is the defacto choice for long running processing on Android, a good example would be to upload or download large files. The upload and download may continue even if the user exits the app and you certainly do not want to block the user from being able to use the app while these tasks are going on.</div>
-<div class='code'>public class RSSPullService extends IntentService {
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+public class RSSPullService extends IntentService {
     @Override 
     protected void onHandleIntent(Intent workIntent) {
         // Gets data from the incoming Intent 
@@ -5427,7 +5569,9 @@ private class DownloadImageTask extends AsyncTask {
 </div>
 <div class='x3'>Loader: Loaders are a complex topic, any single implementation of Loaders probably deserved a post all for itself. For now it would be worth pointing out that Loaders were introduced in Android Honeycomb and are part of the compatibility library.</div>
 <div class='x3'>JobScheduler: JobScheduler is the Android framework API for scheduling tasks or work. It first became available in Android. JobScheduler is implemented in the platform, which allows it to collect information about jobs that need to run across all apps. This information is used to schedule jobs to run at, or around, the same time. Batching job execution in this fashion allows the device to enter and stay in sleep states longer, preserving battery life.</div>
-<div class='code'>// Step1:
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+// Step1:
 public class JobSchedulerService extends JobService {
     @Override
     public boolean onStartJob(JobParameters params) {
@@ -5443,7 +5587,9 @@ public class JobSchedulerService extends JobService {
 <div class='x3'>AlarmManager: The AlarmManager API is another option that the framework provides for scheduling tasks. This API is useful in cases in which an app needs to post a notification or set off an alarm at a very specific time.</div>
 <div class='x3'>Firebase JobDispatcher: Firebase JobDispatcher is an open-source library that provides an API similar to JobScheduler in the Android platform. Firebase JobDispatcher serves as a JobScheduler-compatibility layer for apps targeting versions of Android lower than 5.0.</div>
 <div class='x3'>GcmNetworkManager: It allow to do Schedule tasks and chedule a one-off task when network is connected.</div>
-<div class='code'>mGcmNetworkManager = GcmNetworkManager.getInstance(this);
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+mGcmNetworkManager = GcmNetworkManager.getInstance(this);
 //Schedule a one-off task when network is connected
 OneoffTask task = new OneoffTask.Builder()
         .setService(MyTaskService.class)
@@ -5467,7 +5613,9 @@ adb shell dumpsys activity service GcmService --endpoints YOUR_ENDPOINT
 
 </div>
 <div class='x3'>CountDownTimer:</div>
-<div class='code'>    new CountDownTimer() {
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+    new CountDownTimer() {
     		@Override
     		public void onFinish() {
     		}
@@ -5484,7 +5632,9 @@ adb shell dumpsys activity service GcmService --endpoints YOUR_ENDPOINT
 <li>Finally Thread gets terminated by calling Looper’s quit() method.</li>
 </ul>
 <div class='x3'>An sample example of looper thread is as below:</div>
-<div class='code'>    class LooperThread extends Thread {
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+    class LooperThread extends Thread {
       public Handler mHandler; 
       public void run() { 
           Looper.prepare();
@@ -5500,7 +5650,9 @@ adb shell dumpsys activity service GcmService --endpoints YOUR_ENDPOINT
   }
 </div>
 <div class='x3'>FutureTask: FutureTask performs asynchronous processing, however, if the result is not ready yet or processing has not complete, calling get() will be block the thread.</div>
-<div class='code'>RequestFuture&lt;JSONObject&gt; future = RequestFuture.newFuture();
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+RequestFuture&lt;JSONObject&gt; future = RequestFuture.newFuture();
 JsonObjectRequest request = new JsonObjectRequest(URL, null, future, future);
 requestQueue.add(request);
 
@@ -5513,7 +5665,9 @@ try {
 }
 </div>
 <div class='x3'>Java Timer : An example of using Java Timer to do something after 5 seconds. These can be used to schedule some processing on a background thread. There are other ways to handle the same in Android, you could use a Handler with</div>
-<div class='code'>Timer timer = new Timer();
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+Timer timer = new Timer();
 timer.schedule(new TimerTask(){
   public void run() {
     // time ran out.
@@ -5523,7 +5677,9 @@ timer.schedule(new TimerTask(){
 </div>
 <div class='x3'>ScheduledThreadPoolExecutor: A ThreadPoolExecutor that can additionally schedule commands to run after a given delay, or to execute periodically. This class is preferable to Timer when multiple worker threads are needed, or when the additional flexibility or capabilities of ThreadPoolExecutor (which this class extends) are required. Delayed tasks execute no sooner than they are enabled, but without any real-time guarantees about when, after they are enabled, they will commence. Tasks scheduled for exactly the same execution time are enabled in first-in-first-out (FIFO) order of submission.</div>
 <div class='x3'>The ScheduledThreadPoolExecutor suffers from a lot of the same problems on Android as Timer and Java Threads. If you need to update the UI you’ll need to use a Handler to post messages to the UI thread or pass in a Listener. A ScheduledThreadPoolExecutor is part of Java, it’s not aware of the Activity or Fragment lifecycle and as such any Listeners will have to be cleaned up or replaced manually in order to prevent memory leaks.</div>
-<div class='code'>public class CustomScheduledExecutor extends ScheduledThreadPoolExecutor {
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+public class CustomScheduledExecutor extends ScheduledThreadPoolExecutor {
    static class CustomTask&lt;V&gt; implements RunnableScheduledFuture&lt;V&gt; { ... }
    protected &lt;V&gt; RunnableScheduledFuture&lt;V&gt; decorateTask(
                 Runnable r, RunnableScheduledFuture&lt;V&gt; task) {
@@ -5538,7 +5694,9 @@ timer.schedule(new TimerTask(){
 // Code from Java API
 </div>
 <div class='x3'>Example1: In service, We have created thread(s) for doing some background task. Now, thread need to post certain task on main thread's(UI) message queue, for example a Runnable. Here is way to access from a worker thread in a service</div>
-<div class='code'>Case 1. If your background thread has a reference to a Context object, Get a handler that can be used to post to the main thread
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+Case 1. If your background thread has a reference to a Context object, Get a handler that can be used to post to the main thread
 Handler mainHandler = new Handler(context.getMainLooper());
 Runnable myRunnable = new Runnable() {
     @Override 
@@ -5558,7 +5716,9 @@ Case 3. Simple:
 new Handler(Looper.getMainLooper()).post(mYourUiThreadRunnable);
 </div>
 <div class='x3'>Example: Example of an Generic Thread Utils class:</div>
-<div class='code'>import android.os.Handler;
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+import android.os.Handler;
 import android.os.Looper;
 
 public interface ThreadUtil {
@@ -5924,7 +6084,9 @@ public class AnonClassLeakingActivity extends AppCompatActivity {
 <li>Make presenter framework-independent: make sure that presenter doesn’t depend on Android classes but only have Java deps. It gives two advantage : unit test - flexyable.</li>
 <li>Write a contract to describe the interaction between View and Presenter: describes the communication between view and presenter. It should bundle ViewContracts and Presenter contracts like this.</li>
 </ol>
-<div class='code'>public interface SearchRepositoriesContract {
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+public interface SearchRepositoriesContract {
   interface View {
     void addResults(List&lt;Repository&gt; repos);
     void clearResults();
@@ -5952,7 +6114,9 @@ public class AnonClassLeakingActivity extends AppCompatActivity {
 <li>Do not create Activity-lifecycle-style callbacks in the Presenter interface:  presenter shouldn’t have methods like onCreate(...), onStart(), onResume() as The presenter shouldn’t have a so complex lifecycle.</li>
 <li>Presenter has a 1-to-1 relation with the view - The presenter doesn’t make sense without a view. It comes with the view and goes when the view is destroyed as It should  manages one and only view. How to pass View to presentre, either pass it by constracter( which is not so good)- better we can have attach(View view) and detach() ( which makes View nullbale and we need to have darty null check everwhere). We can solve the problem using  BasePresenter<V>  as below:</li>
 </ol>
-<div class='code'>public interface BasePresenter&lt;V&gt; {
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+public interface BasePresenter&lt;V&gt; {
   void attach(V view);
   void detach();
   @Nubbale V getView();
@@ -5963,7 +6127,9 @@ public class AnonClassLeakingActivity extends AppCompatActivity {
 </ol>
 <div class='x3'>In this section, I will discussss to alternative Design for MVP Patterns</div>
 <div class='x3'>Step1: Define contracts.</div>
-<div class='code'>public interface Contracts{
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+public interface Contracts{
     public interface IMainView {
         void showProgress();
         void hideProgress();
@@ -5989,7 +6155,9 @@ public class AnonClassLeakingActivity extends AppCompatActivity {
 <li>MainPresenter implements IMainPresenter , MainActivity implement IMainView and so on.</li>
 <li>MainView instancite the Presenter and Model and Pass them both to presneter. (If you use attach or detech - then they should be bind at onViewAttch and OnViewDetacj )</li>
 </ul>
-<div class='code'>// implement presentation
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+// implement presentation
 public class MainPresenter implements IMainPresenter, IItemProvider.OnFinishedListener {
     private IMainView mainView; &lt;&lt;&lt;&lt; Not that it's an interface.
     private IItemProvider itemProvider;
@@ -6283,7 +6451,9 @@ public class BaseActivity extends AppCompatActivity {
 <div class='x3'>Example 4: An alternative design for MVP.</div>
 <div class='x3'>We saw that View Despends on presenter anyway.</div>
 <div class='x3'>Step1: Have a BaseViewPresenter</div>
-<div class='code'>public abstract class BaseViewPresenter&lt;V&gt; {
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+public abstract class BaseViewPresenter&lt;V&gt; {
 
   private V mView; 
   
@@ -6311,7 +6481,9 @@ public class BaseActivity extends AppCompatActivity {
 
 </div>
 <div class='x3'>Step2: Have a LoginViewPresenter - which says what needs on View Side.</div>
-<div class='code'>public class LoginViewPresenter&lt;	
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+public class LoginViewPresenter&lt;	
         V extends BaseViewPresenter.ViewContract&gt;	
     extends BaseViewPresenter&lt;V&gt; {	
 	
@@ -6367,7 +6539,9 @@ public class BaseActivity extends AppCompatActivity {
 }
 </div>
 <div class='x3'>Step3: Define the View which will do all the stuff required by presenter.</div>
-<div class='code'>public class LoginView extends BaseView	
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+public class LoginView extends BaseView	
     implements LoginViewPresenter.ViewContract {		
 	...
   public LoginView(Context context) {	
@@ -6432,10 +6606,14 @@ public class BaseActivity extends AppCompatActivity {
 <li>Banner add</li>
 <li>Full screen add.</li>
 </ol>
-<div class='code'>     implementation 'com.google.android.gms:play-services-ads:15.0.0'
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+     implementation 'com.google.android.gms:play-services-ads:15.0.0'
 </div>
 <div class='x3'>Step2: To have a banner add , please add this view in your layout and do the initilization as shown in code.</div>
-<div class='code'>// add layout
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+// add layout
 &lt;com.google.android.gms.ads.AdView
     xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:id="@+id/adView"
@@ -6477,7 +6655,9 @@ void createProgramitically()
     }
 </div>
 <div class='x3'>Step 3:  To have a  interstitial ads , No need  to add anythig in your view, but do the initilization as shown in code. they should call show() method to show the add and then you can make some action when the ad is close.</div>
-<div class='code'>import com.google.android.gms.ads.InterstitialAd;
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.AdRequest;
 public class MainActivity extends Activity {
     private InterstitialAd mInterstitialAd;
@@ -6578,7 +6758,9 @@ public class MainActivity extends Activity {
 <div class='x3'>}</div>
 <div class='x3'>}</div>
 <div class='x3'>Step3: Here is how you can use to create the objects using the UserBuilder</div>
-<div class='code'>  private static User getUser() {	
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+  private static User getUser() {	
     UserBuilder builder = new UserBuilder();	
     builder.setUserId("123");	
     builder.setDisplayName("Dipankar");	
@@ -6587,7 +6769,9 @@ public class MainActivity extends Activity {
 </div>
 <div class='x3'>Step 4: Provides a way to serilize and desrize with json</div>
 <div class='x3'>Sometime, you get data from network as json string and you might constract the java object by manuualy parsing it.You can use jackson lib to have this.</div>
-<div class='code'>//First create a mapper :
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+//First create a mapper :
 import com.fasterxml.jackson.databind.ObjectMapper;// in play 2.3
 ObjectMapper mapper = new ObjectMapper();
 // As Array:
@@ -6599,7 +6783,9 @@ List&lt;MyClass&gt; myObjects = mapper.readValue(jsonInput, mapper.getTypeFactor
 </div>
 <div class='x1' id='hashid46'>Java Libs for android:</div>
 <div class='x2' id='hashid47'>Jackson</div>
-<div class='code'>    compile 'com.fasterxml.jackson.core:jackson-databind:2.8.5'
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.8.5'
 compile 'com.fasterxml.jackson.core:jackson-core:2.8.5'
 compile 'com.fasterxml.jackson.core:jackson-annotations:2.8.5'
 
@@ -6622,7 +6808,9 @@ person3 = mapper.readValue(new File("/a/path/to/person.json"), Person.class);
 
 </div>
 <div class='x3'>Sample model class with Jackson annotations for the above json string.</div>
-<div class='code'>import java.util.HashMap;
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+import java.util.HashMap;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
@@ -6675,7 +6863,9 @@ public class Person {
     }
 }
 </div>
-<div class='code'>private void jsonToObjectUrl() {
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+private void jsonToObjectUrl() {
     final ObjectMapper mapper = new ObjectMapper();
     final Handler handler = new Handler();
     new Thread(new Runnable() {
@@ -6714,7 +6904,9 @@ private void objectToJson() {
 </div>
 <div class='x1' id='hashid48'>Android Pro Dev Trciks.</div>
 <div class='x2' id='hashid49'>Connecting device using wifi</div>
-<div class='code'>// Set the target device to listen for a TCP/IP connection on port 5555.
+<a href='javascript:void(0)' class='codeexpand'>(expand code)</a>
+<div class='code hide'>
+// Set the target device to listen for a TCP/IP connection on port 5555.
 adb tcpip 5555
 
 //Connect the device through usb and get the ip address of the device
