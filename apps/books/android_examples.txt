@@ -7026,6 +7026,7 @@ Solution 4: Using androidLife Cycle.
 
 Table: Adb commands
 TOP COMMANDS # Example:
+alias cr='adb logcat | grep "E AndroidRuntime:"' # Easy Finding Crash.
 adb shell "dumpsys activity | grep top-activity" # See the top activity.
 adb shell "dumpsys window windows | grep -E 'mCurrentFocus|mFocusedApp'" # See the Focus Activity.
 PID=`adb shell ps | grep -i in.co.dipankar.lifecycletest | cut -c10-20`;adb logcat | grep $PID # see the log only for my process.
