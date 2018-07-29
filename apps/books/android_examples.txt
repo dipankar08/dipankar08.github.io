@@ -1,3 +1,18 @@
+
+
+## Summary
+Android is a bigger topics - so I would like to give obly the sumary at the beigging which contains the minimum words to expain the internal - if you want to know more, fell free to explore the details sections. 
+
+# Android Database: 
+In android, SQLITE is used for the offline relation database storage. You can define any relatinal database table and can run any CRUD operation to do that. Android provides some wrapper class to make it easy. To have a database you need to do: (1) Define StudentdataBaseContacts which conbatisl the table name and columon name and table spaciifc state,mey like CREATE or DROP. (2) You need to extend SQLITE open helper to override onCreate and onUpdate to exetecte the table creattiom, importing Index or inietring predefine collumms (3) In your database manger or activity, you need to hace the instace of StudentOpenHelper class. You can use getReadbleDarabse of getWritableDatabase to get the database and can do insert, .query, update, delete method to do CRUD operation. 
+For inserting, you set all the claues in ContactValues and pass it to insert(). For Quesry, you can give projectiom, selection, selection args , groupby, orderby and limkit . The delete and update supports multi-delete or multi-update based on selecetuon. As you have the db isntae, youcan execute any other RAW SQL command. The query returns Cursor objects which can be iterateted though to move over the results. For ListView/Spinner/Reclerview can also be integerated with CursorAdapetr to populate the live data from database.
+Database is expensive operation - DONOT do it MIAN thread. Use Loader and Lodernmaner for query and Askyc Task for insert/update and delete.
+Yes. It is possible to investiagte the database using sqlite3 - which is already in your emulator . Run the commands as  (1) $adb shell, (2) run-as in.co.dipankat.xxx (3) cd database/ (4) ls to see the database (5) sqlite3 students.db. (6) .table (7) select * from students.
+As part of ARCH comments android introducet ORM called Room, where you need to annotate the class to have a ORM. It;s simple and given in my test example.
+
+
+
+
 ## Andorid components
 This tutorials is mainly design for providing templates for android devlopment and helping out my copy-paste efficiency. 
 
@@ -8,6 +23,7 @@ Android Service            # A simple of Android Service example and how to star
 Android Content Providers  # An example of Android Content Providers
 Android Broadcast Receiver # An example of Android Broadcast Receiver
 Fragemnt                   # An sample example of creating reusable compoents
+
 
 
 # [EndToEnd] Android Activity
