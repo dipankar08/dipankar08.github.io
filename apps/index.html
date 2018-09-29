@@ -1,0 +1,302 @@
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body style="background: lightblue;width: 100%; height:100%;padding:0;margin:0;">
+    <canvas id="canvas" width ="500px" height ="500px" style="background: #fff; margin:0px"></canvas>
+</body>
+<script type="text/javascript" language="javascript">
+
+
+
+
+    var DRAW_TYPE = Object.freeze({"CLEAR":1, "DEFAULT":2, "SELECT":3,"VLINE":4,"HLINE":5,"PLUS":6,"REVERT":7})
+    var SHAPE_TYPE = Object.freeze({"RECT":1, "LINE":2, "ARROW_LINE":3,"SELECT":4});
+
+
+    /**********************************************************
+    * This is basically manager the drawing and maintain cell state.
+    ***********************************************************/
+    class DrawManager {
+        constructor(canvus)  {
+            this.canvus = canvas;
+            this.cellState = new Map();
+            this.changeList = new Array();
+        }
+
+        // Giveing a list of cells to draw.
+        render(cells){
+            this.changeList.push(cells);
+            for(var i =0; i<cells.length;i++){
+                var item = cells[i];
+                if(this.cellState.get(item.x+","+item.y) == undefined){
+                    this.cellState.set(item.x+","+item.y, new Array());
+                }
+                this.cellState.get(item.x+","+item.y).push(item);
+                //apply now:
+                drawCell(item.x, item.y, item.type);
+            }
+        }
+
+
+        // revert the last drawing as it is not required.
+        revert(){
+            var cells = this.changeList.pop();
+            if(cells != undefined){
+                for(var i =0; i<cells.length;i++){
+                    var item = cells[i];
+                    this.cellState.get(item.x+","+item.y).pop();
+                    if(this.cellState.get(item.x+","+item.y).length > 0){
+                        var oldItem = this.cellState.get(item.x+","+item.y)[this.cellState.get(item.x+","+item.y).length -1];
+                        drawCell(item.x, item.y, oldItem.type);
+                    } else{
+                        drawCell(item.x, item.y, DRAW_TYPE.CLEAR);  
+                    }
+                }
+            }
+        }
+        
+        // Restore the drawing if necessary.
+        restore(){
+
+        }
+    }
+
+    /**********************************************************
+    * This is basically manager the drawing and maintain cell state.
+    ***********************************************************/
+    class ShapeManager {
+        constructor(canvus)  {
+            this.shapeList = new Map();
+        }
+
+        // adding new spage 
+        addShapeHandler(type, handler){
+            this.shapeList.set(type, handler)
+        }
+
+        //selecet the shape
+        select(){
+
+        }
+
+        //handle input
+        handle(x, y){
+
+        }
+    }
+
+
+   /**********************************************************
+    * This is basically manager the drawing and maintain cell state.
+    ***********************************************************/
+    class CanvesManager {
+        prevX;
+        prevY;
+        curX;
+        curY;
+        startX;
+        startY;
+        gap = 20;
+        constructor(canvus, width, height, callback)  {
+            this.canvus = canvus;
+            this.width = width;
+            this.height = height;
+            this.context = canvas.getContext("2d");
+            canvas.addEventListener("mouseup", function(evt) {
+                _endScan();
+            });
+            canvas.addEventListener("mousedown", function(evt) {
+                canvas.addEventListener('mousemove',_mouseMoveHandler,false);
+                _startScan(evt);
+            });
+            init();
+        }
+
+        init(){
+            drawBoard(); 
+        }
+        _startScan(evt){
+            var mousePos = getMousePos(canvas, evt);
+            var data = getCell(mousePos.x, mousePos.y);
+            startX = data.x;
+            startY = data.y;
+            outline(startX, startY, startX, startY);
+        }
+
+        _mouseMoveHandler(evt){
+            var mousePos = getMousePos(canvas, evt);
+            if(evt.x > width || evt.y > height ){
+                endScan();
+                return;
+            }
+            var data = getCell(mousePos.x, mousePos.y);
+            if(data.x == curX && data.y == curY){
+                return;
+            }
+            curX = data.x;
+            curY = data.y;
+            var message = 'Mouse position: ' + data.x + ',' + data.y;
+        
+            //test
+            console.log(message);
+            //drawCell(data.x, data.y, DRAW_TYPE.PLUS);
+            //clearCell(prevX, prevY);
+            dm.revert();
+            outline(startX, startY, curX, curY);
+            //update previous
+            prevX = data.x;
+            prevY = data.y;
+        }
+        _endScan(){
+            console.log("Focus out of window");
+            canvas.removeEventListener('mousemove',mouseMoveHandler,false);
+            startX =-1;
+            startY =-1;
+            prevX = -1;
+            prevY =-1;
+        }
+
+        reset(width, height){
+            this.width = width;
+            this.height = height;
+            init();
+        }
+
+        _clearCell(x, y){
+            context.fillStyle = "#ffffff";
+            context.fillRect(x*gap+1,y*gap+1,gap-1,gap-1);
+            reset();
+        }
+     
+        _getMousePos(canvas, evt) {
+            var rect = canvas.getBoundingClientRect();
+            return {
+            x: evt.clientX - rect.left,
+            y: evt.clientY - rect.top
+            };
+        }
+
+        _getCell(rawx, rawy){
+            return {
+                x: Math.floor(rawx/gap),
+                y: Math.floor(rawy/gap)
+            }
+        }
+
+        _drawBoard(){
+            _resetContext();
+            this.context.strokeStyle = "#f5f5f5";
+            this.context.beginPath();
+            for (var y = 0; y <= height; y += gap) {
+                this.context.moveTo(0, y+0.5);
+                this.context.lineTo(width,y+0.5);
+            }
+
+            for(var x =0;x<=width; x+=gap){
+                this.context.moveTo(x, 0+0.5);
+                this.context.lineTo(x,height+0.5);
+            }
+            this.context.stroke();
+            this.context.closePath();
+        }
+
+        _resetContext(){
+            this.context.lineWidth = 1;
+            this.context.fillStyle = "#f5f5f5";
+            this.context.strokeStyle = "#000000";
+        }
+
+        _drawLine(x1, y1, x2, y2){
+            context.moveTo(x1, y1+0.5);
+            context.lineTo(x2, y2+0.5);
+        }
+
+        drawCell(x, y, type = DRAW_TYPE.DEFAULT ){
+            this.context.beginPath();
+            reset()
+            switch(type){
+                case DRAW_TYPE.DEFAULT:
+                    this.context.fillRect(x*gap,y*gap,gap,gap);
+                    break;
+                case DRAW_TYPE.CLEAR:
+                    this.context.fillStyle = "#ffffff";
+                    this.context.fillRect(x*gap,y*gap,gap,gap);
+                    break;
+                case DRAW_TYPE.VLINE:
+                    this.context.fillRect(x*gap,y*gap,gap,gap);
+                    _drawLine(x*gap+gap/2, y*gap+5,x*gap+gap/2,y*gap+gap - 5 )
+                    this.context.stroke();
+                    //cellToDrawMap.set(x+","+y,type);
+                    break;
+                case DRAW_TYPE.HLINE:
+                    this.context.fillRect(x*gap,y*gap,gap,gap);
+                    _drawLine(x*gap+5, y*gap+gap/2,x*gap+gap-5, y*gap+gap/2)
+                    this.context.stroke();
+                    break;
+                case DRAW_TYPE.PLUS:
+                    this.context.fillRect(x*gap,y*gap,gap,gap);
+                    _drawLine(x*gap+gap/2, y*gap+5,x*gap+gap/2,y*gap+gap - 5)
+                    _drawLine(x*gap+5, y*gap+gap/2,x*gap+gap-5, y*gap+gap/2)
+                    this.context.stroke();
+                    break;
+            }
+            this.context.closePath();
+        }
+    }
+
+
+    function outline(x1, y1, x2, y2){
+        console.log("Outline:"+x1+"->"+x2);
+        var cells =[]
+        if(x1 == x2){
+            for(var i =y1+1;i<y2;i++){
+                cells.push({x:x1, y:i, type:DRAW_TYPE.VLINE});
+            }
+            cells.push({x:x1,y: y1,type: DRAW_TYPE.PLUS});
+            cells.push({x:x1,y: y2,type: DRAW_TYPE.PLUS});
+        } else if(y1 == y2){
+            for(var i=x1+1;i<x2;i++){
+                cells.push({x:i, y:y1, type:DRAW_TYPE.HLINE});
+            }
+            cells.push({x:x1, y:y1,type: DRAW_TYPE.PLUS});
+            cells.push({x:x2,y: y2, type:DRAW_TYPE.PLUS});
+        } else {
+            for(var i = x1+1; i<x2; i++){
+                cells.push({x:i,y: y1,type: DRAW_TYPE.HLINE});
+                cells.push({x:i, y:y2, type:DRAW_TYPE.HLINE});
+            }
+            for(var i =y1+1;i<y2;i++){
+                cells.push({x:x1, y:i, type:DRAW_TYPE.VLINE});
+                    cells.push({x:x2, y:i, type:DRAW_TYPE.VLINE});
+            }
+            cells.push({x:x1, y:y1,type: DRAW_TYPE.PLUS});
+            cells.push({x:x1, y:y2, type:DRAW_TYPE.PLUS});
+            cells.push({x:x2, y:y1, type:DRAW_TYPE.PLUS});
+            cells.push({x:x2,y: y2, type:DRAW_TYPE.PLUS});
+        }
+        dm.render(cells)
+
+    }
+
+
+    
+    // Define Class.
+    var width = $('html').width();
+    var height = $('html').height();
+    var dm = new DrawManager()
+    var canvas = document.getElementById("canvas");
+    mCanvesManager = new CanvesManager(canvas, width, height)
+
+
+    // Handling Resize evnets
+    window.addEventListener('resize', resizeCanvas, false);
+    function resizeCanvas() {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+        mCanvesManager.resizeCanvas(width, height);
+    }
+    resizeCanvas();
+    
+    </script>
+</html>
