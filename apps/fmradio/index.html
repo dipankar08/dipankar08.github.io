@@ -32,16 +32,16 @@
             </div>
       </div>
       <script language = "JavaScript">
-            $.get( "http://simplestore.dipankar.co.in/api/stat_bengalifm?_cmd=count&tag=launch&timestamp=@today", function( data ) {
+            $.get( "http://simplestore.dipankar.co.in/api/stat_bengalifm1?_cmd=count&tag=launch&timestamp=@today", function( data ) {
                $('#c_launch').html(JSON.parse(data).out);
             });
-            $.get( "http://simplestore.dipankar.co.in/api/stat_bengalifm?_cmd=count&tag=player_click&timestamp=@today", function( data ) {
+            $.get( "http://simplestore.dipankar.co.in/api/stat_bengalifm1?_cmd=count&tag=player_click&timestamp=@today", function( data ) {
                $('#c_play').html(JSON.parse(data).out);
             });
-            $.get( "http://simplestore.dipankar.co.in/api/stat_bengalifm?_cmd=count&tag=player_success&timestamp=@today", function( data ) {
+            $.get( "http://simplestore.dipankar.co.in/api/stat_bengalifm1?_cmd=count&tag=player_success&timestamp=@today", function( data ) {
                $('#c_success').html(JSON.parse(data).out);
             });
-            $.get( "http://simplestore.dipankar.co.in/api/stat_bengalifm?_cmd=count&tag=player_error&timestamp=@today", function( data ) {
+            $.get( "http://simplestore.dipankar.co.in/api/stat_bengalifm1?_cmd=count&tag=player_error&timestamp=@today", function( data ) {
                $('#c_error').html(JSON.parse(data).out);
             });
          </script>
