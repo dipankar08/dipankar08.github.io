@@ -1,0 +1,32 @@
+body{
+    width: 100%;
+    background: #ffffff;
+}
+.left {
+    height: 100%;
+    WIDTH: 60px;
+    background: #000;
+    display: inline-block;
+    float: left;
+    text-align: center;
+    color: #fff;
+    font-family: monospace;
+}
+.right {
+    width: calc(100% - 60px);
+    height: 100%;
+    display: inline-block;
+    float: right;
+}
+.left {
+    padding: 10px;
+}
+.left > ul {
+    margin-bottom: 20px;
+}
+p{   font-family: monospace;}
+.logo{    font-size: 40px;
+    margin-top: 10px;
+    margin-bottom: 10px;}
+    
+    canvas { display:block; }
