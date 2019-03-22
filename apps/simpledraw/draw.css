@@ -13,10 +13,9 @@ body{
     font-family: monospace;
 }
 .right {
-    width: calc(100% - 60px);
-    height: 100%;
-    display: inline-block;
-    float: right;
+    position: fixed;
+    left: 60px;
+    right: 0;
 }
 .left {
     padding: 10px;
@@ -29,4 +28,10 @@ p{   font-family: monospace;}
     margin-top: 10px;
     margin-bottom: 10px;}
     
-    canvas { display:block; }
+canvas {
+    display: block;
+    right: 0;
+    position: absolute;
+    left: 0;
+    width: 100%;
+}
