@@ -14,6 +14,7 @@ enum DrawOption {
   TEXT,
   CLEAR,
   MARK,
+  NONE,
 }
 
 type Points = Array<{x: number, y: number, type: DrawType, data?: string}>;
@@ -26,7 +27,7 @@ type TouchCallback = {
 export abstract class CommonUtils {
   static line_x(x1: number, y1: number, count: number): Points {
     let p: Points = new Array();
-    for (var i: number = 1; i < count; i++) {
+    for (var i: number = 1; i < Math.abs(count); i++) {
       p.push({x: x1 + i, y: y1, type: DrawType.MINUS})
     }
     return p;
@@ -34,7 +35,7 @@ export abstract class CommonUtils {
 
   static line_y(x1: number, y1: number, count: number): Points {
     let p: Points = new Array();
-    for (var i: number = 1; i < count; i++) {
+    for (var i: number = 1; i <  Math.abs(count); i++) {
       p.push({x: x1, y: y1 + i, type: DrawType.MINUS_V})
     }
     return p;
@@ -86,7 +87,7 @@ class LineX implements DrawElemnet {
   x1: number;
   y1: number;
   count: number;
-  points: Points
+  points: Points = new Array();
   constructor(x1, y1, count) {
     this.x1 = x1;
     this.y1 = y1;
@@ -107,7 +108,7 @@ class LineY implements DrawElemnet {
   x1: number;
   y1: number;
   count: number;
-  points: Points
+  points: Points  = new Array();
   constructor(x1, y1, count) {
     this.x1 = x1;
     this.y1 = y1;
@@ -125,17 +126,13 @@ class LineY implements DrawElemnet {
 }
 
 class Rect implements DrawElemnet {
-  x1: number;
-  y1: number;
-  x2: number;
-  y2: number;
   points: Points = new Array();
-  constructor(x1, y1, x2, y2) {
-    let cor = CommonUtils.getFixedCorner(x1, y1, x2, y2);
-    this.x1 = cor[0];
-    this.y1 = cor[1];
-    this.x2 = cor[2];
-    this.y2 = cor[3];
+  constructor(x11, y11, x22, y22) {
+    let cor = CommonUtils.getFixedCorner(x11, y11, x22, y22);
+    let x1 = cor[0];
+    let y1 = cor[1];
+    let x2 = cor[2];
+    let y2 = cor[3];
     this.points = this.points.concat(CommonUtils.line_x(x1, y1, x2 - x1));
     this.points = this.points.concat(CommonUtils.line_x(x1, y2, x2 - x1));
     this.points = this.points.concat(CommonUtils.line_y(x1, y1, y2 - y1));
@@ -154,13 +151,9 @@ class Rect implements DrawElemnet {
 }
 
 class Line implements DrawElemnet {
-  x1: number;
-  y1: number;
-  x2: number;
-  y2: number;
-  points: Points
+  points: Points  = new Array();
   constructor(x1, y1, x2, y2) {
-    switch (CommonUtils.getDirection(this.x1, this.y1, this.x2, this.y2)) {
+    switch (CommonUtils.getDirection(x1, y1, x2, y2)) {
       case 1:
         this.points = this.points.concat(CommonUtils.line_y(x1, y1, y2 - y1));
         this.points = this.points.concat(CommonUtils.line_x(x1, y2, x2 - x1));
@@ -194,7 +187,7 @@ class Text implements DrawElemnet {
   x1: number;
   y1: number;
   text: string;
-  points: Points
+  points: Points  = new Array();
   constructor(x1: number, y: number, text: string) {
     for (let i = 0; i < text.length; i++) {
       this.points.push(
@@ -214,7 +207,7 @@ class ClearBox implements DrawElemnet {
   y1: number;
   x2: number;
   y2: number;
-  points: Points
+  points: Points  = new Array();
   constructor(x1, y1, x2, y2) {
     for (var i = x1; i <= x2; i++) {
       for (var j = y1; j <= y2; j++) {
@@ -263,8 +256,6 @@ class MyCanvus implements ICanvus {
     // touch listner.
     let _this = this;
     window.addEventListener('resize', function() {
-      console.log('One One');
-      _this.setSize(window.innerWidth, window.innerHeight);
       _this.reDraw();
     }, false);
 
@@ -299,7 +290,6 @@ class MyCanvus implements ICanvus {
       return;
     }
     this.lastPos = mousePos;
-    console.log(mousePos);
     if (this.mCallback) {
       this.mCallback.onMove(mousePos);
     }
@@ -321,6 +311,10 @@ class MyCanvus implements ICanvus {
   }
 
   draw(points: Points) {
+    this.clearAll();
+    if(this.isGrid){
+      this.drawGrid();
+    }
     this.context.beginPath();
     for (let p of points) {
       switch (p.type) {
@@ -422,6 +416,7 @@ class MyCanvus implements ICanvus {
     this.canvas.height = height;
   }
   public reDraw(): void {
+    this.setSize(window.innerWidth, window.innerHeight);
     this.clearAll();
     if (this.isGrid) {
       this.drawGrid();
@@ -434,8 +429,10 @@ class DrawManager {
   private mCanvusBack: MyCanvus;
   private mCanvusFront: MyCanvus;
   private mStartPoint;
-  private ele: DrawElemnet;
+  private ele?: DrawElemnet;
   private mStack: Array<Points> = new Array();
+  private mRedo: Array<Points> = new Array();
+  private drawOption:DrawOption = DrawOption.NONE;
   constructor(canvus_id1, canvus_id2) {
     // intilizate the elemnets
     this.mCanvusBack = new MyCanvus(canvus_id1, true);
@@ -446,83 +443,58 @@ class DrawManager {
         _this.mStartPoint = a;
       },
       onEnd: function(a) {
+        if(_this.ele){
         _this.mStack.push(_this.ele.getPoints())
+        _this.mCanvusFront.clearAll();
         _this.repaintBack();
+        }
       },
       onMove: function(a) {
-        _this.ele =
-            new Rect(_this.mStartPoint[0], _this.mStartPoint[1], a[0], a[1]);
-        _this.mCanvusFront.clearAll();
-        _this.ele.draw(_this.mCanvusFront);
+        switch(_this.drawOption){
+          case DrawOption.RECT:
+          _this.ele =
+              new Rect(_this.mStartPoint[0], _this.mStartPoint[1], a[0], a[1]);
+              break;
+          case DrawOption.LINE:
+              _this.ele =
+                  new Line(_this.mStartPoint[0], _this.mStartPoint[1], a[0], a[1]);
+                  break;
+          case DrawOption.CLEAR:
+              _this.ele =
+                  new ClearBox(_this.mStartPoint[0], _this.mStartPoint[1], a[0], a[1]);
+                  break;    
+        }
+        if(_this.drawOption !== DrawOption.NONE){
+          _this.ele.draw(_this.mCanvusFront);
+        }
       }
     }
   }
-  repaintBack(): any {
-    for (let p of this.mStack) {
-      this.mCanvusBack.draw(p);
+
+  private repaintBack(): any {
+    let points = new Array();
+    for (let p of this.mStack.reverse()) {
+      points = points.concat(p);
     }
+    this.mCanvusBack.draw(points);
+  }
+
+  public undo(){
+    if(this.mStack.length > 0){
+      this.mRedo.push(this.mStack.pop())
+    }
+    this.repaintBack();
+  }
+
+  public redo(){
+    if(this.mRedo.length > 0){
+      this.mStack.push(this.mRedo.pop())
+    }
+    this.repaintBack();
+  }
+  public select( drawOption: DrawOption ){
+    this.drawOption = drawOption;
   }
 }
 
-new DrawManager('canvas', 'canvas1')
-
-    /*
-    var drawBoard = (function() {
-      // define const here
-
-
-      dpi_adjust();
-      //this.context = canvas.getContext("2d");
-      function buildCanvus(ele) {
-        let returnable = {
-          canvas: ele,
-          this.context: ele.getContext("2d"),
-          dpi:
-        };
-        returnable.get = {
-          style: {
-            height() {
-              return +getComputedStyle(ele).getPropertyValue("height").slice(0,
-    -2);
-            },
-            width() {
-              return +getComputedStyle(ele).getPropertyValue("width").slice(0,
-    -2);
-            }
-          },
-          attr: {
-            height() {
-              return returnable.ele.getAttribute("height");
-            },
-            width() {
-              return returnable.ele.getAttribute("height");
-            }
-          }
-        };
-        returnable.set = {
-          style: {
-            height(ht) {
-              ele.style.height = ht + "px";
-            },
-            width(wth) {
-              ele.style.width = wth + "px";
-            }
-          },
-          attr: {
-            height(ht) {
-              ele.setAttribute("height", ht);
-            },
-            width(wth) {
-              ele.setAttribute("width", wth);
-            }
-          }
-        };
-        return returnable;
-      }
-
-      function dpi_adjust() {
-        dpi =  window.devicePixelRatio;
-      set.attr.height(get.style.height() * dpi);
-      set.attr.width(get.style.width() * dpi);
-    }
-    */
+let mDrawManager = new DrawManager('canvas', 'canvas1')
