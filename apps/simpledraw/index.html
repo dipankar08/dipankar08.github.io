@@ -12,10 +12,6 @@
         <ul>
             <i class="logo fas fa-drafting-compass"></i>
         </ul>
-        <ul>
-            <i class="fas fa-drafting-compass"></i>
-            <p>Draw</p>
-        </ul>
         <ul onclick="mDrawManager.select(DrawOption.RECT)">
             <i class="fas fa-square"></i>
             <p>Rectangle</p>
@@ -24,9 +20,21 @@
             <i class="fas fa-square"></i>
             <p>Line</p>
         </ul>
+        <ul onclick="mDrawManager.select(DrawOption.LINE_D)">
+            <i class="fas fa-square"></i>
+            <p>D Line</p>
+        </ul>
+        <ul onclick="mDrawManager.select(DrawOption.LINE_DD)">
+            <i class="fas fa-square"></i>
+            <p>DD Line</p>
+        </ul>
         <ul onclick="mDrawManager.select(DrawOption.CLEAR)">
             <i class="fas fa-square"></i>
             <p>Clear</p>
+        </ul>
+        <ul onclick="mDrawManager.select(DrawOption.MOVE)">
+            <i class="fas fa-square"></i>
+            <p>Move</p>
         </ul>
         <ul onclick="mDrawManager.redo()">
             <i class="fas fa-redo"></i>
@@ -36,11 +44,16 @@
             <i class="fas fa-undo"></i>
             <p>Undo</p>
         </ul>
+        <ul onclick="mDrawManager.clearAll()">
+            <i class="fas fa-undo"></i>
+            <p>Clear All</p>
+        </ul>
     </div>
     <div class="right">
         <canvas id="canvas" width="100%" height="100%" style="background: #fff;"></canvas>
         <canvas id="canvas1" width="100%" height="100%" style="background:rgba(0,0,0,0);"></canvas>
     </div>
 </body>
-<script type="text/javascript" src="draw.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
+<script type="text/javascript" src="output.js"></script>
 </html>
