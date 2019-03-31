@@ -7,15 +7,6 @@ export class LineX implements DrawElemnet {
     getDrawOption(): DrawOption {
       return DrawOption.NONE;
     }
-    onStart(a: Point) {
-      //throw new Error("Method not implemented.");
-    }
-    onEnd(a: Point) {
-      //throw new Error("Method not implemented.");
-    }
-    onMove(a: Point) {
-     // throw new Error("Method not implemented.");
-    }
     x1: number;
     y1: number;
     count: number;
@@ -33,18 +24,9 @@ export class LineX implements DrawElemnet {
     }
   }
   
-  export class TestPoint implements DrawElemnet, DrawElementMouseEventHandler {
+  export class TestPoint implements DrawElemnet {
     getDrawOption(): DrawOption {
       return DrawOption.TEST_POINT;
-    }
-    onStart(a: Point) {
-      //throw new Error("Method not implemented.");
-    }
-    onEnd(a: Point) {
-      //throw new Error("Method not implemented.");
-    }
-    onMove(a: Point) {
-      //throw new Error("Method not implemented.");
     }
     points: Points  = new Array();
     constructor() {
@@ -58,15 +40,6 @@ export class LineX implements DrawElemnet {
     getDrawOption(): DrawOption {
       return DrawOption.TEST_POINT;
       //throw new Error("Method not implemented.");
-    }
-    onStart(a: Point) {
-     // throw new Error("Method not implemented.");
-    }
-    onEnd(a: Point) {
-      //throw new Error("Method not implemented.");
-    }
-    onMove(a: Point) {
-     // throw new Error("Method not implemented.");
     }
     x1: number;
     y1: number;
@@ -88,15 +61,6 @@ export class LineX implements DrawElemnet {
   export class Rect implements DrawElemnet {
     getDrawOption(): DrawOption {
       return DrawOption.RECT;
-    }
-    onStart(a: Point) {
-     // throw new Error("Method not implemented.");
-    }
-    onEnd(a: Point) {
-      //throw new Error("Method not implemented.");
-    }
-    onMove(a: Point) {
-     // throw new Error("Method not implemented.");
     }
     points: Points = new Array();
     constructor(x11, y11, x22, y22) {
@@ -122,12 +86,6 @@ export class LineX implements DrawElemnet {
   export class ALine implements DrawElemnet {
     getDrawOption(): DrawOption {
       return DrawOption.NONE;
-    }
-    onStart(point: Point) {
-    }
-    onEnd(a: Point) {
-    }
-    onMove(a: Point) {
     }
     points: Points  = new Array();
     
@@ -195,15 +153,6 @@ export class LineX implements DrawElemnet {
     getDrawOption(): DrawOption {
       return DrawOption.TEXT;
     }
-    onStart(a: Point) {
-      //throw new Error("Method not implemented.");
-    }
-    onEnd(a: Point) {
-     // throw new Error("Method not implemented.");
-    }
-    onMove(a: Point) {
-     // throw new Error("Method not implemented.");
-    }
     x1: number;
     y1: number;
     text: string;
@@ -222,15 +171,6 @@ export class LineX implements DrawElemnet {
   export class ClearBox implements DrawElemnet {
     getDrawOption(): DrawOption {
       return DrawOption.CLEAR;
-    }
-    onStart(a: Point) {
-     // throw new Error("Method not implemented.");
-    }
-    onEnd(a: Point) {
-     // throw new Error("Method not implemented.");
-    }
-    onMove(a: Point) {
-     // throw new Error("Method not implemented.");
     }
     x1: number;
     y1: number;

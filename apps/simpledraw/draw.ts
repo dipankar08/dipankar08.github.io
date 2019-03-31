@@ -35,7 +35,7 @@ export class DrawManager {
       }
     }
   }
-
+  
   private repaintBack(): void {
     let points = new Array();
     for (let p of this.mStack.reverse()) {
@@ -73,32 +73,6 @@ export class DrawManager {
     }
   }
 
-
-
-  public undo(){
-    if(this.mStack.length > 0){
-      this.mRedo.push(this.mStack.pop())
-    }
-    this.repaintBack();
-  }
-
-  public redo(){
-    if(this.mRedo.length > 0){
-      this.mStack.push(this.mRedo.pop())
-    }
-    this.repaintBack();
-  }
-
-  public clearAll(){
-    this.mCanvusBack.clearAll();
-    this.mStack = new Array()
-    this.mRedo = new Array()
-    this.repaintBack();
-  }
-  public attach(cb:DrawElementMouseEventHandler){
-    this.mDrawElementMouseEventHandler.push(cb);
-  }
-
   // look ups.
   public getStackIndexForPoint(point):number{
     if(this.mPointMap[point.x+"#"+point.y] != undefined){
@@ -129,10 +103,34 @@ export class DrawManager {
   public drawBackWithoutSpacific(index:number){
     this.repaintBackWithoutSpacific(index)
   }
+
+  // Public APIs
+  public undo(){
+    if(this.mStack.length > 0){
+      this.mRedo.push(this.mStack.pop())
+    }
+    this.repaintBack();
+  }
+  public redo(){
+    if(this.mRedo.length > 0){
+      this.mStack.push(this.mRedo.pop())
+    }
+    this.repaintBack();
+  }
+  public clearAll(){
+    this.mCanvusBack.clearAll();
+    this.mStack = new Array()
+    this.mRedo = new Array()
+    this.repaintBack();
+  }
+  public attach(cb:DrawElementMouseEventHandler){
+    this.mDrawElementMouseEventHandler.push(cb);
+  }
+  public select(option:DrawOption){
+    this.mComponentManager.select(option);
+  }
 }
 
-let mDrawManager = new DrawManager('canvas', 'canvas1')
-mDrawManager.attach(new TestPoint());
 
 // TODO.
 // fix resize issue - to draw the grid at the begibing.

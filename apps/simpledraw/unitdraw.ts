@@ -29,6 +29,9 @@ export class UnitDraw{
               case DrawType.CHAR:
                 this.printChar(p.x, p.y, p.data)
                 break;
+              case DrawType.CHAR:
+                this.printChar(p.x, p.y, p.data)
+                break;
             }
           }
     }

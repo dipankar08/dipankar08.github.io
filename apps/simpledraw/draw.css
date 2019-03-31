@@ -35,3 +35,6 @@ canvas {
     left: 0;
     width: 100%;
 }
+#canvas1.crosshair {cursor: crosshair;}
+#canvas1.move {cursor: move;}
+

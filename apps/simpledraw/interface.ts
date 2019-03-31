@@ -8,6 +8,10 @@ export enum DrawType {
     CLEAR,
     MARK,
     CHAR,
+    ARROW_LEFT,
+    ARROW_RIGHT,
+    ARROW_UP,
+    ARROW_DOWN,
 }
 export enum DrawOption {
     LINE,
@@ -23,7 +27,7 @@ export enum DrawOption {
   }
   
   
-export interface DrawElemnet  extends DrawElementMouseEventHandler{
+export interface DrawElemnet{
     getPoints(): Points;
     getDrawOption():DrawOption;
   }
