@@ -42,6 +42,7 @@ export class UnitDraw{
           }
     }
   dot(x: number, y: number, data: any): any {
+    this.context.moveTo(this.midx(x), this.midy(y));
     this.context.arc(this.midx(x), this.midy(y), CONSTANT.GAP_X/2, 0, 2 * Math.PI);
   }
 

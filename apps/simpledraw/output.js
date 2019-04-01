@@ -69,6 +69,7 @@ define("unitdraw", ["require", "exports", "constant", "interface"], function (re
             }
         };
         UnitDraw.prototype.dot = function (x, y, data) {
+            this.context.moveTo(this.midx(x), this.midy(y));
             this.context.arc(this.midx(x), this.midy(y), constant_1.CONSTANT.GAP_X / 2, 0, 2 * Math.PI);
         };
         UnitDraw.prototype.mark = function (x, y) {
