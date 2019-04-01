@@ -23,6 +23,8 @@ body{
 .left > ul {
     margin-bottom: 20px;
 }
+.left i{   color: #aaaaaa;}
+.left i:hover{    color: #ffffff;}
 p{   font-family: monospace;}
 .logo{    font-size: 40px;
     margin-top: 10px;

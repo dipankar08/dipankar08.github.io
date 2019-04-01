@@ -5,49 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script> var exports = {}; </script>
   <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 </head>
 <body>
     <div class="left">
-        <ul>
-            <i class="logo fas fa-drafting-compass"></i>
-        </ul>
-        <ul onclick="mDrawManager.select(DrawOption.RECT)">
-            <i class="fas fa-square"></i>
-            <p>Rectangle</p>
-        </ul>
-        <ul onclick="mDrawManager.select(DrawOption.LINE)">
-            <i class="fas fa-square"></i>
-            <p>Line</p>
-        </ul>
-        <ul onclick="mDrawManager.select(DrawOption.LINE_D)">
-            <i class="fas fa-square"></i>
-            <p>D Line</p>
-        </ul>
-        <ul onclick="mDrawManager.select(DrawOption.LINE_DD)">
-            <i class="fas fa-square"></i>
-            <p>DD Line</p>
-        </ul>
-        <ul onclick="mDrawManager.select(DrawOption.CLEAR)">
-            <i class="fas fa-square"></i>
-            <p>Clear</p>
-        </ul>
-        <ul onclick="mDrawManager.select(DrawOption.MOVE)">
-            <i class="fas fa-square"></i>
-            <p>Move</p>
-        </ul>
-        <ul onclick="mDrawManager.redo()">
-            <i class="fas fa-redo"></i>
-            <p>Redo</p>
-        </ul>
-        <ul onclick="mDrawManager.undo()">
-            <i class="fas fa-undo"></i>
-            <p>Undo</p>
-        </ul>
-        <ul onclick="mDrawManager.clearAll()">
-            <i class="fas fa-undo"></i>
-            <p>Clear All</p>
-        </ul>
+        <ul title="quickDrow"><i class="logo fas fa-drafting-compass"></i></ul>
+        <ul title="box" onclick="mDrawManager.select(DrawOption.RECT)"><i class="fas fa-vector-square"></i></ul>
+        <ul title="line" onclick="mDrawManager.select(DrawOption.LINE)"><i class="fas fa-wave-square"></i></ul>
+        <ul title="directed line" onclick="mDrawManager.select(DrawOption.LINE_D)"><i class="fas fa-long-arrow-alt-right"></i></ul>
+        <ul title="both direction line" onclick="mDrawManager.select(DrawOption.LINE_DD)"><i class="fas fa-arrows-alt-h"></i></ul>
+        <ul title="clear" onclick="mDrawManager.select(DrawOption.CLEAR)"><i class="fas fa-eraser"></i></ul>
+        <ul title="move" onclick="mDrawManager.select(DrawOption.MOVE)"><i class="fas fa-expand-arrows-alt"></i></ul>
+        <ul title="redo" onclick="mDrawManager.redo()"><i class="fas fa-redo"></i></ul>
+        <ul title="undo" onclick="mDrawManager.undo()"><i class="fas fa-undo"></i></ul>
+        <ul title="clear all" onclick="mDrawManager.clearAll()"><i class="fas fa-ban"></i></ul>
+        <ul title="clone" onclick="mDrawManager.clearAll()"> <i class="far fa-clone"></i></ul>
+        <ul title="text" onclick="mDrawManager.clearAll()"><i class="fas fa-font"></i></ul>
     </div>
     <div class="right">
         <canvas id="canvas" width="100%" height="100%" style="background: #fff;"></canvas>
