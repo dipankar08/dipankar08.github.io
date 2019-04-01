@@ -56,8 +56,20 @@ define("unitdraw", ["require", "exports", "constant", "interface"], function (re
                     case interface_1.DrawType.CHAR:
                         this.printChar(p.x, p.y, p.data);
                         break;
+                    case interface_1.DrawType.SVG:
+                        this.svg(p.x, p.y, p.data);
+                        break;
+                    case interface_1.DrawType.ARROW:
+                        this.arrow(p.x, p.y, p.data);
+                        break;
+                    case interface_1.DrawType.DOT:
+                        this.dot(p.x, p.y, p.data);
+                        break;
                 }
             }
+        };
+        UnitDraw.prototype.dot = function (x, y, data) {
+            this.context.arc(this.midx(x), this.midy(y), constant_1.CONSTANT.GAP_X / 2, 0, 2 * Math.PI);
         };
         UnitDraw.prototype.mark = function (x, y) {
             this.context.fillStyle = constant_1.CONSTANT.BACKGROUND_COLOR;
@@ -95,6 +107,55 @@ define("unitdraw", ["require", "exports", "constant", "interface"], function (re
             this.context.moveTo(x * constant_1.CONSTANT.GAP_X + constant_1.CONSTANT.GAP_X / 2 + 0.5, y * constant_1.CONSTANT.GAP_Y + 2);
             this.context.lineTo(x * constant_1.CONSTANT.GAP_X + constant_1.CONSTANT.GAP_X / 2 + 0.5, (y + 1) * constant_1.CONSTANT.GAP_Y - 2);
             this.mark(x, y);
+        };
+        UnitDraw.prototype.svg = function (x, y, src) {
+            var img = new Image();
+            var _context = this.context;
+            img.onload = function () {
+                _context.drawImage(img, 0, 0);
+            };
+            img.src = src;
+        };
+        UnitDraw.prototype.arrow = function (x, y, data) {
+            switch (data) {
+                case 1: // top
+                    this.context.moveTo(this.ptx(x), this.midy(y));
+                    this.context.lineTo(this.midx(x), this.pty(y));
+                    this.context.moveTo(this.ptx(x + 1), this.midy(y));
+                    this.context.lineTo(this.midx(x), this.pty(y));
+                    break;
+                case 2: // right
+                    this.context.moveTo(this.midx(x), this.pty(y));
+                    this.context.lineTo(this.ptx(x + 1), this.midy(y));
+                    this.context.moveTo(this.midx(x), this.pty(y + 1));
+                    this.context.lineTo(this.ptx(x + 1), this.midy(y));
+                    break;
+                case 3: // bottom
+                    this.context.moveTo(this.ptx(x), this.midy(y));
+                    this.context.lineTo(this.midx(x + 1), this.pty(y));
+                    this.context.moveTo(this.ptx(x + 1), this.midy(y));
+                    this.context.lineTo(this.midx(x + 1), this.pty(y));
+                    break;
+                case 4: //left
+                    this.context.moveTo(this.midx(x), this.pty(y));
+                    this.context.lineTo(this.ptx(x), this.midy(y));
+                    this.context.moveTo(this.midx(x), this.pty(y + 1));
+                    this.context.lineTo(this.ptx(x), this.midy(y));
+                    break;
+            }
+            this.mark(x, y);
+        };
+        UnitDraw.prototype.ptx = function (x) {
+            return x * constant_1.CONSTANT.GAP_X;
+        };
+        UnitDraw.prototype.pty = function (y) {
+            return y * constant_1.CONSTANT.GAP_Y;
+        };
+        UnitDraw.prototype.midx = function (x) {
+            return x * constant_1.CONSTANT.GAP_X + constant_1.CONSTANT.GAP_X / 2;
+        };
+        UnitDraw.prototype.midy = function (y) {
+            return y * constant_1.CONSTANT.GAP_Y + constant_1.CONSTANT.GAP_Y / 2;
         };
         return UnitDraw;
     }());
@@ -243,6 +304,9 @@ define("interface", ["require", "exports"], function (require, exports) {
         DrawType[DrawType["CLEAR"] = 4] = "CLEAR";
         DrawType[DrawType["MARK"] = 5] = "MARK";
         DrawType[DrawType["CHAR"] = 6] = "CHAR";
+        DrawType[DrawType["SVG"] = 7] = "SVG";
+        DrawType[DrawType["ARROW"] = 8] = "ARROW";
+        DrawType[DrawType["DOT"] = 9] = "DOT";
     })(DrawType = exports.DrawType || (exports.DrawType = {}));
     var DrawOption;
     (function (DrawOption) {
@@ -297,6 +361,26 @@ define("utils", ["require", "exports", "interface"], function (require, exports,
                 }
             }
         };
+        // top, right bottom, left
+        CommonUtils.getDirectionOfTwoConsicutivePoints = function (x1, y1, x2, y2) {
+            if (x1 == x2) {
+                if (y1 < y2) {
+                    return 2; // RIGHT
+                }
+                else {
+                    return 4; // LEFT
+                }
+            }
+            if (y1 == y2) {
+                if (x1 < x2) {
+                    return 3; // BOTTOM
+                }
+                else {
+                    return 1; // TOP
+                }
+            }
+            return 0; // INVALID
+        };
         // returns the topleft and botton right for any two point acts as rest
         CommonUtils.getFixedCorner = function (x1, y1, x2, y2) {
             if (x1 <= x2) {
@@ -337,15 +421,6 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
         LineX.prototype.getDrawOption = function () {
             return interface_3.DrawOption.NONE;
         };
-        LineX.prototype.onStart = function (a) {
-            //throw new Error("Method not implemented.");
-        };
-        LineX.prototype.onEnd = function (a) {
-            //throw new Error("Method not implemented.");
-        };
-        LineX.prototype.onMove = function (a) {
-            // throw new Error("Method not implemented.");
-        };
         LineX.prototype.getPoints = function () {
             return this.points;
         };
@@ -358,15 +433,6 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
         }
         TestPoint.prototype.getDrawOption = function () {
             return interface_3.DrawOption.TEST_POINT;
-        };
-        TestPoint.prototype.onStart = function (a) {
-            //throw new Error("Method not implemented.");
-        };
-        TestPoint.prototype.onEnd = function (a) {
-            //throw new Error("Method not implemented.");
-        };
-        TestPoint.prototype.onMove = function (a) {
-            //throw new Error("Method not implemented.");
         };
         TestPoint.prototype.getPoints = function () {
             return this.points;
@@ -387,15 +453,6 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
         LineY.prototype.getDrawOption = function () {
             return interface_3.DrawOption.TEST_POINT;
             //throw new Error("Method not implemented.");
-        };
-        LineY.prototype.onStart = function (a) {
-            // throw new Error("Method not implemented.");
-        };
-        LineY.prototype.onEnd = function (a) {
-            //throw new Error("Method not implemented.");
-        };
-        LineY.prototype.onMove = function (a) {
-            // throw new Error("Method not implemented.");
         };
         LineY.prototype.getPoints = function () {
             return this.points;
@@ -422,15 +479,6 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
         }
         Rect.prototype.getDrawOption = function () {
             return interface_3.DrawOption.RECT;
-        };
-        Rect.prototype.onStart = function (a) {
-            // throw new Error("Method not implemented.");
-        };
-        Rect.prototype.onEnd = function (a) {
-            //throw new Error("Method not implemented.");
-        };
-        Rect.prototype.onMove = function (a) {
-            // throw new Error("Method not implemented.");
         };
         Rect.prototype.getPoints = function () {
             return this.points;
@@ -464,12 +512,6 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
         ALine.prototype.getDrawOption = function () {
             return interface_3.DrawOption.NONE;
         };
-        ALine.prototype.onStart = function (point) {
-        };
-        ALine.prototype.onEnd = function (a) {
-        };
-        ALine.prototype.onMove = function (a) {
-        };
         ALine.prototype.getPoints = function () {
             //let filters = new Array();
             //  BUG : you must remove duplicates. 
@@ -497,7 +539,8 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
         function Line_D(x1, y1, x2, y2) {
             var _this = _super.call(this, x1, y1, x2, y2) || this;
             _this.points.push({ x: x1, y: y1, type: interface_3.DrawType.PLUS });
-            _this.points.push({ x: x2, y: y2, type: interface_3.DrawType.CHAR, data: ">" });
+            //this.points.push({x:x2, y:y2, type:DrawType.ARROW, data: 2})
+            _this.points.push({ x: x2, y: y2, type: interface_3.DrawType.DOT });
             return _this;
         }
         Line_D.prototype.getDrawOption = function () {
@@ -509,8 +552,8 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
         __extends(Line_DD, _super);
         function Line_DD(x1, y1, x2, y2) {
             var _this = _super.call(this, x1, y1, x2, y2) || this;
-            _this.points.push({ x: x2, y: y2, type: interface_3.DrawType.CHAR, data: ">" });
-            _this.points.push({ x: x1, y: y1, type: interface_3.DrawType.CHAR, data: "<" });
+            _this.points.push({ x: x2, y: y2, type: interface_3.DrawType.DOT, data: ">" });
+            _this.points.push({ x: x1, y: y1, type: interface_3.DrawType.DOT, data: "<" });
             return _this;
         }
         Line_DD.prototype.getDrawOption = function () {
@@ -527,15 +570,6 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
         }
         Text.prototype.getDrawOption = function () {
             return interface_3.DrawOption.TEXT;
-        };
-        Text.prototype.onStart = function (a) {
-            //throw new Error("Method not implemented.");
-        };
-        Text.prototype.onEnd = function (a) {
-            // throw new Error("Method not implemented.");
-        };
-        Text.prototype.onMove = function (a) {
-            // throw new Error("Method not implemented.");
         };
         Text.prototype.getPoints = function () {
             return this.points;
@@ -554,15 +588,6 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
         }
         ClearBox.prototype.getDrawOption = function () {
             return interface_3.DrawOption.CLEAR;
-        };
-        ClearBox.prototype.onStart = function (a) {
-            // throw new Error("Method not implemented.");
-        };
-        ClearBox.prototype.onEnd = function (a) {
-            // throw new Error("Method not implemented.");
-        };
-        ClearBox.prototype.onMove = function (a) {
-            // throw new Error("Method not implemented.");
         };
         ClearBox.prototype.getPoints = function () {
             return this.points;
@@ -780,7 +805,6 @@ define("draw", ["require", "exports", "canvus", "component"], function (require,
         DrawManager.prototype.drawBackWithoutSpacific = function (index) {
             this.repaintBackWithoutSpacific(index);
         };
-        
         // Public APIs
         DrawManager.prototype.undo = function () {
             if (this.mStack.length > 0) {

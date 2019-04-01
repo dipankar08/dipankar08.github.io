@@ -135,7 +135,8 @@ export class LineX implements DrawElemnet {
     constructor(x1, y1, x2, y2){
       super(x1,y1,x2, y2);
       this.points.push({x: x1, y: y1, type: DrawType.PLUS});
-      this.points.push({x:x2, y:y2, type:DrawType.CHAR, data:">"})
+      //this.points.push({x:x2, y:y2, type:DrawType.ARROW, data: 2})
+      this.points.push({x:x2, y:y2, type:DrawType.DOT})
     }
   }
   class Line_DD extends ALine {
@@ -144,8 +145,8 @@ export class LineX implements DrawElemnet {
     }
     constructor(x1, y1, x2, y2){
       super(x1,y1,x2, y2);
-      this.points.push({x:x2, y:y2, type:DrawType.CHAR, data:">"})
-      this.points.push({x:x1, y:y1, type:DrawType.CHAR, data:"<"})
+      this.points.push({x:x2, y:y2, type:DrawType.DOT, data:">"})
+      this.points.push({x:x1, y:y1, type:DrawType.DOT, data:"<"})
     }
   }
   

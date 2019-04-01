@@ -34,6 +34,26 @@ export abstract class CommonUtils {
         }
       }
     }
+    // top, right bottom, left
+    public static getDirectionOfTwoConsicutivePoints(x1: number, y1: number, x2: number, y2: number) {
+      if(x1==x2){
+        if(y1<y2){
+          return 2; // RIGHT
+        } else{
+          return 4; // LEFT
+        }
+      }
+      if(y1==y2){
+        if(x1<x2){
+          return 3; // BOTTOM
+        } else{
+          return 1; // TOP
+        }
+      }
+      return 0; // INVALID
+    }
+
+
     // returns the topleft and botton right for any two point acts as rest
     public static getFixedCorner(x1: number, y1: number, x2: number, y2: number) {
       if (x1 <= x2) {

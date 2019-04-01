@@ -29,12 +29,22 @@ export class UnitDraw{
               case DrawType.CHAR:
                 this.printChar(p.x, p.y, p.data)
                 break;
-              case DrawType.CHAR:
-                this.printChar(p.x, p.y, p.data)
+              case DrawType.SVG:
+                this.svg(p.x, p.y, p.data)
+                break;
+              case DrawType.ARROW:
+                this.arrow(p.x, p.y, p.data)
+                break;
+                case DrawType.DOT:
+                this.dot(p.x, p.y, p.data)
                 break;
             }
           }
     }
+  dot(x: number, y: number, data: any): any {
+    this.context.arc(this.midx(x), this.midy(y), CONSTANT.GAP_X/2, 0, 2 * Math.PI);
+  }
+
     
     private mark(x: number, y: number) {
         this.context.fillStyle = CONSTANT.BACKGROUND_COLOR;
@@ -83,6 +93,58 @@ export class UnitDraw{
         this.context.lineTo(
             x * CONSTANT.GAP_X + CONSTANT.GAP_X / 2 + 0.5, (y + 1) * CONSTANT.GAP_Y - 2);
         this.mark(x, y);
+      }
+
+      private svg(x: number, y: number, src) {
+        var img = new Image();
+        let _context = this.context;
+        img.onload = function() {
+          _context.drawImage(img, 0, 0);
+        }
+        img.src = src;
+      }
+
+      private arrow(x: number, y: number, data: any): void {
+        switch(data){
+          case 1: // top
+            this.context.moveTo(this.ptx(x), this.midy(y));
+            this.context.lineTo(this.midx(x), this.pty(y));
+            this.context.moveTo(this.ptx(x+1), this.midy(y));
+            this.context.lineTo(this.midx(x), this.pty(y));
+          break;
+          case 2: // right
+            this.context.moveTo(this.midx(x), this.pty(y));
+            this.context.lineTo(this.ptx(x+1), this.midy(y));
+            this.context.moveTo(this.midx(x), this.pty(y+1))
+            this.context.lineTo(this.ptx(x+1), this.midy(y));
+          break;
+          case 3: // bottom
+          this.context.moveTo(this.ptx(x), this.midy(y));
+          this.context.lineTo(this.midx(x+1), this.pty(y));
+          this.context.moveTo(this.ptx(x+1), this.midy(y));
+          this.context.lineTo(this.midx(x+1), this.pty(y));
+          break;
+          case 4: //left
+          this.context.moveTo(this.midx(x), this.pty(y));
+          this.context.lineTo(this.ptx(x), this.midy(y));
+          this.context.moveTo(this.midx(x), this.pty(y+1))
+          this.context.lineTo(this.ptx(x), this.midy(y));
+          break;
+        }
+        this.mark(x, y);
+      }
+
+      private ptx(x:number){
+        return x*CONSTANT.GAP_X;
+      }
+      private pty(y:number){
+        return y*CONSTANT.GAP_Y;
+      }
+      private midx(x:number){
+        return x*CONSTANT.GAP_X+ CONSTANT.GAP_X/2;
+      }
+      private midy(y:number){
+        return y*CONSTANT.GAP_Y+CONSTANT.GAP_Y/2;
       }
 }
   

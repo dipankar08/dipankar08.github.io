@@ -8,10 +8,9 @@ export enum DrawType {
     CLEAR,
     MARK,
     CHAR,
-    ARROW_LEFT,
-    ARROW_RIGHT,
-    ARROW_UP,
-    ARROW_DOWN,
+    SVG,
+    ARROW,
+    DOT,
 }
 export enum DrawOption {
     LINE,
@@ -32,7 +31,7 @@ export interface DrawElemnet{
     getDrawOption():DrawOption;
   }
   
-export type Points = Array<{x: number, y: number, type: DrawType, data?: string}>;
+export type Points = Array<{x: number, y: number, type: DrawType, data?: any}>;
 export type Point = {x:number, y:number}
 
 export type Style = {
