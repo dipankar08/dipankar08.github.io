@@ -48,13 +48,11 @@ export class UnitDraw{
 
     
     private mark(x: number, y: number) {
-        this.context.fillStyle = CONSTANT.BACKGROUND_COLOR;
         this.context.fillRect(
             x * CONSTANT.GAP_X + 1, y * CONSTANT.GAP_Y + 1, CONSTANT.GAP_X - 1, CONSTANT.GAP_Y - 1);
       }
     
     private clear(x, y) {
-        this.context.fillStyle = CONSTANT.BACKGROUND_COLOR;
         this.context.fillRect(
             x * CONSTANT.GAP_X + 1, y * CONSTANT.GAP_Y + 1, CONSTANT.GAP_X - 1, CONSTANT.GAP_Y - 1);
       };

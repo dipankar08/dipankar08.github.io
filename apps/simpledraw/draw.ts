@@ -1,6 +1,6 @@
 // This is main DrawManager function,
 
-import { CONSTANT, THEME } from "./constant";
+import { CONSTANT } from "./constant";
 import { CommonUtils } from "./utils";
 import { UnitDraw } from "./unitdraw";
 import { MyCanvus } from "./canvus";
@@ -15,7 +15,7 @@ export class DrawManager {
   private mRedo: Array<DrawPackage> = new Array();
   private mDrawElementMouseEventHandler: Array<DrawElementMouseEventHandler> = new Array();
   private mComponentManager:ComponentManager;
-  private mStyle:Style = THEME.get('DEFAULT');
+  private mStyle:Style = CONSTANT.THEME.DEFAULT;
 
   constructor(canvus_id1, canvus_id2) {
     // intilizate the elemnets

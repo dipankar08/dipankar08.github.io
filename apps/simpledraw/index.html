@@ -10,6 +10,7 @@
 <body>
     <div class="left">
         <ul title="quickDrow"><i class="logo fas fa-drafting-compass"></i></ul>
+        <ul title="color" onclick="toggleColor()"><i class="fas fa-tint"></i></ul>
         <ul title="box" onclick="mDrawManager.select(DrawOption.RECT)"><i class="fas fa-vector-square"></i></ul>
         <ul title="line" onclick="mDrawManager.select(DrawOption.LINE)"><i class="fas fa-wave-square"></i></ul>
         <ul title="directed line" onclick="mDrawManager.select(DrawOption.LINE_D)"><i class="fas fa-long-arrow-alt-right"></i></ul>
@@ -39,5 +40,14 @@ require(["draw","interface"], function (DM) {
 require(["interface"], function (DP) {
   DrawOption = DP.DrawOption;
 })
+require(["constant"], function (DP) {
+  CONSTANT = DP.CONSTANT;
+})
+var varIndex = 0;
+function toggleColor(){
+  var varColors = Object.keys(CONSTANT.THEME);
+  mDrawManager.setStyle(CONSTANT.THEME[varColors[varIndex]])
+  varIndex = (varIndex+1)%varColors.length;
+}
 </script>
 </html>

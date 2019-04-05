@@ -43,11 +43,9 @@ define("unitdraw", ["require", "exports", "constant", "interface"], function (re
             this.context.arc(this.midx(x), this.midy(y), constant_1.CONSTANT.GAP_X / 2, 0, 2 * Math.PI);
         }
         mark(x, y) {
-            this.context.fillStyle = constant_1.CONSTANT.BACKGROUND_COLOR;
             this.context.fillRect(x * constant_1.CONSTANT.GAP_X + 1, y * constant_1.CONSTANT.GAP_Y + 1, constant_1.CONSTANT.GAP_X - 1, constant_1.CONSTANT.GAP_Y - 1);
         }
         clear(x, y) {
-            this.context.fillStyle = constant_1.CONSTANT.BACKGROUND_COLOR;
             this.context.fillRect(x * constant_1.CONSTANT.GAP_X + 1, y * constant_1.CONSTANT.GAP_Y + 1, constant_1.CONSTANT.GAP_X - 1, constant_1.CONSTANT.GAP_Y - 1);
         }
         ;
@@ -138,7 +136,7 @@ define("canvus", ["require", "exports", "unitdraw", "constant"], function (requi
         constructor(canvus_id, isGrid) {
             this.drawing = false;
             this.isGrid = false;
-            this.mstyle = constant_2.THEME['DEFAULT'];
+            this.mstyle = constant_2.CONSTANT.THEME.DEFAULT;
             // intilizate the elemnets
             this.canvas = document.getElementById(canvus_id);
             this.dpi = window.devicePixelRatio;
@@ -183,12 +181,12 @@ define("canvus", ["require", "exports", "unitdraw", "constant"], function (requi
             }
         }
         setStyle(style) {
-            this.context.fillColor = style.fillColor;
+            this.context.fillStyle = style.fillColor;
             this.context.strokeStyle = style.drawColor;
         }
         // draw the grid.
         drawGrid() {
-            this.setStyle(constant_2.THEME.get('GRID'));
+            this.setStyle(constant_2.CONSTANT.THEME.GRID);
             this.context.beginPath();
             for (var x = 0; x <= this.canvas.width; x += constant_2.CONSTANT.GAP_X) {
                 this.context.moveTo(0.5 + x, 0);
@@ -201,7 +199,6 @@ define("canvus", ["require", "exports", "unitdraw", "constant"], function (requi
             this.context.stroke();
         }
         draw(pack) {
-            // apply style  here.
             this.setStyle(pack.style);
             this.context.beginPath();
             this.mUniDraw.draw(pack.points);
@@ -287,10 +284,16 @@ define("constant", ["require", "exports"], function (require, exports) {
     CONSTANT.BACKGROUND_COLOR = '#fff';
     CONSTANT.STOKE_COLOR = '#F2EFEB'; //"#FEFAF9"//"#f5f5f5"
     CONSTANT.TEXT_COLOR = '#000';
+    CONSTANT.THEME = {
+        "DEFAULT": { fillColor: "#F2EFEB", "drawColor": "#000000", "textColor": "#000000" },
+        "GRID": { fillColor: "#ffffff", "drawColor": "#F2EFEB", "textColor": "#F2EFEB" },
+        "RED": { fillColor: "#FFEBEE", "drawColor": "#FF1744", "textColor": "#D50000" },
+        "BLUE": { fillColor: "#E8EAF6", "drawColor": "#304FFE", "textColor": "#304FFE" },
+        "GREEN": { fillColor: "#E8F5E9", "drawColor": "#1B5E20", "textColor": "#304FFE" },
+        "YELLOW": { fillColor: "#FFF59D", "drawColor": "#F57F17", "textColor": "#304FFE" },
+        "ORANGE": { fillColor: "#FBE9E7", "drawColor": "#DD2C00", "textColor": "#BF360C" },
+    };
     exports.CONSTANT = CONSTANT;
-    exports.THEME = new Map();
-    exports.THEME.set("DEFAULT", { fillColor: "#a1f00", "drawColor": "#ff0000", "textColor": "#ff00ff" });
-    exports.THEME.set("GRID", { fillColor: "#ffffff", "drawColor": "#F2EFEB", "textColor": "#000000" });
 });
 define("utils", ["require", "exports", "interface"], function (require, exports, interface_2) {
     "use strict";
@@ -675,7 +678,7 @@ define("draw", ["require", "exports", "constant", "canvus", "component"], functi
             this.mStack = new Array();
             this.mRedo = new Array();
             this.mDrawElementMouseEventHandler = new Array();
-            this.mStyle = constant_3.THEME.get('DEFAULT');
+            this.mStyle = constant_3.CONSTANT.THEME.DEFAULT;
             // intilizate the elemnets
             this.mCanvusBack = new canvus_1.MyCanvus(canvus_id1, true);
             this.mCanvusFront = new canvus_1.MyCanvus(canvus_id2);

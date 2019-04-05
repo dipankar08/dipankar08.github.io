@@ -1,6 +1,6 @@
 // This is a wraper on top of HTML 5 CANVUS.
 import { UnitDraw } from "./unitdraw";
-import { CONSTANT, THEME } from "./constant";
+import { CONSTANT } from "./constant";
 import { Points, TouchCallback, Style, DrawPackage } from "./interface";
   
 export class MyCanvus{
@@ -12,7 +12,7 @@ export class MyCanvus{
     private mousePos: any;
     private lastPos: any;
     private isGrid: boolean = false;
-    private mstyle:Style = THEME['DEFAULT'];
+    private mstyle:Style = CONSTANT.THEME.DEFAULT;
     private mCachePoint: DrawPackage;
     private mUniDraw: UnitDraw;
   
@@ -67,13 +67,13 @@ export class MyCanvus{
     }
   
     public setStyle(style:Style ){
-      this.context.fillColor = style.fillColor;
+      this.context.fillStyle = style.fillColor;
       this.context.strokeStyle = style.drawColor;
     }
   
     // draw the grid.
     public drawGrid() {
-      this.setStyle(THEME.get('GRID'))
+      this.setStyle(CONSTANT.THEME.GRID)
       this.context.beginPath();
       for (var x = 0; x <= this.canvas.width; x += CONSTANT.GAP_X) {
         this.context.moveTo(0.5 + x, 0);
@@ -87,7 +87,6 @@ export class MyCanvus{
     }
   
     public draw(pack: DrawPackage) {
-      // apply style  here.
       this.setStyle(pack.style);
       this.context.beginPath();
       this.mUniDraw.draw(pack.points);
