@@ -293,8 +293,8 @@ define("constant", ["require", "exports"], function (require, exports) {
     CONSTANT.TEXT_COLOR = '#000';
     exports.CONSTANT = CONSTANT;
     exports.THEME = new Map();
-    exports.THEME.set("DEFAULT", { fillColor: "#00f00", "drawColor": "#ff0000", "textColor": "#ff00ff" });
-    exports.THEME.set("GRID", { fillColor: "#00f00", "drawColor": "#ff0000", "textColor": "#ff00ff" });
+    exports.THEME.set("DEFAULT", { fillColor: "#a1f00", "drawColor": "#ff0000", "textColor": "#ff00ff" });
+    exports.THEME.set("GRID", { fillColor: "#ffffff", "drawColor": "#F2EFEB", "textColor": "#000000" });
 });
 define("utils", ["require", "exports", "interface"], function (require, exports, interface_2) {
     "use strict";
