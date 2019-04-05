@@ -50,3 +50,8 @@ export interface DrawElementMouseEventHandler{
     onEnd(a:Point),
     onMove(a:Point),
   }
+
+  export type DrawPackage = {
+    'style':Style,
+    'points':Points
+  }

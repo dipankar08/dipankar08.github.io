@@ -10,6 +10,7 @@ static TEXT_COLOR = '#000';
 }
 
 export var THEME = new Map<string, Style>(
-    
+
 );
 THEME.set("DEFAULT", {fillColor:"#00f00","drawColor":"#ff0000","textColor":"#ff00ff"});
+THEME.set("GRID", {fillColor:"#00f00","drawColor":"#ff0000","textColor":"#ff00ff"});

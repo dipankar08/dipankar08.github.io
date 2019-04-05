@@ -1,13 +1,9 @@
 // This is a wraper on top of HTML 5 CANVUS.
 import { UnitDraw } from "./unitdraw";
-import { CONSTANT } from "./constant";
-import { Points, TouchCallback, Style } from "./interface";
-
-interface ICanvus {
-    draw(points: Points);
-}
+import { CONSTANT, THEME } from "./constant";
+import { Points, TouchCallback, Style, DrawPackage } from "./interface";
   
-export class MyCanvus implements ICanvus {
+export class MyCanvus{
     public readonly canvas: any;
     private dpi;
     private drawing: boolean = false;
@@ -16,12 +12,8 @@ export class MyCanvus implements ICanvus {
     private mousePos: any;
     private lastPos: any;
     private isGrid: boolean = false;
-    private mstyle:Style = {'fillColor': CONSTANT.STOKE_COLOR,
-    'drawColor':CONSTANT.TEXT_COLOR,
-    'textColor':CONSTANT.TEXT_COLOR,
-    'gridLineColor':CONSTANT.STOKE_COLOR,
-  }
-    private mCachePoint: Points = new Array();
+    private mstyle:Style = THEME['DEFAULT'];
+    private mCachePoint: DrawPackage;
     private mUniDraw: UnitDraw;
   
     constructor(canvus_id, isGrid?: boolean) {
@@ -74,17 +66,16 @@ export class MyCanvus implements ICanvus {
       }
     }
   
-    public setStyle(drawColor?:string, fillColor?:string, textColor?:string ){
-      if(drawColor){ this.mstyle.drawColor = drawColor;}
-      if(fillColor){ this.mstyle.fillColor = fillColor;}
-      if(textColor){this.mstyle.textColor= textColor;}
+    public setStyle(style:Style ){
+      this.context.fillColor = style.fillColor;
+      this.context.strokeStyle = style.drawColor;
     }
   
     // draw the grid.
     public drawGrid() {
+      this.setStyle(THEME.get('GRID'))
       this.context.beginPath();
       for (var x = 0; x <= this.canvas.width; x += CONSTANT.GAP_X) {
-        console.log('>>>'+x);
         this.context.moveTo(0.5 + x, 0);
         this.context.lineTo(0.5 + x, this.canvas.height);
       }
@@ -92,20 +83,20 @@ export class MyCanvus implements ICanvus {
         this.context.moveTo(0, 0.5 + x);
         this.context.lineTo(this.canvas.width, 0.5 + x);
       }
-      this.context.strokeStyle = this.mstyle.gridLineColor;
       this.context.stroke();
     }
   
-    draw(points: Points) {
+    public draw(pack: DrawPackage) {
       this.clearAll();
       if(this.isGrid){
         this.drawGrid();
       }
+      // apply style  here.
+      this.setStyle(pack.style);
       this.context.beginPath();
-      this.mUniDraw.draw(points);
-      this.context.strokeStyle = this.mstyle.drawColor;
+      this.mUniDraw.draw(pack.points);
       this.context.stroke();
-      this.mCachePoint = points;
+      this.mCachePoint = pack;
     }
   
     
@@ -125,7 +116,6 @@ export class MyCanvus implements ICanvus {
       let y = mouseEvent.clientY - rect.top;
       // this is just a fix
       let point = [Math.floor((x+x*.05) / CONSTANT.GAP_X), Math.floor((y+y*0.05) / CONSTANT.GAP_Y)];
-      console.log(point);
       return point;
     }
   
@@ -144,6 +134,8 @@ export class MyCanvus implements ICanvus {
       if (this.isGrid) {
         this.drawGrid();
       }
-      this.draw(this.mCachePoint);
+      if(this.mCachePoint){
+        this.draw(this.mCachePoint);
+      }
     }
   }

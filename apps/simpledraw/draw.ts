@@ -1,26 +1,27 @@
 // This is main DrawManager function,
 
-import { CONSTANT } from "./constant";
+import { CONSTANT, THEME } from "./constant";
 import { CommonUtils } from "./utils";
 import { UnitDraw } from "./unitdraw";
 import { MyCanvus } from "./canvus";
-import { DrawElementMouseEventHandler, Point, Points, DrawOption } from "./interface";
+import { DrawElementMouseEventHandler, Point, Points, DrawOption, DrawPackage, Style } from "./interface";
 import { TestPoint, ComponentManager } from "./component";
 
 export class DrawManager {
   private mCanvusBack: MyCanvus;
   private mCanvusFront: MyCanvus;
   private mPointMap:Object = {}; // list of point to index of statck
-  private mStack: Array<Points> = new Array();
-  private mRedo: Array<Points> = new Array();
+  private mStack: Array<DrawPackage> = new Array();
+  private mRedo: Array<DrawPackage> = new Array();
   private mDrawElementMouseEventHandler: Array<DrawElementMouseEventHandler> = new Array();
   private mComponentManager:ComponentManager;
+  private mStyle:Style = THEME.get('DEFAULT');
 
   constructor(canvus_id1, canvus_id2) {
     // intilizate the elemnets
     this.mCanvusBack = new MyCanvus(canvus_id1, true);
     this.mCanvusFront = new MyCanvus(canvus_id2);
-    this.mCanvusFront.setStyle('#111',"#d0e4b3", "#111")
+    //this.mCanvusFront.setStyle('#111',"#d0e4b3", "#111")
     this.mComponentManager = new ComponentManager(this);
     var _this = this;
     this.mCanvusFront.mCallback = {
@@ -37,28 +38,28 @@ export class DrawManager {
   }
   
   private repaintBack(): void {
-    let points = new Array();
-    for (let p of this.mStack.reverse()) {
-      points = points.concat(p);
-    }
-    this.mCanvusBack.draw(points);
     this.mCanvusFront.clearAll();
+    this.mCanvusBack.clearAll();
+    for (let pack of this.mStack) {
+      this.mCanvusBack.draw(pack);
+    }
   }
 
   private repaintBackWithoutSpacific(index:number): void {
-    let points = new Array();
+    this.mCanvusFront.clearAll();
+    this.mCanvusBack.clearAll();
     for(let i =0;i<this.mStack.length;i++){
       if(i != index){
-        points = points.concat(this.mStack[i]);
+      this.mCanvusBack.draw(this.mStack[i]);
       }
     }
-    this.mCanvusBack.draw(points.reverse());
   }
 
 
-  private insertToStack(points:Points){
-    this.mStack.push(points);
-    for(let p of points){
+  private insertToStack(item:DrawPackage){
+    console.log("[INFO] insertToStack",item);
+    this.mStack.push(item);
+    for(let p of item.points){
       this.mPointMap[p.x+"#"+p.y]=this.mStack.length -1;
     }
   }
@@ -67,7 +68,7 @@ export class DrawManager {
   private recomputeMap(){
     this.mPointMap = new Object();
     for( let s = 0; s<this.mStack.length; s++){
-      for(let p of this.mStack[s]){
+      for(let p of this.mStack[s].points){
         this.mPointMap[p.x+"#"+p.y]=s;
       }
     }
@@ -83,20 +84,20 @@ export class DrawManager {
   }
 
   public getStackPoints(index:number):Points{
-    return this.mStack[index];
+    return this.mStack[index].points;
   }
 
   // draw functions.
-  public drawFront(points){
-    this.mCanvusFront.draw(points);
+  public drawFront(pack:DrawPackage){
+    this.mCanvusFront.draw(pack);
   }
-  public drawBack(points){
-    this.insertToStack(points);
+  public drawBack(pack:DrawPackage){
+    this.insertToStack(pack);
     this.mCanvusFront.clearAll();
     this.repaintBack();
   }
-  public drawBackWithReplace(points, index:number){
-    this.mStack[index] = points ;
+  public drawBackWithReplace(pack:DrawPackage, index:number){
+    this.mStack[index] = pack ;
     this.repaintBack();
     this.recomputeMap();
   }
@@ -128,6 +129,13 @@ export class DrawManager {
   }
   public select(option:DrawOption){
     this.mComponentManager.select(option);
+  }
+
+  public setStyle(style:Style){
+    this.mStyle = style;
+  }
+  public getStyle(){
+    return this.mStyle;
   }
 }
 

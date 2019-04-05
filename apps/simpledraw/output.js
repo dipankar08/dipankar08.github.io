@@ -138,12 +138,7 @@ define("canvus", ["require", "exports", "unitdraw", "constant"], function (requi
         constructor(canvus_id, isGrid) {
             this.drawing = false;
             this.isGrid = false;
-            this.mstyle = { 'fillColor': constant_2.CONSTANT.STOKE_COLOR,
-                'drawColor': constant_2.CONSTANT.TEXT_COLOR,
-                'textColor': constant_2.CONSTANT.TEXT_COLOR,
-                'gridLineColor': constant_2.CONSTANT.STOKE_COLOR,
-            };
-            this.mCachePoint = new Array();
+            this.mstyle = constant_2.THEME['DEFAULT'];
             // intilizate the elemnets
             this.canvas = document.getElementById(canvus_id);
             this.dpi = window.devicePixelRatio;
@@ -187,22 +182,15 @@ define("canvus", ["require", "exports", "unitdraw", "constant"], function (requi
                 this.mCallback.onMove({ x: mousePos[0], y: mousePos[1] });
             }
         }
-        setStyle(drawColor, fillColor, textColor) {
-            if (drawColor) {
-                this.mstyle.drawColor = drawColor;
-            }
-            if (fillColor) {
-                this.mstyle.fillColor = fillColor;
-            }
-            if (textColor) {
-                this.mstyle.textColor = textColor;
-            }
+        setStyle(style) {
+            this.context.fillColor = style.fillColor;
+            this.context.strokeStyle = style.drawColor;
         }
         // draw the grid.
         drawGrid() {
+            this.setStyle(constant_2.THEME.get('GRID'));
             this.context.beginPath();
             for (var x = 0; x <= this.canvas.width; x += constant_2.CONSTANT.GAP_X) {
-                console.log('>>>' + x);
                 this.context.moveTo(0.5 + x, 0);
                 this.context.lineTo(0.5 + x, this.canvas.height);
             }
@@ -210,19 +198,19 @@ define("canvus", ["require", "exports", "unitdraw", "constant"], function (requi
                 this.context.moveTo(0, 0.5 + x);
                 this.context.lineTo(this.canvas.width, 0.5 + x);
             }
-            this.context.strokeStyle = this.mstyle.gridLineColor;
             this.context.stroke();
         }
-        draw(points) {
+        draw(pack) {
             this.clearAll();
             if (this.isGrid) {
                 this.drawGrid();
             }
+            // apply style  here.
+            this.setStyle(pack.style);
             this.context.beginPath();
-            this.mUniDraw.draw(points);
-            this.context.strokeStyle = this.mstyle.drawColor;
+            this.mUniDraw.draw(pack.points);
             this.context.stroke();
-            this.mCachePoint = points;
+            this.mCachePoint = pack;
         }
         // clear canvus
         clearAll() {
@@ -239,7 +227,6 @@ define("canvus", ["require", "exports", "unitdraw", "constant"], function (requi
             let y = mouseEvent.clientY - rect.top;
             // this is just a fix
             let point = [Math.floor((x + x * .05) / constant_2.CONSTANT.GAP_X), Math.floor((y + y * 0.05) / constant_2.CONSTANT.GAP_Y)];
-            console.log(point);
             return point;
         }
         // get topleft coorinate for <x,y>
@@ -256,7 +243,9 @@ define("canvus", ["require", "exports", "unitdraw", "constant"], function (requi
             if (this.isGrid) {
                 this.drawGrid();
             }
-            this.draw(this.mCachePoint);
+            if (this.mCachePoint) {
+                this.draw(this.mCachePoint);
+            }
         }
     }
     exports.MyCanvus = MyCanvus;
@@ -305,6 +294,7 @@ define("constant", ["require", "exports"], function (require, exports) {
     exports.CONSTANT = CONSTANT;
     exports.THEME = new Map();
     exports.THEME.set("DEFAULT", { fillColor: "#00f00", "drawColor": "#ff0000", "textColor": "#ff00ff" });
+    exports.THEME.set("GRID", { fillColor: "#00f00", "drawColor": "#ff0000", "textColor": "#ff00ff" });
 });
 define("utils", ["require", "exports", "interface"], function (require, exports, interface_2) {
     "use strict";
@@ -628,10 +618,13 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
                         new ClearBox(this.mStartPoint.x, this.mStartPoint.y, a.x, a.y);
                     break;
             }
-            this.mDrawManager.drawFront(this.ele.getPoints());
+            this.mDrawManager.drawFront({ 'points': this.ele.getPoints(), 'style': this.getStyle() });
+        }
+        getStyle() {
+            return this.mDrawManager.getStyle();
         }
         handleDrawEnd(points) {
-            this.mDrawManager.drawBack(points);
+            this.mDrawManager.drawBack({ 'points': points, 'style': this.mDrawManager.getStyle() });
         }
         handleMoveStart(point) {
             console.log(" handleMoveStart called");
@@ -657,7 +650,7 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
             console.log(end);
             console.log(this.getMoveTranfromedPoint(this.mMoveStart, end));
             let newPoints = this.getMoveTranfromedPoint(this.mMoveStart, end);
-            this.mDrawManager.drawBackWithReplace(newPoints, this.mMoveSetIndex);
+            this.mDrawManager.drawBackWithReplace({ points: newPoints, style: this.getStyle() }, this.mMoveSetIndex);
             this.isValidMove = false;
         }
         getMoveTranfromedPoint(start, end) {
@@ -668,7 +661,7 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
             return points;
         }
         drawMoveTrasition(start, end) {
-            this.mDrawManager.drawFront(this.getMoveTranfromedPoint(start, end));
+            this.mDrawManager.drawFront({ points: this.getMoveTranfromedPoint(start, end), style: this.getStyle() });
         }
         select(mDrawOption) {
             this.mDrawOption = mDrawOption;
@@ -677,7 +670,7 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
     exports.ComponentManager = ComponentManager;
 });
 // This is main DrawManager function,
-define("draw", ["require", "exports", "canvus", "component"], function (require, exports, canvus_1, component_1) {
+define("draw", ["require", "exports", "constant", "canvus", "component"], function (require, exports, constant_3, canvus_1, component_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     class DrawManager {
@@ -686,10 +679,11 @@ define("draw", ["require", "exports", "canvus", "component"], function (require,
             this.mStack = new Array();
             this.mRedo = new Array();
             this.mDrawElementMouseEventHandler = new Array();
+            this.mStyle = constant_3.THEME.get('DEFAULT');
             // intilizate the elemnets
             this.mCanvusBack = new canvus_1.MyCanvus(canvus_id1, true);
             this.mCanvusFront = new canvus_1.MyCanvus(canvus_id2);
-            this.mCanvusFront.setStyle('#111', "#d0e4b3", "#111");
+            //this.mCanvusFront.setStyle('#111',"#d0e4b3", "#111")
             this.mComponentManager = new component_1.ComponentManager(this);
             var _this = this;
             this.mCanvusFront.mCallback = {
@@ -705,25 +699,25 @@ define("draw", ["require", "exports", "canvus", "component"], function (require,
             };
         }
         repaintBack() {
-            let points = new Array();
-            for (let p of this.mStack.reverse()) {
-                points = points.concat(p);
-            }
-            this.mCanvusBack.draw(points);
             this.mCanvusFront.clearAll();
+            this.mCanvusBack.clearAll();
+            for (let pack of this.mStack) {
+                this.mCanvusBack.draw(pack);
+            }
         }
         repaintBackWithoutSpacific(index) {
-            let points = new Array();
+            this.mCanvusFront.clearAll();
+            this.mCanvusBack.clearAll();
             for (let i = 0; i < this.mStack.length; i++) {
                 if (i != index) {
-                    points = points.concat(this.mStack[i]);
+                    this.mCanvusBack.draw(this.mStack[i]);
                 }
             }
-            this.mCanvusBack.draw(points.reverse());
         }
-        insertToStack(points) {
-            this.mStack.push(points);
-            for (let p of points) {
+        insertToStack(item) {
+            console.log("[INFO] insertToStack", item);
+            this.mStack.push(item);
+            for (let p of item.points) {
                 this.mPointMap[p.x + "#" + p.y] = this.mStack.length - 1;
             }
         }
@@ -731,7 +725,7 @@ define("draw", ["require", "exports", "canvus", "component"], function (require,
         recomputeMap() {
             this.mPointMap = new Object();
             for (let s = 0; s < this.mStack.length; s++) {
-                for (let p of this.mStack[s]) {
+                for (let p of this.mStack[s].points) {
                     this.mPointMap[p.x + "#" + p.y] = s;
                 }
             }
@@ -746,19 +740,19 @@ define("draw", ["require", "exports", "canvus", "component"], function (require,
             }
         }
         getStackPoints(index) {
-            return this.mStack[index];
+            return this.mStack[index].points;
         }
         // draw functions.
-        drawFront(points) {
-            this.mCanvusFront.draw(points);
+        drawFront(pack) {
+            this.mCanvusFront.draw(pack);
         }
-        drawBack(points) {
-            this.insertToStack(points);
+        drawBack(pack) {
+            this.insertToStack(pack);
             this.mCanvusFront.clearAll();
             this.repaintBack();
         }
-        drawBackWithReplace(points, index) {
-            this.mStack[index] = points;
+        drawBackWithReplace(pack, index) {
+            this.mStack[index] = pack;
             this.repaintBack();
             this.recomputeMap();
         }
@@ -789,6 +783,12 @@ define("draw", ["require", "exports", "canvus", "component"], function (require,
         }
         select(option) {
             this.mComponentManager.select(option);
+        }
+        setStyle(style) {
+            this.mStyle = style;
+        }
+        getStyle() {
+            return this.mStyle;
         }
     }
     exports.DrawManager = DrawManager;

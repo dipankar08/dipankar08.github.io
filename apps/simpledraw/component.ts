@@ -1,6 +1,6 @@
 import { CommonUtils } from "./utils";
 import { MyCanvus } from "./canvus";
-import { DrawOption, Point, Points, DrawType, DrawElemnet, DrawElementMouseEventHandler } from "./interface";
+import { DrawOption, Point, Points, DrawType, DrawElemnet, DrawElementMouseEventHandler, Style, DrawPackage } from "./interface";
 import { DrawManager } from "./draw";
 
 export class LineX implements DrawElemnet {
@@ -265,10 +265,13 @@ export class ComponentManager{
                 new ClearBox(this.mStartPoint.x, this.mStartPoint.y, a.x, a.y);
                 break;    
       }
-      this.mDrawManager.drawFront(this.ele.getPoints());
+      this.mDrawManager.drawFront({'points':this.ele.getPoints(),'style':this.getStyle()});
     }
-    private handleDrawEnd(points){
-      this.mDrawManager.drawBack(points);
+   getStyle():Style {
+    return this.mDrawManager.getStyle();
+  }
+    private handleDrawEnd(points:Points){
+      this.mDrawManager.drawBack({'points':points,'style':this.mDrawManager.getStyle()});
     }
 
     // Move Ops.
@@ -299,7 +302,7 @@ export class ComponentManager{
       console.log(end);
       console.log(this.getMoveTranfromedPoint(this.mMoveStart, end));
       let newPoints =this.getMoveTranfromedPoint(this.mMoveStart, end);
-      this.mDrawManager.drawBackWithReplace(newPoints, this.mMoveSetIndex);
+      this.mDrawManager.drawBackWithReplace({points:newPoints, style:this.getStyle()}, this.mMoveSetIndex);
       this.isValidMove = false;
     }
     private getMoveTranfromedPoint(start:Point, end:Point){
@@ -310,7 +313,7 @@ export class ComponentManager{
       return points;
     }
     private drawMoveTrasition(start:Point, end:Point){
-      this.mDrawManager.drawFront(this.getMoveTranfromedPoint(start, end));
+      this.mDrawManager.drawFront({points:this.getMoveTranfromedPoint(start, end), style: this.getStyle()});
     }
     public select( mDrawOption: DrawOption ){
         this.mDrawOption = mDrawOption;
