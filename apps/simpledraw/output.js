@@ -148,7 +148,7 @@ define("canvus", ["require", "exports", "unitdraw", "constant"], function (requi
             // touch listner.
             let _this = this;
             window.addEventListener('resize', function () {
-                _this.reDraw();
+                _this.setSize(window.innerWidth, window.innerHeight);
             }, false);
             this.canvas.addEventListener('mousedown', function (e) {
                 _this.drawing = true;
@@ -167,7 +167,7 @@ define("canvus", ["require", "exports", "unitdraw", "constant"], function (requi
             this.canvas.addEventListener('mousemove', function (e) {
                 _this.notify(_this.getMousePos(e));
             }, false);
-            this.drawGrid();
+            this.reDraw();
         }
         notify(mousePos) {
             if (!this.drawing) {
@@ -201,10 +201,6 @@ define("canvus", ["require", "exports", "unitdraw", "constant"], function (requi
             this.context.stroke();
         }
         draw(pack) {
-            this.clearAll();
-            if (this.isGrid) {
-                this.drawGrid();
-            }
             // apply style  here.
             this.setStyle(pack.style);
             this.context.beginPath();
@@ -236,9 +232,9 @@ define("canvus", ["require", "exports", "unitdraw", "constant"], function (requi
         setSize(width, height) {
             this.canvas.width = width;
             this.canvas.height = height;
+            this.reDraw();
         }
         reDraw() {
-            this.setSize(window.innerWidth, window.innerHeight);
             this.clearAll();
             if (this.isGrid) {
                 this.drawGrid();
@@ -683,7 +679,6 @@ define("draw", ["require", "exports", "constant", "canvus", "component"], functi
             // intilizate the elemnets
             this.mCanvusBack = new canvus_1.MyCanvus(canvus_id1, true);
             this.mCanvusFront = new canvus_1.MyCanvus(canvus_id2);
-            //this.mCanvusFront.setStyle('#111',"#d0e4b3", "#111")
             this.mComponentManager = new component_1.ComponentManager(this);
             var _this = this;
             this.mCanvusFront.mCallback = {
@@ -744,6 +739,7 @@ define("draw", ["require", "exports", "constant", "canvus", "component"], functi
         }
         // draw functions.
         drawFront(pack) {
+            this.mCanvusFront.clearAll();
             this.mCanvusFront.draw(pack);
         }
         drawBack(pack) {

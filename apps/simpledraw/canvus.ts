@@ -27,7 +27,7 @@ export class MyCanvus{
       // touch listner.
       let _this = this;
       window.addEventListener('resize', function() {
-        _this.reDraw();
+        _this.setSize(window.innerWidth, window.innerHeight);
       }, false);
   
       this.canvas.addEventListener('mousedown', function(e) {
@@ -49,7 +49,7 @@ export class MyCanvus{
       this.canvas.addEventListener('mousemove', function(e) {
         _this.notify(_this.getMousePos(e));
       }, false);
-      this.drawGrid();
+      this.reDraw();
     }
   
     private notify(mousePos) {
@@ -87,10 +87,6 @@ export class MyCanvus{
     }
   
     public draw(pack: DrawPackage) {
-      this.clearAll();
-      if(this.isGrid){
-        this.drawGrid();
-      }
       // apply style  here.
       this.setStyle(pack.style);
       this.context.beginPath();
@@ -127,9 +123,9 @@ export class MyCanvus{
     private setSize(width: number, height: number) {
       this.canvas.width = width;
       this.canvas.height = height;
+      this.reDraw();
     }
     public reDraw(): void {
-      this.setSize(window.innerWidth, window.innerHeight);
       this.clearAll();
       if (this.isGrid) {
         this.drawGrid();

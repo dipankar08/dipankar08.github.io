@@ -33,7 +33,8 @@
 require(["draw","interface"], function (DM) {
     mDrawManager = new DM.DrawManager('canvas', 'canvas1')
     //mDrawManager.attach(new TestPoint());
-    console.log("DIPANKAR");
+    console.log("[INFO] Init Done");
+    mDrawManager.setSize(window.innerWidth, window.innerHeight);
 });
 require(["interface"], function (DP) {
   DrawOption = DP.DrawOption;

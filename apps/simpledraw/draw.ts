@@ -21,7 +21,6 @@ export class DrawManager {
     // intilizate the elemnets
     this.mCanvusBack = new MyCanvus(canvus_id1, true);
     this.mCanvusFront = new MyCanvus(canvus_id2);
-    //this.mCanvusFront.setStyle('#111',"#d0e4b3", "#111")
     this.mComponentManager = new ComponentManager(this);
     var _this = this;
     this.mCanvusFront.mCallback = {
@@ -89,6 +88,7 @@ export class DrawManager {
 
   // draw functions.
   public drawFront(pack:DrawPackage){
+    this.mCanvusFront.clearAll();
     this.mCanvusFront.draw(pack);
   }
   public drawBack(pack:DrawPackage){
