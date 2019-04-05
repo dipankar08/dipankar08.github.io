@@ -25,7 +25,6 @@ export enum DrawOption {
     TEST_POINT,
   }
   
-  
 export interface DrawElemnet{
     getPoints(): Points;
     getDrawOption():DrawOption;
