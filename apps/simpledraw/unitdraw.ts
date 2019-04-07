@@ -27,7 +27,7 @@ export class UnitDraw{
                 this.clear(p.x, p.y)
                 break;
               case DrawType.CHAR:
-                this.printChar(p.x, p.y, p.data)
+                this.char(p.x, p.y, p.data)
                 break;
               case DrawType.SVG:
                 this.svg(p.x, p.y, p.data)
@@ -35,7 +35,7 @@ export class UnitDraw{
               case DrawType.ARROW:
                 this.arrow(p.x, p.y, p.data)
                 break;
-                case DrawType.DOT:
+              case DrawType.DOT:
                 this.dot(p.x, p.y, p.data)
                 break;
             }
@@ -57,12 +57,9 @@ export class UnitDraw{
             x * CONSTANT.GAP_X + 1, y * CONSTANT.GAP_Y + 1, CONSTANT.GAP_X - 1, CONSTANT.GAP_Y - 1);
       };
     
-      private printChar(x, y, c) {
-        console.log("printChar :"+c);
-        this.context.font = '14px monospace';
+      private char(x, y, c) {
         this.context.fillText(
             c, x * CONSTANT.GAP_X, y * CONSTANT.GAP_Y + CONSTANT.GAP_Y - CONSTANT.TEXT_GAP_OFFSET);
-        this.mark(x,y);
       }
     
       // draw plus

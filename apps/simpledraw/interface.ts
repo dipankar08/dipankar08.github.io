@@ -4,7 +4,6 @@ export enum DrawType {
     PLUS,
     MINUS,
     MINUS_V,
-    TEXT,
     CLEAR,
     MARK,
     CHAR,
@@ -21,7 +20,10 @@ export enum DrawOption {
     CLEAR,
     MARK,
     NONE,
+    SELECT,
+    COPY,
     MOVE,
+    RESIZE,
     TEST_POINT,
   }
   

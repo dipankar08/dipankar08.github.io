@@ -8,6 +8,10 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 </head>
 <body>
+    <div class="right">
+        <canvas id="canvas" width="100%" height="100%" style="background: #fff;"></canvas>
+        <canvas id="canvas1" width="100%" height="100%" style="background:rgba(0,0,0,0);"></canvas>
+    </div>
     <div class="left">
         <ul title="quickDrow"><i class="logo fas fa-drafting-compass"></i></ul>
         <ul title="color" onclick="toggleColor()"><i class="fas fa-tint"></i></ul>
@@ -21,11 +25,10 @@
         <ul title="undo" onclick="mDrawManager.undo()"><i class="fas fa-undo"></i></ul>
         <ul title="clear all" onclick="mDrawManager.clearAll()"><i class="fas fa-ban"></i></ul>
         <ul title="clone" onclick="mDrawManager.clearAll()"> <i class="far fa-clone"></i></ul>
-        <ul title="text" onclick="mDrawManager.clearAll()"><i class="fas fa-font"></i></ul>
+        <ul title="text" onclick="mDrawManager.select(DrawOption.TEXT)"><i class="fas fa-font"></i></ul>
     </div>
-    <div class="right">
-        <canvas id="canvas" width="100%" height="100%" style="background: #fff;"></canvas>
-        <canvas id="canvas1" width="100%" height="100%" style="background:rgba(0,0,0,0);"></canvas>
+    <div class="text">
+        <input type="text" onchange="mDrawManager.onTextChange(this.value)" placeholder="type any text"><button onclick="mDrawManager.onTextSubmit()">Submit</button><button onclick="mDrawManager.onTextCanecl()">Submit</button>
     </div>
 </body>
 <script type="text/javascript" src="https://requirejs.org/docs/release/2.3.6/minified/require.js"></script>

@@ -6,15 +6,14 @@ body{
     height: 100%;
     WIDTH: 60px;
     background: #000;
-    display: inline-block;
-    float: left;
     text-align: center;
     color: #fff;
     font-family: monospace;
+    position: fixed;
 }
 .right {
     position: fixed;
-    left: 60px;
+    left: 0px;
     right: 0;
 }
 .left {
@@ -36,6 +35,25 @@ canvas {
     position: absolute;
     left: 0;
     width: 100%;
+}
+.text{
+    position: fixed;
+    right: 10px;
+    top: 10px;
+    border: 1px solid black;
+}
+.text input{
+    width: 200px;
+    height: 25px;
+    padding: 5px;
+    border: 0;
+}
+.text button{
+    background: black;
+    height: 25px;
+    border: 0;
+    color: white;
+    padding: 5px;
 }
 #canvas1.crosshair {cursor: crosshair;}
 #canvas1.move {cursor: move;}

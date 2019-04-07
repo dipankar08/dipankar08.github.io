@@ -24,7 +24,7 @@ define("unitdraw", ["require", "exports", "constant", "interface"], function (re
                         this.clear(p.x, p.y);
                         break;
                     case interface_1.DrawType.CHAR:
-                        this.printChar(p.x, p.y, p.data);
+                        this.char(p.x, p.y, p.data);
                         break;
                     case interface_1.DrawType.SVG:
                         this.svg(p.x, p.y, p.data);
@@ -49,11 +49,8 @@ define("unitdraw", ["require", "exports", "constant", "interface"], function (re
             this.context.fillRect(x * constant_1.CONSTANT.GAP_X + 1, y * constant_1.CONSTANT.GAP_Y + 1, constant_1.CONSTANT.GAP_X - 1, constant_1.CONSTANT.GAP_Y - 1);
         }
         ;
-        printChar(x, y, c) {
-            console.log("printChar :" + c);
-            this.context.font = '14px monospace';
+        char(x, y, c) {
             this.context.fillText(c, x * constant_1.CONSTANT.GAP_X, y * constant_1.CONSTANT.GAP_Y + constant_1.CONSTANT.GAP_Y - constant_1.CONSTANT.TEXT_GAP_OFFSET);
-            this.mark(x, y);
         }
         // draw plus
         plus(x, y) {
@@ -129,7 +126,7 @@ define("unitdraw", ["require", "exports", "constant", "interface"], function (re
     }
     exports.UnitDraw = UnitDraw;
 });
-define("canvus", ["require", "exports", "unitdraw", "constant"], function (require, exports, unitdraw_1, constant_2) {
+define("canvus", ["require", "exports", "unitdraw", "constant", "interface"], function (require, exports, unitdraw_1, constant_2, interface_2) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     class MyCanvus {
@@ -183,6 +180,7 @@ define("canvus", ["require", "exports", "unitdraw", "constant"], function (requi
         setStyle(style) {
             this.context.fillStyle = style.fillColor;
             this.context.strokeStyle = style.drawColor;
+            this.context.font = '20px monospace';
         }
         // draw the grid.
         drawGrid() {
@@ -201,6 +199,9 @@ define("canvus", ["require", "exports", "unitdraw", "constant"], function (requi
         draw(pack) {
             this.setStyle(pack.style);
             this.context.beginPath();
+            if (pack.points[0].type == interface_2.DrawType.CHAR) {
+                this.context.fillStyle = pack.style.drawColor;
+            }
             this.mUniDraw.draw(pack.points);
             this.context.stroke();
             this.mCachePoint = pack;
@@ -251,13 +252,12 @@ define("interface", ["require", "exports"], function (require, exports) {
         DrawType[DrawType["PLUS"] = 0] = "PLUS";
         DrawType[DrawType["MINUS"] = 1] = "MINUS";
         DrawType[DrawType["MINUS_V"] = 2] = "MINUS_V";
-        DrawType[DrawType["TEXT"] = 3] = "TEXT";
-        DrawType[DrawType["CLEAR"] = 4] = "CLEAR";
-        DrawType[DrawType["MARK"] = 5] = "MARK";
-        DrawType[DrawType["CHAR"] = 6] = "CHAR";
-        DrawType[DrawType["SVG"] = 7] = "SVG";
-        DrawType[DrawType["ARROW"] = 8] = "ARROW";
-        DrawType[DrawType["DOT"] = 9] = "DOT";
+        DrawType[DrawType["CLEAR"] = 3] = "CLEAR";
+        DrawType[DrawType["MARK"] = 4] = "MARK";
+        DrawType[DrawType["CHAR"] = 5] = "CHAR";
+        DrawType[DrawType["SVG"] = 6] = "SVG";
+        DrawType[DrawType["ARROW"] = 7] = "ARROW";
+        DrawType[DrawType["DOT"] = 8] = "DOT";
     })(DrawType = exports.DrawType || (exports.DrawType = {}));
     var DrawOption;
     (function (DrawOption) {
@@ -269,8 +269,11 @@ define("interface", ["require", "exports"], function (require, exports) {
         DrawOption[DrawOption["CLEAR"] = 5] = "CLEAR";
         DrawOption[DrawOption["MARK"] = 6] = "MARK";
         DrawOption[DrawOption["NONE"] = 7] = "NONE";
-        DrawOption[DrawOption["MOVE"] = 8] = "MOVE";
-        DrawOption[DrawOption["TEST_POINT"] = 9] = "TEST_POINT";
+        DrawOption[DrawOption["SELECT"] = 8] = "SELECT";
+        DrawOption[DrawOption["COPY"] = 9] = "COPY";
+        DrawOption[DrawOption["MOVE"] = 10] = "MOVE";
+        DrawOption[DrawOption["RESIZE"] = 11] = "RESIZE";
+        DrawOption[DrawOption["TEST_POINT"] = 12] = "TEST_POINT";
     })(DrawOption = exports.DrawOption || (exports.DrawOption = {}));
 });
 define("constant", ["require", "exports"], function (require, exports) {
@@ -279,13 +282,11 @@ define("constant", ["require", "exports"], function (require, exports) {
     class CONSTANT {
     }
     CONSTANT.GAP_X = 10;
-    CONSTANT.GAP_Y = 10;
-    CONSTANT.TEXT_GAP_OFFSET = 2;
+    CONSTANT.GAP_Y = 20;
+    CONSTANT.TEXT_GAP_OFFSET = 4;
     CONSTANT.BACKGROUND_COLOR = '#fff';
-    CONSTANT.STOKE_COLOR = '#F2EFEB'; //"#FEFAF9"//"#f5f5f5"
-    CONSTANT.TEXT_COLOR = '#000';
     CONSTANT.THEME = {
-        "DEFAULT": { fillColor: "#F2EFEB", "drawColor": "#000000", "textColor": "#000000" },
+        "DEFAULT": { fillColor: "#F2EFEB", "drawColor": "#111111", "textColor": "#000000" },
         "GRID": { fillColor: "#ffffff", "drawColor": "#F2EFEB", "textColor": "#F2EFEB" },
         "RED": { fillColor: "#FFEBEE", "drawColor": "#FF1744", "textColor": "#D50000" },
         "BLUE": { fillColor: "#E8EAF6", "drawColor": "#304FFE", "textColor": "#304FFE" },
@@ -295,21 +296,21 @@ define("constant", ["require", "exports"], function (require, exports) {
     };
     exports.CONSTANT = CONSTANT;
 });
-define("utils", ["require", "exports", "interface"], function (require, exports, interface_2) {
+define("utils", ["require", "exports", "interface"], function (require, exports, interface_3) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     class CommonUtils {
         static line_x(x1, y1, count) {
             let p = new Array();
             for (var i = 1; i < Math.abs(count); i++) {
-                p.push({ x: x1 + i, y: y1, type: interface_2.DrawType.MINUS });
+                p.push({ x: x1 + i, y: y1, type: interface_3.DrawType.MINUS });
             }
             return p;
         }
         static line_y(x1, y1, count) {
             let p = new Array();
             for (var i = 1; i < Math.abs(count); i++) {
-                p.push({ x: x1, y: y1 + i, type: interface_2.DrawType.MINUS_V });
+                p.push({ x: x1, y: y1 + i, type: interface_3.DrawType.MINUS_V });
             }
             return p;
         }
@@ -375,7 +376,7 @@ define("utils", ["require", "exports", "interface"], function (require, exports,
     CommonUtils.myProp = 'Hello';
     exports.CommonUtils = CommonUtils;
 });
-define("component", ["require", "exports", "utils", "interface"], function (require, exports, utils_1, interface_3) {
+define("component", ["require", "exports", "utils", "interface"], function (require, exports, utils_1, interface_4) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     class LineX {
@@ -385,11 +386,11 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
             this.y1 = y1;
             this.count = count;
             for (var i = 0; i <= this.count; i++) {
-                this.points.push({ x: this.x1 + i, y: this.y1, type: interface_3.DrawType.MINUS });
+                this.points.push({ x: this.x1 + i, y: this.y1, type: interface_4.DrawType.MINUS });
             }
         }
         getDrawOption() {
-            return interface_3.DrawOption.NONE;
+            return interface_4.DrawOption.NONE;
         }
         getPoints() {
             return this.points;
@@ -401,7 +402,7 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
             this.points = new Array();
         }
         getDrawOption() {
-            return interface_3.DrawOption.TEST_POINT;
+            return interface_4.DrawOption.TEST_POINT;
         }
         getPoints() {
             return this.points;
@@ -415,11 +416,11 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
             this.y1 = y1;
             this.count = count;
             for (var i = 0; i <= this.count; i++) {
-                this.points.push({ x: this.x1, y: this.y1 + i, type: interface_3.DrawType.MINUS_V });
+                this.points.push({ x: this.x1, y: this.y1 + i, type: interface_4.DrawType.MINUS_V });
             }
         }
         getDrawOption() {
-            return interface_3.DrawOption.TEST_POINT;
+            return interface_4.DrawOption.TEST_POINT;
             //throw new Error("Method not implemented.");
         }
         getPoints() {
@@ -439,13 +440,13 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
             this.points = this.points.concat(utils_1.CommonUtils.line_x(x1, y2, x2 - x1));
             this.points = this.points.concat(utils_1.CommonUtils.line_y(x1, y1, y2 - y1));
             this.points = this.points.concat(utils_1.CommonUtils.line_y(x2, y1, y2 - y1));
-            this.points.push({ x: x1, y: y1, type: interface_3.DrawType.PLUS });
-            this.points.push({ x: x1, y: y2, type: interface_3.DrawType.PLUS });
-            this.points.push({ x: x2, y: y1, type: interface_3.DrawType.PLUS });
-            this.points.push({ x: x2, y: y2, type: interface_3.DrawType.PLUS });
+            this.points.push({ x: x1, y: y1, type: interface_4.DrawType.PLUS });
+            this.points.push({ x: x1, y: y2, type: interface_4.DrawType.PLUS });
+            this.points.push({ x: x2, y: y1, type: interface_4.DrawType.PLUS });
+            this.points.push({ x: x2, y: y2, type: interface_4.DrawType.PLUS });
         }
         getDrawOption() {
-            return interface_3.DrawOption.RECT;
+            return interface_4.DrawOption.RECT;
         }
         getPoints() {
             return this.points;
@@ -473,10 +474,10 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
                     this.points = this.points.concat(utils_1.CommonUtils.line_x(x2, y2, x1 - x2));
                     break;
             }
-            this.points.push({ x: x1, y: y2, type: interface_3.DrawType.PLUS });
+            this.points.push({ x: x1, y: y2, type: interface_4.DrawType.PLUS });
         }
         getDrawOption() {
-            return interface_3.DrawOption.NONE;
+            return interface_4.DrawOption.NONE;
         }
         getPoints() {
             //let filters = new Array();
@@ -487,45 +488,45 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
     exports.ALine = ALine;
     class Line extends ALine {
         getDrawOption() {
-            return interface_3.DrawOption.LINE;
+            return interface_4.DrawOption.LINE;
         }
         constructor(x1, y1, x2, y2) {
             super(x1, y1, x2, y2);
-            this.points.push({ x: x1, y: y1, type: interface_3.DrawType.PLUS });
-            this.points.push({ x: x2, y: y2, type: interface_3.DrawType.PLUS });
+            this.points.push({ x: x1, y: y1, type: interface_4.DrawType.PLUS });
+            this.points.push({ x: x2, y: y2, type: interface_4.DrawType.PLUS });
         }
     }
     exports.Line = Line;
     class Line_D extends ALine {
         getDrawOption() {
-            return interface_3.DrawOption.LINE_D;
+            return interface_4.DrawOption.LINE_D;
         }
         constructor(x1, y1, x2, y2) {
             super(x1, y1, x2, y2);
-            this.points.push({ x: x1, y: y1, type: interface_3.DrawType.PLUS });
+            this.points.push({ x: x1, y: y1, type: interface_4.DrawType.PLUS });
             //this.points.push({x:x2, y:y2, type:DrawType.ARROW, data: 2})
-            this.points.push({ x: x2, y: y2, type: interface_3.DrawType.DOT });
+            this.points.push({ x: x2, y: y2, type: interface_4.DrawType.DOT });
         }
     }
     class Line_DD extends ALine {
         getDrawOption() {
-            return interface_3.DrawOption.LINE_DD;
+            return interface_4.DrawOption.LINE_DD;
         }
         constructor(x1, y1, x2, y2) {
             super(x1, y1, x2, y2);
-            this.points.push({ x: x2, y: y2, type: interface_3.DrawType.DOT, data: ">" });
-            this.points.push({ x: x1, y: y1, type: interface_3.DrawType.DOT, data: "<" });
+            this.points.push({ x: x2, y: y2, type: interface_4.DrawType.DOT, data: ">" });
+            this.points.push({ x: x1, y: y1, type: interface_4.DrawType.DOT, data: "<" });
         }
     }
     class Text {
-        constructor(x1, y, text) {
+        constructor(x, y, text) {
             this.points = new Array();
             for (let i = 0; i < text.length; i++) {
-                this.points.push({ x: i, y: this.y1, type: interface_3.DrawType.TEXT, data: text.charAt(i) });
+                this.points.push({ x: x + i, y: y, type: interface_4.DrawType.CHAR, data: text.charAt(i) });
             }
         }
         getDrawOption() {
-            return interface_3.DrawOption.TEXT;
+            return interface_4.DrawOption.TEXT;
         }
         getPoints() {
             return this.points;
@@ -537,12 +538,12 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
             this.points = new Array();
             for (var i = x1; i <= x2; i++) {
                 for (var j = y1; j <= y2; j++) {
-                    this.points.push({ x: i, y: j, type: interface_3.DrawType.CLEAR });
+                    this.points.push({ x: i, y: j, type: interface_4.DrawType.CLEAR });
                 }
             }
         }
         getDrawOption() {
-            return interface_3.DrawOption.CLEAR;
+            return interface_4.DrawOption.CLEAR;
         }
         getPoints() {
             return this.points;
@@ -551,16 +552,18 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
     exports.ClearBox = ClearBox;
     class ComponentManager {
         constructor(d) {
-            this.mDrawOption = interface_3.DrawOption.NONE;
+            this.mDrawOption = interface_4.DrawOption.NONE;
+            this.mTextEle = null;
             this.isValidMove = false;
             this.mDrawManager = d;
         }
-        onStart(a) {
+        onStart(point) {
+            this.mStartPoint = point;
             if (this.isDrawFunction()) {
-                this.handleDrawStart(a);
+                this.handleDrawStart(point);
             }
             else if (this.isMoveFunction()) {
-                this.handleMoveStart(a);
+                this.handleMoveStart(point);
             }
         }
         onEnd(a) {
@@ -582,37 +585,37 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
             }
         }
         isDrawFunction() {
-            return this.mDrawOption == interface_3.DrawOption.LINE ||
-                this.mDrawOption == interface_3.DrawOption.LINE_D ||
-                this.mDrawOption == interface_3.DrawOption.LINE_DD ||
-                this.mDrawOption == interface_3.DrawOption.RECT ||
-                this.mDrawOption == interface_3.DrawOption.CLEAR;
+            return this.mDrawOption == interface_4.DrawOption.LINE ||
+                this.mDrawOption == interface_4.DrawOption.LINE_D ||
+                this.mDrawOption == interface_4.DrawOption.LINE_DD ||
+                this.mDrawOption == interface_4.DrawOption.RECT ||
+                this.mDrawOption == interface_4.DrawOption.CLEAR;
         }
         isMoveFunction() {
-            return this.mDrawOption == interface_3.DrawOption.MOVE;
+            return this.mDrawOption == interface_4.DrawOption.MOVE;
         }
         handleDrawStart(point) {
             this.mStartPoint = point;
         }
         handleDrawMove(a) {
             switch (this.mDrawOption) {
-                case interface_3.DrawOption.RECT:
+                case interface_4.DrawOption.RECT:
                     this.ele =
                         new Rect(this.mStartPoint.x, this.mStartPoint.y, a.x, a.y);
                     break;
-                case interface_3.DrawOption.LINE:
+                case interface_4.DrawOption.LINE:
                     this.ele =
                         new Line(this.mStartPoint.x, this.mStartPoint.y, a.x, a.y);
                     break;
-                case interface_3.DrawOption.LINE_D:
+                case interface_4.DrawOption.LINE_D:
                     this.ele =
                         new Line_D(this.mStartPoint.x, this.mStartPoint.y, a.x, a.y);
                     break;
-                case interface_3.DrawOption.LINE_DD:
+                case interface_4.DrawOption.LINE_DD:
                     this.ele =
                         new Line_DD(this.mStartPoint.x, this.mStartPoint.y, a.x, a.y);
                     break;
-                case interface_3.DrawOption.CLEAR:
+                case interface_4.DrawOption.CLEAR:
                     this.ele =
                         new ClearBox(this.mStartPoint.x, this.mStartPoint.y, a.x, a.y);
                     break;
@@ -623,7 +626,27 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
             return this.mDrawManager.getStyle();
         }
         handleDrawEnd(points) {
-            this.mDrawManager.drawBack({ 'points': points, 'style': this.mDrawManager.getStyle() });
+            if (this.mDrawOption == interface_4.DrawOption.SELECT) {
+            }
+            if (this.isDrawFunction()) {
+                this.mDrawManager.drawBack({ 'points': points, 'style': this.mDrawManager.getStyle() });
+            }
+            else {
+            }
+        }
+        onTextSubmit() {
+            if (this.mDrawOption == interface_4.DrawOption.TEXT && this.mTextEle != null) {
+                this.mDrawManager.drawBack({ 'points': this.mTextEle.getPoints(), 'style': this.mDrawManager.getStyle() });
+            }
+        }
+        onTextCancel() {
+        }
+        onTextChange(text) {
+            if (this.mDrawOption == interface_4.DrawOption.TEXT) {
+                this.mTextEle =
+                    new Text(this.mStartPoint.x, this.mStartPoint.y, text);
+                this.mDrawManager.drawFront({ 'points': this.mTextEle.getPoints(), 'style': this.mDrawManager.getStyle() });
+            }
         }
         handleMoveStart(point) {
             console.log(" handleMoveStart called");
@@ -696,6 +719,15 @@ define("draw", ["require", "exports", "constant", "canvus", "component"], functi
                 }
             };
         }
+        onTextSubmit() {
+            this.mComponentManager.onTextSubmit();
+        }
+        onTextCancel() {
+            this.mComponentManager.onTextCancel();
+        }
+        onTextChange(text) {
+            this.mComponentManager.onTextChange(text);
+        }
         repaintBack() {
             this.mCanvusFront.clearAll();
             this.mCanvusBack.clearAll();
@@ -758,6 +790,12 @@ define("draw", ["require", "exports", "constant", "canvus", "component"], functi
         drawBackWithoutSpacific(index) {
             this.repaintBackWithoutSpacific(index);
         }
+        attach(cb) {
+            this.mDrawElementMouseEventHandler.push(cb);
+        }
+        getStyle() {
+            return this.mStyle;
+        }
         // Public APIs
         undo() {
             if (this.mStack.length > 0) {
@@ -771,23 +809,17 @@ define("draw", ["require", "exports", "constant", "canvus", "component"], functi
             }
             this.repaintBack();
         }
-        clearAll() {
-            this.mCanvusBack.clearAll();
-            this.mStack = new Array();
-            this.mRedo = new Array();
-            this.repaintBack();
-        }
-        attach(cb) {
-            this.mDrawElementMouseEventHandler.push(cb);
-        }
         select(option) {
             this.mComponentManager.select(option);
         }
         setStyle(style) {
             this.mStyle = style;
         }
-        getStyle() {
-            return this.mStyle;
+        clearAll() {
+            this.mCanvusBack.clearAll();
+            this.mStack = new Array();
+            this.mRedo = new Array();
+            this.repaintBack();
         }
     }
     exports.DrawManager = DrawManager;

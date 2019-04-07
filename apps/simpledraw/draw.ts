@@ -35,6 +35,16 @@ export class DrawManager {
       }
     }
   }
+
+  public onTextSubmit(){
+    this.mComponentManager.onTextSubmit();
+  }
+  public onTextCancel(){
+    this.mComponentManager.onTextCancel();
+  }
+  public onTextChange(text:string){
+    this.mComponentManager.onTextChange(text);
+  }
   
   private repaintBack(): void {
     this.mCanvusFront.clearAll();
@@ -105,6 +115,12 @@ export class DrawManager {
     this.repaintBackWithoutSpacific(index)
   }
 
+  public attach(cb:DrawElementMouseEventHandler){
+    this.mDrawElementMouseEventHandler.push(cb);
+  }
+  public getStyle(){
+    return this.mStyle;
+  }
   // Public APIs
   public undo(){
     if(this.mStack.length > 0){
@@ -118,15 +134,7 @@ export class DrawManager {
     }
     this.repaintBack();
   }
-  public clearAll(){
-    this.mCanvusBack.clearAll();
-    this.mStack = new Array()
-    this.mRedo = new Array()
-    this.repaintBack();
-  }
-  public attach(cb:DrawElementMouseEventHandler){
-    this.mDrawElementMouseEventHandler.push(cb);
-  }
+
   public select(option:DrawOption){
     this.mComponentManager.select(option);
   }
@@ -134,9 +142,22 @@ export class DrawManager {
   public setStyle(style:Style){
     this.mStyle = style;
   }
-  public getStyle(){
-    return this.mStyle;
+  
+  public clearAll(){
+    this.mCanvusBack.clearAll();
+    this.mStack = new Array()
+    this.mRedo = new Array()
+    this.repaintBack();
   }
+
+
+
+
+
+
+
+
+ 
 }
 
 

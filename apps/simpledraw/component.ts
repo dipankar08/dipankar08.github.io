@@ -82,6 +82,7 @@ export class LineX implements DrawElemnet {
       return this.points;
     }
   }
+
   
   export class ALine implements DrawElemnet {
     getDrawOption(): DrawOption {
@@ -158,10 +159,10 @@ export class LineX implements DrawElemnet {
     y1: number;
     text: string;
     points: Points  = new Array();
-    constructor(x1: number, y: number, text: string) {
+    constructor(x: number, y: number, text: string) {
       for (let i = 0; i < text.length; i++) {
         this.points.push(
-            {x: i, y: this.y1, type: DrawType.TEXT, data: text.charAt(i)})
+            {x: x+i, y: y, type: DrawType.CHAR, data: text.charAt(i)})
       }
     }
     getPoints(): Points {
@@ -199,12 +200,13 @@ export class ComponentManager{
     constructor(d:DrawManager){
         this.mDrawManager = d;
     }
-    public onStart(a:Point){
+    public onStart(point:Point){
+        this.mStartPoint = point;
         if(this.isDrawFunction()){
-            this.handleDrawStart(a);
+            this.handleDrawStart(point);
           }
           else if(this.isMoveFunction()){
-              this.handleMoveStart(a)
+              this.handleMoveStart(point)
           }  
     }
 
@@ -256,7 +258,7 @@ export class ComponentManager{
         this.ele =
             new Line_D(this.mStartPoint.x, this.mStartPoint.y, a.x, a.y);
             break;
-            case DrawOption.LINE_DD:
+        case DrawOption.LINE_DD:
             this.ele =
                 new Line_DD(this.mStartPoint.x, this.mStartPoint.y, a.x, a.y);
                 break;
@@ -270,9 +272,33 @@ export class ComponentManager{
    getStyle():Style {
     return this.mDrawManager.getStyle();
   }
-    private handleDrawEnd(points:Points){
-      this.mDrawManager.drawBack({'points':points,'style':this.mDrawManager.getStyle()});
+  private handleDrawEnd(points:Points){
+    if(this.mDrawOption == DrawOption.SELECT){
+        
     }
+
+    if(this.isDrawFunction()){
+      this.mDrawManager.drawBack({'points':points,'style':this.mDrawManager.getStyle()});
+    } else{
+    }
+  }
+
+  private mTextEle = null;
+  public onTextSubmit(){
+    if(this.mDrawOption == DrawOption.TEXT && this.mTextEle != null){
+      this.mDrawManager.drawBack({'points':this.mTextEle.getPoints(),'style':this.mDrawManager.getStyle()});
+    }
+  }
+  public onTextCancel(){
+    
+  }
+  public onTextChange(text:string){
+    if(this.mDrawOption == DrawOption.TEXT){
+      this.mTextEle =
+      new Text(this.mStartPoint.x, this.mStartPoint.y, text);
+      this.mDrawManager.drawFront({'points':this.mTextEle.getPoints(),'style':this.mDrawManager.getStyle()});
+    }
+  }
 
     // Move Ops.
     private mMoveSetIndex:number;
