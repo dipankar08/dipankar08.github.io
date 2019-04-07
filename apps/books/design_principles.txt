@@ -31,7 +31,7 @@ Dependency inversion principle: Your class design should depend upon abstraction
 # Single Responsibility
 Single responsibility indicates that your "Class should be doing one and only one specific thing and not trying to do more than it should. This is called called High Cohesion.
 Some simple example is as below: We have class called person which contains email and inside the below class, we are trying to validate the email - which should be the responsibility of that class.
-{{{
+{{{e
 class Person {
     public name : string;
     public surname : string;
@@ -56,7 +56,7 @@ class Person {
 }}}
 
 It should be design like this: It can be noted that definition of Person class is no clear now.
-{{{
+{{{e
 class Email {
     public email : string;
     constructor(email : string){
@@ -93,7 +93,7 @@ Single responsibility principle  a most effective way to avoid having a GOD clas
 open/closed principle states "software entities (classes, modules, functions, etc.) should be open for extension, but closed for modification". Let's discuss what does it means by example:
 Let's assume we have a collections of shapes ( like rectange and circle) and we want to find out the sum of area of the all elements in the shape collation. How do you solve the problem?
 You might have a Rectangle and Circle Class and then Have their own AreaCalculator like below
-{{{
+{{{e
 public class Rectangle
 {
     public double Width { get; set; }
@@ -127,7 +127,7 @@ public double AreaCalculator(object[] shapes)
 Now if we add some more shape like say trangle, your logic in AreaCalculator needs to be changed. That means your design is not open to support new features ( like new shapes). In other word, AreaCalculator is NOT "closed" for modification and NOT "open" for extension.
 
 So, how can we have a AreaCalculator which is open for extension and closed for modication ? The Problem of AreaCalculator is - it depends on concrete implementation of shape- it it depends on a "contracts" like an interface should solve that problem as below:
-{{{
+{{{e
 public abstract class Shape {
     public abstract double Area();
 }
@@ -166,7 +166,7 @@ This principle is little-bit complicated. This is based on the relationship betw
 In general, you might think that how it is possible. But yes it might be possible to violate the LSP. Let's consider the below example:
 In mathematics, a Square is a Rectangle. As "IS-A" is an inheritance:Rectangle is a base class and  Square is derive Rectangle. Right? No It's violate LSP.
 Let's define the function.
-{{{
+{{{e
 class Rectangle {
     int getHeight()
     void setHeight(int value)
@@ -180,7 +180,7 @@ class Square : Rectangle {
 }}}
 
 We wrote some test case/ invariant for rectangle as below:
-{{{
+{{{e
 void invariant(Rectangle r) {
     r.setHeight(200)
     r.setWidth(100)
@@ -193,7 +193,7 @@ Now next question is "why it violates LSP?". This is because of Square tighten t
 
 
 Another example of violation is as below: We have IVehicle class which asserts the possible miles. We define another class Scooter but as it tighten the assert which violate LPS. this is a violation  where a "pre condition is strengthened by a subtype". Similarly, post conditions may not be weakened (i.e. relaxed) by a subtype, else it violate LSP.
-{{{
+{{{e
 public class IVehicle {
     public virtual void Drive(int miles) {
         Assert(miles > 0 && miles < 300); // Consumers see this as the contract
@@ -211,7 +211,7 @@ public class IVehicle {
 
 There are many ways where we can violates the LSP:
 1. Glaring Violation - Runtime type switching
-{{{
+{{{e
 void MethodWhichViolatesLSP(IVehicle aVehicle) {
    if (aVehicle is Car) {
       var car = aVehicle as Car;
@@ -220,7 +220,7 @@ void MethodWhichViolatesLSP(IVehicle aVehicle) {
     }
 }}}
 1. Violation - Pre condition is strengthened by a subtype
-{{{
+{{{e
 public class Vehicle {
     public virtual void Drive(int miles) {
         Assert(miles > 0 && miles < 300); // Consumers see this as the contract
@@ -240,7 +240,7 @@ public class Vehicle {
 The interface-segregation principle (ISP) states that "Many client specific interfaces are better than one general purpose interface" , in other word - "no client should be forced to depend on methods it does not use".  It helps with creating thin/ small abstraction interfaces that make it easy for clients to have fewer dependant factors between them.
 
 For example, we are trying to builds and interface of an byte storage operation. it can be design as below:
-{{{
+{{{e
 type ByteUtils interface {
     Read(b []byte) (n int, err error) // Read into buffer
     Write(b []byte)(n int, err error) // Write into buffer
@@ -248,7 +248,7 @@ type ByteUtils interface {
 }
 }}}
 It works for a while, However notice that the name ByteUtils is too generic. If some client only wants to do Read Operation, it force to implement all of the methods. A better design would be like:
-{{{
+{{{e
 type Reader interface {
     Read(b []byte) (n int, err error)
 }
@@ -262,7 +262,7 @@ type Trimmer interface {
 Such thin interfaces are also called role interfaces as its easier to refactor, change, and redeploy something that it has a very defined role or purpose.
 
 Another choise to have combined one:
-{{{
+{{{e
 type ReadWriter interface {
     Reader
     Writer
@@ -274,7 +274,7 @@ type TrimReader interface {
 }}}
 
 We can also use "extending Interface" to support this principle:
-{{{
+{{{e
 public interface Door {
  void Lock();
  void Unlock();
@@ -301,7 +301,7 @@ A better way to do that,
 - ClassB is in module2 and implements interfaceA. - This indicate that Module2 is supposed to be consumed by module1 ( as it  implements interface of Module1)
 
 Let's consider one example. We have a module which takes worker from external and execute the work method. Module1 has a manager - which has Worker object and then execute it. As It conatins the class object - it's a hard dependency on module2 wehere Worker is defined.
-{{{
+{{{e
 // module 1
 class Manager {
 	Worker worker; <<<< This a hard dependency
@@ -324,7 +324,7 @@ class Worker {
 The correct way to implement things as below: Here Module1 is not depends on module2 but depends on it's own interface. where as Module2 acts as an worker provider to Module1 and so depends on module 1. So Invert the dependecny.
 
 If we want to make Module1 and Module2 Indipendent, we should move the interface to module3, and module1 and module2 depends on module3.
-{{{
+{{{e
 // Module 1
 interface IWorker {
 	public void work();
@@ -389,7 +389,7 @@ For exaple, you have two class say : ClassA and Class B. class A needs classB to
 - It also provides a way to decouple objects that no client code has to be changed simply because an object depends on another and another object" has changed.
 
 There are three common means for a client to accept a dependency injection: setter-, interface- and constructor-based injection as given below:
-{{{
+{{{e
 // Without DI
 public class Client {
     private ExampleService service; <<< Hard Dependency
@@ -474,7 +474,7 @@ Dagger 2 is dependency injection framework which uses code generation and is bas
 2. NOT a not provides dependency on it's own. You needs to provides them.
 
 You can setup dagger in android application by spacing the annotation processor and the libs itself as below:
-{{{
+{{{e
 // app/build.gradle
 apply plugin: 'com.android.application'
 
@@ -501,7 +501,7 @@ As we discussed before DI is builds on two compoennet :
 
 
 2. Consumer:  If some classA needs some instnace of ClassB, it can use @Inject annotation to define a dependency. The classA can depens on classB by 3 Way: Class B defined as class field or defined  inside method or passes a paremetr to it;s method. That means we need a support of 3 way to inject a dependency in dagger. Here is the example of all three way to inject:
-{{{
+{{{e
 // Vehicle needs Motor, Motor instance will be supplied by Dagger
 @Inject
 public Vehicle(Motor motor){
@@ -511,7 +511,7 @@ public Vehicle(Motor motor){
 }}}
 
 To use DI, your app must initilized Compoenent  like
-{{{
+{{{e
 AppComponent =
     DaggerAppComponent.builder()
           .appModule(AppModule(app))
@@ -522,7 +522,7 @@ AppComponent =
 
 Let's see using an example:
 Let's we have User Class and a BackendService Class which provides User and other parameters. So we need to have actual Class Impl
-{{{
+{{{e
 public class User {
     private String firstName;
     private String lastName;
@@ -554,7 +554,7 @@ public class BackendService {
 
 To support the injection on User and serverUrl, we needs to define module and Providers( which supplies the concreate objects.)
 
-{{{
+{{{e
 import dagger.Module;
 import dagger.Provides;
 @Module
@@ -587,7 +587,7 @@ public class UserModule {
 }}}
 
 Now we need to have a componenet which will link then.
-{{{
+{{{e
 import javax.inject.Singleton;
 
 import com.vogella.java.dagger2.BackendService;
@@ -610,7 +610,7 @@ public interface MyComponent {
 }}}
 
 Now, here is the client code which use DI.
-{{{
+{{{e
 package com.vogella.java.dagger2.main;
 import com.vogella.java.dagger2.BackendService;
 import com.vogella.java.dagger2.component.DaggerMyComponent;
@@ -666,7 +666,7 @@ Summery of designs:
 - In case of lazy initialization, you must ensure that mutulay exclusive naess of creating the instance using double locking approach.
 
 //Solsution:1 Cleated on class load time.
-{{{
+{{{e
 class SingletonEarly {
     private static SingletonEarly singleton = new SingletonEarly( );
     private SingletonEarly() {
@@ -678,7 +678,7 @@ class SingletonEarly {
 }
 }}}
 //Solsution 2: Deferred singleton,.
-{{{
+{{{e
 class SingletonDelay {
     private static SingletonDelay instance = null;
     private SingletonDelay() {
@@ -716,7 +716,7 @@ Summery of designs:
 - The main fitfalls of this patterns are complexity and need to write a lot of codes which can cause problem while refactorying in later.
 Factory pattern : To to crete simailr object based on some argument ype. Clinet will abstarcted how they build this.
 
-{{{
+{{{e
 interface IShape {
     void draw();
 }
@@ -774,7 +774,7 @@ Summery of designs:
 - Abstract factory is normally used for things like dependency injection/strategy, when you want to be able to create a whole family of objects that need to be of "the same kind", and have some common base classes(>=1).  For example, we can have a IPlatFactory which can have makePlant() or makePicker().We can have two concreate factory AppleFactory and OrangeFactory which implemnets IPlantFactory. Now in thease two factory, they can build Apple()/Orange() as Iplant and ApplePicker() /OrangePicker() as Picker. No that Ipicker and IPlant are the interface and the factory will return the interface.
 - Pitfalls: Abstract factory is the most complex creatinal design patterns and more diculyt to implamnet and lot of time to refactor the code later on.
 
-{{{
+{{{e
 abstract class CreditCard {
     protected int cardNumberLength,  csv;
 }
@@ -843,7 +843,7 @@ Design challenges:
 Summery of designs:
 - The problem of constraction can easily solved using builder patetrns. We can introduce  a static inner class called “Builder” which has same member as container class. We expose the setter to public to set the values and return “this” to allow “chain building”. It also expose a build() member which create the object of container calss and return it. As container class doent have any setter – no one can change the object once it got created by builder.Simple and efficenet!
 Let's consider the below classic example:
-{{{
+{{{e
 class LunchOrder {
     //now we need to have a builder note that inner class return the builder object
     public static class Builder {
@@ -892,7 +892,7 @@ class LunchOrder {
 }
 }}}
 Let's consider the below example of having a logger Builder patetrns
-{{{
+{{{e
 //setups
 new Logger.Builder()
     .isLoggable(BuildConfig.DEBUG)
@@ -914,7 +914,7 @@ Logger.e("Error Message with ThrowAble", new Throwable("Some Error"));
 
 This is how we define the lib using builder patterns:
 First we Define the class Logger with private contractor and all the peremetr to setup. Now, we have internal static  class called builder, which have all the paremetr again as private and alows set and get. You should not that the setter returns this to allows chain setting, at end we call build() function in which we call init() function of outer class. init function copy all the peremeter from Build class to Logger class to initlilize. As Logger class donet have any setter, we can't change any paremetr after building. Now we imaplement all the supported API for Logger class as a static veriable.
-{{{
+{{{e
 public class Logger {
     private Logger() {
         throw new RuntimeException("Private constructor cannot be accessed");
@@ -1054,7 +1054,7 @@ Summery of designs:
 - One approach might be to make the constractor as private and define a static attribute of the class and initialized it and then define a public getter for this.
 - In case of lazy initialization, you must ensure that mutulay exclusive naess of creating the instance using double locking approach.
 
-{{{
+{{{e
 abstract class Item implements Cloneable {
     private String title;
     @Override
@@ -1494,7 +1494,7 @@ Summery of designs:
 
 
 Example1: Basic Notion of object
-{{{
+{{{e
 var Task = function (name) {
     this.name = name;
     this.completed = false;
@@ -1508,7 +1508,7 @@ Var ob1 = new Task(“Dipankar”)
 
 
 // Example 2: using prototype : the function is not copied.
-{{{
+{{{e
 var Task = function (name) {
     this.name = name;
     this.completed = false;
@@ -1525,7 +1525,7 @@ Task.prototype.save = function () {
 }}}
 
 //Example 3: Uisng defineProperty – Which give more protection of memebrer function.
-{{{
+{{{e
 var task = {
     title: 'My Title',
     description: 'My Description'
@@ -1543,7 +1543,7 @@ Object.defineProperty(task, 'toString', {
 
 
 //Example 4: use strict – A modern way to write JS calss
-{{{
+{{{e
 'use strict'
 class Task {
     constructor(name) {
@@ -1587,7 +1587,7 @@ Summery of designs:
 
 
 // Example 1: Basic Module Structre
-{{{
+{{{e
 var Module = {
 method: function(){...},
 nextMethod: function(){...}
@@ -1596,7 +1596,7 @@ nextMethod: function(){...}
 
 
 //Example 2: Real Module Patterns with private memebr
-{{{
+{{{e
 var Module = function () {
 var privateVar = 'I am private...';
 return {
@@ -1608,7 +1608,7 @@ return {
 
 
 //Example 3: Better Impl, Private veribale and private function.
-{{{
+{{{e
 var repo = function () {
     var db = {};
     var get = function (id) {
@@ -1634,7 +1634,7 @@ var repo = function () {
 ## Android Design Patters
 # Design a Custom View
 
-{{{
+{{{e
 
     public class CustomView extends RelativeLayout {
 
@@ -1685,7 +1685,7 @@ var repo = function () {
 
 Suppose I want to have a List Items like this which should be listed
 
-{{{
+{{{e
     public interface Item{
         String getTitle();
         String getSubTitle();
@@ -1695,7 +1695,7 @@ Suppose I want to have a List Items like this which should be listed
 }}}
 
 and Here is the layout for each item:
-{{{
+{{{e
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -1733,7 +1733,7 @@ and Here is the layout for each item:
 }}}
 
 Here is the Adapter
-{{{
+{{{e
 private class RVAdapter extends RecyclerView.Adapter<RVAdapter.ItemViewHolder> {
     List<Item> nodes = new ArrayList<>();
     Context mContext;
@@ -1808,7 +1808,7 @@ private class RVAdapter extends RecyclerView.Adapter<RVAdapter.ItemViewHolder> {
 
 }}}
 Let's define a class which allow us to Listn when you click or long tab a item
-{{{
+{{{e
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.GestureDetector;
@@ -1855,7 +1855,7 @@ public class RecyclerItemClickListener implements RecyclerView.OnItemTouchListen
 }
 }}}
 The code must be added to the client side
-{{{
+{{{e
     // Decleare
     private RecyclerView mRecyclerView;
     private RVAdapter adapter;
