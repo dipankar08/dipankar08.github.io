@@ -2,7 +2,7 @@ html{
   font-size: 100%;
 }
 a{text-decoration: none;color: rgba(0,0,0,0.40);    cursor: pointer;}
-a:hover{color:#009688;}
+a:hover{color:#ffcd00;}
 div { box-sizing: border-box;}
 body{
   height:100%;
@@ -23,12 +23,14 @@ body{
   height: 210px;
   width: 100%;
   z-index: -1;
-  background-color: #009688;
+  background-color: #ffcd00;
 }
 img {
   border-radius: 50%;
-  width: 100px;
-  margin-left: calc(50% - 50px);
+  width: 150px;
+  height: 150px;
+  margin-left: calc(50% - 75px);
+  border: 10px solid #ffcd00;
 }
 
 .box{
@@ -72,7 +74,7 @@ img {
 }
 .title{
   font-size: 2.5em;
-  color: rgba(0,0,0,.65);
+  color: #ffcd00
 }
 .subtitle{
   font-size: 1em;
@@ -118,6 +120,7 @@ ul.c > li {
 .fa-facebook:hover{color:#4166b2}
 .fa-linkedin:hover{color:#0077B5}
 .fa-github:hover{color:#24292e}
+.box .top p.contact { margin: 180px auto 0px auto;}
 /* Use a media query to add a breakpoint at 800px: */
 /* The width is 100%, when the viewport is 800px or smaller */
 @media screen and (max-width: 800px) {
