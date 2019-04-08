@@ -379,6 +379,16 @@ define("utils", ["require", "exports", "interface"], function (require, exports,
                 }
             }
         }
+        static transform(pack, xoffset, yoffset) {
+            let newpoints = new Array();
+            for (let point of pack.points) {
+                newpoints.push({ x: point.x + xoffset, y: point.y + yoffset, data: point.data, type: point.type });
+            }
+            return {
+                style: pack.style,
+                points: newpoints
+            };
+        }
     }
     CommonUtils.myProp = 'Hello';
     exports.CommonUtils = CommonUtils;
@@ -736,6 +746,9 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
                 case interface_4.DrawOption.SELECTED_DELETE:
                     this.mDrawManager.deleteFromStack(this.mSelectedIdx);
                     break;
+                case interface_4.DrawOption.SELECTED_DUPLICATE:
+                    this.mDrawManager.insertToStack(utils_1.CommonUtils.transform(this.mSelectedPack, -2, -2));
+                    break;
             }
             this.mDrawManager.discardChange();
             this.mSelectedIdx = -1;
@@ -805,8 +818,8 @@ define("draw", ["require", "exports", "constant", "canvus", "component"], functi
                 }
             }
         }
-        insertToStack(item) {
-            console.log("[INFO] insertToStack", item);
+        insertToStackInternal(item) {
+            console.log("[INFO] insertToStackInternal", item);
             this.mStack.push(item);
             for (let p of item.points) {
                 this.mPointMap[p.x + "#" + p.y] = this.mStack.length - 1;
@@ -836,13 +849,16 @@ define("draw", ["require", "exports", "constant", "canvus", "component"], functi
         deleteFromStack(index) {
             this.mStack.splice(index, 1);
         }
+        insertToStack(pack) {
+            this.mStack.push(pack);
+        }
         // draw functions.
         drawFront(pack) {
             this.mCanvusFront.clearAll();
             this.mCanvusFront.draw(pack, true);
         }
         drawBack(pack) {
-            this.insertToStack(pack);
+            this.insertToStackInternal(pack);
             this.mCanvusFront.clearAll();
             this.repaintBack();
         }

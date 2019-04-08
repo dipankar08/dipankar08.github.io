@@ -75,8 +75,8 @@ export class DrawManager {
   }
 
 
-  private insertToStack(item:DrawPackage){
-    console.log("[INFO] insertToStack",item);
+  private insertToStackInternal(item:DrawPackage){
+    console.log("[INFO] insertToStackInternal",item);
     this.mStack.push(item);
     for(let p of item.points){
       this.mPointMap[p.x+"#"+p.y]=this.mStack.length -1;
@@ -110,15 +110,20 @@ export class DrawManager {
     this.mStack.splice(index, 1);
   }
 
+  public insertToStack(pack:DrawPackage){
+    this.mStack.push(pack);
+  }
+
+
   // draw functions.
   public drawFront(pack:DrawPackage){
     this.mCanvusFront.clearAll();
     this.mCanvusFront.draw(pack, true);
   }
   public drawBack(pack:DrawPackage){
-    this.insertToStack(pack);
+    this.insertToStackInternal(pack);
     this.mCanvusFront.clearAll();
-    this.repaintBack();
+    this.repaintBack(); 
   }
   public drawBackWithReplace(pack:DrawPackage, index:number){
     this.mStack[index] = pack ;

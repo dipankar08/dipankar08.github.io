@@ -1,4 +1,4 @@
-import { Points, DrawType } from "./interface";
+import { Points, DrawType, DrawPackage } from "./interface";
 
 export abstract class CommonUtils {
     static line_x(x1: number, y1: number, count: number): Points {
@@ -68,6 +68,17 @@ export abstract class CommonUtils {
         } else {
           return [x2, y2, x1, y1];
         }
+      }
+    }
+
+    public static transform(pack:DrawPackage,xoffset, yoffset):DrawPackage{
+      let newpoints = new Array();
+      for(let point of pack.points){
+          newpoints.push({x:point.x+xoffset, y:point.y+yoffset,data:point.data,type:point.type});
+      }
+      return {
+        style:pack.style,
+        points:newpoints
       }
     }
   }

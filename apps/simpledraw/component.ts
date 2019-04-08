@@ -394,6 +394,9 @@ export class ComponentManager{
         case DrawOption.SELECTED_DELETE:
         this.mDrawManager.deleteFromStack(this.mSelectedIdx);
         break;
+        case DrawOption.SELECTED_DUPLICATE:
+        this.mDrawManager.insertToStack(CommonUtils.transform(this.mSelectedPack,-2, -2));
+        break;
       }
       this.mDrawManager.discardChange();
       this.mSelectedIdx = -1;

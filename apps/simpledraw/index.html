@@ -19,16 +19,18 @@
             <li title="line" onclick="mDrawManager.select(DrawOption.LINE)"><i class="fas fa-wave-square"></i></li>
             <li title="directed line" onclick="mDrawManager.select(DrawOption.LINE_D)"><i class="fas fa-long-arrow-alt-right"></i></li>
             <li title="both direction line" onclick="mDrawManager.select(DrawOption.LINE_DD)"><i class="fas fa-arrows-alt-h"></i></li>
+            <li title="text" onclick="mDrawManager.select(DrawOption.TEXT)"><i class="fas fa-font"></i></li>
             <li title="clear" onclick="mDrawManager.select(DrawOption.CLEAR)"><i class="fas fa-eraser"></i></li>
-            <li class="sep"><i class="fas fa-minus"></i></li>
-            <li title="move" onclick="mDrawManager.select(DrawOption.SELECT)"><i class="fas fa-expand-arrows-alt"></i></li>
+            <li class="sep"></li>
+            <li title="select" onclick="mDrawManager.select(DrawOption.SELECT)"><i class="fas fa-mouse-pointer"></i></li>
             <li title="move" onclick="mDrawManager.select(DrawOption.MOVE)"><i class="fas fa-expand-arrows-alt"></i></li>
+            <li title="delete" onclick="mDrawManager.select(DrawOption.SELECTED_DELETE)"><i class="fas fa-trash"></i></li>
+            <li title="duplicate" onclick="mDrawManager.select(DrawOption.SELECTED_DUPLICATE)""> <i class="far fa-clone"></i></li>
+            <li class="sep"></li>
             <li title="redo" onclick="mDrawManager.redo()"><i class="fas fa-redo"></i></li>
             <li title="undo" onclick="mDrawManager.undo()"><i class="fas fa-undo"></i></li>
             <li title="clear all" onclick="mDrawManager.clearAll()"><i class="fas fa-ban"></i></li>
-            <li title="clone" onclick="mDrawManager.clearAll()"> <i class="far fa-clone"></i></li>
-            <li title="text" onclick="mDrawManager.select(DrawOption.TEXT)"><i class="fas fa-font"></i></li>
-            <li class="sep"><i class="fas fa-minus"></i></li>
+            <li class="sep"></li>
           <li title="color" onclick="mDrawManager.setStyle(CONSTANT.THEME.DEFAULT)"><i style="color:#ffffff" class="fas fa-tint"></i></li>
           <li title="color" onclick="mDrawManager.setStyle(CONSTANT.THEME.RED)"><i style="color:red"   class="fas fa-tint"></i></li>
           <li title="color" onclick="mDrawManager.setStyle(CONSTANT.THEME.GREEN)"><i  style="color:green"  class="fas fa-tint"></i></li>
