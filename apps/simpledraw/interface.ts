@@ -20,6 +20,8 @@ export enum DrawOption {
     CLEAR,
     MARK,
     NONE,
+    SELECTED_DELETE,
+    SELECTED_DUPLICATE,
     SELECT,
     COPY,
     MOVE,
@@ -37,10 +39,16 @@ export type Point = {x:number, y:number}
 
 export type Style = {
     'fillColor'?:string,
+    'fillColorHighlight'?:string,
     'drawColor'?:string,
     'textColor'?:string,
     'gridLineColor'?:string,
   }
+
+  export type UiCallback={
+    onTextBoxShown:Function,
+    onTextBoxHide:Function,
+  };
 export type TouchCallback = {
     'onStart': Function,
     'onMove': Function,

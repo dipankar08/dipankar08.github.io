@@ -142,5 +142,6 @@ export class UnitDraw{
       private midy(y:number){
         return y*CONSTANT.GAP_Y+CONSTANT.GAP_Y/2;
       }
+      
 }
   

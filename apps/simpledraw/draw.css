@@ -19,8 +19,12 @@ body{
 .left {
     padding: 10px;
 }
-.left > ul {
-    margin-bottom: 20px;
+.left .sep{
+    border-bottom: 1px solid #aaaaaa;
+    margin: 20px auto;
+}
+.left > ul> li {
+    margin-bottom: 10px;
 }
 .left i{   color: #aaaaaa;}
 .left i:hover{    color: #ffffff;}

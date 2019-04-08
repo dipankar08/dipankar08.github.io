@@ -2,11 +2,11 @@ import { Style } from "./interface";
 
 export abstract class CONSTANT {
 static GAP_X: number = 10;
-static GAP_Y: number = 20;
+static GAP_Y: number = 15;
 static TEXT_GAP_OFFSET: number = 4;
 static BACKGROUND_COLOR = '#fff';
 static THEME ={
-        "DEFAULT": {fillColor:"#F2EFEB","drawColor":"#111111","textColor":"#000000"},
+        "DEFAULT": {fillColor:"#F2EFEB",fillColorHighlight:"#75edfc","drawColor":"#111111","textColor":"#000000"},
         "GRID": {fillColor:"#ffffff","drawColor":"#F2EFEB","textColor":"#F2EFEB"},
         "RED": {fillColor:"#FFEBEE","drawColor":"#FF1744","textColor":"#D50000"},
         "BLUE": {fillColor:"#E8EAF6","drawColor":"#304FFE","textColor":"#304FFE"},

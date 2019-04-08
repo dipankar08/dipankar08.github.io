@@ -4,7 +4,7 @@ import { CONSTANT } from "./constant";
 import { CommonUtils } from "./utils";
 import { UnitDraw } from "./unitdraw";
 import { MyCanvus } from "./canvus";
-import { DrawElementMouseEventHandler, Point, Points, DrawOption, DrawPackage, Style } from "./interface";
+import { DrawElementMouseEventHandler, Point, Points, DrawOption, DrawPackage, Style, UiCallback } from "./interface";
 import { TestPoint, ComponentManager } from "./component";
 
 export class DrawManager {
@@ -15,6 +15,7 @@ export class DrawManager {
   private mRedo: Array<DrawPackage> = new Array();
   private mDrawElementMouseEventHandler: Array<DrawElementMouseEventHandler> = new Array();
   private mComponentManager:ComponentManager;
+  private mUiCallback:UiCallback;
   private mStyle:Style = CONSTANT.THEME.DEFAULT;
 
   constructor(canvus_id1, canvus_id2) {
@@ -26,6 +27,9 @@ export class DrawManager {
     this.mCanvusFront.mCallback = {
       onStart: function(a) {
         _this.mComponentManager.onStart(a);
+        if(_this.mUiCallback){
+          _this.mUiCallback.onTextBoxShown();
+        }
       },
       onEnd: function(a) {
         _this.mComponentManager.onEnd(a);
@@ -38,9 +42,15 @@ export class DrawManager {
 
   public onTextSubmit(){
     this.mComponentManager.onTextSubmit();
+    if(this.mUiCallback){
+      this.mUiCallback.onTextBoxHide();
+    }
   }
   public onTextCancel(){
     this.mComponentManager.onTextCancel();
+    if(this.mUiCallback){
+      this.mUiCallback.onTextBoxHide();
+    }
   }
   public onTextChange(text:string){
     this.mComponentManager.onTextChange(text);
@@ -50,7 +60,7 @@ export class DrawManager {
     this.mCanvusFront.clearAll();
     this.mCanvusBack.clearAll();
     for (let pack of this.mStack) {
-      this.mCanvusBack.draw(pack);
+      this.mCanvusBack.draw(pack, false);
     }
   }
 
@@ -59,7 +69,7 @@ export class DrawManager {
     this.mCanvusBack.clearAll();
     for(let i =0;i<this.mStack.length;i++){
       if(i != index){
-      this.mCanvusBack.draw(this.mStack[i]);
+      this.mCanvusBack.draw(this.mStack[i], false);
       }
     }
   }
@@ -92,14 +102,18 @@ export class DrawManager {
     }
   }
 
-  public getStackPoints(index:number):Points{
-    return this.mStack[index].points;
+  public getStackPoints(index:number):DrawPackage{
+    return this.mStack[index];
+  }
+
+  public deleteFromStack(index:number){
+    this.mStack.splice(index, 1);
   }
 
   // draw functions.
   public drawFront(pack:DrawPackage){
     this.mCanvusFront.clearAll();
-    this.mCanvusFront.draw(pack);
+    this.mCanvusFront.draw(pack, true);
   }
   public drawBack(pack:DrawPackage){
     this.insertToStack(pack);
@@ -148,6 +162,13 @@ export class DrawManager {
     this.mStack = new Array()
     this.mRedo = new Array()
     this.repaintBack();
+  }
+  
+  public discardChange(){
+    this.repaintBack();
+  }
+  public setUiCallback(uicallback:UiCallback){
+    this.mUiCallback = uicallback;
   }
 
 

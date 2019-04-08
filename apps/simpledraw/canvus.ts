@@ -66,15 +66,19 @@ export class MyCanvus{
       }
     }
   
-    public setStyle(style:Style ){
-      this.context.fillStyle = style.fillColor;
+    public setStyle(style:Style, isFront:boolean){
+      if(isFront){
+        this.context.fillStyle = style.fillColorHighlight;
+      } else{
+        this.context.fillStyle = style.fillColor;
+      }
       this.context.strokeStyle = style.drawColor;
       this.context.font = '20px monospace';
     }
   
     // draw the grid.
     public drawGrid() {
-      this.setStyle(CONSTANT.THEME.GRID)
+      this.setStyle(CONSTANT.THEME.GRID, true)
       this.context.beginPath();
       for (var x = 0; x <= this.canvas.width; x += CONSTANT.GAP_X) {
         this.context.moveTo(0.5 + x, 0);
@@ -87,8 +91,8 @@ export class MyCanvus{
       this.context.stroke();
     }
   
-    public draw(pack: DrawPackage) {
-      this.setStyle(pack.style);
+    public draw(pack: DrawPackage, isFront:boolean) {
+      this.setStyle(pack.style, isFront);
       this.context.beginPath();
       if(pack.points[0].type == DrawType.CHAR){
         this.context.fillStyle = pack.style.drawColor;
@@ -134,7 +138,7 @@ export class MyCanvus{
         this.drawGrid();
       }
       if(this.mCachePoint){
-        this.draw(this.mCachePoint);
+        this.draw(this.mCachePoint, false);
       }
     }
   }

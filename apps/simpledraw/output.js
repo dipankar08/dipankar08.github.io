@@ -177,14 +177,19 @@ define("canvus", ["require", "exports", "unitdraw", "constant", "interface"], fu
                 this.mCallback.onMove({ x: mousePos[0], y: mousePos[1] });
             }
         }
-        setStyle(style) {
-            this.context.fillStyle = style.fillColor;
+        setStyle(style, isFront) {
+            if (isFront) {
+                this.context.fillStyle = style.fillColorHighlight;
+            }
+            else {
+                this.context.fillStyle = style.fillColor;
+            }
             this.context.strokeStyle = style.drawColor;
             this.context.font = '20px monospace';
         }
         // draw the grid.
         drawGrid() {
-            this.setStyle(constant_2.CONSTANT.THEME.GRID);
+            this.setStyle(constant_2.CONSTANT.THEME.GRID, true);
             this.context.beginPath();
             for (var x = 0; x <= this.canvas.width; x += constant_2.CONSTANT.GAP_X) {
                 this.context.moveTo(0.5 + x, 0);
@@ -196,8 +201,8 @@ define("canvus", ["require", "exports", "unitdraw", "constant", "interface"], fu
             }
             this.context.stroke();
         }
-        draw(pack) {
-            this.setStyle(pack.style);
+        draw(pack, isFront) {
+            this.setStyle(pack.style, isFront);
             this.context.beginPath();
             if (pack.points[0].type == interface_2.DrawType.CHAR) {
                 this.context.fillStyle = pack.style.drawColor;
@@ -238,7 +243,7 @@ define("canvus", ["require", "exports", "unitdraw", "constant", "interface"], fu
                 this.drawGrid();
             }
             if (this.mCachePoint) {
-                this.draw(this.mCachePoint);
+                this.draw(this.mCachePoint, false);
             }
         }
     }
@@ -269,11 +274,13 @@ define("interface", ["require", "exports"], function (require, exports) {
         DrawOption[DrawOption["CLEAR"] = 5] = "CLEAR";
         DrawOption[DrawOption["MARK"] = 6] = "MARK";
         DrawOption[DrawOption["NONE"] = 7] = "NONE";
-        DrawOption[DrawOption["SELECT"] = 8] = "SELECT";
-        DrawOption[DrawOption["COPY"] = 9] = "COPY";
-        DrawOption[DrawOption["MOVE"] = 10] = "MOVE";
-        DrawOption[DrawOption["RESIZE"] = 11] = "RESIZE";
-        DrawOption[DrawOption["TEST_POINT"] = 12] = "TEST_POINT";
+        DrawOption[DrawOption["SELECTED_DELETE"] = 8] = "SELECTED_DELETE";
+        DrawOption[DrawOption["SELECTED_DUPLICATE"] = 9] = "SELECTED_DUPLICATE";
+        DrawOption[DrawOption["SELECT"] = 10] = "SELECT";
+        DrawOption[DrawOption["COPY"] = 11] = "COPY";
+        DrawOption[DrawOption["MOVE"] = 12] = "MOVE";
+        DrawOption[DrawOption["RESIZE"] = 13] = "RESIZE";
+        DrawOption[DrawOption["TEST_POINT"] = 14] = "TEST_POINT";
     })(DrawOption = exports.DrawOption || (exports.DrawOption = {}));
 });
 define("constant", ["require", "exports"], function (require, exports) {
@@ -282,11 +289,11 @@ define("constant", ["require", "exports"], function (require, exports) {
     class CONSTANT {
     }
     CONSTANT.GAP_X = 10;
-    CONSTANT.GAP_Y = 20;
+    CONSTANT.GAP_Y = 15;
     CONSTANT.TEXT_GAP_OFFSET = 4;
     CONSTANT.BACKGROUND_COLOR = '#fff';
     CONSTANT.THEME = {
-        "DEFAULT": { fillColor: "#F2EFEB", "drawColor": "#111111", "textColor": "#000000" },
+        "DEFAULT": { fillColor: "#F2EFEB", fillColorHighlight: "#75edfc", "drawColor": "#111111", "textColor": "#000000" },
         "GRID": { fillColor: "#ffffff", "drawColor": "#F2EFEB", "textColor": "#F2EFEB" },
         "RED": { fillColor: "#FFEBEE", "drawColor": "#FF1744", "textColor": "#D50000" },
         "BLUE": { fillColor: "#E8EAF6", "drawColor": "#304FFE", "textColor": "#304FFE" },
@@ -559,7 +566,10 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
         }
         onStart(point) {
             this.mStartPoint = point;
-            if (this.isDrawFunction()) {
+            if (this.isSelectAction()) {
+                this.handleSelectStart(point);
+            }
+            else if (this.isDrawFunction()) {
                 this.handleDrawStart(point);
             }
             else if (this.isMoveFunction()) {
@@ -568,7 +578,10 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
         }
         onEnd(a) {
             if (this.ele) {
-                if (this.isDrawFunction()) {
+                if (this.isSelectAction()) {
+                    this.handleSelectEnd(a);
+                }
+                else if (this.isDrawFunction()) {
                     this.handleDrawEnd(this.ele.getPoints());
                 }
                 else if (this.isMoveFunction()) {
@@ -577,22 +590,45 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
             }
         }
         onMove(a) {
-            if (this.isDrawFunction()) {
+            if (this.isSelectAction()) {
+                this.handleSelectMove(a);
+            }
+            else if (this.isDrawFunction()) {
                 this.handleDrawMove(a);
             }
             else if (this.isMoveFunction()) {
                 this.handleMoveMove(a);
             }
         }
+        onTextSubmit() {
+            if (this.mDrawOption == interface_4.DrawOption.TEXT && this.mTextEle != null) {
+                this.mDrawManager.drawBack({ 'points': this.mTextEle.getPoints(), 'style': this.mDrawManager.getStyle() });
+            }
+        }
+        onTextCancel() {
+        }
+        onTextChange(text) {
+            if (this.mDrawOption == interface_4.DrawOption.TEXT) {
+                this.mTextEle =
+                    new Text(this.mStartPoint.x, this.mStartPoint.y, text);
+                this.mDrawManager.drawFront({ 'points': this.mTextEle.getPoints(), 'style': this.mDrawManager.getStyle() });
+            }
+        }
+        select(dpot) {
+            this.mDrawOption = dpot;
+            if (this.isSelectAction()) {
+                this.handleNewSelectEvent(dpot);
+            }
+        }
+        /*************************************************************
+        *  Define Draw Functions
+        * ************************************************************/
         isDrawFunction() {
             return this.mDrawOption == interface_4.DrawOption.LINE ||
                 this.mDrawOption == interface_4.DrawOption.LINE_D ||
                 this.mDrawOption == interface_4.DrawOption.LINE_DD ||
                 this.mDrawOption == interface_4.DrawOption.RECT ||
                 this.mDrawOption == interface_4.DrawOption.CLEAR;
-        }
-        isMoveFunction() {
-            return this.mDrawOption == interface_4.DrawOption.MOVE;
         }
         handleDrawStart(point) {
             this.mStartPoint = point;
@@ -634,19 +670,11 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
             else {
             }
         }
-        onTextSubmit() {
-            if (this.mDrawOption == interface_4.DrawOption.TEXT && this.mTextEle != null) {
-                this.mDrawManager.drawBack({ 'points': this.mTextEle.getPoints(), 'style': this.mDrawManager.getStyle() });
-            }
-        }
-        onTextCancel() {
-        }
-        onTextChange(text) {
-            if (this.mDrawOption == interface_4.DrawOption.TEXT) {
-                this.mTextEle =
-                    new Text(this.mStartPoint.x, this.mStartPoint.y, text);
-                this.mDrawManager.drawFront({ 'points': this.mTextEle.getPoints(), 'style': this.mDrawManager.getStyle() });
-            }
+        /*************************************************************
+        *  Define Move Functions
+        * ************************************************************/
+        isMoveFunction() {
+            return this.mDrawOption == interface_4.DrawOption.MOVE;
         }
         handleMoveStart(point) {
             console.log(" handleMoveStart called");
@@ -677,7 +705,7 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
         }
         getMoveTranfromedPoint(start, end) {
             let points = new Array();
-            for (let p of this.mDrawManager.getStackPoints(this.mMoveSetIndex)) {
+            for (let p of this.mDrawManager.getStackPoints(this.mMoveSetIndex).points) {
                 points.push({ x: p.x + end.x - start.x, y: p.y + end.y - start.y, type: p.type, data: p.data });
             }
             return points;
@@ -685,8 +713,32 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
         drawMoveTrasition(start, end) {
             this.mDrawManager.drawFront({ points: this.getMoveTranfromedPoint(start, end), style: this.getStyle() });
         }
-        select(mDrawOption) {
-            this.mDrawOption = mDrawOption;
+        isSelectAction() {
+            return this.mDrawOption == interface_4.DrawOption.SELECT || this.mDrawOption == interface_4.DrawOption.SELECTED_DELETE || this.mDrawOption == interface_4.DrawOption.SELECTED_DUPLICATE;
+        }
+        handleSelectStart(point) {
+        }
+        handleSelectMove(point) {
+        }
+        handleSelectEnd(point) {
+            this.mSelectedIdx = this.mDrawManager.getStackIndexForPoint(point);
+            if (this.mSelectedIdx == -1) {
+                return;
+            }
+            this.mSelectedPack = this.mDrawManager.getStackPoints(this.mSelectedIdx);
+            this.mDrawManager.drawFront(this.mSelectedPack);
+        }
+        handleNewSelectEvent(drawOption) {
+            if (this.mSelectedIdx == -1) {
+                return;
+            }
+            switch (drawOption) {
+                case interface_4.DrawOption.SELECTED_DELETE:
+                    this.mDrawManager.deleteFromStack(this.mSelectedIdx);
+                    break;
+            }
+            this.mDrawManager.discardChange();
+            this.mSelectedIdx = -1;
         }
     }
     exports.ComponentManager = ComponentManager;
@@ -710,6 +762,9 @@ define("draw", ["require", "exports", "constant", "canvus", "component"], functi
             this.mCanvusFront.mCallback = {
                 onStart: function (a) {
                     _this.mComponentManager.onStart(a);
+                    if (_this.mUiCallback) {
+                        _this.mUiCallback.onTextBoxShown();
+                    }
                 },
                 onEnd: function (a) {
                     _this.mComponentManager.onEnd(a);
@@ -721,9 +776,15 @@ define("draw", ["require", "exports", "constant", "canvus", "component"], functi
         }
         onTextSubmit() {
             this.mComponentManager.onTextSubmit();
+            if (this.mUiCallback) {
+                this.mUiCallback.onTextBoxHide();
+            }
         }
         onTextCancel() {
             this.mComponentManager.onTextCancel();
+            if (this.mUiCallback) {
+                this.mUiCallback.onTextBoxHide();
+            }
         }
         onTextChange(text) {
             this.mComponentManager.onTextChange(text);
@@ -732,7 +793,7 @@ define("draw", ["require", "exports", "constant", "canvus", "component"], functi
             this.mCanvusFront.clearAll();
             this.mCanvusBack.clearAll();
             for (let pack of this.mStack) {
-                this.mCanvusBack.draw(pack);
+                this.mCanvusBack.draw(pack, false);
             }
         }
         repaintBackWithoutSpacific(index) {
@@ -740,7 +801,7 @@ define("draw", ["require", "exports", "constant", "canvus", "component"], functi
             this.mCanvusBack.clearAll();
             for (let i = 0; i < this.mStack.length; i++) {
                 if (i != index) {
-                    this.mCanvusBack.draw(this.mStack[i]);
+                    this.mCanvusBack.draw(this.mStack[i], false);
                 }
             }
         }
@@ -770,12 +831,15 @@ define("draw", ["require", "exports", "constant", "canvus", "component"], functi
             }
         }
         getStackPoints(index) {
-            return this.mStack[index].points;
+            return this.mStack[index];
+        }
+        deleteFromStack(index) {
+            this.mStack.splice(index, 1);
         }
         // draw functions.
         drawFront(pack) {
             this.mCanvusFront.clearAll();
-            this.mCanvusFront.draw(pack);
+            this.mCanvusFront.draw(pack, true);
         }
         drawBack(pack) {
             this.insertToStack(pack);
@@ -820,6 +884,12 @@ define("draw", ["require", "exports", "constant", "canvus", "component"], functi
             this.mStack = new Array();
             this.mRedo = new Array();
             this.repaintBack();
+        }
+        discardChange() {
+            this.repaintBack();
+        }
+        setUiCallback(uicallback) {
+            this.mUiCallback = uicallback;
         }
     }
     exports.DrawManager = DrawManager;

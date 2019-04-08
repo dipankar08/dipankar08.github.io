@@ -196,13 +196,17 @@ export class ComponentManager{
     private mStartPoint;
     private ele?: DrawElemnet;
     private mDrawOption:DrawOption = DrawOption.NONE;
+    private mTextEle = null;
 
     constructor(d:DrawManager){
         this.mDrawManager = d;
     }
     public onStart(point:Point){
         this.mStartPoint = point;
-        if(this.isDrawFunction()){
+        if(this.isSelectAction()){
+          this.handleSelectStart(point);
+        }
+        else if(this.isDrawFunction()){
             this.handleDrawStart(point);
           }
           else if(this.isMoveFunction()){
@@ -212,7 +216,10 @@ export class ComponentManager{
 
     public onEnd(a:Point){
         if(this.ele){
-            if(this.isDrawFunction()){
+          if(this.isSelectAction()){
+            this.handleSelectEnd(a);
+          }
+            else if(this.isDrawFunction()){
                 this.handleDrawEnd(this.ele.getPoints());
               }
               else if(this.isMoveFunction()){
@@ -222,24 +229,48 @@ export class ComponentManager{
     }
 
     public onMove(a:Point){
-        if(this.isDrawFunction()){
+      if(this.isSelectAction()){
+        this.handleSelectMove(a);
+      }
+        else if(this.isDrawFunction()){
             this.handleDrawMove(a);
           }
           else if(this.isMoveFunction()){
               this.handleMoveMove(a)
         }
     }
+    public onTextSubmit(){
+      if(this.mDrawOption == DrawOption.TEXT && this.mTextEle != null){
+        this.mDrawManager.drawBack({'points':this.mTextEle.getPoints(),'style':this.mDrawManager.getStyle()});
+      }
+    }
+    public onTextCancel(){
+      
+    }
+    public onTextChange(text:string){
+      if(this.mDrawOption == DrawOption.TEXT){
+        this.mTextEle =
+        new Text(this.mStartPoint.x, this.mStartPoint.y, text);
+        this.mDrawManager.drawFront({'points':this.mTextEle.getPoints(),'style':this.mDrawManager.getStyle()});
+      }
+    }
 
+    public select( dpot: DrawOption ){
+      this.mDrawOption = dpot;
+      if(this.isSelectAction()){
+        this.handleNewSelectEvent(dpot);
+      }
+  }
 
+  /*************************************************************
+  *  Define Draw Functions 
+  * ************************************************************/ 
   private isDrawFunction(){
     return this.mDrawOption == DrawOption.LINE ||
     this.mDrawOption == DrawOption.LINE_D ||
     this.mDrawOption == DrawOption.LINE_DD ||
     this.mDrawOption == DrawOption.RECT ||
     this.mDrawOption == DrawOption.CLEAR;
-    }
-    private isMoveFunction(){
-      return this.mDrawOption == DrawOption.MOVE;
     }
     private handleDrawStart(point){
       this.mStartPoint = point;
@@ -283,24 +314,13 @@ export class ComponentManager{
     }
   }
 
-  private mTextEle = null;
-  public onTextSubmit(){
-    if(this.mDrawOption == DrawOption.TEXT && this.mTextEle != null){
-      this.mDrawManager.drawBack({'points':this.mTextEle.getPoints(),'style':this.mDrawManager.getStyle()});
-    }
-  }
-  public onTextCancel(){
-    
-  }
-  public onTextChange(text:string){
-    if(this.mDrawOption == DrawOption.TEXT){
-      this.mTextEle =
-      new Text(this.mStartPoint.x, this.mStartPoint.y, text);
-      this.mDrawManager.drawFront({'points':this.mTextEle.getPoints(),'style':this.mDrawManager.getStyle()});
-    }
+  /*************************************************************
+  *  Define Move Functions 
+  * ************************************************************/ 
+  private isMoveFunction(){
+    return this.mDrawOption == DrawOption.MOVE;
   }
 
-    // Move Ops.
     private mMoveSetIndex:number;
     private mMoveStart:Point;
     private isValidMove:boolean = false;
@@ -333,7 +353,7 @@ export class ComponentManager{
     }
     private getMoveTranfromedPoint(start:Point, end:Point){
       let points = new Array();
-      for(let p of this.mDrawManager.getStackPoints(this.mMoveSetIndex)){
+      for(let p of this.mDrawManager.getStackPoints(this.mMoveSetIndex).points){
         points.push({x:p.x+end.x-start.x, y:p.y+end.y - start.y, type:p.type, data:p.data})
       }
       return points;
@@ -341,8 +361,42 @@ export class ComponentManager{
     private drawMoveTrasition(start:Point, end:Point){
       this.mDrawManager.drawFront({points:this.getMoveTranfromedPoint(start, end), style: this.getStyle()});
     }
-    public select( mDrawOption: DrawOption ){
-        this.mDrawOption = mDrawOption;
+
+  /*************************************************************
+  *  Define Select Functions 
+  * ************************************************************/ 
+    private mSelectedPack:DrawPackage;
+    private mSelectedIdx:number;
+    public isSelectAction(){
+        return this.mDrawOption == DrawOption.SELECT || this.mDrawOption == DrawOption.SELECTED_DELETE || this.mDrawOption == DrawOption.SELECTED_DUPLICATE;
+    }
+
+    public handleSelectStart(point:Point){
+      
+    }
+
+    public handleSelectMove(point:Point){
+
+    }
+    public handleSelectEnd(point:Point){
+      this.mSelectedIdx = this.mDrawManager.getStackIndexForPoint(point);
+      if(this.mSelectedIdx == -1){
+        return;
+      }
+      this.mSelectedPack = this.mDrawManager.getStackPoints(this.mSelectedIdx);
+      this.mDrawManager.drawFront(this.mSelectedPack);
+    }
+    public handleNewSelectEvent(drawOption: DrawOption){
+      if(this.mSelectedIdx == -1){
+        return;
+      }
+      switch(drawOption){
+        case DrawOption.SELECTED_DELETE:
+        this.mDrawManager.deleteFromStack(this.mSelectedIdx);
+        break;
+      }
+      this.mDrawManager.discardChange();
+      this.mSelectedIdx = -1;
     }
 }
   

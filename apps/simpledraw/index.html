@@ -13,25 +13,37 @@
         <canvas id="canvas1" width="100%" height="100%" style="background:rgba(0,0,0,0);"></canvas>
     </div>
     <div class="left">
-        <ul title="quickDrow"><i class="logo fas fa-drafting-compass"></i></ul>
-        <ul title="color" onclick="toggleColor()"><i class="fas fa-tint"></i></ul>
-        <ul title="box" onclick="mDrawManager.select(DrawOption.RECT)"><i class="fas fa-vector-square"></i></ul>
-        <ul title="line" onclick="mDrawManager.select(DrawOption.LINE)"><i class="fas fa-wave-square"></i></ul>
-        <ul title="directed line" onclick="mDrawManager.select(DrawOption.LINE_D)"><i class="fas fa-long-arrow-alt-right"></i></ul>
-        <ul title="both direction line" onclick="mDrawManager.select(DrawOption.LINE_DD)"><i class="fas fa-arrows-alt-h"></i></ul>
-        <ul title="clear" onclick="mDrawManager.select(DrawOption.CLEAR)"><i class="fas fa-eraser"></i></ul>
-        <ul title="move" onclick="mDrawManager.select(DrawOption.MOVE)"><i class="fas fa-expand-arrows-alt"></i></ul>
-        <ul title="redo" onclick="mDrawManager.redo()"><i class="fas fa-redo"></i></ul>
-        <ul title="undo" onclick="mDrawManager.undo()"><i class="fas fa-undo"></i></ul>
-        <ul title="clear all" onclick="mDrawManager.clearAll()"><i class="fas fa-ban"></i></ul>
-        <ul title="clone" onclick="mDrawManager.clearAll()"> <i class="far fa-clone"></i></ul>
-        <ul title="text" onclick="mDrawManager.select(DrawOption.TEXT)"><i class="fas fa-font"></i></ul>
+        <ul>
+            <li title="quickDrow"><i class="logo fas fa-drafting-compass"></i></li>
+            <li title="box" onclick="mDrawManager.select(DrawOption.RECT)"><i class="fas fa-vector-square"></i></li>
+            <li title="line" onclick="mDrawManager.select(DrawOption.LINE)"><i class="fas fa-wave-square"></i></li>
+            <li title="directed line" onclick="mDrawManager.select(DrawOption.LINE_D)"><i class="fas fa-long-arrow-alt-right"></i></li>
+            <li title="both direction line" onclick="mDrawManager.select(DrawOption.LINE_DD)"><i class="fas fa-arrows-alt-h"></i></li>
+            <li title="clear" onclick="mDrawManager.select(DrawOption.CLEAR)"><i class="fas fa-eraser"></i></li>
+            <li class="sep"><i class="fas fa-minus"></i></li>
+            <li title="move" onclick="mDrawManager.select(DrawOption.SELECT)"><i class="fas fa-expand-arrows-alt"></i></li>
+            <li title="move" onclick="mDrawManager.select(DrawOption.MOVE)"><i class="fas fa-expand-arrows-alt"></i></li>
+            <li title="redo" onclick="mDrawManager.redo()"><i class="fas fa-redo"></i></li>
+            <li title="undo" onclick="mDrawManager.undo()"><i class="fas fa-undo"></i></li>
+            <li title="clear all" onclick="mDrawManager.clearAll()"><i class="fas fa-ban"></i></li>
+            <li title="clone" onclick="mDrawManager.clearAll()"> <i class="far fa-clone"></i></li>
+            <li title="text" onclick="mDrawManager.select(DrawOption.TEXT)"><i class="fas fa-font"></i></li>
+            <li class="sep"><i class="fas fa-minus"></i></li>
+          <li title="color" onclick="mDrawManager.setStyle(CONSTANT.THEME.DEFAULT)"><i style="color:#ffffff" class="fas fa-tint"></i></li>
+          <li title="color" onclick="mDrawManager.setStyle(CONSTANT.THEME.RED)"><i style="color:red"   class="fas fa-tint"></i></li>
+          <li title="color" onclick="mDrawManager.setStyle(CONSTANT.THEME.GREEN)"><i  style="color:green"  class="fas fa-tint"></i></li>
+          <li title="color"  onclick="mDrawManager.setStyle(CONSTANT.THEME.YELLOW)"><i style="color:yellow" class="fas fa-tint"></i></li>
+        </ul>
     </div>
     <div class="text">
         <input type="text" onchange="mDrawManager.onTextChange(this.value)" placeholder="type any text"><button onclick="mDrawManager.onTextSubmit()">Submit</button><button onclick="mDrawManager.onTextCanecl()">Submit</button>
     </div>
 </body>
 <script type="text/javascript" src="https://requirejs.org/docs/release/2.3.6/minified/require.js"></script>
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
 <script type="text/javascript" src="output.js"></script>
 <script>
 require(["draw","interface"], function (DM) {
@@ -39,6 +51,14 @@ require(["draw","interface"], function (DM) {
     //mDrawManager.attach(new TestPoint());
     console.log("[INFO] Init Done");
     mDrawManager.setSize(window.innerWidth, window.innerHeight);
+    mDrawManager.setUiCallback({
+      'onTextBoxShown':function(){
+        console.log("Text Box shown");
+      },
+      'onTextBoxHide':function(){
+        console.log("Text Box Hide");
+      },
+  })
 });
 require(["interface"], function (DP) {
   DrawOption = DP.DrawOption;
@@ -46,11 +66,10 @@ require(["interface"], function (DP) {
 require(["constant"], function (DP) {
   CONSTANT = DP.CONSTANT;
 })
-var varIndex = 0;
-function toggleColor(){
-  var varColors = Object.keys(CONSTANT.THEME);
-  mDrawManager.setStyle(CONSTANT.THEME[varColors[varIndex]])
-  varIndex = (varIndex+1)%varColors.length;
-}
+$('html').keyup(function(e){
+    if(e.keyCode == 68) { //press d
+        mDrawManager.select(DrawOption.SELECTED_DELETE);
+    }
+});
 </script>
 </html>
