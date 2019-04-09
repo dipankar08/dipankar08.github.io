@@ -111,7 +111,12 @@ export class DrawManager {
   }
 
   public insertToStack(pack:DrawPackage){
-    this.mStack.push(pack);
+    this.insertToStackInternal(pack);
+  }
+
+  public replaceToStack(index:number,pack:DrawPackage ){
+    this.mStack[index] = pack;
+    this.recomputeMap();
   }
 
 

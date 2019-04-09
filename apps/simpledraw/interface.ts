@@ -25,6 +25,7 @@ export enum DrawOption {
     SELECT,
     COPY,
     MOVE,
+    COPY_AND_MOVE,
     RESIZE,
     TEST_POINT,
   }

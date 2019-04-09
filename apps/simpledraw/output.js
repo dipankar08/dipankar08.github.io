@@ -224,8 +224,8 @@ define("canvus", ["require", "exports", "unitdraw", "constant", "interface"], fu
             var rect = this.canvas.getBoundingClientRect();
             let x = mouseEvent.clientX - rect.left;
             let y = mouseEvent.clientY - rect.top;
-            // this is just a fix
-            let point = [Math.floor((x + x * .05) / constant_2.CONSTANT.GAP_X), Math.floor((y + y * 0.05) / constant_2.CONSTANT.GAP_Y)];
+            // fix: Mouse is not poiting to right box.
+            let point = [Math.ceil(x / constant_2.CONSTANT.GAP_X) - 1, Math.ceil(y / constant_2.CONSTANT.GAP_Y) - 1];
             return point;
         }
         // get topleft coorinate for <x,y>
@@ -279,8 +279,9 @@ define("interface", ["require", "exports"], function (require, exports) {
         DrawOption[DrawOption["SELECT"] = 10] = "SELECT";
         DrawOption[DrawOption["COPY"] = 11] = "COPY";
         DrawOption[DrawOption["MOVE"] = 12] = "MOVE";
-        DrawOption[DrawOption["RESIZE"] = 13] = "RESIZE";
-        DrawOption[DrawOption["TEST_POINT"] = 14] = "TEST_POINT";
+        DrawOption[DrawOption["COPY_AND_MOVE"] = 13] = "COPY_AND_MOVE";
+        DrawOption[DrawOption["RESIZE"] = 14] = "RESIZE";
+        DrawOption[DrawOption["TEST_POINT"] = 15] = "TEST_POINT";
     })(DrawOption = exports.DrawOption || (exports.DrawOption = {}));
 });
 define("constant", ["require", "exports"], function (require, exports) {
@@ -571,7 +572,7 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
         constructor(d) {
             this.mDrawOption = interface_4.DrawOption.NONE;
             this.mTextEle = null;
-            this.isValidMove = false;
+            this.mMovedIdx = -1;
             this.mDrawManager = d;
         }
         onStart(point) {
@@ -582,8 +583,8 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
             else if (this.isDrawFunction()) {
                 this.handleDrawStart(point);
             }
-            else if (this.isMoveFunction()) {
-                this.handleMoveStart(point);
+            else if (this.isMoveAction()) {
+                this.handleMovedStart(point);
             }
         }
         onEnd(a) {
@@ -594,8 +595,8 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
                 else if (this.isDrawFunction()) {
                     this.handleDrawEnd(this.ele.getPoints());
                 }
-                else if (this.isMoveFunction()) {
-                    this.handleMoveEnd(a);
+                else if (this.isMoveAction()) {
+                    this.handleMovedEnd(a);
                 }
             }
         }
@@ -606,8 +607,8 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
             else if (this.isDrawFunction()) {
                 this.handleDrawMove(a);
             }
-            else if (this.isMoveFunction()) {
-                this.handleMoveMove(a);
+            else if (this.isMoveAction()) {
+                this.handleMovedMove(a);
             }
         }
         onTextSubmit() {
@@ -680,63 +681,22 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
             else {
             }
         }
-        /*************************************************************
-        *  Define Move Functions
-        * ************************************************************/
-        isMoveFunction() {
-            return this.mDrawOption == interface_4.DrawOption.MOVE;
-        }
-        handleMoveStart(point) {
-            console.log(" handleMoveStart called");
-            this.mMoveStart = point;
-            if (this.mDrawManager.getStackIndexForPoint(point) != -1) {
-                this.drawMoveTrasition(point, point);
-                this.isValidMove = true;
-            }
-        }
-        handleMoveMove(point) {
-            console.log(" handleMoveMove called");
-            if (!this.isValidMove) {
-                return;
-            }
-            this.drawMoveTrasition(this.mMoveStart, point);
-        }
-        handleMoveEnd(end) {
-            console.log(" handleMoveEnd called");
-            if (!this.isValidMove) {
-                return;
-            }
-            console.log(" handleMoveEnd called 1");
-            console.log(end);
-            console.log(this.getMoveTranfromedPoint(this.mMoveStart, end));
-            let newPoints = this.getMoveTranfromedPoint(this.mMoveStart, end);
-            this.mDrawManager.drawBackWithReplace({ points: newPoints, style: this.getStyle() }, this.mMoveSetIndex);
-            this.isValidMove = false;
-        }
-        getMoveTranfromedPoint(start, end) {
-            let points = new Array();
-            for (let p of this.mDrawManager.getStackPoints(this.mMoveSetIndex).points) {
-                points.push({ x: p.x + end.x - start.x, y: p.y + end.y - start.y, type: p.type, data: p.data });
-            }
-            return points;
-        }
-        drawMoveTrasition(start, end) {
-            this.mDrawManager.drawFront({ points: this.getMoveTranfromedPoint(start, end), style: this.getStyle() });
-        }
         isSelectAction() {
             return this.mDrawOption == interface_4.DrawOption.SELECT || this.mDrawOption == interface_4.DrawOption.SELECTED_DELETE || this.mDrawOption == interface_4.DrawOption.SELECTED_DUPLICATE;
         }
         handleSelectStart(point) {
-        }
-        handleSelectMove(point) {
-        }
-        handleSelectEnd(point) {
             this.mSelectedIdx = this.mDrawManager.getStackIndexForPoint(point);
             if (this.mSelectedIdx == -1) {
+                //dismiss selection. 
+                this.handleNewSelectEvent(interface_4.DrawOption.NONE);
                 return;
             }
             this.mSelectedPack = this.mDrawManager.getStackPoints(this.mSelectedIdx);
             this.mDrawManager.drawFront(this.mSelectedPack);
+        }
+        handleSelectMove(point) {
+        }
+        handleSelectEnd(point) {
         }
         handleNewSelectEvent(drawOption) {
             if (this.mSelectedIdx == -1) {
@@ -749,6 +709,38 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
                 case interface_4.DrawOption.SELECTED_DUPLICATE:
                     this.mDrawManager.insertToStack(utils_1.CommonUtils.transform(this.mSelectedPack, -2, -2));
                     break;
+            }
+            this.mDrawManager.discardChange();
+            this.mSelectedIdx = -1;
+        }
+        isMoveAction() {
+            return this.mDrawOption == interface_4.DrawOption.MOVE || interface_4.DrawOption.COPY_AND_MOVE;
+        }
+        handleMovedStart(point) {
+            this.mMovedIdx = this.mDrawManager.getStackIndexForPoint(point);
+            if (this.mMovedIdx == -1) {
+                //dismiss selection. 
+                return;
+            }
+            this.mMovedStart = point;
+            this.mMovedPack = this.mDrawManager.getStackPoints(this.mMovedIdx);
+            this.mDrawManager.drawFront(this.mMovedPack);
+        }
+        handleMovedMove(point) {
+            if (this.mMovedIdx == -1) {
+                return;
+            }
+            this.mDrawManager.drawFront(utils_1.CommonUtils.transform(this.mMovedPack, point.x - this.mMovedStart.x, point.y - this.mMovedStart.y));
+        }
+        handleMovedEnd(point) {
+            if (this.mMovedIdx == -1) {
+                return;
+            }
+            if (this.mDrawOption == interface_4.DrawOption.COPY_AND_MOVE) {
+                this.mDrawManager.insertToStack(utils_1.CommonUtils.transform(this.mMovedPack, point.x - this.mMovedStart.x, point.y - this.mMovedStart.y));
+            }
+            else {
+                this.mDrawManager.replaceToStack(this.mMovedIdx, utils_1.CommonUtils.transform(this.mMovedPack, point.x - this.mMovedStart.x, point.y - this.mMovedStart.y));
             }
             this.mDrawManager.discardChange();
             this.mSelectedIdx = -1;
@@ -850,7 +842,11 @@ define("draw", ["require", "exports", "constant", "canvus", "component"], functi
             this.mStack.splice(index, 1);
         }
         insertToStack(pack) {
-            this.mStack.push(pack);
+            this.insertToStackInternal(pack);
+        }
+        replaceToStack(index, pack) {
+            this.mStack[index] = pack;
+            this.recomputeMap();
         }
         // draw functions.
         drawFront(pack) {

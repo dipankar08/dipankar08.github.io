@@ -209,8 +209,8 @@ export class ComponentManager{
         else if(this.isDrawFunction()){
             this.handleDrawStart(point);
           }
-          else if(this.isMoveFunction()){
-              this.handleMoveStart(point)
+          else if(this.isMoveAction()){
+              this.handleMovedStart(point)
           }  
     }
 
@@ -222,8 +222,8 @@ export class ComponentManager{
             else if(this.isDrawFunction()){
                 this.handleDrawEnd(this.ele.getPoints());
               }
-              else if(this.isMoveFunction()){
-                  this.handleMoveEnd(a);
+              else if(this.isMoveAction()){
+                  this.handleMovedEnd(a);
               }
           } 
     }
@@ -235,8 +235,8 @@ export class ComponentManager{
         else if(this.isDrawFunction()){
             this.handleDrawMove(a);
           }
-          else if(this.isMoveFunction()){
-              this.handleMoveMove(a)
+          else if(this.isMoveAction()){
+              this.handleMovedMove(a)
         }
     }
     public onTextSubmit(){
@@ -315,54 +315,6 @@ export class ComponentManager{
   }
 
   /*************************************************************
-  *  Define Move Functions 
-  * ************************************************************/ 
-  private isMoveFunction(){
-    return this.mDrawOption == DrawOption.MOVE;
-  }
-
-    private mMoveSetIndex:number;
-    private mMoveStart:Point;
-    private isValidMove:boolean = false;
-    private handleMoveStart(point:Point){
-      console.log(" handleMoveStart called");
-      this.mMoveStart = point;
-      if(this.mDrawManager.getStackIndexForPoint(point) != -1){
-        this.drawMoveTrasition(point, point)
-        this.isValidMove = true;
-      }
-    }
-    private handleMoveMove(point:Point){
-      console.log(" handleMoveMove called");
-      if(!this.isValidMove){
-        return;
-      }
-      this.drawMoveTrasition(this.mMoveStart, point)
-    }
-    private handleMoveEnd(end:Point){
-      console.log(" handleMoveEnd called");
-      if(!this.isValidMove){
-        return;
-      }
-      console.log(" handleMoveEnd called 1");
-      console.log(end);
-      console.log(this.getMoveTranfromedPoint(this.mMoveStart, end));
-      let newPoints =this.getMoveTranfromedPoint(this.mMoveStart, end);
-      this.mDrawManager.drawBackWithReplace({points:newPoints, style:this.getStyle()}, this.mMoveSetIndex);
-      this.isValidMove = false;
-    }
-    private getMoveTranfromedPoint(start:Point, end:Point){
-      let points = new Array();
-      for(let p of this.mDrawManager.getStackPoints(this.mMoveSetIndex).points){
-        points.push({x:p.x+end.x-start.x, y:p.y+end.y - start.y, type:p.type, data:p.data})
-      }
-      return points;
-    }
-    private drawMoveTrasition(start:Point, end:Point){
-      this.mDrawManager.drawFront({points:this.getMoveTranfromedPoint(start, end), style: this.getStyle()});
-    }
-
-  /*************************************************************
   *  Define Select Functions 
   * ************************************************************/ 
     private mSelectedPack:DrawPackage;
@@ -372,19 +324,21 @@ export class ComponentManager{
     }
 
     public handleSelectStart(point:Point){
-      
+      this.mSelectedIdx = this.mDrawManager.getStackIndexForPoint(point);
+      if(this.mSelectedIdx == -1){
+        //dismiss selection. 
+        this.handleNewSelectEvent(DrawOption.NONE);
+        return;
+      }
+      this.mSelectedPack = this.mDrawManager.getStackPoints(this.mSelectedIdx);
+      this.mDrawManager.drawFront(this.mSelectedPack);
     }
 
     public handleSelectMove(point:Point){
 
     }
     public handleSelectEnd(point:Point){
-      this.mSelectedIdx = this.mDrawManager.getStackIndexForPoint(point);
-      if(this.mSelectedIdx == -1){
-        return;
-      }
-      this.mSelectedPack = this.mDrawManager.getStackPoints(this.mSelectedIdx);
-      this.mDrawManager.drawFront(this.mSelectedPack);
+
     }
     public handleNewSelectEvent(drawOption: DrawOption){
       if(this.mSelectedIdx == -1){
@@ -401,6 +355,47 @@ export class ComponentManager{
       this.mDrawManager.discardChange();
       this.mSelectedIdx = -1;
     }
+
+  /*************************************************************
+  *  Define Moved Functions 
+  * ************************************************************/ 
+ private mMovedPack:DrawPackage;
+ private mMovedStart:Point;
+ private mMovedIdx:number = -1;
+ public isMoveAction(){
+     return this.mDrawOption == DrawOption.MOVE || DrawOption.COPY_AND_MOVE;
+ }
+
+ public handleMovedStart(point:Point){
+   this.mMovedIdx = this.mDrawManager.getStackIndexForPoint(point);
+   if(this.mMovedIdx == -1){
+     //dismiss selection. 
+     return;
+   }
+   this.mMovedStart = point;
+   this.mMovedPack = this.mDrawManager.getStackPoints(this.mMovedIdx);
+   this.mDrawManager.drawFront(this.mMovedPack);
+ }
+
+ public handleMovedMove(point:Point){
+   if(this.mMovedIdx == -1){
+     return;
+   }
+   this.mDrawManager.drawFront(CommonUtils.transform(this.mMovedPack,point.x - this.mMovedStart.x, point.y - this.mMovedStart.y));
+}
+ public handleMovedEnd(point:Point){
+  if(this.mMovedIdx == -1){
+    return;
+  }
+   if(this.mDrawOption == DrawOption.COPY_AND_MOVE){
+    this.mDrawManager.insertToStack(CommonUtils.transform(this.mMovedPack,point.x - this.mMovedStart.x, point.y - this.mMovedStart.y));
+   } else{
+    this.mDrawManager.replaceToStack(this.mMovedIdx, CommonUtils.transform(this.mMovedPack,point.x - this.mMovedStart.x, point.y - this.mMovedStart.y));
+   }
+  
+  this.mDrawManager.discardChange();
+  this.mSelectedIdx = -1;
+ }
 }
   
   

@@ -117,8 +117,8 @@ export class MyCanvus{
       var rect = this.canvas.getBoundingClientRect();
       let x = mouseEvent.clientX - rect.left;
       let y = mouseEvent.clientY - rect.top;
-      // this is just a fix
-      let point = [Math.floor((x+x*.05) / CONSTANT.GAP_X), Math.floor((y+y*0.05) / CONSTANT.GAP_Y)];
+      // fix: Mouse is not poiting to right box.
+      let point = [Math.ceil(x/CONSTANT.GAP_X)-1, Math.ceil(y/CONSTANT.GAP_Y)-1];
       return point;
     }
   
