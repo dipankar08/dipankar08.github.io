@@ -36,22 +36,22 @@ export abstract class CommonUtils {
       }
     }
     // top, right bottom, left
-    public static getDirectionOfTwoConsicutivePoints(x1: number, y1: number, x2: number, y2: number) {
-      if(x1==x2){
-        if(y1<y2){
-          return 2; // RIGHT
+    public static getDirectionOfTwoConsicutivePoints(point1:Point, point2:Point):Direction {
+      if(point1.x==point2.x){
+        if(point1.y < point2.y){
+          return Direction.BOTTOM;
         } else{
-          return 4; // LEFT
+           return Direction.TOP; 
         }
       }
-      if(y1==y2){
-        if(x1<x2){
-          return 3; // BOTTOM
+      if(point1.y==point2.y){
+        if(point1.x < point2.x){
+          return Direction.RIGHT;
         } else{
-          return 1; // TOP
+           return Direction.LEFT; 
         }
       }
-      return 0; // INVALID
+      return Direction.NONE;
     }
 
 
@@ -147,5 +147,19 @@ export abstract class CommonUtils {
           point2.y > point1.y ? Direction.TOP:Direction.BOTTOM,
           point2.x > point1.x ? Direction.RIGHT:Direction.LEFT,
         ]
+    }
+
+    public static pushAndReplace(points:Points, point){
+      let flag:boolean = false;
+      for(let i  =0; i< points.length;i++){
+        if(points[i].x == point.x && points[i].y == point.y){
+            points[i] = point;
+            flag = true;
+            break;
+        }
+      }
+      if(!flag){
+        points.push(point);
+      }
     }
   }

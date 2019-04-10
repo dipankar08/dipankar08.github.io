@@ -39,8 +39,9 @@ define("unitdraw", ["require", "exports", "constant", "interface"], function (re
             }
         }
         dot(x, y, data) {
-            this.context.moveTo(this.midx(x), this.midy(y));
+            this.context.moveTo(this.midx(x) + constant_1.CONSTANT.GAP_X / 2, this.midy(y));
             this.context.arc(this.midx(x), this.midy(y), constant_1.CONSTANT.GAP_X / 2, 0, 2 * Math.PI);
+            this.mark(x, y);
         }
         mark(x, y) {
             this.context.fillRect(x * constant_1.CONSTANT.GAP_X + 1, y * constant_1.CONSTANT.GAP_Y + 1, constant_1.CONSTANT.GAP_X - 1, constant_1.CONSTANT.GAP_Y - 1);
@@ -84,29 +85,29 @@ define("unitdraw", ["require", "exports", "constant", "interface"], function (re
         }
         arrow(x, y, data) {
             switch (data) {
-                case 1: // top
-                    this.context.moveTo(this.ptx(x), this.midy(y));
-                    this.context.lineTo(this.midx(x), this.pty(y));
-                    this.context.moveTo(this.ptx(x + 1), this.midy(y));
-                    this.context.lineTo(this.midx(x), this.pty(y));
+                case interface_1.Direction.TOP:
+                    this.context.moveTo(this.midx(x) - 4, this.pty(y + 1));
+                    this.context.lineTo(this.midx(x), this.midy(y) - 2);
+                    this.context.moveTo(this.midx(x) + 4, this.pty(y + 1));
+                    this.context.lineTo(this.midx(x), this.midy(y) - 2);
                     break;
-                case 2: // right
-                    this.context.moveTo(this.midx(x), this.pty(y));
-                    this.context.lineTo(this.ptx(x + 1), this.midy(y));
-                    this.context.moveTo(this.midx(x), this.pty(y + 1));
-                    this.context.lineTo(this.ptx(x + 1), this.midy(y));
+                case interface_1.Direction.RIGHT:
+                    this.context.moveTo(this.ptx(x), this.midy(y) - 3);
+                    this.context.lineTo(this.midx(x) + 2, this.midy(y));
+                    this.context.moveTo(this.ptx(x), this.midy(y) + 3);
+                    this.context.lineTo(this.midx(x) + 2, this.midy(y));
                     break;
-                case 3: // bottom
-                    this.context.moveTo(this.ptx(x), this.midy(y));
-                    this.context.lineTo(this.midx(x + 1), this.pty(y));
-                    this.context.moveTo(this.ptx(x + 1), this.midy(y));
-                    this.context.lineTo(this.midx(x + 1), this.pty(y));
+                case interface_1.Direction.BOTTOM:
+                    this.context.moveTo(this.midx(x) - 4, this.pty(y));
+                    this.context.lineTo(this.midx(x), this.midy(y));
+                    this.context.moveTo(this.midx(x) + 4, this.pty(y));
+                    this.context.lineTo(this.midx(x), this.midy(y));
                     break;
-                case 4: //left
-                    this.context.moveTo(this.midx(x), this.pty(y));
-                    this.context.lineTo(this.ptx(x), this.midy(y));
-                    this.context.moveTo(this.midx(x), this.pty(y + 1));
-                    this.context.lineTo(this.ptx(x), this.midy(y));
+                case interface_1.Direction.LEFT:
+                    this.context.moveTo(this.ptx(x + 1), this.midy(y) - 3);
+                    this.context.lineTo(this.midx(x) - 2, this.midy(y));
+                    this.context.moveTo(this.ptx(x + 1), this.midy(y) + 3);
+                    this.context.lineTo(this.midx(x) - 2, this.midy(y));
                     break;
             }
             this.mark(x, y);
@@ -315,28 +316,6 @@ define("constant", ["require", "exports"], function (require, exports) {
 define("component", ["require", "exports", "utils", "interface"], function (require, exports, utils_1, interface_3) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    class LineX {
-        constructor(x1, y1, count) {
-            this.points = new Array();
-            this.x1 = x1;
-            this.y1 = y1;
-            this.count = count;
-            for (var i = 0; i <= this.count; i++) {
-                this.points.push({ x: this.x1 + i, y: this.y1, type: interface_3.DrawType.MINUS });
-            }
-        }
-        getDrawOption() {
-            return interface_3.DrawOption.NONE;
-        }
-        getElementPackage() {
-            return {
-                points: this.points,
-                type: interface_3.DrawOption.LINE,
-                args: [this.x1, this.y1, this.count]
-            };
-        }
-    }
-    exports.LineX = LineX;
     class TestPoint {
         constructor() {
             this.points = new Array();
@@ -353,29 +332,6 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
         }
     }
     exports.TestPoint = TestPoint;
-    class LineY {
-        constructor(x1, y1, count) {
-            this.points = new Array();
-            this.x1 = x1;
-            this.y1 = y1;
-            this.count = count;
-            for (var i = 0; i <= this.count; i++) {
-                this.points.push({ x: this.x1, y: this.y1 + i, type: interface_3.DrawType.MINUS_V });
-            }
-        }
-        getDrawOption() {
-            return interface_3.DrawOption.TEST_POINT;
-            //throw new Error("Method not implemented.");
-        }
-        getElementPackage() {
-            return {
-                points: this.points,
-                type: interface_3.DrawOption.LINE,
-                args: [this.x1, this.y1, this.count]
-            };
-        }
-    }
-    exports.LineY = LineY;
     class Rect {
         constructor(x11, y11, x22, y22) {
             this.points = new Array();
@@ -411,22 +367,25 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
             switch (utils_1.CommonUtils.getDirection(x1, y1, x2, y2)) {
                 case 1:
                     this.points = this.points.concat(utils_1.CommonUtils.line_y(x1, y1, y2 - y1));
+                    this.points.push({ x: x1, y: y2, type: interface_3.DrawType.PLUS });
                     this.points = this.points.concat(utils_1.CommonUtils.line_x(x1, y2, x2 - x1));
                     break;
                 case 2:
                     this.points = this.points.concat(utils_1.CommonUtils.line_y(x1, y2, y1 - y2));
+                    this.points.push({ x: x1, y: y2, type: interface_3.DrawType.PLUS });
                     this.points = this.points.concat(utils_1.CommonUtils.line_x(x1, y2, x2 - x1));
                     break;
                 case 3:
                     this.points = this.points.concat(utils_1.CommonUtils.line_y(x1, y1, y2 - y1));
+                    this.points.push({ x: x1, y: y2, type: interface_3.DrawType.PLUS });
                     this.points = this.points.concat(utils_1.CommonUtils.line_x(x2, y2, x1 - x2));
                     break;
                 case 4:
                     this.points = this.points.concat(utils_1.CommonUtils.line_y(x1, y2, y1 - y2));
+                    this.points.push({ x: x1, y: y2, type: interface_3.DrawType.PLUS });
                     this.points = this.points.concat(utils_1.CommonUtils.line_x(x2, y2, x1 - x2));
                     break;
             }
-            this.points.push({ x: x1, y: y2, type: interface_3.DrawType.PLUS });
         }
         getDrawOption() {
             return interface_3.DrawOption.NONE;
@@ -458,8 +417,15 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
         constructor(x1, y1, x2, y2) {
             super(x1, y1, x2, y2);
             this.points.push({ x: x1, y: y1, type: interface_3.DrawType.PLUS });
-            //this.points.push({x:x2, y:y2, type:DrawType.ARROW, data: 2})
-            this.points.push({ x: x2, y: y2, type: interface_3.DrawType.DOT });
+            let lastPt = this.points[this.points.length - 1];
+            let dim = utils_1.CommonUtils.getDirectionOfTwoConsicutivePoints({ x: lastPt.x, y: lastPt.y }, { x: x2, y: y2 });
+            if (dim != interface_3.Direction.NONE) {
+                console.log(dim);
+                utils_1.CommonUtils.pushAndReplace(this.points, { x: x2, y: y2, type: interface_3.DrawType.ARROW, data: dim });
+            }
+            else {
+                console.log("Error in Line_D ");
+            }
         }
     }
     class Line_DD extends ALine {
@@ -468,8 +434,8 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
         }
         constructor(x1, y1, x2, y2) {
             super(x1, y1, x2, y2);
-            this.points.push({ x: x2, y: y2, type: interface_3.DrawType.DOT, data: ">" });
-            this.points.push({ x: x1, y: y1, type: interface_3.DrawType.DOT, data: "<" });
+            utils_1.CommonUtils.pushAndReplace(this.points, { x: x2, y: y2, type: interface_3.DrawType.DOT, data: ">" });
+            utils_1.CommonUtils.pushAndReplace(this.points, { x: x1, y: y1, type: interface_3.DrawType.DOT, data: "<" });
         }
     }
     class Text {
@@ -741,24 +707,24 @@ define("utils", ["require", "exports", "interface", "component"], function (requ
             }
         }
         // top, right bottom, left
-        static getDirectionOfTwoConsicutivePoints(x1, y1, x2, y2) {
-            if (x1 == x2) {
-                if (y1 < y2) {
-                    return 2; // RIGHT
+        static getDirectionOfTwoConsicutivePoints(point1, point2) {
+            if (point1.x == point2.x) {
+                if (point1.y < point2.y) {
+                    return interface_4.Direction.BOTTOM;
                 }
                 else {
-                    return 4; // LEFT
+                    return interface_4.Direction.TOP;
                 }
             }
-            if (y1 == y2) {
-                if (x1 < x2) {
-                    return 3; // BOTTOM
+            if (point1.y == point2.y) {
+                if (point1.x < point2.x) {
+                    return interface_4.Direction.RIGHT;
                 }
                 else {
-                    return 1; // TOP
+                    return interface_4.Direction.LEFT;
                 }
             }
-            return 0; // INVALID
+            return interface_4.Direction.NONE;
         }
         // returns the topleft and botton right for any two point acts as rest
         static getFixedCorner(x1, y1, x2, y2) {
@@ -854,6 +820,19 @@ define("utils", ["require", "exports", "interface", "component"], function (requ
                 point2.y > point1.y ? interface_4.Direction.TOP : interface_4.Direction.BOTTOM,
                 point2.x > point1.x ? interface_4.Direction.RIGHT : interface_4.Direction.LEFT,
             ];
+        }
+        static pushAndReplace(points, point) {
+            let flag = false;
+            for (let i = 0; i < points.length; i++) {
+                if (points[i].x == point.x && points[i].y == point.y) {
+                    points[i] = point;
+                    flag = true;
+                    break;
+                }
+            }
+            if (!flag) {
+                points.push(point);
+            }
         }
     }
     CommonUtils.myProp = 'Hello';

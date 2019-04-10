@@ -1,5 +1,5 @@
 import { CONSTANT } from "./constant";
-import { Points, DrawType } from "./interface";
+import { Points, DrawType, Direction } from "./interface";
 
 
 
@@ -42,8 +42,9 @@ export class UnitDraw{
           }
     }
   dot(x: number, y: number, data: any): any {
-    this.context.moveTo(this.midx(x), this.midy(y));
+    this.context.moveTo(this.midx(x)+CONSTANT.GAP_X/2, this.midy(y));
     this.context.arc(this.midx(x), this.midy(y), CONSTANT.GAP_X/2, 0, 2 * Math.PI);
+    this.mark(x, y);
   }
 
     
@@ -100,32 +101,32 @@ export class UnitDraw{
         img.src = src;
       }
 
-      private arrow(x: number, y: number, data: any): void {
+      private arrow(x: number, y: number, data: Direction): void {
         switch(data){
-          case 1: // top
-            this.context.moveTo(this.ptx(x), this.midy(y));
-            this.context.lineTo(this.midx(x), this.pty(y));
-            this.context.moveTo(this.ptx(x+1), this.midy(y));
-            this.context.lineTo(this.midx(x), this.pty(y));
-          break;
-          case 2: // right
-            this.context.moveTo(this.midx(x), this.pty(y));
-            this.context.lineTo(this.ptx(x+1), this.midy(y));
-            this.context.moveTo(this.midx(x), this.pty(y+1))
-            this.context.lineTo(this.ptx(x+1), this.midy(y));
-          break;
-          case 3: // bottom
-          this.context.moveTo(this.ptx(x), this.midy(y));
-          this.context.lineTo(this.midx(x+1), this.pty(y));
-          this.context.moveTo(this.ptx(x+1), this.midy(y));
-          this.context.lineTo(this.midx(x+1), this.pty(y));
-          break;
-          case 4: //left
-          this.context.moveTo(this.midx(x), this.pty(y));
-          this.context.lineTo(this.ptx(x), this.midy(y));
-          this.context.moveTo(this.midx(x), this.pty(y+1))
-          this.context.lineTo(this.ptx(x), this.midy(y));
-          break;
+          case Direction.TOP: 
+            this.context.moveTo(this.midx(x)-4, this.pty(y+1));
+            this.context.lineTo(this.midx(x), this.midy(y)-2);
+            this.context.moveTo(this.midx(x)+4, this.pty(y+1));
+            this.context.lineTo(this.midx(x), this.midy(y)-2);
+            break;
+          case Direction.RIGHT: 
+            this.context.moveTo(this.ptx(x), this.midy(y)-3);
+            this.context.lineTo(this.midx(x)+2, this.midy(y));
+            this.context.moveTo(this.ptx(x), this.midy(y)+3);
+            this.context.lineTo(this.midx(x)+2, this.midy(y));
+            break;
+          case Direction.BOTTOM: 
+              this.context.moveTo(this.midx(x)-4, this.pty(y));
+              this.context.lineTo(this.midx(x), this.midy(y));
+              this.context.moveTo(this.midx(x)+4, this.pty(y));
+              this.context.lineTo(this.midx(x), this.midy(y));
+              break;
+          case Direction.LEFT:
+              this.context.moveTo(this.ptx(x+1), this.midy(y)-3);
+              this.context.lineTo(this.midx(x)-2, this.midy(y));
+              this.context.moveTo(this.ptx(x+1), this.midy(y)+3);
+              this.context.lineTo(this.midx(x)-2, this.midy(y));
+            break;
         }
         this.mark(x, y);
       }

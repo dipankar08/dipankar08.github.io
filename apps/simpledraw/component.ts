@@ -1,33 +1,8 @@
 import { CommonUtils } from "./utils";
 import { MyCanvus } from "./canvus";
-import { DrawOption, Point, Points, DrawType, DrawElemnet, DrawElementMouseEventHandler, Style, DrawPackage, ElementPackage } from "./interface";
+import { DrawOption, Point, Points, DrawType, DrawElemnet, DrawElementMouseEventHandler, Style, DrawPackage, ElementPackage, Direction } from "./interface";
 import { DrawManager } from "./draw";
 
-export class LineX implements DrawElemnet {
-    getDrawOption(): DrawOption {
-      return DrawOption.NONE;
-    }
-    x1: number;
-    y1: number;
-    count: number;
-    points: Points = new Array();
-    constructor(x1, y1, count) {
-      this.x1 = x1;
-      this.y1 = y1;
-      this.count = count;
-      for (var i = 0; i <= this.count; i++) {
-        this.points.push({x: this.x1 + i, y: this.y1, type: DrawType.MINUS});
-      }
-    }
-    getElementPackage(): ElementPackage{
-      return {
-        points:this.points,
-        type:DrawOption.LINE,
-        args:[this.x1,this.y1,this.count]
-    }
-  }
-    
-  }
   
   export class TestPoint implements DrawElemnet {
     getDrawOption(): DrawOption {
@@ -41,32 +16,6 @@ export class LineX implements DrawElemnet {
         points:this.points,
         type:DrawOption.LINE,
         args:[]
-    }
-    }
-  }
-  
-  export class LineY implements DrawElemnet {
-    getDrawOption(): DrawOption {
-      return DrawOption.TEST_POINT;
-      //throw new Error("Method not implemented.");
-    }
-    x1: number;
-    y1: number;
-    count: number;
-    points: Points  = new Array();
-    constructor(x1, y1, count) {
-      this.x1 = x1;
-      this.y1 = y1;
-      this.count = count;
-      for (var i = 0; i <= this.count; i++) {
-        this.points.push({x: this.x1, y: this.y1 + i, type: DrawType.MINUS_V});
-      }
-    }
-    getElementPackage(): ElementPackage{
-      return {
-        points:this.points,
-        type:DrawOption.LINE,
-        args:[this.x1,this.y1,this.count]
     }
     }
   }
@@ -115,22 +64,25 @@ export class LineX implements DrawElemnet {
       switch (CommonUtils.getDirection(x1, y1, x2, y2)) {
         case 1:
           this.points = this.points.concat(CommonUtils.line_y(x1, y1, y2 - y1));
+          this.points.push({x: x1, y: y2, type: DrawType.PLUS});
           this.points = this.points.concat(CommonUtils.line_x(x1, y2, x2 - x1));
           break;
         case 2:
           this.points = this.points.concat(CommonUtils.line_y(x1, y2, y1 - y2));
+          this.points.push({x: x1, y: y2, type: DrawType.PLUS});
           this.points = this.points.concat(CommonUtils.line_x(x1, y2, x2 - x1));
           break;
         case 3:
           this.points = this.points.concat(CommonUtils.line_y(x1, y1, y2 - y1));
+          this.points.push({x: x1, y: y2, type: DrawType.PLUS});
           this.points = this.points.concat(CommonUtils.line_x(x2, y2, x1 - x2));
           break;
         case 4:
           this.points = this.points.concat(CommonUtils.line_y(x1, y2, y1 - y2));
+          this.points.push({x: x1, y: y2, type: DrawType.PLUS});
           this.points = this.points.concat(CommonUtils.line_x(x2, y2, x1 - x2));
           break;
       }
-      this.points.push({x: x1, y: y2, type: DrawType.PLUS});
     }
     getElementPackage(): ElementPackage{
       return {
@@ -159,8 +111,14 @@ export class LineX implements DrawElemnet {
     constructor(x1, y1, x2, y2){
       super(x1,y1,x2, y2);
       this.points.push({x: x1, y: y1, type: DrawType.PLUS});
-      //this.points.push({x:x2, y:y2, type:DrawType.ARROW, data: 2})
-      this.points.push({x:x2, y:y2, type:DrawType.DOT})
+      let lastPt = this.points[this.points.length -1];
+      let dim = CommonUtils.getDirectionOfTwoConsicutivePoints({x:lastPt.x, y:lastPt.y},{x:x2, y:y2});
+      if(dim != Direction.NONE){
+        console.log(dim);
+        CommonUtils.pushAndReplace(this.points, {x:x2, y:y2, type:DrawType.ARROW, data:dim});
+      } else{
+        console.log("Error in Line_D ");
+      }
     }
   }
   class Line_DD extends ALine {
@@ -169,8 +127,8 @@ export class LineX implements DrawElemnet {
     }
     constructor(x1, y1, x2, y2){
       super(x1,y1,x2, y2);
-      this.points.push({x:x2, y:y2, type:DrawType.DOT, data:">"})
-      this.points.push({x:x1, y:y1, type:DrawType.DOT, data:"<"})
+      CommonUtils.pushAndReplace(this.points, {x:x2, y:y2, type:DrawType.DOT, data:">"})
+      CommonUtils.pushAndReplace(this.points, {x:x1, y:y1, type:DrawType.DOT, data:"<"})
     }
   }
   
