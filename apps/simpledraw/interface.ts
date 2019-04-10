@@ -65,7 +65,8 @@ export type Style = {
 export type TouchCallback = {
     'onStart': Function,
     'onMove': Function,
-    'onEnd': Function
+    'onEnd': Function,
+    onResize:Function,
   };
   
 export interface DrawElementMouseEventHandler{

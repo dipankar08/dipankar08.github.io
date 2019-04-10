@@ -36,6 +36,9 @@ export class DrawManager {
       },
       onMove: function(a) {
         _this.mComponentManager.onMove(a);
+      },
+      onResize: function(a) {
+        _this.discardChange()
       }
     }
   }

@@ -145,6 +145,9 @@ define("canvus", ["require", "exports", "unitdraw", "constant", "interface"], fu
             let _this = this;
             window.addEventListener('resize', function () {
                 _this.setSize(window.innerWidth, window.innerHeight);
+                if (_this.mCallback) {
+                    _this.mCallback.onResize();
+                }
             }, false);
             this.canvas.addEventListener('mousedown', function (e) {
                 _this.drawing = true;
@@ -633,6 +636,13 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
             this.mMovedStart = point;
             this.mMovedPack = this.mDrawManager.getStackPoints(this.mMovedIdx);
             this.mDrawManager.drawFront(this.mMovedPack);
+            switch (this.mDrawOption) {
+                case interface_3.DrawOption.MOVE:
+                    this.mDrawManager.drawBackWithoutSpacific(this.mMovedIdx);
+                    break;
+                case interface_3.DrawOption.COPY_AND_MOVE:
+                case interface_3.DrawOption.RESIZE:
+            }
         }
         handleMovedMove(point) {
             if (this.mMovedIdx == -1) {
@@ -866,6 +876,9 @@ define("draw", ["require", "exports", "constant", "canvus", "component"], functi
                 },
                 onMove: function (a) {
                     _this.mComponentManager.onMove(a);
+                },
+                onResize: function (a) {
+                    _this.discardChange();
                 }
             };
         }

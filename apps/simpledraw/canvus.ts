@@ -28,6 +28,9 @@ export class MyCanvus{
       let _this = this;
       window.addEventListener('resize', function() {
         _this.setSize(window.innerWidth, window.innerHeight);
+        if (_this.mCallback) {
+          _this.mCallback.onResize();
+        }
       }, false);
   
       this.canvas.addEventListener('mousedown', function(e) {

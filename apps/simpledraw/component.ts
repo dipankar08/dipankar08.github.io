@@ -363,6 +363,13 @@ export class ComponentManager{
    this.mMovedStart = point;
    this.mMovedPack = this.mDrawManager.getStackPoints(this.mMovedIdx);
    this.mDrawManager.drawFront(this.mMovedPack);
+   switch(this.mDrawOption){
+    case DrawOption.MOVE:
+      this.mDrawManager.drawBackWithoutSpacific(this.mMovedIdx);
+      break;
+    case DrawOption.COPY_AND_MOVE:
+    case DrawOption.RESIZE:
+  }
  }
 
  public handleMovedMove(point:Point){
