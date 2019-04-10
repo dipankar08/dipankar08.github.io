@@ -1,5 +1,12 @@
 import { MyCanvus } from "./canvus";
 
+export enum Direction{
+  TOP,
+  BOTTOM,
+  LEFT,
+  RIGHT,
+  NONE
+}
 export enum DrawType {
     PLUS,
     MINUS,
@@ -30,8 +37,13 @@ export enum DrawOption {
     TEST_POINT,
   }
   
+  export type ElementPackage = {
+  points:Points,
+  type:DrawOption,
+  args:Array<any>,
+  }
 export interface DrawElemnet{
-    getPoints(): Points;
+    getElementPackage(): ElementPackage;
     getDrawOption():DrawOption;
   }
   
@@ -64,5 +76,5 @@ export interface DrawElementMouseEventHandler{
 
   export type DrawPackage = {
     'style':Style,
-    'points':Points
+    pack:ElementPackage,
   }

@@ -1,4 +1,5 @@
-import { Points, DrawType, DrawPackage } from "./interface";
+import { Points, DrawType, DrawPackage, ElementPackage, Direction, Point, DrawOption } from "./interface";
+import { Rect } from "./component";
 
 export abstract class CommonUtils {
     static line_x(x1: number, y1: number, count: number): Points {
@@ -73,12 +74,78 @@ export abstract class CommonUtils {
 
     public static transform(pack:DrawPackage,xoffset, yoffset):DrawPackage{
       let newpoints = new Array();
-      for(let point of pack.points){
+      for(let point of pack.pack.points){
           newpoints.push({x:point.x+xoffset, y:point.y+yoffset,data:point.data,type:point.type});
+      }
+      let newargs = pack.pack.args;
+      // THIS IS A BUG - WE MUST DO THE TRANSFOM IN EACH COMPOENET.
+      if(pack.pack.type == DrawOption.RECT){
+        newargs[0] +=xoffset;
+        newargs[1] +=yoffset;
+        newargs[2] +=xoffset;
+        newargs[3] +=yoffset;
       }
       return {
         style:pack.style,
-        points:newpoints
+        pack:{args:newargs, points:newpoints, type:pack.pack.type}
       }
+    }
+
+    // Take an ElementPackage and two moving point and return ElementPackage after resize.
+    public static resizeTransform(pack:DrawPackage,startPoint:Point, endPoint:Point):DrawPackage{
+      if(pack.pack.type != DrawOption.RECT){
+        console.log("resizeTransform not yet Supported for ",pack.pack.type);
+        return;
+      }
+      let ele = null;
+      switch(this.findPointInWhichEdge(pack.pack,startPoint)){
+        case Direction.TOP:
+          ele = new Rect(pack.pack.args[0],endPoint.y, pack.pack.args[2], pack.pack.args[3]).getElementPackage()
+          break;
+        case Direction.BOTTOM:
+          ele = new Rect(pack.pack.args[0],pack.pack.args[1], pack.pack.args[2],endPoint.y).getElementPackage()
+          break;
+        case Direction.LEFT:
+          ele = new Rect(endPoint.x,pack.pack.args[1], pack.pack.args[2], pack.pack.args[3]).getElementPackage()
+          break;
+          case Direction.RIGHT:
+          ele = new Rect(pack.pack.args[0],pack.pack.args[1], endPoint.x,pack.pack.args[3]).getElementPackage()
+          break;
+      }
+      if(ele == null){
+        console.log("Some error in resizeTransform");
+      }
+      return { 
+        style:pack.style,
+        pack: ele != null? ele:pack.pack
+      }
+    }
+
+    // given a rect and a point - find which edge it lies.
+    public static findPointInWhichEdge(pack:ElementPackage, point):Direction{
+      let x1= pack.args[0]
+      let y1 = pack.args[1]
+      let x2 = pack.args[2]
+      let y2 = pack.args[3]
+      if(point.y == y1 && point.x <=x2 && point.x >=x1){
+        return Direction.TOP;
+      } else if(point.y == y2 && point.x <=x2 && point.x >=x1){
+        return Direction.BOTTOM;
+      } else if(point.x == x1 && point.y <=y2 && point.y >=y1){
+        return Direction.LEFT;
+      } else if(point.x == x2 && point.y <=y2 && point.y >=y1){
+        return Direction.RIGHT;
+      }
+      console.log("Some error in findPointInWhichEdge");
+      return Direction.NONE;
+    }
+
+    // when we move from point1 to point2 - how we make this move ?
+    // The retuen value looks like:  <top|botton, left|right>
+    public static findMoveDirection(point1:Point, point2:Point):Array<Direction>{
+        return [
+          point2.y > point1.y ? Direction.TOP:Direction.BOTTOM,
+          point2.x > point1.x ? Direction.RIGHT:Direction.LEFT,
+        ]
     }
   }

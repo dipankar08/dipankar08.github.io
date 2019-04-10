@@ -1,6 +1,6 @@
 import { CommonUtils } from "./utils";
 import { MyCanvus } from "./canvus";
-import { DrawOption, Point, Points, DrawType, DrawElemnet, DrawElementMouseEventHandler, Style, DrawPackage } from "./interface";
+import { DrawOption, Point, Points, DrawType, DrawElemnet, DrawElementMouseEventHandler, Style, DrawPackage, ElementPackage } from "./interface";
 import { DrawManager } from "./draw";
 
 export class LineX implements DrawElemnet {
@@ -19,9 +19,14 @@ export class LineX implements DrawElemnet {
         this.points.push({x: this.x1 + i, y: this.y1, type: DrawType.MINUS});
       }
     }
-    getPoints(): Points {
-      return this.points;
+    getElementPackage(): ElementPackage{
+      return {
+        points:this.points,
+        type:DrawOption.LINE,
+        args:[this.x1,this.y1,this.count]
     }
+  }
+    
   }
   
   export class TestPoint implements DrawElemnet {
@@ -31,8 +36,12 @@ export class LineX implements DrawElemnet {
     points: Points  = new Array();
     constructor() {
     }
-    getPoints(): Points {
-      return this.points;
+    getElementPackage(): ElementPackage{
+      return {
+        points:this.points,
+        type:DrawOption.LINE,
+        args:[]
+    }
     }
   }
   
@@ -53,8 +62,12 @@ export class LineX implements DrawElemnet {
         this.points.push({x: this.x1, y: this.y1 + i, type: DrawType.MINUS_V});
       }
     }
-    getPoints(): Points {
-      return this.points;
+    getElementPackage(): ElementPackage{
+      return {
+        points:this.points,
+        type:DrawOption.LINE,
+        args:[this.x1,this.y1,this.count]
+    }
     }
   }
   
@@ -62,13 +75,17 @@ export class LineX implements DrawElemnet {
     getDrawOption(): DrawOption {
       return DrawOption.RECT;
     }
+    private x1:number; 
+    private y1:number;
+    private x2:number;
+    private y2:number;
     points: Points = new Array();
     constructor(x11, y11, x22, y22) {
       let cor = CommonUtils.getFixedCorner(x11, y11, x22, y22);
-      let x1 = cor[0];
-      let y1 = cor[1];
-      let x2 = cor[2];
-      let y2 = cor[3];
+      let x1 = this.x1= cor[0];
+      let y1 = this.y1=  cor[1];
+      let x2 = this.x2= cor[2];
+      let y2 = this.y2 =  cor[3];
       this.points = this.points.concat(CommonUtils.line_x(x1, y1, x2 - x1));
       this.points = this.points.concat(CommonUtils.line_x(x1, y2, x2 - x1));
       this.points = this.points.concat(CommonUtils.line_y(x1, y1, y2 - y1));
@@ -78,8 +95,12 @@ export class LineX implements DrawElemnet {
       this.points.push({x: x2, y: y1, type: DrawType.PLUS});
       this.points.push({x: x2, y: y2, type: DrawType.PLUS});
     }
-    getPoints(): Points {
-      return this.points;
+    getElementPackage(): ElementPackage{
+      return {
+        points:this.points,
+        type:DrawOption.RECT,
+        args:[this.x1,this.y1,this.x2, this.y2]
+      }
     }
   }
 
@@ -111,10 +132,12 @@ export class LineX implements DrawElemnet {
       }
       this.points.push({x: x1, y: y2, type: DrawType.PLUS});
     }
-    getPoints(): Points {
-      //let filters = new Array();
-      //  BUG : you must remove duplicates. 
-      return this.points;
+    getElementPackage(): ElementPackage{
+      return {
+        points:this.points,
+        type:DrawOption.LINE,
+        args:[]//TODO
+    }
     }
   }
   
@@ -165,8 +188,12 @@ export class LineX implements DrawElemnet {
             {x: x+i, y: y, type: DrawType.CHAR, data: text.charAt(i)})
       }
     }
-    getPoints(): Points {
-      return this.points;
+    getElementPackage(): ElementPackage{
+      return {
+        points:this.points,
+        type:DrawOption.TEXT,
+        args:[this.x1,this.y1,this.text]
+    }
     }
   }
   
@@ -186,8 +213,12 @@ export class LineX implements DrawElemnet {
         }
       }
     }
-    getPoints(): Points {
-      return this.points;
+    getElementPackage(): ElementPackage{
+      return {
+        points:this.points,
+        type:DrawOption.LINE,
+        args:[this.x1,this.y1,this.y1, this.y2]
+    }
     }
   }
 
@@ -220,7 +251,7 @@ export class ComponentManager{
             this.handleSelectEnd(a);
           }
             else if(this.isDrawFunction()){
-                this.handleDrawEnd(this.ele.getPoints());
+                this.handleDrawEnd(this.ele.getElementPackage().points);
               }
               else if(this.isMoveAction()){
                   this.handleMovedEnd(a);
@@ -241,7 +272,7 @@ export class ComponentManager{
     }
     public onTextSubmit(){
       if(this.mDrawOption == DrawOption.TEXT && this.mTextEle != null){
-        this.mDrawManager.drawBack({'points':this.mTextEle.getPoints(),'style':this.mDrawManager.getStyle()});
+        this.mDrawManager.drawBack({pack:this.mTextEle.getElementPackage(),'style':this.mDrawManager.getStyle()});
       }
     }
     public onTextCancel(){
@@ -251,7 +282,7 @@ export class ComponentManager{
       if(this.mDrawOption == DrawOption.TEXT){
         this.mTextEle =
         new Text(this.mStartPoint.x, this.mStartPoint.y, text);
-        this.mDrawManager.drawFront({'points':this.mTextEle.getPoints(),'style':this.mDrawManager.getStyle()});
+        this.mDrawManager.drawFront({pack:this.mTextEle.getElementPackage(),'style':this.mDrawManager.getStyle()});
       }
     }
 
@@ -261,6 +292,11 @@ export class ComponentManager{
         this.handleNewSelectEvent(dpot);
       }
   }
+
+  public getStyle():Style {
+    return this.mDrawManager.getStyle();
+  }
+
 
   /*************************************************************
   *  Define Draw Functions 
@@ -298,18 +334,12 @@ export class ComponentManager{
                 new ClearBox(this.mStartPoint.x, this.mStartPoint.y, a.x, a.y);
                 break;    
       }
-      this.mDrawManager.drawFront({'points':this.ele.getPoints(),'style':this.getStyle()});
-    }
-   getStyle():Style {
-    return this.mDrawManager.getStyle();
-  }
-  private handleDrawEnd(points:Points){
-    if(this.mDrawOption == DrawOption.SELECT){
-        
+      this.mDrawManager.drawFront({pack:this.ele.getElementPackage(),'style':this.getStyle()});
     }
 
+  private handleDrawEnd(points:Points){
     if(this.isDrawFunction()){
-      this.mDrawManager.drawBack({'points':points,'style':this.mDrawManager.getStyle()});
+      this.mDrawManager.drawBack({pack:this.ele.getElementPackage(),'style':this.mDrawManager.getStyle()});
     } else{
     }
   }
@@ -363,7 +393,7 @@ export class ComponentManager{
  private mMovedStart:Point;
  private mMovedIdx:number = -1;
  public isMoveAction(){
-     return this.mDrawOption == DrawOption.MOVE || DrawOption.COPY_AND_MOVE;
+     return this.mDrawOption == DrawOption.MOVE || DrawOption.COPY_AND_MOVE || DrawOption.RESIZE;
  }
 
  public handleMovedStart(point:Point){
@@ -381,20 +411,34 @@ export class ComponentManager{
    if(this.mMovedIdx == -1){
      return;
    }
-   this.mDrawManager.drawFront(CommonUtils.transform(this.mMovedPack,point.x - this.mMovedStart.x, point.y - this.mMovedStart.y));
+   switch(this.mDrawOption){
+     case DrawOption.MOVE:
+     case DrawOption.COPY_AND_MOVE:
+        this.mDrawManager.drawFront(CommonUtils.transform(this.mMovedPack,point.x - this.mMovedStart.x, point.y - this.mMovedStart.y));
+        break;
+     case DrawOption.RESIZE:
+        this.mDrawManager.drawFront(CommonUtils.resizeTransform(this.mMovedPack,this.mMovedStart,point));
+   }
+   
 }
  public handleMovedEnd(point:Point){
   if(this.mMovedIdx == -1){
     return;
   }
-   if(this.mDrawOption == DrawOption.COPY_AND_MOVE){
-    this.mDrawManager.insertToStack(CommonUtils.transform(this.mMovedPack,point.x - this.mMovedStart.x, point.y - this.mMovedStart.y));
-   } else{
-    this.mDrawManager.replaceToStack(this.mMovedIdx, CommonUtils.transform(this.mMovedPack,point.x - this.mMovedStart.x, point.y - this.mMovedStart.y));
-   }
-  
+  switch(this.mDrawOption){
+    case DrawOption.COPY_AND_MOVE:
+      this.mDrawManager.insertToStack(CommonUtils.transform(this.mMovedPack,point.x - this.mMovedStart.x, point.y - this.mMovedStart.y));
+      break;
+    case DrawOption.MOVE:
+      this.mDrawManager.replaceToStack(this.mMovedIdx, CommonUtils.transform(this.mMovedPack,point.x - this.mMovedStart.x, point.y - this.mMovedStart.y));
+      break;
+    case DrawOption.RESIZE:
+    this.mDrawManager.replaceToStack(this.mMovedIdx, CommonUtils.resizeTransform(this.mMovedPack,this.mMovedStart,point));   
+  }
   this.mDrawManager.discardChange();
-  this.mSelectedIdx = -1;
+  this.mMovedIdx = -1;
+  this.mMovedStart = null;
+  this.mMovedPack = null;
  }
 }
   

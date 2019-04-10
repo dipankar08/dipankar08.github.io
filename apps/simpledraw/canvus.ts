@@ -94,10 +94,10 @@ export class MyCanvus{
     public draw(pack: DrawPackage, isFront:boolean) {
       this.setStyle(pack.style, isFront);
       this.context.beginPath();
-      if(pack.points[0].type == DrawType.CHAR){
+      if(pack.pack.points[0].type == DrawType.CHAR){
         this.context.fillStyle = pack.style.drawColor;
       }
-      this.mUniDraw.draw(pack.points);
+      this.mUniDraw.draw(pack.pack.points);
       this.context.stroke();
       this.mCachePoint = pack;
     }

@@ -78,7 +78,7 @@ export class DrawManager {
   private insertToStackInternal(item:DrawPackage){
     console.log("[INFO] insertToStackInternal",item);
     this.mStack.push(item);
-    for(let p of item.points){
+    for(let p of item.pack.points){
       this.mPointMap[p.x+"#"+p.y]=this.mStack.length -1;
     }
   }
@@ -87,7 +87,7 @@ export class DrawManager {
   private recomputeMap(){
     this.mPointMap = new Object();
     for( let s = 0; s<this.mStack.length; s++){
-      for(let p of this.mStack[s].points){
+      for(let p of this.mStack[s].pack.points){
         this.mPointMap[p.x+"#"+p.y]=s;
       }
     }
