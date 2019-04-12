@@ -15,7 +15,7 @@ export class DrawManager {
   private mRedo: Array<DrawPackage> = new Array();
   private mDrawElementMouseEventHandler: Array<DrawElementMouseEventHandler> = new Array();
   private mComponentManager:ComponentManager;
-  private mUiCallback:UiCallback;
+  public mUiCallback:UiCallback;
   private mStyle:Style = CONSTANT.THEME.DEFAULT;
 
   constructor(canvus_id1, canvus_id2) {
@@ -27,9 +27,6 @@ export class DrawManager {
     this.mCanvusFront.mCallback = {
       onStart: function(a) {
         _this.mComponentManager.onStart(a);
-        if(_this.mUiCallback){
-          _this.mUiCallback.onTextBoxShown();
-        }
       },
       onEnd: function(a) {
         _this.mComponentManager.onEnd(a);
@@ -164,6 +161,9 @@ export class DrawManager {
 
   public select(option:DrawOption){
     this.mComponentManager.select(option);
+    if(this.mUiCallback){
+      this.mUiCallback.onUpdateHint('Drawing '+option.toString()+'...');
+    }
   }
 
   public setStyle(style:Style){

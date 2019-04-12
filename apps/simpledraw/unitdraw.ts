@@ -59,6 +59,7 @@ export class UnitDraw{
       };
     
       private char(x, y, c) {
+        //this.mark(x, y); This is a BUG.
         this.context.fillText(
             c, x * CONSTANT.GAP_X, y * CONSTANT.GAP_Y + CONSTANT.GAP_Y - CONSTANT.TEXT_GAP_OFFSET);
       }

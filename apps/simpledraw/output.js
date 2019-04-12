@@ -51,6 +51,7 @@ define("unitdraw", ["require", "exports", "constant", "interface"], function (re
         }
         ;
         char(x, y, c) {
+            //this.mark(x, y); This is a BUG.
             this.context.fillText(c, x * constant_1.CONSTANT.GAP_X, y * constant_1.CONSTANT.GAP_Y + constant_1.CONSTANT.GAP_Y - constant_1.CONSTANT.TEXT_GAP_OFFSET);
         }
         // draw plus
@@ -278,22 +279,22 @@ define("interface", ["require", "exports"], function (require, exports) {
     })(DrawType = exports.DrawType || (exports.DrawType = {}));
     var DrawOption;
     (function (DrawOption) {
-        DrawOption[DrawOption["LINE"] = 0] = "LINE";
-        DrawOption[DrawOption["LINE_D"] = 1] = "LINE_D";
-        DrawOption[DrawOption["LINE_DD"] = 2] = "LINE_DD";
-        DrawOption[DrawOption["RECT"] = 3] = "RECT";
-        DrawOption[DrawOption["TEXT"] = 4] = "TEXT";
-        DrawOption[DrawOption["CLEAR"] = 5] = "CLEAR";
-        DrawOption[DrawOption["MARK"] = 6] = "MARK";
-        DrawOption[DrawOption["NONE"] = 7] = "NONE";
-        DrawOption[DrawOption["SELECTED_DELETE"] = 8] = "SELECTED_DELETE";
-        DrawOption[DrawOption["SELECTED_DUPLICATE"] = 9] = "SELECTED_DUPLICATE";
-        DrawOption[DrawOption["SELECT"] = 10] = "SELECT";
-        DrawOption[DrawOption["COPY"] = 11] = "COPY";
-        DrawOption[DrawOption["MOVE"] = 12] = "MOVE";
-        DrawOption[DrawOption["COPY_AND_MOVE"] = 13] = "COPY_AND_MOVE";
-        DrawOption[DrawOption["RESIZE"] = 14] = "RESIZE";
-        DrawOption[DrawOption["TEST_POINT"] = 15] = "TEST_POINT";
+        DrawOption["LINE"] = "line";
+        DrawOption["LINE_D"] = "directed line";
+        DrawOption["LINE_DD"] = "both directed line";
+        DrawOption["RECT"] = "rectabgle";
+        DrawOption["TEXT"] = "test";
+        DrawOption["CLEAR"] = "clear all";
+        DrawOption["MARKBOX"] = "mark box";
+        DrawOption["NONE"] = "none";
+        DrawOption["SELECTED_DELETE"] = "delete";
+        DrawOption["SELECTED_DUPLICATE"] = "copy and drag to draw";
+        DrawOption["SELECT"] = "selecet";
+        DrawOption["COPY"] = "copy";
+        DrawOption["MOVE"] = "move";
+        DrawOption["COPY_AND_MOVE"] = "select and drag for copy";
+        DrawOption["RESIZE"] = "resize";
+        DrawOption["TEST_POINT"] = "point";
     })(DrawOption = exports.DrawOption || (exports.DrawOption = {}));
 });
 define("constant", ["require", "exports"], function (require, exports) {
@@ -335,6 +336,32 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
         }
     }
     exports.TestPoint = TestPoint;
+    class MarkBox {
+        constructor(x11, y11, x22, y22) {
+            this.points = new Array();
+            let cor = utils_1.CommonUtils.getFixedCorner(x11, y11, x22, y22);
+            let x1 = this.x1 = cor[0];
+            let y1 = this.y1 = cor[1];
+            let x2 = this.x2 = cor[2];
+            let y2 = this.y2 = cor[3];
+            for (let i = x1; i <= x2; i++) {
+                for (let j = y1; j <= y2; j++) {
+                    this.points.push({ x: x1, y: y1, type: interface_3.DrawType.MARK });
+                }
+            }
+        }
+        getDrawOption() {
+            return interface_3.DrawOption.MARKBOX;
+        }
+        getElementPackage() {
+            return {
+                points: this.points,
+                type: interface_3.DrawOption.RECT,
+                args: [this.x1, this.y1, this.x2, this.y2]
+            };
+        }
+    }
+    exports.MarkBox = MarkBox;
     class Rect {
         constructor(x11, y11, x22, y22) {
             this.points = new Array();
@@ -485,12 +512,19 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
         constructor(d) {
             this.mDrawOption = interface_3.DrawOption.NONE;
             this.mTextEle = null;
+            /*************************************************************
+            *  Define Text Functions
+            * ************************************************************/
+            this.mText = null;
             this.mMovedIdx = -1;
             this.mDrawManager = d;
         }
         onStart(point) {
             this.mStartPoint = point;
-            if (this.isSelectAction()) {
+            if (this.isTextAction()) {
+                this, this.handleTextStart(point);
+            }
+            else if (this.isSelectAction()) {
                 this.handleSelectStart(point);
             }
             else if (this.isDrawFunction()) {
@@ -524,20 +558,6 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
                 this.handleMovedMove(a);
             }
         }
-        onTextSubmit() {
-            if (this.mDrawOption == interface_3.DrawOption.TEXT && this.mTextEle != null) {
-                this.mDrawManager.drawBack({ pack: this.mTextEle.getElementPackage(), 'style': this.mDrawManager.getStyle() });
-            }
-        }
-        onTextCancel() {
-        }
-        onTextChange(text) {
-            if (this.mDrawOption == interface_3.DrawOption.TEXT) {
-                this.mTextEle =
-                    new Text(this.mStartPoint.x, this.mStartPoint.y, text);
-                this.mDrawManager.drawFront({ pack: this.mTextEle.getElementPackage(), 'style': this.mDrawManager.getStyle() });
-            }
-        }
         select(dpot) {
             this.mDrawOption = dpot;
             if (this.isSelectAction()) {
@@ -546,6 +566,42 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
         }
         getStyle() {
             return this.mDrawManager.getStyle();
+        }
+        isTextAction() {
+            return this.mDrawOption == interface_3.DrawOption.TEXT;
+        }
+        onTextSubmit() {
+            if (this.mText.length > 0) {
+                let ele = new Text(this.mStartPoint.x, this.mStartPoint.y, this.mText);
+                this.mDrawManager.insertToStack({ pack: ele.getElementPackage(), 'style': this.mDrawManager.getStyle() });
+                this.mDrawManager.discardChange();
+            }
+            this.mText = "";
+        }
+        handleTextStart(point) {
+            this.mStartPoint = point;
+            this.mText = "";
+            this.onTextChange("");
+            if (this.mDrawManager.mUiCallback) {
+                this.mDrawManager.mUiCallback.onTextBoxShown();
+            }
+        }
+        onTextCancel() {
+            this.mDrawManager.discardChange();
+            this.mText = "";
+        }
+        onTextChange(text) {
+            console.log(text);
+            this.mText = text;
+            if (this.mText.length == 0) {
+                let ele = new MarkBox(this.mStartPoint.x, this.mStartPoint.y, this.mStartPoint.x, this.mStartPoint.y);
+                this.mDrawManager.drawFront({ pack: ele.getElementPackage(), 'style': this.mDrawManager.getStyle() });
+            }
+            else {
+                this.mTextEle =
+                    new Text(this.mStartPoint.x, this.mStartPoint.y, this.mText);
+                this.mDrawManager.drawFront({ pack: this.mTextEle.getElementPackage(), 'style': this.mDrawManager.getStyle() });
+            }
         }
         /*************************************************************
         *  Define Draw Functions
@@ -867,9 +923,6 @@ define("draw", ["require", "exports", "constant", "canvus", "component"], functi
             this.mCanvusFront.mCallback = {
                 onStart: function (a) {
                     _this.mComponentManager.onStart(a);
-                    if (_this.mUiCallback) {
-                        _this.mUiCallback.onTextBoxShown();
-                    }
                 },
                 onEnd: function (a) {
                     _this.mComponentManager.onEnd(a);
@@ -990,6 +1043,9 @@ define("draw", ["require", "exports", "constant", "canvus", "component"], functi
         }
         select(option) {
             this.mComponentManager.select(option);
+            if (this.mUiCallback) {
+                this.mUiCallback.onUpdateHint('Drawing ' + option.toString() + '...');
+            }
         }
         setStyle(style) {
             this.mStyle = style;

@@ -38,9 +38,10 @@
           <li title="color"  onclick="mDrawManager.setStyle(CONSTANT.THEME.YELLOW)"><i style="color:yellow" class="fas fa-tint"></i></li>
         </ul>
     </div>
-    <div class="text">
-        <input type="text" onchange="mDrawManager.onTextChange(this.value)" placeholder="type any text"><button onclick="mDrawManager.onTextSubmit()">Submit</button><button onclick="mDrawManager.onTextCanecl()">Submit</button>
+    <div id="text" class="hide">
+        <input type="text" id="textinp" onkeyup="mDrawManager.onTextChange(this.value)" placeholder="type any text"><button onclick="mDrawManager.onTextSubmit()">Submit</button><button onclick="mDrawManager.onTextCancel()">Cancel</button>
     </div>
+    <div id="msg"><span id="msgbox"></span></div>
 </body>
 <script type="text/javascript" src="https://requirejs.org/docs/release/2.3.6/minified/require.js"></script>
 <script
@@ -55,10 +56,15 @@ require(["draw","interface"], function (DM) {
     console.log("[INFO] Init Done");
     mDrawManager.setUiCallback({
       'onTextBoxShown':function(){
-        console.log("Text Box shown");
+        $('#text').removeClass('hide')
+        $('#textinp').text('')
       },
       'onTextBoxHide':function(){
-        console.log("Text Box Hide");
+        $('#text').addClass('hide')
+        $('#textinp').text('')
+      },
+      'onUpdateHint':function(text){
+        $('#msgbox').text(text);
       },
   })
 });
@@ -69,9 +75,6 @@ require(["constant"], function (DP) {
   CONSTANT = DP.CONSTANT;
 })
 $('html').keyup(function(e){
-    if(e.keyCode == 68) { //press d
-        mDrawManager.select(DrawOption.SELECTED_DELETE);
-    }
 });
 </script>
 </html>

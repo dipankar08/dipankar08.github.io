@@ -19,22 +19,22 @@ export enum DrawType {
     DOT,
 }
 export enum DrawOption {
-    LINE,
-    LINE_D,
-    LINE_DD,
-    RECT,
-    TEXT,
-    CLEAR,
-    MARK,
-    NONE,
-    SELECTED_DELETE,
-    SELECTED_DUPLICATE,
-    SELECT,
-    COPY,
-    MOVE,
-    COPY_AND_MOVE,
-    RESIZE,
-    TEST_POINT,
+    LINE="line",
+    LINE_D="directed line",
+    LINE_DD="both directed line",
+    RECT="rectabgle",
+    TEXT="test",
+    CLEAR="clear all",
+    MARKBOX="mark box",
+    NONE="none",
+    SELECTED_DELETE="delete",
+    SELECTED_DUPLICATE="copy and drag to draw",
+    SELECT="selecet",
+    COPY="copy",
+    MOVE="move",
+    COPY_AND_MOVE="select and drag for copy",
+    RESIZE="resize",
+    TEST_POINT="point",
   }
   
   export type ElementPackage = {
@@ -61,6 +61,7 @@ export type Style = {
   export type UiCallback={
     onTextBoxShown:Function,
     onTextBoxHide:Function,
+    onUpdateHint:Function,
   };
 export type TouchCallback = {
     'onStart': Function,

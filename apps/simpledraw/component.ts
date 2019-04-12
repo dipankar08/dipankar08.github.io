@@ -20,6 +20,36 @@ import { DrawManager } from "./draw";
     }
   }
   
+  export class MarkBox implements DrawElemnet {
+    getDrawOption(): DrawOption {
+      return DrawOption.MARKBOX;
+    }
+    private x1:number; 
+    private y1:number;
+    private x2:number;
+    private y2:number;
+    points: Points = new Array();
+    constructor(x11, y11, x22, y22) {
+      let cor = CommonUtils.getFixedCorner(x11, y11, x22, y22);
+      let x1 = this.x1= cor[0];
+      let y1 = this.y1=  cor[1];
+      let x2 = this.x2= cor[2];
+      let y2 = this.y2 =  cor[3];
+      for(let i = x1;i<=x2;i++){
+        for(let j = y1;j<=y2;j++){
+          this.points.push({x: x1, y: y1, type: DrawType.MARK});
+        }
+      }
+    }
+    getElementPackage(): ElementPackage{
+      return {
+        points:this.points,
+        type:DrawOption.RECT,
+        args:[this.x1,this.y1,this.x2, this.y2]
+      }
+    }
+  }
+
   export class Rect implements DrawElemnet {
     getDrawOption(): DrawOption {
       return DrawOption.RECT;
@@ -192,12 +222,15 @@ export class ComponentManager{
     }
     public onStart(point:Point){
         this.mStartPoint = point;
-        if(this.isSelectAction()){
+        if(this.isTextAction()){
+          this,this.handleTextStart(point);
+        }
+        else if(this.isSelectAction()){
           this.handleSelectStart(point);
         }
         else if(this.isDrawFunction()){
             this.handleDrawStart(point);
-          }
+        }
           else if(this.isMoveAction()){
               this.handleMovedStart(point)
           }  
@@ -228,22 +261,6 @@ export class ComponentManager{
               this.handleMovedMove(a)
         }
     }
-    public onTextSubmit(){
-      if(this.mDrawOption == DrawOption.TEXT && this.mTextEle != null){
-        this.mDrawManager.drawBack({pack:this.mTextEle.getElementPackage(),'style':this.mDrawManager.getStyle()});
-      }
-    }
-    public onTextCancel(){
-      
-    }
-    public onTextChange(text:string){
-      if(this.mDrawOption == DrawOption.TEXT){
-        this.mTextEle =
-        new Text(this.mStartPoint.x, this.mStartPoint.y, text);
-        this.mDrawManager.drawFront({pack:this.mTextEle.getElementPackage(),'style':this.mDrawManager.getStyle()});
-      }
-    }
-
     public select( dpot: DrawOption ){
       this.mDrawOption = dpot;
       if(this.isSelectAction()){
@@ -253,6 +270,47 @@ export class ComponentManager{
 
   public getStyle():Style {
     return this.mDrawManager.getStyle();
+  }
+
+  /*************************************************************
+  *  Define Text Functions 
+  * ************************************************************/ 
+  private mText = null;
+  public isTextAction(){
+    return this.mDrawOption == DrawOption.TEXT;
+  }
+  public onTextSubmit(){
+    if(this.mText.length > 0){
+      let ele = new Text(this.mStartPoint.x, this.mStartPoint.y, this.mText);
+      this.mDrawManager.insertToStack({pack:ele.getElementPackage(),'style':this.mDrawManager.getStyle()});
+      this.mDrawManager.discardChange();
+    }
+    this.mText =""
+  }
+  private handleTextStart(point){
+    this.mStartPoint = point;
+    this.mText =""
+    this.onTextChange("");
+    if(this.mDrawManager.mUiCallback){
+      this.mDrawManager.mUiCallback.onTextBoxShown();
+    }
+  }
+  
+  public onTextCancel(){
+    this.mDrawManager.discardChange();
+    this.mText =""
+  }
+  public onTextChange(text:string){
+    console.log(text);
+    this.mText = text;
+    if(this.mText.length ==0){
+       let ele = new MarkBox(this.mStartPoint.x, this.mStartPoint.y, this.mStartPoint.x, this.mStartPoint.y);
+       this.mDrawManager.drawFront({pack:ele.getElementPackage(),'style':this.mDrawManager.getStyle()});
+    } else{
+      this.mTextEle =
+      new Text(this.mStartPoint.x, this.mStartPoint.y, this.mText);
+      this.mDrawManager.drawFront({pack:this.mTextEle.getElementPackage(),'style':this.mDrawManager.getStyle()});
+    }
   }
 
 
