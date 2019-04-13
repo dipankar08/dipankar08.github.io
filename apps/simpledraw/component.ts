@@ -263,9 +263,6 @@ export class ComponentManager{
     }
     public select( dpot: DrawOption ){
       this.mDrawOption = dpot;
-      if(this.isSelectAction()){
-        this.handleNewSelectEvent(dpot);
-      }
   }
 
   public getStyle():Style {
@@ -373,7 +370,6 @@ export class ComponentManager{
       this.mSelectedIdx = this.mDrawManager.getStackIndexForPoint(point);
       if(this.mSelectedIdx == -1){
         //dismiss selection. 
-        this.handleNewSelectEvent(DrawOption.NONE);
         return;
       }
       this.mSelectedPack = this.mDrawManager.getStackPoints(this.mSelectedIdx);
@@ -384,24 +380,20 @@ export class ComponentManager{
 
     }
     public handleSelectEnd(point:Point){
-
-    }
-    public handleNewSelectEvent(drawOption: DrawOption){
       if(this.mSelectedIdx == -1){
         return;
       }
-      switch(drawOption){
+      switch(this.mDrawOption){
         case DrawOption.SELECTED_DELETE:
-        this.mDrawManager.deleteFromStack(this.mSelectedIdx);
-        break;
+          this.mDrawManager.deleteFromStack(this.mSelectedIdx);
+          break;
         case DrawOption.SELECTED_DUPLICATE:
-        this.mDrawManager.insertToStack(CommonUtils.transform(this.mSelectedPack,-2, -2));
-        break;
+          this.mDrawManager.insertToStack(CommonUtils.transform(this.mSelectedPack,-2, -2));
+          break;
       }
       this.mDrawManager.discardChange();
       this.mSelectedIdx = -1;
     }
-
   /*************************************************************
   *  Define Moved Functions 
   * ************************************************************/ 

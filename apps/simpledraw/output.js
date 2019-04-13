@@ -279,22 +279,21 @@ define("interface", ["require", "exports"], function (require, exports) {
     })(DrawType = exports.DrawType || (exports.DrawType = {}));
     var DrawOption;
     (function (DrawOption) {
-        DrawOption["LINE"] = "line";
-        DrawOption["LINE_D"] = "directed line";
-        DrawOption["LINE_DD"] = "both directed line";
-        DrawOption["RECT"] = "rectabgle";
-        DrawOption["TEXT"] = "test";
-        DrawOption["CLEAR"] = "clear all";
-        DrawOption["MARKBOX"] = "mark box";
-        DrawOption["NONE"] = "none";
-        DrawOption["SELECTED_DELETE"] = "delete";
-        DrawOption["SELECTED_DUPLICATE"] = "copy and drag to draw";
-        DrawOption["SELECT"] = "selecet";
-        DrawOption["COPY"] = "copy";
-        DrawOption["MOVE"] = "move";
-        DrawOption["COPY_AND_MOVE"] = "select and drag for copy";
-        DrawOption["RESIZE"] = "resize";
-        DrawOption["TEST_POINT"] = "point";
+        DrawOption["LINE"] = "LINE: move mouse to draw line";
+        DrawOption["LINE_D"] = "DLINE: draw a directed line";
+        DrawOption["LINE_DD"] = "DDLine: Draw a bothe directed line";
+        DrawOption["RECT"] = "RECT: Drag the mouse to draw a rectbagle ";
+        DrawOption["TEXT"] = "TEST: touch a cell to write a text";
+        DrawOption["CLEAR"] = "CLEAR: Drag the mouse to clear area";
+        DrawOption["MARKBOX"] = "MARK: Drag to mark a reason.";
+        DrawOption["NONE"] = "NONE";
+        DrawOption["SELECTED_DELETE"] = "DELETE: Click on the spape to delete.";
+        DrawOption["SELECTED_DUPLICATE"] = "CLONE: Select and drag to make a copy";
+        DrawOption["SELECT"] = "SELECT: touch a shape to select";
+        DrawOption["MOVE"] = "Move: Select a shape and drag to move";
+        DrawOption["COPY_AND_MOVE"] = "DUPLICATE: Select and drag to duplicate";
+        DrawOption["RESIZE"] = "RESIZE: Drag an edge to resize";
+        DrawOption["TEST_POINT"] = "TEST: Drop a elemnet to test.";
     })(DrawOption = exports.DrawOption || (exports.DrawOption = {}));
 });
 define("constant", ["require", "exports"], function (require, exports) {
@@ -560,9 +559,6 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
         }
         select(dpot) {
             this.mDrawOption = dpot;
-            if (this.isSelectAction()) {
-                this.handleNewSelectEvent(dpot);
-            }
         }
         getStyle() {
             return this.mDrawManager.getStyle();
@@ -655,7 +651,6 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
             this.mSelectedIdx = this.mDrawManager.getStackIndexForPoint(point);
             if (this.mSelectedIdx == -1) {
                 //dismiss selection. 
-                this.handleNewSelectEvent(interface_3.DrawOption.NONE);
                 return;
             }
             this.mSelectedPack = this.mDrawManager.getStackPoints(this.mSelectedIdx);
@@ -664,12 +659,10 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
         handleSelectMove(point) {
         }
         handleSelectEnd(point) {
-        }
-        handleNewSelectEvent(drawOption) {
             if (this.mSelectedIdx == -1) {
                 return;
             }
-            switch (drawOption) {
+            switch (this.mDrawOption) {
                 case interface_3.DrawOption.SELECTED_DELETE:
                     this.mDrawManager.deleteFromStack(this.mSelectedIdx);
                     break;
@@ -996,9 +989,11 @@ define("draw", ["require", "exports", "constant", "canvus", "component"], functi
         }
         deleteFromStack(index) {
             this.mStack.splice(index, 1);
+            this.recomputeMap();
         }
         insertToStack(pack) {
             this.insertToStackInternal(pack);
+            this.recomputeMap();
         }
         replaceToStack(index, pack) {
             this.mStack[index] = pack;
@@ -1044,7 +1039,7 @@ define("draw", ["require", "exports", "constant", "canvus", "component"], functi
         select(option) {
             this.mComponentManager.select(option);
             if (this.mUiCallback) {
-                this.mUiCallback.onUpdateHint('Drawing ' + option.toString() + '...');
+                this.mUiCallback.onUpdateHint(option.toString());
             }
         }
         setStyle(style) {

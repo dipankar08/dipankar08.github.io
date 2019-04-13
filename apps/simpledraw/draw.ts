@@ -108,10 +108,12 @@ export class DrawManager {
 
   public deleteFromStack(index:number){
     this.mStack.splice(index, 1);
+    this.recomputeMap();
   }
 
   public insertToStack(pack:DrawPackage){
     this.insertToStackInternal(pack);
+    this.recomputeMap();
   }
 
   public replaceToStack(index:number,pack:DrawPackage ){
@@ -162,7 +164,7 @@ export class DrawManager {
   public select(option:DrawOption){
     this.mComponentManager.select(option);
     if(this.mUiCallback){
-      this.mUiCallback.onUpdateHint('Drawing '+option.toString()+'...');
+      this.mUiCallback.onUpdateHint(option.toString());
     }
   }
 
