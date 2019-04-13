@@ -304,10 +304,10 @@ define("constant", ["require", "exports"], function (require, exports) {
     CONSTANT.GAP_X = 10;
     CONSTANT.GAP_Y = 15;
     CONSTANT.TEXT_GAP_OFFSET = 4;
-    CONSTANT.BACKGROUND_COLOR = '#fff';
+    CONSTANT.BACKGROUND_COLOR = '#ffffff';
     CONSTANT.THEME = {
-        "DEFAULT": { fillColor: "#F2EFEB", fillColorHighlight: "#75edfc", "drawColor": "#111111", "textColor": "#000000" },
-        "GRID": { fillColor: "#ffffff", fillColorHighlight: "#75edfc", "drawColor": "#F2EFEB", "textColor": "#F2EFEB" },
+        "DEFAULT": { fillColor: "#f5f5f5", fillColorHighlight: "#75edfc", "drawColor": "#111111", "textColor": "#000000" },
+        "GRID": { fillColor: "#ffffff", fillColorHighlight: "#75edfc", "drawColor": "#f5f5f5", "textColor": "#f5f5f5" },
         "RED": { fillColor: "#FFEBEE", fillColorHighlight: "#75edfc", "drawColor": "#FF1744", "textColor": "#D50000" },
         "BLUE": { fillColor: "#E8EAF6", fillColorHighlight: "#75edfc", "drawColor": "#304FFE", "textColor": "#304FFE" },
         "GREEN": { fillColor: "#E8F5E9", fillColorHighlight: "#75edfc", "drawColor": "#1B5E20", "textColor": "#304FFE" },
@@ -684,7 +684,6 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
             }
             this.mMovedStart = point;
             this.mMovedPack = this.mDrawManager.getStackPoints(this.mMovedIdx);
-            this.mDrawManager.drawFront(this.mMovedPack);
             switch (this.mDrawOption) {
                 case interface_3.DrawOption.MOVE:
                     this.mDrawManager.drawBackWithoutSpacific(this.mMovedIdx);
@@ -692,6 +691,7 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
                 case interface_3.DrawOption.COPY_AND_MOVE:
                 case interface_3.DrawOption.RESIZE:
             }
+            this.mDrawManager.drawFront(this.mMovedPack);
         }
         handleMovedMove(point) {
             if (this.mMovedIdx == -1) {
@@ -1039,7 +1039,7 @@ define("draw", ["require", "exports", "constant", "canvus", "component"], functi
         select(option) {
             this.mComponentManager.select(option);
             if (this.mUiCallback) {
-                this.mUiCallback.onUpdateHint(option.toString());
+                this.mUiCallback.onUpdateHint(option.toString() + "(" + this.mStack.length + ")");
             }
         }
         setStyle(style) {

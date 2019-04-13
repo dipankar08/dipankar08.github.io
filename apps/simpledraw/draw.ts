@@ -164,7 +164,7 @@ export class DrawManager {
   public select(option:DrawOption){
     this.mComponentManager.select(option);
     if(this.mUiCallback){
-      this.mUiCallback.onUpdateHint(option.toString());
+      this.mUiCallback.onUpdateHint(option.toString()+"("+this.mStack.length+")");
     }
   }
 
