@@ -14,15 +14,15 @@ import {
 } from "./interface";
 import { DrawManager } from "./draw";
 
-export class BaseDrawElemnet implements DrawElemnet{
+export class BaseDrawElemnet implements DrawElemnet {
   points: Points = new Array();
   getElementPackage(): ElementPackage {
     throw new Error("Method not implemented for BaseDrawElemnet.");
-  }  
+  }
   getDrawOption(): DrawOption {
     throw new Error("Method not implemented for BaseDrawElemnet");
   }
-  moveBy(offset: Point) : DrawElemnet{
+  moveBy(offset: Point): DrawElemnet {
     throw new Error("Method not implemented for BaseDrawElemnet");
   }
 
@@ -31,20 +31,11 @@ export class BaseDrawElemnet implements DrawElemnet{
   }
 
   public clone(): any {
-    return (JSON.parse(JSON.stringify(this)));
-}
+    return JSON.parse(JSON.stringify(this));
+  }
 }
 
 export class MarkBox extends BaseDrawElemnet {
-  moveBy(offset: Point):DrawElemnet {
-    return new MarkBox(this.x1+offset.x,this.y1+offset.y, this.x2+offset.x, this.y2+offset.y)
-  }
-  resize(from: Point, to: Point) {
-    
-  }
-  getDrawOption(): DrawOption {
-    return DrawOption.MARKBOX;
-  }
   private x1: number;
   private y1: number;
   private x2: number;
@@ -67,26 +58,28 @@ export class MarkBox extends BaseDrawElemnet {
       points: this.points,
       type: DrawOption.RECT,
       args: [this.x1, this.y1, this.x2, this.y2],
-      ele: this,
+      ele: this
     };
+  }
+  moveBy(offset: Point): DrawElemnet {
+    return new MarkBox(
+      this.x1 + offset.x,
+      this.y1 + offset.y,
+      this.x2 + offset.x,
+      this.y2 + offset.y
+    );
+  }
+  resize(from: Point, to: Point) {}
+  getDrawOption(): DrawOption {
+    return DrawOption.MARKBOX;
   }
 }
 
 export class Rect extends BaseDrawElemnet {
-  moveBy(offset: Point):DrawElemnet {
-    return new Rect(this.x1+offset.x,this.y1+offset.y, this.x2+offset.x, this.y2+offset.y)
-  }
-  resize(from: Point, to: Point) {
-    throw new Error("Method not implemented.");
-  }
-  getDrawOption(): DrawOption {
-    return DrawOption.RECT;
-  }
   private x1: number;
   private y1: number;
   private x2: number;
   private y2: number;
-  points: Points = new Array();
   constructor(x11, y11, x22, y22) {
     super();
     let cor = CommonUtils.getFixedCorner(x11, y11, x22, y22);
@@ -107,8 +100,23 @@ export class Rect extends BaseDrawElemnet {
     return {
       points: this.points,
       type: DrawOption.RECT,
-      args: [this.x1, this.y1, this.x2, this.y2], ele: this,
+      args: [this.x1, this.y1, this.x2, this.y2],
+      ele: this
     };
+  }
+  moveBy(offset: Point): DrawElemnet {
+    return new Rect(
+      this.x1 + offset.x,
+      this.y1 + offset.y,
+      this.x2 + offset.x,
+      this.y2 + offset.y
+    );
+  }
+  resize(from: Point, to: Point) {
+    throw new Error("Method not implemented.");
+  }
+  getDrawOption(): DrawOption {
+    return DrawOption.RECT;
   }
 }
 
@@ -117,20 +125,8 @@ export class ALine extends BaseDrawElemnet {
   protected y1: number;
   protected x2: number;
   protected y2: number;
-
-  moveBy(offset: Point):DrawElemnet {
-    throw new Error("Method not implemented for ALine");
-  }
-  resize(from: Point, to: Point) {
-    throw new Error("Method not implemented.");
-  }
-  getDrawOption(): DrawOption {
-    return DrawOption.NONE;
-  }
-  points: Points = new Array();
-
-  constructor(x1, y1, x2, y2) {
-    super()
+  constructor(x1:number, y1:number, x2:number, y2:number) {
+    super();
     this.x1 = x1;
     this.y1 = y1;
     this.x2 = x2;
@@ -162,32 +158,42 @@ export class ALine extends BaseDrawElemnet {
     return {
       points: this.points,
       type: DrawOption.LINE,
-      args: [] //TODO,
-      , ele: this,
+      args: [], //TODO,
+      ele: this
     };
+  }
+  moveBy(offset: Point): DrawElemnet {
+    throw new Error("Method not implemented for ALine");
+  }
+  resize(from: Point, to: Point) {
+    throw new Error("Method not implemented.");
+  }
+  getDrawOption(): DrawOption {
+    return DrawOption.NONE;
   }
 }
 
 export class Line extends ALine {
-  getDrawOption(): DrawOption {
-    return DrawOption.LINE;
-  }
-  constructor(x1, y1, x2, y2) {
+  constructor(x1:number, y1:number, x2:number, y2:number) {
     super(x1, y1, x2, y2);
     this.points.push({ x: x1, y: y1, type: DrawType.PLUS });
     this.points.push({ x: x2, y: y2, type: DrawType.PLUS });
   }
-  moveBy(offset: Point):DrawElemnet {
-    return new Line(this.x1+offset.x,this.y1+offset.y, this.x2+offset.x, this.y2+offset.y)
+  moveBy(offset: Point): DrawElemnet {
+    return new Line(
+      this.x1 + offset.x,
+      this.y1 + offset.y,
+      this.x2 + offset.x,
+      this.y2 + offset.y
+    );
+  }
+  getDrawOption(): DrawOption {
+    return DrawOption.LINE;
   }
 }
 
 class Line_D extends ALine {
-
-  getDrawOption(): DrawOption {
-    return DrawOption.LINE_D;
-  }
-  constructor(x1, y1, x2, y2) {
+  constructor(x1:number, y1:number, x2:number, y2:number) {
     super(x1, y1, x2, y2);
     this.points.push({ x: x1, y: y1, type: DrawType.PLUS });
     let lastPt = this.points[this.points.length - 1];
@@ -207,12 +213,20 @@ class Line_D extends ALine {
       console.log("Error in Line_D ");
     }
   }
-  moveBy(offset: Point) :DrawElemnet{
-    return new Line_D(this.x1+offset.x,this.y1+offset.y, this.x2+offset.x, this.y2+offset.y)
+  moveBy(offset: Point): DrawElemnet {
+    return new Line_D(
+      this.x1 + offset.x,
+      this.y1 + offset.y,
+      this.x2 + offset.x,
+      this.y2 + offset.y
+    );
+  }
+  getDrawOption(): DrawOption {
+    return DrawOption.LINE_D;
   }
 }
 class Line_DD extends ALine {
-  constructor(x1, y1, x2, y2) {
+  constructor(x1:number, y1:number, x2:number, y2:number) {
     super(x1, y1, x2, y2);
     CommonUtils.pushAndReplace(this.points, {
       x: x2,
@@ -227,33 +241,27 @@ class Line_DD extends ALine {
       data: "<"
     });
   }
-  
+
   getDrawOption(): DrawOption {
     return DrawOption.LINE_DD;
   }
 
-  moveBy(offset: Point):DrawElemnet {
-    return new Line_DD(this.x1+offset.x,this.y1+offset.y, this.x2+offset.x, this.y2+offset.y)
+  moveBy(offset: Point): DrawElemnet {
+    return new Line_DD(
+      this.x1 + offset.x,
+      this.y1 + offset.y,
+      this.x2 + offset.x,
+      this.y2 + offset.y
+    );
   }
-
 }
 
 export class Text extends BaseDrawElemnet {
-  moveBy(offset: Point):DrawElemnet {
-    return new Text(this.x1+offset.x,this.y1+offset.y, this.text);
-  }
-  resize(from: Point, to: Point) {
-    throw new Error("Method not implemented.");
-  }
-  getDrawOption(): DrawOption {
-    return DrawOption.TEXT;
-  }
-  x1: number;
-  y1: number;
-  text: string;
-  points: Points = new Array();
+  private x1: number;
+  private y1: number;
+  private text: string;
   constructor(x: number, y: number, text: string) {
-    super()
+    super();
     for (let i = 0; i < text.length; i++) {
       this.points.push({
         x: x + i,
@@ -267,27 +275,27 @@ export class Text extends BaseDrawElemnet {
     return {
       points: this.points,
       type: DrawOption.TEXT,
-      args: [this.x1, this.y1, this.text] , ele: this,
+      args: [this.x1, this.y1, this.text],
+      ele: this
     };
   }
-}
-
-export class ClearBox extends BaseDrawElemnet {
-  moveBy(offset: Point):DrawElemnet {
-    return new ClearBox(this.x1+offset.x,this.y1+offset.y, this.x2+offset.x, this.y2+offset.y)
+  moveBy(offset: Point): DrawElemnet {
+    return new Text(this.x1 + offset.x, this.y1 + offset.y, this.text);
   }
   resize(from: Point, to: Point) {
     throw new Error("Method not implemented.");
   }
   getDrawOption(): DrawOption {
-    return DrawOption.CLEAR;
+    return DrawOption.TEXT;
   }
-  x1: number;
-  y1: number;
-  x2: number;
-  y2: number;
-  points: Points = new Array();
-  constructor(x1, y1, x2, y2) {
+}
+
+export class ClearBox extends BaseDrawElemnet {
+  private x1: number;
+  private y1: number;
+  private x2: number;
+  private y2: number;
+  constructor(x1:number, y1:number, x2:number, y2:number) {
     super();
     for (var i = x1; i <= x2; i++) {
       for (var j = y1; j <= y2; j++) {
@@ -299,11 +307,25 @@ export class ClearBox extends BaseDrawElemnet {
     return {
       points: this.points,
       type: DrawOption.LINE,
-      args: [this.x1, this.y1, this.y1, this.y2] , ele: this,
+      args: [this.x1, this.y1, this.y1, this.y2],
+      ele: this
     };
   }
+  moveBy(offset: Point): DrawElemnet {
+    return new ClearBox(
+      this.x1 + offset.x,
+      this.y1 + offset.y,
+      this.x2 + offset.x,
+      this.y2 + offset.y
+    );
+  }
+  resize(from: Point, to: Point) {
+    throw new Error("Method not implemented.");
+  }
+  getDrawOption(): DrawOption {
+    return DrawOption.CLEAR;
+  }
 }
-
 
 /*****************************************************
  *  Define the manager below.
@@ -513,13 +535,11 @@ export class ComponentManager {
         this.mDrawManager.deleteFromStack(this.mSelectedIdx);
         break;
       case DrawOption.SELECTED_DUPLICATE:
-        let ele = this.mSelectedPack.pack.ele.moveBy({x:-2, y:-2});
-        this.mDrawManager.insertToStack(
-          {
-            style: this.mSelectedPack.style,
-            pack: ele.getElementPackage()
-          }
-        );
+        let ele = this.mSelectedPack.pack.ele.moveBy({ x: -2, y: -2 });
+        this.mDrawManager.insertToStack({
+          style: this.mSelectedPack.style,
+          pack: ele.getElementPackage()
+        });
         break;
     }
     this.mDrawManager.discardChange();
@@ -532,7 +552,7 @@ export class ComponentManager {
   private mMovedPack: DrawPackage;
   private mMovedStart: Point;
   private mMovedIdx: number = -1;
-  private mDrawElemnet : DrawElemnet;
+  private mDrawElemnet: DrawElemnet;
   public isMoveAction() {
     return (
       this.mDrawOption == DrawOption.MOVE ||
@@ -567,9 +587,11 @@ export class ComponentManager {
     switch (this.mDrawOption) {
       case DrawOption.MOVE:
       case DrawOption.COPY_AND_MOVE:
-      let ele1 = this.mMovedPack.pack.ele.moveBy({x:point.x - this.mMovedStart.x, y:point.y - this.mMovedStart.y});
-      this.mDrawManager.drawFront(
-        {
+        let ele1 = this.mMovedPack.pack.ele.moveBy({
+          x: point.x - this.mMovedStart.x,
+          y: point.y - this.mMovedStart.y
+        });
+        this.mDrawManager.drawFront({
           style: this.mMovedPack.style,
           pack: ele1.getElementPackage()
         });
@@ -586,18 +608,21 @@ export class ComponentManager {
     }
     switch (this.mDrawOption) {
       case DrawOption.COPY_AND_MOVE:
-      let ele2 = this.mMovedPack.pack.ele.moveBy({x:point.x - this.mMovedStart.x, y:point.y - this.mMovedStart.y});
-      this.mDrawManager.insertToStack(
-        {
+        let ele2 = this.mMovedPack.pack.ele.moveBy({
+          x: point.x - this.mMovedStart.x,
+          y: point.y - this.mMovedStart.y
+        });
+        this.mDrawManager.insertToStack({
           style: this.mMovedPack.style,
           pack: ele2.getElementPackage()
         });
         break;
       case DrawOption.MOVE:
-      let ele3 = this.mMovedPack.pack.ele.moveBy({x:point.x - this.mMovedStart.x, y:point.y - this.mMovedStart.y});
-      this.mDrawManager.replaceToStack(
-        this.mMovedIdx,
-        {
+        let ele3 = this.mMovedPack.pack.ele.moveBy({
+          x: point.x - this.mMovedStart.x,
+          y: point.y - this.mMovedStart.y
+        });
+        this.mDrawManager.replaceToStack(this.mMovedIdx, {
           style: this.mMovedPack.style,
           pack: ele3.getElementPackage()
         });
