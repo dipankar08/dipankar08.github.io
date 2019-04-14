@@ -5,7 +5,7 @@ import { CommonUtils } from "./utils";
 import { UnitDraw } from "./unitdraw";
 import { MyCanvus } from "./canvus";
 import { DrawElementMouseEventHandler, Point, Points, DrawOption, DrawPackage, Style, UiCallback } from "./interface";
-import { TestPoint, ComponentManager } from "./component";
+import { ComponentManager } from "./component";
 
 export class DrawManager {
   private mCanvusBack: MyCanvus;

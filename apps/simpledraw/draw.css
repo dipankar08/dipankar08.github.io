@@ -1,77 +1,88 @@
-*{
-    font-family: monospace;
+* {
+  font-family: monospace;
 }
-body{
-    width: 100%;
-    background: #ffffff;
+body {
+  width: 100%;
+  background: #ffffff;
 }
 .left {
-    height: 100%;
-    WIDTH: 60px;
-    background: #000;
-    text-align: center;
-    color: #fff;
-    font-family: monospace;
-    position: fixed;
+  height: 100%;
+  width: 60px;
+  background: #000;
+  text-align: center;
+  color: #fff;
+  font-family: monospace;
+  position: fixed;
 }
 .right {
-    position: fixed;
-    left: 0px;
-    right: 0;
+  position: fixed;
+  left: 0px;
+  right: 0;
 }
 .left {
-    padding: 10px;
+  padding: 10px;
 }
-.left > ul> li {
-    margin-bottom: 10px;
+.left > ul > li {
+  margin-bottom: 10px;
 }
-.left i{   color: #aaaaaa;}
-.left i:hover{    color: #ffffff;}
-p{   font-family: monospace;}
-.logo{    font-size: 40px;
-    margin-top: 10px;
-    margin-bottom: 10px;}
-    
+.left i {
+  color: #aaaaaa;
+}
+.left i:hover {
+  color: #ffffff;
+}
+p {
+  font-family: monospace;
+}
+.logo {
+  font-size: 40px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
 canvas {
-    display: block;
-    right: 0;
-    position: absolute;
-    left: 0;
-    width: 100%;
+  display: block;
+  right: 0;
+  position: absolute;
+  left: 0;
+  width: 100%;
 }
-#text{
-    position: fixed;
-    right: 10px;
-    top: 10px;
-    border: 1px solid black;
+#text {
+  position: fixed;
+  right: 10px;
+  top: 10px;
+  border: 1px solid black;
 }
-#text input{
-    width: 200px;
-    height: 25px;
-    padding: 5px;
-    border: 0;
+#text input {
+  width: 200px;
+  height: 25px;
+  padding: 5px;
+  border: 0;
 }
-#text button{
-    background: black;
-    height: 25px;
-    border: 0;
-    color: white;
-    padding: 5px;
+#text button {
+  background: black;
+  height: 25px;
+  border: 0;
+  color: white;
+  padding: 5px;
 }
 .hide {
-    display: none;
+  display: none;
 }
-#msg{
-    position: fixed;
-    background: #000000;
-    color: #ffffff;
-    padding: 5px;
-    bottom: 5px;
-    right: 5px;
-    border: 1px solid #000000;
-    border-radius: 10px;
-    font-family: monospace;
+#msg {
+  position: fixed;
+  background: #000000;
+  color: #ffffff;
+  padding: 5px;
+  bottom: 5px;
+  right: 5px;
+  border: 1px solid #000000;
+  border-radius: 10px;
+  font-family: monospace;
 }
-#canvas1.crosshair {cursor: crosshair;}
-#canvas1.move {cursor: move;}
-
+#canvas1.crosshair {
+  cursor: crosshair;
+}
+#canvas1.move {
+  cursor: move;
+}
