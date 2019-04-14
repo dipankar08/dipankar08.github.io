@@ -1091,6 +1091,7 @@ define("draw", ["require", "exports", "constant", "canvus", "component"], functi
                 }
             };
             this.mCanvusBack.setSize(window.innerWidth, window.innerHeight);
+            this.mCanvusFront.setSize(window.innerWidth, window.innerHeight);
             this.discardChange();
         }
         onTextSubmit() {
