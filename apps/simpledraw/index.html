@@ -37,15 +37,21 @@
             <li title="color" onclick="mDrawManager.setStyle(CONSTANT.THEME.DEFAULT)"><i style="color:#ffffff" class="fas fa-tint"></i></li>
             <li title="color" onclick="mDrawManager.setStyle(CONSTANT.THEME.RED)"><i style="color:red"   class="fas fa-tint"></i></li>
             <li title="color" onclick="mDrawManager.setStyle(CONSTANT.THEME.BLUE)"><i style="color:blue"   class="fas fa-tint"></i></li>
-            <li title="color" onclick="mDrawManager.setStyle(CONSTANT.THEME.GREEN)"><i  style="color:green"  class="fas fa-tint"></i></li>
+            <li title="color" onclick="mDrawManager.setStyle(CONSTANT.THEME.GREEN)"><i  style="color:rgb(8, 63, 8)"  class="fas fa-tint"></i></li>
             <li title="color"  onclick="mDrawManager.setStyle(CONSTANT.THEME.PURPLE)"><i style="color:#f3e5f5" class="fas fa-tint"></i></li>
             <li class="sep"></li>
             <li title="import" onclick="mDrawManager.import(CONSTANT.THEME.GREEN)"><i class="fas fa-cloud-download-alt"></i></li>
             <li title="export"  onclick="mDrawManager.export(CONSTANT.THEME.YELLOW)"><i class="fas fa-cloud-upload-alt"></i></li>
+            <li title="about"  onclick=""><i class="fas fa-cloud-upload-alt"></i></li>
         </ul>
     </div>
     <div id="text" class="hide">
         <input type="text" id="textinp" onkeyup="mDrawManager.onTextChange(this.value)" placeholder="type any text"><button onclick="mDrawManager.onTextSubmit()">Submit</button><button onclick="mDrawManager.onTextCancel()">Cancel</button>
+    </div>
+    <div id="dialog">
+        <div class="body">
+
+        </div>
     </div>
     <div id="msg"><span id="msgbox"></span></div>
 </body>

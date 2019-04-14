@@ -51,8 +51,8 @@ export class UnitDraw {
 
   private mark(x: number, y: number) {
     this.context.fillRect(
-        x * CONSTANT.GAP_X + 1, y * CONSTANT.GAP_Y + 1, CONSTANT.GAP_X - 1,
-        CONSTANT.GAP_Y - 1);
+        x * CONSTANT.GAP_X , y * CONSTANT.GAP_Y , CONSTANT.GAP_X - 0,
+        CONSTANT.GAP_Y - 0);
   }
 
   private clear(x, y) {

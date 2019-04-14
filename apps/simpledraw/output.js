@@ -44,7 +44,7 @@ define("unitdraw", ["require", "exports", "constant", "interface"], function (re
             this.mark(x, y);
         }
         mark(x, y) {
-            this.context.fillRect(x * constant_1.CONSTANT.GAP_X + 1, y * constant_1.CONSTANT.GAP_Y + 1, constant_1.CONSTANT.GAP_X - 1, constant_1.CONSTANT.GAP_Y - 1);
+            this.context.fillRect(x * constant_1.CONSTANT.GAP_X, y * constant_1.CONSTANT.GAP_Y, constant_1.CONSTANT.GAP_X - 0, constant_1.CONSTANT.GAP_Y - 0);
         }
         clear(x, y) {
             this.context.fillRect(x * constant_1.CONSTANT.GAP_X + 1, y * constant_1.CONSTANT.GAP_Y + 1, constant_1.CONSTANT.GAP_X - 1, constant_1.CONSTANT.GAP_Y - 1);
