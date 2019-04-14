@@ -19,34 +19,34 @@ export abstract class CONSTANT {
       textColor: "#f5f5f5"
     },
     RED: {
-      fillColor: "#FFEBEE",
+      fillColor: "#fbe9e7",
       fillColorHighlight: "#75edfc",
-      drawColor: "#FF1744",
-      textColor: "#D50000"
+      drawColor: "#ff3d00",
+      textColor: "#c30000"
     },
     BLUE: {
-      fillColor: "#E8EAF6",
+      fillColor: "#e1f5fe",
       fillColorHighlight: "#75edfc",
-      drawColor: "#304FFE",
-      textColor: "#304FFE"
+      drawColor: "#0d47a1",
+      textColor: "#002171"
     },
     GREEN: {
-      fillColor: "#E8F5E9",
+      fillColor: "#c8e6c9",
       fillColorHighlight: "#75edfc",
-      drawColor: "#1B5E20",
-      textColor: "#304FFE"
-    },
-    YELLOW: {
-      fillColor: "#FFF59D",
-      fillColorHighlight: "#75edfc",
-      drawColor: "#F57F17",
-      textColor: "#304FFE"
+      drawColor: "#00c853",
+      textColor: "#009624"
     },
     ORANGE: {
       fillColor: "#FBE9E7",
       fillColorHighlight: "#75edfc",
       drawColor: "#DD2C00",
       textColor: "#BF360C"
+    },
+    PURPLE: {
+      fillColor: "#f3e5f5",
+      fillColorHighlight: "#75edfc",
+      drawColor: "#7b1fa2",
+      textColor: "#4a148c"
     }
   };
 }

@@ -257,11 +257,14 @@ class Line_DD extends ALine {
 }
 
 export class Text extends BaseDrawElemnet {
-  private x1: number;
-  private y1: number;
-  private text: string;
+  protected x1: number;
+  protected y1: number;
+  protected text: string;
   constructor(x: number, y: number, text: string) {
     super();
+    this.x1 =x;
+    this.y1 = y;
+    this.text = text;
     for (let i = 0; i < text.length; i++) {
       this.points.push({
         x: x + i,
@@ -354,7 +357,6 @@ export class ComponentManager {
   }
 
   public onEnd(a: Point) {
-    if (this.ele) {
       if (this.isSelectAction()) {
         this.handleSelectEnd(a);
       } else if (this.isDrawFunction()) {
@@ -362,7 +364,6 @@ export class ComponentManager {
       } else if (this.isMoveAction()) {
         this.handleMovedEnd(a);
       }
-    }
   }
 
   public onMove(a: Point) {
@@ -386,13 +387,14 @@ export class ComponentManager {
    *  Define Text Functions
    * ************************************************************/
 
-  private mText = null;
+  private mText = "";
+  private mTextStartPoint;
   public isTextAction() {
     return this.mDrawOption == DrawOption.TEXT;
   }
   public onTextSubmit() {
     if (this.mText.length > 0) {
-      let ele = new Text(this.mStartPoint.x, this.mStartPoint.y, this.mText);
+      let ele = new Text(this.mTextStartPoint.x, this.mTextStartPoint.y, this.mText);
       this.mDrawManager.insertToStack({
         pack: ele.getElementPackage(),
         style: this.mDrawManager.getStyle()
@@ -402,12 +404,14 @@ export class ComponentManager {
     this.mText = "";
   }
   private handleTextStart(point) {
-    this.mStartPoint = point;
-    this.mText = "";
-    this.onTextChange("");
+    if(this.mText.length > 0){
+      this.onTextSubmit();
+    }
     if (this.mDrawManager.mUiCallback) {
       this.mDrawManager.mUiCallback.onTextBoxShown();
     }
+    this.mTextStartPoint = point;
+    this.onTextChange("");
   }
 
   public onTextCancel() {
@@ -419,10 +423,10 @@ export class ComponentManager {
     this.mText = text;
     if (this.mText.length == 0) {
       let ele = new MarkBox(
-        this.mStartPoint.x,
-        this.mStartPoint.y,
-        this.mStartPoint.x,
-        this.mStartPoint.y
+        this.mTextStartPoint.x,
+        this.mTextStartPoint.y,
+        this.mTextStartPoint.x,
+        this.mTextStartPoint.y
       );
       this.mDrawManager.drawFront({
         pack: ele.getElementPackage(),
@@ -430,8 +434,8 @@ export class ComponentManager {
       });
     } else {
       this.mTextEle = new Text(
-        this.mStartPoint.x,
-        this.mStartPoint.y,
+        this.mTextStartPoint.x,
+        this.mTextStartPoint.y,
         this.mText
       );
       this.mDrawManager.drawFront({
@@ -493,10 +497,11 @@ export class ComponentManager {
 
   private handleDrawEnd(points: Points) {
     if (this.isDrawFunction()) {
-      this.mDrawManager.drawBack({
+      this.mDrawManager.insertToStack({
         pack: this.ele.getElementPackage(),
         style: this.mDrawManager.getStyle()
       });
+      this.mDrawManager.discardChange();
     } else {
     }
   }

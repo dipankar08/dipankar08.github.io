@@ -108,7 +108,7 @@ export class MyCanvus {
       this.context.fillStyle = style.fillColor;
     }
     this.context.strokeStyle = style.drawColor;
-    this.context.font = "20px monospace";
+    this.context.font = "14px monospace";
   }
 
   // draw the grid.

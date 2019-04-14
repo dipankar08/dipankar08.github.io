@@ -197,7 +197,7 @@ define("canvus", ["require", "exports", "unitdraw", "constant", "interface"], fu
                 this.context.fillStyle = style.fillColor;
             }
             this.context.strokeStyle = style.drawColor;
-            this.context.font = "20px monospace";
+            this.context.font = "14px monospace";
         }
         // draw the grid.
         drawGrid() {
@@ -328,34 +328,34 @@ define("constant", ["require", "exports"], function (require, exports) {
             textColor: "#f5f5f5"
         },
         RED: {
-            fillColor: "#FFEBEE",
+            fillColor: "#fbe9e7",
             fillColorHighlight: "#75edfc",
-            drawColor: "#FF1744",
-            textColor: "#D50000"
+            drawColor: "#ff3d00",
+            textColor: "#c30000"
         },
         BLUE: {
-            fillColor: "#E8EAF6",
+            fillColor: "#e1f5fe",
             fillColorHighlight: "#75edfc",
-            drawColor: "#304FFE",
-            textColor: "#304FFE"
+            drawColor: "#0d47a1",
+            textColor: "#002171"
         },
         GREEN: {
-            fillColor: "#E8F5E9",
+            fillColor: "#c8e6c9",
             fillColorHighlight: "#75edfc",
-            drawColor: "#1B5E20",
-            textColor: "#304FFE"
-        },
-        YELLOW: {
-            fillColor: "#FFF59D",
-            fillColorHighlight: "#75edfc",
-            drawColor: "#F57F17",
-            textColor: "#304FFE"
+            drawColor: "#00c853",
+            textColor: "#009624"
         },
         ORANGE: {
             fillColor: "#FBE9E7",
             fillColorHighlight: "#75edfc",
             drawColor: "#DD2C00",
             textColor: "#BF360C"
+        },
+        PURPLE: {
+            fillColor: "#f3e5f5",
+            fillColorHighlight: "#75edfc",
+            drawColor: "#7b1fa2",
+            textColor: "#4a148c"
         }
     };
     exports.CONSTANT = CONSTANT;
@@ -566,6 +566,9 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
     class Text extends BaseDrawElemnet {
         constructor(x, y, text) {
             super();
+            this.x1 = x;
+            this.y1 = y;
+            this.text = text;
             for (let i = 0; i < text.length; i++) {
                 this.points.push({
                     x: x + i,
@@ -632,7 +635,7 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
             /*************************************************************
              *  Define Text Functions
              * ************************************************************/
-            this.mText = null;
+            this.mText = "";
             this.mMovedIdx = -1;
             this.mDrawManager = d;
         }
@@ -652,16 +655,14 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
             }
         }
         onEnd(a) {
-            if (this.ele) {
-                if (this.isSelectAction()) {
-                    this.handleSelectEnd(a);
-                }
-                else if (this.isDrawFunction()) {
-                    this.handleDrawEnd(this.ele.getElementPackage().points);
-                }
-                else if (this.isMoveAction()) {
-                    this.handleMovedEnd(a);
-                }
+            if (this.isSelectAction()) {
+                this.handleSelectEnd(a);
+            }
+            else if (this.isDrawFunction()) {
+                this.handleDrawEnd(this.ele.getElementPackage().points);
+            }
+            else if (this.isMoveAction()) {
+                this.handleMovedEnd(a);
             }
         }
         onMove(a) {
@@ -686,7 +687,7 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
         }
         onTextSubmit() {
             if (this.mText.length > 0) {
-                let ele = new Text(this.mStartPoint.x, this.mStartPoint.y, this.mText);
+                let ele = new Text(this.mTextStartPoint.x, this.mTextStartPoint.y, this.mText);
                 this.mDrawManager.insertToStack({
                     pack: ele.getElementPackage(),
                     style: this.mDrawManager.getStyle()
@@ -696,12 +697,14 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
             this.mText = "";
         }
         handleTextStart(point) {
-            this.mStartPoint = point;
-            this.mText = "";
-            this.onTextChange("");
+            if (this.mText.length > 0) {
+                this.onTextSubmit();
+            }
             if (this.mDrawManager.mUiCallback) {
                 this.mDrawManager.mUiCallback.onTextBoxShown();
             }
+            this.mTextStartPoint = point;
+            this.onTextChange("");
         }
         onTextCancel() {
             this.mDrawManager.discardChange();
@@ -711,14 +714,14 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
             console.log(text);
             this.mText = text;
             if (this.mText.length == 0) {
-                let ele = new MarkBox(this.mStartPoint.x, this.mStartPoint.y, this.mStartPoint.x, this.mStartPoint.y);
+                let ele = new MarkBox(this.mTextStartPoint.x, this.mTextStartPoint.y, this.mTextStartPoint.x, this.mTextStartPoint.y);
                 this.mDrawManager.drawFront({
                     pack: ele.getElementPackage(),
                     style: this.mDrawManager.getStyle()
                 });
             }
             else {
-                this.mTextEle = new Text(this.mStartPoint.x, this.mStartPoint.y, this.mText);
+                this.mTextEle = new Text(this.mTextStartPoint.x, this.mTextStartPoint.y, this.mText);
                 this.mDrawManager.drawFront({
                     pack: this.mTextEle.getElementPackage(),
                     style: this.mDrawManager.getStyle()
@@ -763,10 +766,11 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
         }
         handleDrawEnd(points) {
             if (this.isDrawFunction()) {
-                this.mDrawManager.drawBack({
+                this.mDrawManager.insertToStack({
                     pack: this.ele.getElementPackage(),
                     style: this.mDrawManager.getStyle()
                 });
+                this.mDrawManager.discardChange();
             }
             else {
             }
@@ -1169,16 +1173,6 @@ define("draw", ["require", "exports", "constant", "canvus", "component"], functi
         drawFront(pack) {
             this.mCanvusFront.clearAll();
             this.mCanvusFront.draw(pack, true);
-        }
-        drawBack(pack) {
-            this.insertToStackInternal(pack);
-            this.mCanvusFront.clearAll();
-            this.repaintBack();
-        }
-        drawBackWithReplace(pack, index) {
-            this.mStack[index] = pack;
-            this.repaintBack();
-            this.recomputeMap();
         }
         drawBackWithoutSpacific(index) {
             this.repaintBackWithoutSpacific(index);

@@ -130,16 +130,7 @@ export class DrawManager {
     this.mCanvusFront.clearAll();
     this.mCanvusFront.draw(pack, true);
   }
-  public drawBack(pack:DrawPackage){
-    this.insertToStackInternal(pack);
-    this.mCanvusFront.clearAll();
-    this.repaintBack(); 
-  }
-  public drawBackWithReplace(pack:DrawPackage, index:number){
-    this.mStack[index] = pack ;
-    this.repaintBack();
-    this.recomputeMap();
-  }
+
   public drawBackWithoutSpacific(index:number){
     this.repaintBackWithoutSpacific(index)
   }
