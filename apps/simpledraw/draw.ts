@@ -38,6 +38,8 @@ export class DrawManager {
         _this.discardChange()
       }
     }
+    this.mCanvusBack.setSize(window.innerWidth, window.innerHeight);
+    this.discardChange();
   }
 
   public onTextSubmit(){

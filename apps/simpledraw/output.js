@@ -380,19 +380,11 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
             throw new Error("Method not implemented for BaseDrawElemnet");
         }
         clone() {
-            return (JSON.parse(JSON.stringify(this)));
+            return JSON.parse(JSON.stringify(this));
         }
     }
     exports.BaseDrawElemnet = BaseDrawElemnet;
     class MarkBox extends BaseDrawElemnet {
-        moveBy(offset) {
-            return new MarkBox(this.x1 + offset.x, this.y1 + offset.y, this.x2 + offset.x, this.y2 + offset.y);
-        }
-        resize(from, to) {
-        }
-        getDrawOption() {
-            return interface_3.DrawOption.MARKBOX;
-        }
         constructor(x11, y11, x22, y22) {
             super();
             let cor = utils_1.CommonUtils.getFixedCorner(x11, y11, x22, y22);
@@ -411,15 +403,21 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
                 points: this.points,
                 type: interface_3.DrawOption.RECT,
                 args: [this.x1, this.y1, this.x2, this.y2],
-                ele: this,
+                ele: this
             };
+        }
+        moveBy(offset) {
+            return new MarkBox(this.x1 + offset.x, this.y1 + offset.y, this.x2 + offset.x, this.y2 + offset.y);
+        }
+        resize(from, to) { }
+        getDrawOption() {
+            return interface_3.DrawOption.MARKBOX;
         }
     }
     exports.MarkBox = MarkBox;
     class Rect extends BaseDrawElemnet {
         constructor(x11, y11, x22, y22) {
             super();
-            this.points = new Array();
             let cor = utils_1.CommonUtils.getFixedCorner(x11, y11, x22, y22);
             let x1 = (this.x1 = cor[0]);
             let y1 = (this.y1 = cor[1]);
@@ -434,6 +432,14 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
             this.points.push({ x: x2, y: y1, type: interface_3.DrawType.PLUS });
             this.points.push({ x: x2, y: y2, type: interface_3.DrawType.PLUS });
         }
+        getElementPackage() {
+            return {
+                points: this.points,
+                type: interface_3.DrawOption.RECT,
+                args: [this.x1, this.y1, this.x2, this.y2],
+                ele: this
+            };
+        }
         moveBy(offset) {
             return new Rect(this.x1 + offset.x, this.y1 + offset.y, this.x2 + offset.x, this.y2 + offset.y);
         }
@@ -443,19 +449,11 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
         getDrawOption() {
             return interface_3.DrawOption.RECT;
         }
-        getElementPackage() {
-            return {
-                points: this.points,
-                type: interface_3.DrawOption.RECT,
-                args: [this.x1, this.y1, this.x2, this.y2], ele: this,
-            };
-        }
     }
     exports.Rect = Rect;
     class ALine extends BaseDrawElemnet {
         constructor(x1, y1, x2, y2) {
             super();
-            this.points = new Array();
             this.x1 = x1;
             this.y1 = y1;
             this.x2 = x2;
@@ -483,6 +481,14 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
                     break;
             }
         }
+        getElementPackage() {
+            return {
+                points: this.points,
+                type: interface_3.DrawOption.LINE,
+                args: [],
+                ele: this
+            };
+        }
         moveBy(offset) {
             throw new Error("Method not implemented for ALine");
         }
@@ -492,21 +498,9 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
         getDrawOption() {
             return interface_3.DrawOption.NONE;
         }
-        getElementPackage() {
-            return {
-                points: this.points,
-                type: interface_3.DrawOption.LINE,
-                args: [] //TODO,
-                ,
-                ele: this,
-            };
-        }
     }
     exports.ALine = ALine;
     class Line extends ALine {
-        getDrawOption() {
-            return interface_3.DrawOption.LINE;
-        }
         constructor(x1, y1, x2, y2) {
             super(x1, y1, x2, y2);
             this.points.push({ x: x1, y: y1, type: interface_3.DrawType.PLUS });
@@ -515,12 +509,12 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
         moveBy(offset) {
             return new Line(this.x1 + offset.x, this.y1 + offset.y, this.x2 + offset.x, this.y2 + offset.y);
         }
+        getDrawOption() {
+            return interface_3.DrawOption.LINE;
+        }
     }
     exports.Line = Line;
     class Line_D extends ALine {
-        getDrawOption() {
-            return interface_3.DrawOption.LINE_D;
-        }
         constructor(x1, y1, x2, y2) {
             super(x1, y1, x2, y2);
             this.points.push({ x: x1, y: y1, type: interface_3.DrawType.PLUS });
@@ -541,6 +535,9 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
         }
         moveBy(offset) {
             return new Line_D(this.x1 + offset.x, this.y1 + offset.y, this.x2 + offset.x, this.y2 + offset.y);
+        }
+        getDrawOption() {
+            return interface_3.DrawOption.LINE_D;
         }
     }
     class Line_DD extends ALine {
@@ -569,7 +566,6 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
     class Text extends BaseDrawElemnet {
         constructor(x, y, text) {
             super();
-            this.points = new Array();
             for (let i = 0; i < text.length; i++) {
                 this.points.push({
                     x: x + i,
@@ -578,6 +574,14 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
                     data: text.charAt(i)
                 });
             }
+        }
+        getElementPackage() {
+            return {
+                points: this.points,
+                type: interface_3.DrawOption.TEXT,
+                args: [this.x1, this.y1, this.text],
+                ele: this
+            };
         }
         moveBy(offset) {
             return new Text(this.x1 + offset.x, this.y1 + offset.y, this.text);
@@ -588,24 +592,24 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
         getDrawOption() {
             return interface_3.DrawOption.TEXT;
         }
-        getElementPackage() {
-            return {
-                points: this.points,
-                type: interface_3.DrawOption.TEXT,
-                args: [this.x1, this.y1, this.text], ele: this,
-            };
-        }
     }
     exports.Text = Text;
     class ClearBox extends BaseDrawElemnet {
         constructor(x1, y1, x2, y2) {
             super();
-            this.points = new Array();
             for (var i = x1; i <= x2; i++) {
                 for (var j = y1; j <= y2; j++) {
                     this.points.push({ x: i, y: j, type: interface_3.DrawType.CLEAR });
                 }
             }
+        }
+        getElementPackage() {
+            return {
+                points: this.points,
+                type: interface_3.DrawOption.LINE,
+                args: [this.x1, this.y1, this.y1, this.y2],
+                ele: this
+            };
         }
         moveBy(offset) {
             return new ClearBox(this.x1 + offset.x, this.y1 + offset.y, this.x2 + offset.x, this.y2 + offset.y);
@@ -615,13 +619,6 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
         }
         getDrawOption() {
             return interface_3.DrawOption.CLEAR;
-        }
-        getElementPackage() {
-            return {
-                points: this.points,
-                type: interface_3.DrawOption.LINE,
-                args: [this.x1, this.y1, this.y1, this.y2], ele: this,
-            };
         }
     }
     exports.ClearBox = ClearBox;
@@ -838,7 +835,10 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
             switch (this.mDrawOption) {
                 case interface_3.DrawOption.MOVE:
                 case interface_3.DrawOption.COPY_AND_MOVE:
-                    let ele1 = this.mMovedPack.pack.ele.moveBy({ x: point.x - this.mMovedStart.x, y: point.y - this.mMovedStart.y });
+                    let ele1 = this.mMovedPack.pack.ele.moveBy({
+                        x: point.x - this.mMovedStart.x,
+                        y: point.y - this.mMovedStart.y
+                    });
                     this.mDrawManager.drawFront({
                         style: this.mMovedPack.style,
                         pack: ele1.getElementPackage()
@@ -854,14 +854,20 @@ define("component", ["require", "exports", "utils", "interface"], function (requ
             }
             switch (this.mDrawOption) {
                 case interface_3.DrawOption.COPY_AND_MOVE:
-                    let ele2 = this.mMovedPack.pack.ele.moveBy({ x: point.x - this.mMovedStart.x, y: point.y - this.mMovedStart.y });
+                    let ele2 = this.mMovedPack.pack.ele.moveBy({
+                        x: point.x - this.mMovedStart.x,
+                        y: point.y - this.mMovedStart.y
+                    });
                     this.mDrawManager.insertToStack({
                         style: this.mMovedPack.style,
                         pack: ele2.getElementPackage()
                     });
                     break;
                 case interface_3.DrawOption.MOVE:
-                    let ele3 = this.mMovedPack.pack.ele.moveBy({ x: point.x - this.mMovedStart.x, y: point.y - this.mMovedStart.y });
+                    let ele3 = this.mMovedPack.pack.ele.moveBy({
+                        x: point.x - this.mMovedStart.x,
+                        y: point.y - this.mMovedStart.y
+                    });
                     this.mDrawManager.replaceToStack(this.mMovedIdx, {
                         style: this.mMovedPack.style,
                         pack: ele3.getElementPackage()
@@ -1084,6 +1090,8 @@ define("draw", ["require", "exports", "constant", "canvus", "component"], functi
                     _this.discardChange();
                 }
             };
+            this.mCanvusBack.setSize(window.innerWidth, window.innerHeight);
+            this.discardChange();
         }
         onTextSubmit() {
             this.mComponentManager.onTextSubmit();

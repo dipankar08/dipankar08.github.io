@@ -163,7 +163,7 @@ export class MyCanvus {
     return { x: x * CONSTANT.GAP_X, y: x * CONSTANT.GAP_Y };
   }
 
-  private setSize(width: number, height: number) {
+  public setSize(width: number, height: number) {
     this.canvas.width = width;
     this.canvas.height = height;
     this.reDraw();
