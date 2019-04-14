@@ -165,6 +165,10 @@ ul.c > li {
   .box {
     width: 80%;
     left: calc(10% - 2px);
+    
+  }
+  .box .top{
+    padding: 10px;
   }
   ul > li {
     width: 100%;
