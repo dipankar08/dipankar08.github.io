@@ -1,6 +1,37 @@
 html{
   font-size: 100%;
 }
+@font-face {
+  font-display: swap;
+  font-family: "Untitled Sans Web";
+  font-style: italic;
+  font-weight: normal;
+  src: url("fonts/UntitledSansWeb-RegularItalic.woff2") format("woff2"),
+    url("fonts/UntitledSansWeb-RegularItalic.woff") format("woff"),
+    url("fonts/UntitledSansWeb-RegularItalic.eot")
+      format("embedded-opentype");
+}
+
+@font-face {
+  font-display: swap;
+  font-family: "Untitled Sans Web";
+  font-style: normal;
+  font-weight: normal;
+  src: url("fonts/UntitledSansWeb-Regular.woff2") format("woff2"),
+    url("fonts/UntitledSansWeb-Regular.woff") format("woff"),
+    url("fonts/UntitledSansWeb-Regular.eot") format("embedded-opentype");
+}
+
+@font-face {
+  font-display: swap;
+  font-family: "Untitled Sans Web";
+  font-style: normal;
+  font-weight: bold;
+  src: url("fonts/UntitledSansWeb-Bold.woff2") format("woff2"),
+    url("fonts/UntitledSansWeb-Bold.woff") format("woff"),
+    url("fonts/UntitledSansWeb-Bold.eot") format("embedded-opentype");
+}
+
 a{text-decoration: none;color: rgba(0,0,0,0.40);    cursor: pointer;}
 a:hover{color:#ffcd00;}
 div { box-sizing: border-box;}
@@ -8,7 +39,7 @@ body{
   height:100%;
   width: 100%;
   font-size: 100%;
-  font-family: 'Raleway', sans-serif;
+  font-family: "Untitled Sans Web", -apple-system, system-ui, BlinkMacSystemFont, sans-serif;
   color: rgba(0,0,0,0.40);
   font-size: 1em;
   line-height: 1.4;
@@ -30,7 +61,7 @@ img {
   width: 150px;
   height: 150px;
   margin-left: calc(50% - 75px);
-  border: 10px solid #ffcd00;
+  border: 10px solid rgb(0, 2, 7, 1);
 }
 
 .box{
@@ -68,17 +99,24 @@ img {
 .box .bottom span{
   padding-left: 15px;
 }
-.box .top p {
-  margin: 0px auto 60px auto;
-  text-align: center;
-}
+
 .title{
   font-size: 2.5em;
-  color: #ffcd00
+  color: rgb(0, 2, 7);
+  text-align: center;
+  margin: 30px auto;
 }
 .subtitle{
-  font-size: 1em;
-  color: rgba(0,0,0,.5);
+  color: rgb(0, 2, 7);
+  line-height: 1.5;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  flex: 1 1 0%;
+}
+.url {
+  color: inherit;
+    -webkit-text-decoration: underline;
+    text-decoration: underline;
 }
 .contact{
   font-size: 1em;

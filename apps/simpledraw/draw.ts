@@ -185,15 +185,6 @@ export class DrawManager {
   public setUiCallback(uicallback:UiCallback){
     this.mUiCallback = uicallback;
   }
-
-
-
-
-
-
-
-
- 
 }
 
 

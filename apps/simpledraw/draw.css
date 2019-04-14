@@ -69,6 +69,7 @@ canvas {
 .hide {
   display: none;
 }
+
 #msg {
   position: fixed;
   background: #000000;
@@ -80,9 +81,15 @@ canvas {
   border-radius: 10px;
   font-family: monospace;
 }
+
 #canvas1.crosshair {
   cursor: crosshair;
 }
+
 #canvas1.move {
   cursor: move;
+}
+
+.left .focus i{
+    color: #dda41d;
 }

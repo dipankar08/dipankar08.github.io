@@ -194,7 +194,7 @@ export abstract class CommonUtils {
 
   public static pushAndReplace(points: Points, point) {
     let flag: boolean = false;
-    for (let i = 0; i < points.length; i++) {
+    for (let i = 0; i < points.length; i++){
       if (points[i].x == point.x && points[i].y == point.y) {
         points[i] = point;
         flag = true;
