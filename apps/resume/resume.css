@@ -94,12 +94,67 @@ body {
   float: right;
 }
 
+/* Style for Promo */
+.promo {
+  position: fixed;
+  width: 100%;
+  left: 0;
+  background: #3c3c3c;
+  top: 0;
+}
+
+.promo p {
+  font-size: 10px;
+  text-align: center;
+  padding: 10px;
+  color: #ffffff;
+}
+
+.promo span, .promo a {
+  color: #ffffff;
+  font-family: monospace;
+  font-weight: 300;
+  text-transform: initial;
+}
+
+.promo a {
+  border: 1px solid #ffffff;
+  padding: 5px;
+  margin-left: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+/*Print */
+@media print {
+  @page {
+    size: A4;
+    margin: 0.5cm 1cm;
+  }
+  .resume-content, body {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    background: #ffffff;
+    -webkit-box-shadow: none;
+            box-shadow: none;
+  }
+  .promo {
+    display: none;
+  }
+  .resume-content .phase .item .line .mono {
+    font-size: 10px;
+  }
+}
+
 @font-face {
   font-display: swap;
   font-family: "Untitled Sans Web";
   font-style: italic;
   font-weight: normal;
-  src: url("../../css/fonts/UntitledSansWeb-RegularItalic.woff2") format("woff2"), url("../../css/fonts/UntitledSansWeb-RegularItalic.woff") format("woff"), url("../../css/fonts/UntitledSansWeb-RegularItalic.eot") format("embedded-opentype");
+  src: url("../../fonts/UntitledSansWeb-RegularItalic.woff2") format("woff2"), url("../../fonts/UntitledSansWeb-RegularItalic.woff") format("woff"), url("../../fonts/UntitledSansWeb-RegularItalic.eot") format("embedded-opentype");
 }
 
 @font-face {
@@ -107,7 +162,7 @@ body {
   font-family: "Untitled Sans Web";
   font-style: normal;
   font-weight: normal;
-  src: url("../../css/fonts/UntitledSansWeb-Regular.woff2") format("woff2"), url("../../css/fonts/UntitledSansWeb-Regular.woff") format("woff"), url("../../css/fonts/UntitledSansWeb-Regular.eot") format("embedded-opentype");
+  src: url("../../fonts/UntitledSansWeb-Regular.woff2") format("woff2"), url("../../fonts/UntitledSansWeb-Regular.woff") format("woff"), url("../../fonts/UntitledSansWeb-Regular.eot") format("embedded-opentype");
 }
 
 @font-face {
@@ -115,6 +170,6 @@ body {
   font-family: "Untitled Sans Web";
   font-style: normal;
   font-weight: bold;
-  src: url("../../css/fonts/UntitledSansWeb-Bold.woff2") format("woff2"), url("../../css/fonts/UntitledSansWeb-Bold.woff") format("woff"), url("../../css/fonts/UntitledSansWeb-Bold.eot") format("embedded-opentype");
+  src: url("../../fonts/UntitledSansWeb-Bold.woff2") format("woff2"), url("../../fonts/UntitledSansWeb-Bold.woff") format("woff"), url("../../fonts/UntitledSansWeb-Bold.eot") format("embedded-opentype");
 }
 /*# sourceMappingURL=resume.css.map */
