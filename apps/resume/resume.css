@@ -1,0 +1,120 @@
+/*font */
+@import url("https://fonts.googleapis.com/css?family=Roboto+Mono");
+/*define colors*/
+body {
+  background: #f8f9fa;
+}
+
+* {
+  color: #131516;
+  font-family: "Untitled Sans Web", -apple-system, system-ui, BlinkMacSystemFont, sans-serif;
+}
+
+.resume-content {
+  background-color: white;
+  -webkit-box-shadow: rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+          box-shadow: rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+  width: 816px;
+  height: 1056px;
+  padding: 50px;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+.resume-content .phase {
+  display: inline-block;
+  width: 100%;
+}
+
+.resume-content .phase .right {
+  width: 208px;
+  padding-left: 38px;
+  display: inline-block;
+  float: right;
+}
+
+.resume-content .phase .left {
+  width: calc(100% - 208px - 30px);
+  display: inline-block;
+}
+
+.resume-content .phase .section-head {
+  font-size: 20.5px;
+  color: #00ab6c;
+  background-color: transparent;
+  font-weight: 400;
+  font-style: normal;
+  font-variant: normal;
+  text-decoration: none;
+  vertical-align: baseline;
+  padding-top: 26.6667px;
+}
+
+.resume-content .phase .item {
+  padding-top: 20px;
+}
+
+.resume-content .phase .item .line {
+  margin-left: 0px;
+  padding-top: 6.66667px;
+}
+
+.resume-content .phase .item .line .title {
+  font-size: 32px;
+  background-color: transparent;
+  font-weight: bold;
+  vertical-align: baseline;
+}
+
+.resume-content .phase .item .line .bold {
+  font-size: 14.5px;
+  background-color: transparent;
+  font-weight: bold;
+  vertical-align: baseline;
+}
+
+.resume-content .phase .item .line .mono {
+  font-size: 13.333333333333332px;
+  background-color: transparent;
+  vertical-align: baseline;
+  font-family: "Roboto Mono", monospace;
+}
+
+.resume-content .phase .item .line .regular {
+  font-size: 13.333333333333332px;
+  vertical-align: baseline;
+}
+
+.resume-content .phase .item .line .date {
+  font-size: 12px;
+  vertical-align: baseline;
+}
+
+.resume-content .phase .item .line .fright {
+  float: right;
+}
+
+@font-face {
+  font-display: swap;
+  font-family: "Untitled Sans Web";
+  font-style: italic;
+  font-weight: normal;
+  src: url("../../css/fonts/UntitledSansWeb-RegularItalic.woff2") format("woff2"), url("../../css/fonts/UntitledSansWeb-RegularItalic.woff") format("woff"), url("../../css/fonts/UntitledSansWeb-RegularItalic.eot") format("embedded-opentype");
+}
+
+@font-face {
+  font-display: swap;
+  font-family: "Untitled Sans Web";
+  font-style: normal;
+  font-weight: normal;
+  src: url("../../css/fonts/UntitledSansWeb-Regular.woff2") format("woff2"), url("../../css/fonts/UntitledSansWeb-Regular.woff") format("woff"), url("../../css/fonts/UntitledSansWeb-Regular.eot") format("embedded-opentype");
+}
+
+@font-face {
+  font-display: swap;
+  font-family: "Untitled Sans Web";
+  font-style: normal;
+  font-weight: bold;
+  src: url("../../css/fonts/UntitledSansWeb-Bold.woff2") format("woff2"), url("../../css/fonts/UntitledSansWeb-Bold.woff") format("woff"), url("../../css/fonts/UntitledSansWeb-Bold.eot") format("embedded-opentype");
+}
+/*# sourceMappingURL=resume.css.map */

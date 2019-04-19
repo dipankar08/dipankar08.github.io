@@ -1,0 +1,120 @@
+/*font */
+@import url('https://fonts.googleapis.com/css?family=Roboto+Mono');
+$monoFont: 'Roboto Mono', monospace;
+
+/*define colors*/
+$bodyBackgroudColor: rgb(248, 249, 250);
+$resumeBackgroudColor: rgb(255, 255, 255);
+$height: 1056px;
+$width:816px;
+$rightPaneWidth: 208px;
+$resumePadding: 50px;
+
+body {
+  background: $bodyBackgroudColor;
+}
+*{
+
+    color: #131516;
+    font-family: "Untitled Sans Web", -apple-system, system-ui, BlinkMacSystemFont, sans-serif;
+}
+.resume-content {
+  background-color: $resumeBackgroudColor;
+  box-shadow: rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+  width: $width; 
+  height: $height;
+  padding: $resumePadding;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  .phase {
+     display: inline-block;
+     width:100%;
+    .right {
+        width: $rightPaneWidth;
+        padding-left: 38px;
+        display: inline-block;
+        float: right;
+    }
+    .left {
+        width: calc(100% - #{$rightPaneWidth} - 30px);
+        display: inline-block;
+    }
+    .section-head {
+        font-size: 20.5px;
+        color: #00ab6c;
+        background-color: transparent;
+        font-weight: 400;
+        font-style: normal;
+        font-variant: normal;
+        text-decoration: none;
+        vertical-align: baseline;
+        padding-top: 26.6667px;
+    }
+  .item {
+    padding-top: 20px;
+    .line {
+      margin-left: 0px;
+      padding-top: 6.66667px;
+      .title {
+        font-size: 32px;
+        background-color: transparent;
+        font-weight: bold;
+        vertical-align: baseline;
+      }
+      .bold {
+        font-size: 14.5px;
+        background-color: transparent;
+        font-weight: bold;
+        vertical-align: baseline;
+      }
+      .mono {
+        font-size: 13.333333333333332px;
+        background-color: transparent;
+        vertical-align: baseline;
+        font-family: $monoFont;
+      }
+      .regular {
+        font-size: 13.333333333333332px;
+        vertical-align: baseline;
+      }
+      .date {
+        font-size: 12px;
+        vertical-align: baseline;
+      }
+      .fright {
+        float: right;
+      }
+    }
+  }
+}
+}
+@font-face {
+    font-display: swap;
+    font-family: "Untitled Sans Web";
+    font-style: italic;
+    font-weight: normal;
+    src: url("../../css/fonts/UntitledSansWeb-RegularItalic.woff2") format("woff2"),
+      url("../../css/fonts/UntitledSansWeb-RegularItalic.woff") format("woff"),
+      url("../../css/fonts/UntitledSansWeb-RegularItalic.eot")
+        format("embedded-opentype");
+  }
+  
+  @font-face {
+    font-display: swap;
+    font-family: "Untitled Sans Web";
+    font-style: normal;
+    font-weight: normal;
+    src: url("../../css/fonts/UntitledSansWeb-Regular.woff2") format("woff2"),
+      url("../../css/fonts/UntitledSansWeb-Regular.woff") format("woff"),
+      url("../../css/fonts/UntitledSansWeb-Regular.eot") format("embedded-opentype");
+  }
+  
+  @font-face {
+    font-display: swap;
+    font-family: "Untitled Sans Web";
+    font-style: normal;
+    font-weight: bold;
+    src: url("../../css/fonts/UntitledSansWeb-Bold.woff2") format("woff2"),
+      url("../../css/fonts/UntitledSansWeb-Bold.woff") format("woff"),
+      url("../../css/fonts/UntitledSansWeb-Bold.eot") format("embedded-opentype");
+  }
