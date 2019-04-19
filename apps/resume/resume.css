@@ -3,6 +3,7 @@
 /*define colors*/
 body {
   background: #f8f9fa;
+  width: 100%;
 }
 
 * {
@@ -17,8 +18,7 @@ body {
   width: 816px;
   height: 1056px;
   padding: 50px;
-  margin-top: 50px;
-  margin-bottom: 50px;
+  margin: 50px auto;
 }
 
 .resume-content .phase {

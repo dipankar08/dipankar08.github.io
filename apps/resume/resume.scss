@@ -12,6 +12,7 @@ $resumePadding: 50px;
 
 body {
   background: $bodyBackgroudColor;
+  width:100%;
 }
 *{
 
@@ -24,8 +25,7 @@ body {
   width: $width; 
   height: $height;
   padding: $resumePadding;
-  margin-top: 50px;
-  margin-bottom: 50px;
+  margin: 50px auto;
   .phase {
      display: inline-block;
      width:100%;
