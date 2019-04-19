@@ -6,9 +6,9 @@ html{
   font-family: "Untitled Sans Web";
   font-style: italic;
   font-weight: normal;
-  src: url("fonts/UntitledSansWeb-RegularItalic.woff2") format("woff2"),
-    url("fonts/UntitledSansWeb-RegularItalic.woff") format("woff"),
-    url("fonts/UntitledSansWeb-RegularItalic.eot")
+  src: url("../fonts/UntitledSansWeb-RegularItalic.woff2") format("woff2"),
+    url("../fonts/UntitledSansWeb-RegularItalic.woff") format("woff"),
+    url("../fonts/UntitledSansWeb-RegularItalic.eot")
       format("embedded-opentype");
 }
 
@@ -17,9 +17,9 @@ html{
   font-family: "Untitled Sans Web";
   font-style: normal;
   font-weight: normal;
-  src: url("fonts/UntitledSansWeb-Regular.woff2") format("woff2"),
-    url("fonts/UntitledSansWeb-Regular.woff") format("woff"),
-    url("fonts/UntitledSansWeb-Regular.eot") format("embedded-opentype");
+  src: url("../fonts/UntitledSansWeb-Regular.woff2") format("woff2"),
+    url("../fonts/UntitledSansWeb-Regular.woff") format("woff"),
+    url("../fonts/UntitledSansWeb-Regular.eot") format("embedded-opentype");
 }
 
 @font-face {
@@ -27,9 +27,9 @@ html{
   font-family: "Untitled Sans Web";
   font-style: normal;
   font-weight: bold;
-  src: url("fonts/UntitledSansWeb-Bold.woff2") format("woff2"),
-    url("fonts/UntitledSansWeb-Bold.woff") format("woff"),
-    url("fonts/UntitledSansWeb-Bold.eot") format("embedded-opentype");
+  src: url("../fonts/UntitledSansWeb-Bold.woff2") format("woff2"),
+    url("../fonts/UntitledSansWeb-Bold.woff") format("woff"),
+    url("../fonts/UntitledSansWeb-Bold.eot") format("embedded-opentype");
 }
 
 a{text-decoration: none;color: rgba(0,0,0,0.40);    cursor: pointer;}

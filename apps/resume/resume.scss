@@ -8,7 +8,7 @@ $resumeBackgroudColor: rgb(255, 255, 255);
 $height: 1056px;
 $width:816px;
 $rightPaneWidth: 208px;
-$resumePadding: 50px;
+$resumePadding: 20px 50px;;
 
 body {
   background: $bodyBackgroudColor;
@@ -93,9 +93,9 @@ body {
     font-family: "Untitled Sans Web";
     font-style: italic;
     font-weight: normal;
-    src: url("../../css/fonts/UntitledSansWeb-RegularItalic.woff2") format("woff2"),
-      url("../../css/fonts/UntitledSansWeb-RegularItalic.woff") format("woff"),
-      url("../../css/fonts/UntitledSansWeb-RegularItalic.eot")
+    src: url("../../fonts/UntitledSansWeb-RegularItalic.woff2") format("woff2"),
+      url("../../fonts/UntitledSansWeb-RegularItalic.woff") format("woff"),
+      url("../../fonts/UntitledSansWeb-RegularItalic.eot")
         format("embedded-opentype");
   }
   
@@ -104,9 +104,9 @@ body {
     font-family: "Untitled Sans Web";
     font-style: normal;
     font-weight: normal;
-    src: url("../../css/fonts/UntitledSansWeb-Regular.woff2") format("woff2"),
-      url("../../css/fonts/UntitledSansWeb-Regular.woff") format("woff"),
-      url("../../css/fonts/UntitledSansWeb-Regular.eot") format("embedded-opentype");
+    src: url("../../fonts/UntitledSansWeb-Regular.woff2") format("woff2"),
+      url("../../fonts/UntitledSansWeb-Regular.woff") format("woff"),
+      url("../../fonts/UntitledSansWeb-Regular.eot") format("embedded-opentype");
   }
   
   @font-face {
@@ -114,7 +114,7 @@ body {
     font-family: "Untitled Sans Web";
     font-style: normal;
     font-weight: bold;
-    src: url("../../css/fonts/UntitledSansWeb-Bold.woff2") format("woff2"),
-      url("../../css/fonts/UntitledSansWeb-Bold.woff") format("woff"),
-      url("../../css/fonts/UntitledSansWeb-Bold.eot") format("embedded-opentype");
+    src: url("../../fonts/UntitledSansWeb-Bold.woff2") format("woff2"),
+      url("../../fonts/UntitledSansWeb-Bold.woff") format("woff"),
+      url("../../fonts/UntitledSansWeb-Bold.eot") format("embedded-opentype");
   }
