@@ -154,6 +154,16 @@ body {
   .resume-content .phase .item .line {
     padding-top: 10px;
   }
+  .resume-content .phase .item .line .fright {
+    float: none;
+    display: block;
+  }
+  .resume-content .phase .item .line .mono {
+    display: block;
+  }
+  .resume-content .phase .item .line .dash {
+    display: none;
+  }
   .promo .btn {
     width: 100%;
     display: block;
