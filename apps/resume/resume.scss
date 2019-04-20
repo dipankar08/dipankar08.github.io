@@ -26,7 +26,7 @@ body {
   width: $width;
   height: $height;
   padding: $resumePadding;
-  margin: 50px auto;
+  margin: 30px auto;
   .phase {
     display: inline-block;
     width: 100%;
@@ -92,7 +92,6 @@ body {
 
 /* Style for Promo */
 .promo {
-  position: fixed;
   width: 100%;
   left: 0;
   background: #f05f5f;
