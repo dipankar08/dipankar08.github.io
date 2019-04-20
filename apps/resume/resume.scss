@@ -95,7 +95,7 @@ body {
   position: fixed;
   width: 100%;
   left: 0;
-  background: #3c3c3c;
+  background: #f05f5f;
   top: 0;
   p {
     font-size: 10px;
@@ -117,6 +117,40 @@ body {
     cursor: pointer;
     text-decoration: none;
   }
+}
+/* Mobile */
+@media screen and (max-width: 800px) {
+  .resume-content{
+  width : 100%; 
+  box-shadow: none;
+  height: auto;
+  .phase{
+    width: 100%; 
+    .left{
+      width: 100%; 
+      padding-left: 0px; 
+      display: block;
+    }
+    .right {
+      width: 100%; 
+      padding-left: 0px; 
+      display: block;
+    }
+  .item{
+    padding-top: 22px;
+    .line{
+      padding-top: 10px;
+    }
+  }
+}
+}
+.promo{
+  .btn{
+    width: 100%;
+    display: block;
+    margin-top: 15px;
+  }
+}
 }
 
 /*Print */
