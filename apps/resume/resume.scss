@@ -102,7 +102,8 @@ body {
     padding: 10px;
     color: #ffffff;
   }
-  span,a {
+  span,
+  a {
     color: #ffffff;
     font-family: monospace;
     font-weight: 300;
@@ -119,46 +120,48 @@ body {
 }
 /* Mobile */
 @media screen and (max-width: 800px) {
-  .resume-content{
-  width : 100%; 
-  box-shadow: none;
-  height: auto;
-  .phase{
-    width: 100%; 
-    .left{
-      width: 100%; 
-      padding-left: 0px; 
-      display: block;
-    }
-    .right {
-      width: 100%; 
-      padding-left: 0px; 
-      display: block;
-    }
-  .item{
-    padding-top: 22px;
-    .line{
-      padding-top: 10px;
-    }
-  }
-}
-}
-.promo{
-  .btn{
+  .resume-content {
     width: 100%;
-    display: block;
-    margin-top: 15px;
+    box-shadow: none;
+    height: auto;
+    margin: 0px auto;
+    .phase {
+      width: 100%;
+      .left {
+        width: 100%;
+        padding-left: 0px;
+        display: block;
+      }
+      .right {
+        width: 100%;
+        padding-left: 0px;
+        display: block;
+      }
+      .item {
+        padding-top: 22px;
+        .line {
+          padding-top: 10px;
+        }
+      }
+    }
   }
-}
+  .promo {
+    .btn {
+      width: 100%;
+      display: block;
+      margin-top: 15px;
+    }
+  }
 }
 
 /*Print */
 @media print {
-  @page { 
+  @page {
     size: A4;
     margin: 0.5cm 1cm;
   }
-  .resume-content, body {
+  .resume-content,
+  body {
     width: 100%;
     padding: 0;
     margin: 0;
@@ -166,7 +169,7 @@ body {
     background: #ffffff;
     box-shadow: none;
   }
-  .promo{
+  .promo {
     display: none;
   }
   .resume-content .phase .item .line .mono {

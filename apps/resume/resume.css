@@ -109,7 +109,8 @@ body {
   color: #ffffff;
 }
 
-.promo span, .promo a {
+.promo span,
+.promo a {
   color: #ffffff;
   font-family: monospace;
   font-weight: 300;
@@ -132,6 +133,7 @@ body {
     -webkit-box-shadow: none;
             box-shadow: none;
     height: auto;
+    margin: 0px auto;
   }
   .resume-content .phase {
     width: 100%;
@@ -165,7 +167,8 @@ body {
     size: A4;
     margin: 0.5cm 1cm;
   }
-  .resume-content, body {
+  .resume-content,
+  body {
     width: 100%;
     padding: 0;
     margin: 0;
