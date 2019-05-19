@@ -1,0 +1,426 @@
+/*Mixins*/
+/* Global Items */
+@import url("https://fonts.googleapis.com/css?family=Lato:400");
+* {
+  margin: 0px;
+  padding: 0px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  -moz-font-feature-settings: "liga" on;
+}
+
+body {
+  font-family: Lato,sans-serif;
+  font-size: 1rem;
+  font-weight: 300;
+  line-height: 1.8;
+  color: #868e96;
+  background-color: #fff;
+}
+
+/* Input Form */
+.inputForm input, .inputForm select {
+  background: #f2f2f2;
+  -webkit-transition: .3s all ease;
+  transition: .3s all ease;
+  border: 1px solid #f2f2f2;
+  border-radius: 0.25rem;
+  display: block;
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.25;
+  height: 50px;
+  color: #495057;
+  margin-top: 1rem;
+  outline: none;
+}
+
+.inputForm input:focus, .inputForm select:focus {
+  border-color: #1d82ff;
+  background: #ffffff;
+}
+
+/* Defing the gap in mobile devices */
+.container {
+  width: 840px;
+  margin: 0 auto;
+}
+
+@media (max-width: 840px) {
+  .container {
+    width: 100%;
+    padding: 0 80px;
+  }
+}
+
+@media (max-width: 640px) {
+  .container {
+    width: 100%;
+    padding: 0 20px;
+  }
+}
+
+/*define grid */
+.gridBlock {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  overflow: hidden;
+  /* Layouts : We define 4 layouts */
+}
+
+@media (max-width: 640px) {
+  .gridBlock {
+    display: block;
+  }
+}
+
+.gridBlock .oneByOne {
+  width: 100%;
+}
+
+.gridBlock .oneByTwo {
+  width: 50%;
+}
+
+@media (max-width: 640px) {
+  .gridBlock .oneByTwo {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 50px;
+  }
+}
+
+.gridBlock .oneByThree {
+  width: 33.33%;
+}
+
+@media (max-width: 640px) {
+  .gridBlock .oneByThree {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 50px;
+  }
+}
+
+.gridBlock .oneByFour {
+  width: 25%;
+}
+
+@media (max-width: 640px) {
+  .gridBlock .oneByFour {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 50px;
+  }
+}
+
+.gridBlock .twoByThree {
+  width: 66.66%;
+}
+
+@media (max-width: 640px) {
+  .gridBlock .twoByThree {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 50px;
+  }
+}
+
+.gridBlock .oneByTwo,
+.gridBlock .oneByThree,
+.gridBlock .oneByFour,
+.gridBlock .twoByThree {
+  margin-right: 30px;
+}
+
+.gridBlock .oneByTwo:last-child,
+.gridBlock .oneByThree:last-child,
+.gridBlock .oneByFour:last-child,
+.gridBlock .twoByThree:last-child {
+  margin-right: 0px;
+}
+
+.gridBlock img {
+  width: 100%;
+}
+
+/* Item List */
+ul.inlineList {
+  width: 100%;
+  display: inline-block;
+}
+
+ul.inlineList li {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+ul.oneColumn {
+  width: 100%;
+}
+
+ul.oneColumn li {
+  margin-bottom: 45px;
+}
+
+ul.twoColumn {
+  width: 100%;
+  margin-right: 45px;
+}
+
+ul.twoColumn li {
+  margin-bottom: 45px;
+}
+
+.navBar {
+  z-index: 100;
+  width: 100%;
+  padding: 10px;
+}
+
+.navBar.scrolled {
+  position: fixed;
+  right: 0;
+  left: 0;
+  top: 0;
+  margin-top: -130px;
+  background: #fff;
+  -webkit-transition: .3s all ease-out;
+  transition: .3s all ease-out;
+  -webkit-box-shadow: 0px 1px 10px -2px rgba(0, 0, 0, 0.15);
+  box-shadow: 0px 1px 10px -2px rgba(0, 0, 0, 0.15);
+  color: #111;
+}
+
+.navBar.scrolled a {
+  color: #111;
+}
+
+.navBar.opened {
+  margin-top: 0px;
+}
+
+@media (max-width: 640px) {
+  .navBar .oneByTwo {
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 640px) {
+  .navBar ul {
+    text-align: center;
+  }
+}
+
+/* Style on Text*/
+p {
+  display: block;
+  width: 100%;
+  margin-top: 1em;
+}
+
+p.heroText {
+  font-size: 2.97rem;
+  line-height: 1.2;
+  color: #212529;
+  width: 800px;
+}
+
+@media (max-width: 840px) {
+  p.heroText {
+    width: 100%;
+  }
+}
+
+p.sectionHeading {
+  font-size: 2.6rem;
+  margin-bottom: 0.5rem;
+  line-height: 1.1;
+  font-weight: 300;
+  font-size: 1.75rem;
+  color: #212529;
+}
+
+p.sectionSubHeading {
+  color: rgba(0, 0, 0, 0.3);
+  text-transform: uppercase;
+}
+
+p.itemHeading {
+  margin-bottom: 0.5rem;
+  line-height: 1.1;
+  font-weight: 300;
+  font-size: 1.25rem;
+  color: #212529;
+}
+
+p.paragraph {
+  font-size: 15px;
+  font-weight: 300;
+  color: #868e96;
+}
+
+p.price span {
+  font-size: 18px;
+  color: #adb5bd;
+  text-transform: uppercase;
+}
+
+p.price span.value {
+  font-size: 50px;
+  color: #1d82ff;
+}
+
+p.price span.dolor {
+  font-size: 20px;
+  vertical-align: top;
+  color: #1d82ff;
+}
+
+/* Define Box */
+.gridBox {
+  -webkit-box-shadow: 0 10px 6px -6px #777;
+  box-shadow: 0 10px 6px -6px #777;
+  background: white;
+}
+
+.box {
+  border: 1px solid #e9ecef !important;
+  padding: 3rem !important;
+}
+
+.box.active {
+  border-color: #1d82ff !important;
+}
+
+/* Define Button */
+.btn {
+  display: inline-block;
+  font-weight: 300;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  border: 1px solid transparent;
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.25;
+  border-radius: 0.25rem;
+  -webkit-transition: all 0.15s ease-in-out;
+  transition: all 0.15s ease-in-out;
+}
+
+.btn.primary {
+  color: #fff;
+  background-color: #1d82ff;
+  border-color: #1d82ff;
+}
+
+.btn.primary.shadow {
+  -webkit-box-shadow: 0px 15px 28px -5px rgba(29, 130, 255, 0.45);
+  box-shadow: 0px 15px 28px -5px rgba(29, 130, 255, 0.45);
+}
+
+/* Componenets*/
+a, a:hover {
+  color: #AAAAAA;
+  text-decoration: none;
+}
+
+/* Define Gaps */
+.regularGap {
+  margin-top: 50px;
+}
+
+.largeGap {
+  margin-top: 75px;
+}
+
+.xlargeGap {
+  margin-top: 100px;
+}
+
+.xxlargeGap {
+  margin-top: 150px;
+}
+
+/* Define Text Align */
+.textCenter {
+  text-align: center;
+}
+
+.textLeft {
+  text-align: left;
+}
+
+.textRight {
+  text-align: right;
+}
+
+.alignMiddle {
+  vertical-align: middle;
+}
+
+/* Custom Margin and padding */
+.noMargin {
+  margin: 0 !important;
+}
+
+.noPadding {
+  padding: 0 !important;
+}
+
+/* Defining overlapping layer */
+.relativePosition {
+  position: relative;
+}
+
+.absolutePosition {
+  position: absolute;
+}
+
+/*  we define color scheme */
+.colorScheme {
+  color: #111111;
+}
+
+.colorScheme a, .colorScheme a:hover {
+  color: #AAAAAA;
+}
+
+.colorScheme p.sectionSubHeading {
+  color: rgba(0, 0, 0, 0.3);
+}
+
+.colorScheme .invertColor {
+  color: #ffffff;
+}
+
+.colorScheme .invertColor a, .colorScheme .invertColor a:hover {
+  color: #ffffff;
+}
+
+.colorScheme .invertColor p {
+  color: #ffffff;
+}
+
+.colorScheme .success {
+  color: green;
+}
+
+.colorScheme .error {
+  color: red;
+}
+/*# sourceMappingURL=simplestyle.css.map */
