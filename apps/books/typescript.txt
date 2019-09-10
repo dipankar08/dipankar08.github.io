@@ -1,0 +1,22 @@
+## TypeSc
+# Small title
+ In this chnpaer I am ging to discuss about something like xyz:
+* Bullete points
+* Bullate Points
+1. Hello
+1. Now
+{{{
+/* Some code here */
+#include<stdio.h>
+int main(){
+  printf("hello World");
+}
+}}}
+
+Table: This is a Table
+Col1 -- Col2 --Col3
+aa -- aa -- aa
+
+Table: Table2
+Col1 -- Col2 --Col3
+aa -- aa -- aa

@@ -340,19 +340,19 @@ a, a:hover {
 }
 
 /* Define Gaps */
-.regularGap {
+.gap_m {
   margin-top: 50px;
 }
 
-.largeGap {
+.gap_l {
   margin-top: 75px;
 }
 
-.xlargeGap {
+.gap_xl {
   margin-top: 100px;
 }
 
-.xxlargeGap {
+.gap_xxl {
   margin-top: 150px;
 }
 
