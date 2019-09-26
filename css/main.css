@@ -157,6 +157,18 @@ ul.c > li {
   margin-bottom: 0px;
   margin-top: 10px;
 }
+.flex-row {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+.flex-col {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
 .fa-facebook:hover{color:#4166b2}
 .fa-linkedin:hover{color:#0077B5}
 .fa-github:hover{color:#24292e}
