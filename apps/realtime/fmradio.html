@@ -1,0 +1,55 @@
+<html>
+
+<head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/dipankar08/SimpleStyle@v1.0/simplestyle.css" />
+        <script src="https://cdn.jsdelivr.net/gh/dipankar08/SimpleStyle@v1.0/simplestyle.css"></script>
+        <script src="client_simplestore.js"></script>
+</head>
+
+<body class="container theme-light">
+    <div class="gridBlock gap_l">
+        <div class="OneByThree dbox 2">
+                <p class=''><span class="title"
+                                remote_url="http://simplestore.dipankar.co.in/api/analytics/count?ts_create=@today&type=launch&app_id=in.peerreview.fmradioindia"
+                                remote_config="error">Error</span></p>
+                <p class='subtitle'>App Launch Count</p>
+        </div>
+        <div class="OneByThree dbox 1">
+                <p class=''><span class="title"
+                        remote_url="http://simplestore.dipankar.co.in/api/analytics/count?ts_create=@today&type=exception&app_id=in.peerreview.fmradioindia"
+                        remote_config="error">Error</span></p>
+                <p class='subtitle'>Exception Count</p>
+        </div>
+        <div class="OneByThree dbox 1">
+            <p class=''><span class="title"
+                    remote_url="http://simplestore.dipankar.co.in/api/analytics/sum?type=timeit&_field=total_time&block=in.peerreview.fmradio.MainActivity"
+                    remote_config="error">Error</span></p>
+            <p class='subtitle'>App Use Time</p>
+        </div>
+
+
+    </div>
+    <div class="gridBlock gap_l">
+        <div class="OneByThree dbox 1">
+                <p class=''><span class="title"
+                        remote_url="http://simplestore.dipankar.co.in/api/analytics/count?ts_create=@today&action=player_try&app_id=in.peerreview.fmradioindia"
+                        remote_config="error">Error</span></p>
+                <p class='subtitle'>Play Try</p>
+        </div>
+        <div class="OneByThree dbox 1">
+            <p class=''><span class="title"
+                    remote_url="http://simplestore.dipankar.co.in/api/analytics/count?ts_create=@today&action=player_error&app_id=in.peerreview.fmradioindia"
+                    remote_config="error">Error</span></p>
+            <p class='subtitle'>Play Error</p>
+        </div>
+        <div class="OneByThree dbox 1">
+            <p class=''><span class="title"
+                    remote_url="http://simplestore.dipankar.co.in/api/analytics/count?ts_create=@today&action=player_success&app_id=in.peerreview.fmradioindia"
+                    remote_config="error">Error</span></p>
+            <p class='subtitle'>Player Success</p>
+        </div>
+    </div>
+</body>
+
+</html>
