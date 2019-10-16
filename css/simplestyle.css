@@ -1,4 +1,5 @@
 /*Mixins*/
+/* UPDATE */
 /* Global Items */
 @import url("https://fonts.googleapis.com/css?family=Lato:400");
 * {
@@ -220,6 +221,8 @@ ul.twoColumn li {
     text-align: center;
   }
 }
+
+
 
 /* Style on Text*/
 p {
