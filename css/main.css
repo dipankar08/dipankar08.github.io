@@ -163,6 +163,9 @@ ul.c > li {
   flex-direction: row;
   justify-content: space-evenly;
 }
+li.head{
+  color: #24292e;
+}
 .flex-col {
   width: 100%;
   display: flex;
