@@ -190,4 +190,7 @@ li.head{
   ul > li {
     width: 100%;
   }
+  .flex-row {
+    flex-direction: column;
+  }
 }
