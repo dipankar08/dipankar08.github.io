@@ -12,7 +12,7 @@
                                 <p class=''><span class="title"
                                                 remote_url="http://simplestore.dipankar.co.in/api/analytics/count?ts_insert=@today&type=launch&app_id=in.peerreview.khabar"
                                                 remote_config="error">Error</span></p>
-                                <p class='subtitle'>App Launch Count</p>
+                                <p class='subtitle'>App Launch Count/Day</p>
                         </div>
                         <div class="dbox background gradient g2">
                                 <p class=''><span class="title"
@@ -24,9 +24,32 @@
                                 <p class=''><span class="title"
                                         remote_url="http://simplestore.dipankar.co.in/api/analytics/count/?ts_insert=@today&app_id=in.peerreview.khabar&action=onPageSelected"
                                         remote_config="error">Error</span></p>
-                                <p class='subtitle'>Story Read count</p>
+                                <p class='subtitle'>Story Read count/Day</p>
                         </div>
         </div>
+        <div class="gridBlock horizontal gap_l">
+                <div class="dbox background gradient g1">
+                        <p class=''><span class="title"
+                                        remote_url="http://simplestore.dipankar.co.in/api/analytics/sum?ts_insert=@today&type=timeit&_field=total_time&block=in.peerreview.khabar.MainActivity"
+                                        remote_config="error">Error</span></p>
+                        <p class='subtitle'>TimeSpent(ms/Day)</p>
+                </div>
+                <div class="dbox background gradient g2">
+                        <p class=''><span class="title"
+                                remote_url="http://simplestore.dipankar.co.in/api/analytics/count?ts_insert=@today&type=exception&app_id=in.peerreview.khabar"
+                                remote_config="error">Error</span></p>
+                        <p class='subtitle'>Exception Count<a href="http://simplestore.dipankar.co.in/api/analytics/?ts_insert=@today&type=exception&app_id=in.peerreview.khabar">more</a></p>
+                </div>
+                <div class="dbox background gradient g3">
+                        <p class=''><span class="title"
+                                remote_url="http://simplestore.dipankar.co.in/api/analytics/count/?ts_insert=@today&app_id=in.peerreview.khabar&action=onPageSelected"
+                                remote_config="error">Error</span></p>
+                        <p class='subtitle'>Story Read count</p>
+                </div>
+        </div>
+
+        
+
         <div class="gridBlock horizontal gap_l"
                 remote_url="http://simplestore.dipankar.co.in/api/news/distribution?_field=hostname&ts_insert=@today"
                 data_presentation="list_table"> Loading...</div>
