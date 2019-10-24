@@ -4,9 +4,18 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/dipankar08/SimpleStyle/simplestyle.css" />
         <script src="https://cdn.jsdelivr.net/gh/dipankar08/SimpleStyle/simplestore_client.js"></script>
+        <script src="simplestore_client.js"></script>
+        <script src="https://www.chartjs.org/dist/2.8.0/Chart.min.js"></script>
 </head>
 
 <body class="container theme-light">
+        <div class="gridBlock vertical gap_l">
+                <h3>App Launch Trends</h1>
+                <canvas id="canvas" style ="width: 100%;height: 200px" data_presentation ="ts" remote_url="http://simplestore.dipankar.co.in/api/analytics/ts/?type=launch&app_id=in.peerreview.khabar"></canvas>
+                <h3>Story Read Trends</h1>
+                <canvas id="canvas1" style ="width: 100%;height: 200px" data_presentation ="ts" remote_url="http://simplestore.dipankar.co.in/api/analytics/ts/?action=onPageSelected&app_id=in.peerreview.khabar"></canvas>
+        </div>
+
         <div class="gridBlock horizontal gap_l">
                         <div class="dbox background gradient g1">
                                 <p class=''><span class="title"
