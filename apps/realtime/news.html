@@ -2,7 +2,8 @@
 
 <head>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/dipankar08/SimpleStyle/simplestyle.css" />
+        <link rel="stylesheet" type="text/css"
+                href="https://cdn.jsdelivr.net/gh/dipankar08/SimpleStyle/simplestyle.css" />
         <script src="https://cdn.jsdelivr.net/gh/dipankar08/SimpleStyle/simplestore_client.js"></script>
         <script src="simplestore_client.js"></script>
         <script src="https://www.chartjs.org/dist/2.8.0/Chart.min.js"></script>
@@ -11,30 +12,54 @@
 <body class="container theme-light">
         <div class="gridBlock vertical gap_l">
                 <h3>App Launch Trends</h1>
-                <canvas id="canvas" style ="width: 100%;height: 200px" data_presentation ="ts" remote_url="http://simplestore.dipankar.co.in/api/analytics/ts/?type=launch&app_id=in.peerreview.khabar"></canvas>
-                <h3>Story Read Trends</h1>
-                <canvas id="canvas1" style ="width: 100%;height: 200px" data_presentation ="ts" remote_url="http://simplestore.dipankar.co.in/api/analytics/ts/?action=onPageSelected&app_id=in.peerreview.khabar"></canvas>
+                        <canvas id="canvas" style="width: 100%;height: 200px" data_presentation="ts"
+                                remote_url="http://simplestore.dipankar.co.in/api/analytics/ts/?type=launch&app_id=in.peerreview.khabar"></canvas>
+                        <h3>Story Read Trends</h1>
+                                <canvas id="canvas1" style="width: 100%;height: 200px" data_presentation="ts"
+                                        remote_url="http://simplestore.dipankar.co.in/api/analytics/ts/?action=TELEMETRY_PROFILE_PAGE_OPENED&app_id=in.peerreview.khabar"></canvas>
         </div>
 
         <div class="gridBlock horizontal gap_l">
-                        <div class="dbox background gradient g1">
-                                <p class=''><span class="title"
-                                                remote_url="http://simplestore.dipankar.co.in/api/analytics/count?ts_insert=@today&type=launch&app_id=in.peerreview.khabar"
-                                                remote_config="error">Error</span></p>
-                                <p class='subtitle'>App Launch Count/Day</p>
-                        </div>
-                        <div class="dbox background gradient g2">
-                                <p class=''><span class="title"
+                <div class="dbox background gradient g1">
+                        <p class=''><span class="title"
+                                        remote_url="http://simplestore.dipankar.co.in/api/analytics/count?ts_insert=@today&type=launch&app_id=in.peerreview.khabar"
+                                        remote_config="error">Error</span></p>
+                        <p class='subtitle'>App Launch Count/Day</p>
+                </div>
+                <div class="dbox background gradient g2">
+                        <p class=''><span class="title"
                                         remote_url="http://simplestore.dipankar.co.in/api/analytics/count?ts_insert=@today&type=exception&app_id=in.peerreview.khabar"
                                         remote_config="error">Error</span></p>
-                                <p class='subtitle'>Exception Count<a href="http://simplestore.dipankar.co.in/api/analytics/?ts_insert=@today&type=exception&app_id=in.peerreview.khabar">more</a></p>
-                        </div>
-                        <div class="dbox background gradient g3">
-                                <p class=''><span class="title"
-                                        remote_url="http://simplestore.dipankar.co.in/api/analytics/count/?ts_insert=@today&app_id=in.peerreview.khabar&action=onPageSelected"
+                        <p class='subtitle'>Exception Count<a
+                                        href="http://simplestore.dipankar.co.in/api/analytics/?ts_insert=@today&type=exception&app_id=in.peerreview.khabar">more</a>
+                        </p>
+                </div>
+                <div class="dbox background gradient g3">
+                        <p class=''><span class="title"
+                                        remote_url="http://simplestore.dipankar.co.in/api/analytics/count/?ts_insert=@today&app_id=in.peerreview.khabar&action=TELEMETRY_PROFILE_PAGE_OPENED"
                                         remote_config="error">Error</span></p>
-                                <p class='subtitle'>Story Read count/Day</p>
-                        </div>
+                        <p class='subtitle'>Story Read count/Day</p>
+                </div>
+        </div>
+        <div class="gridBlock horizontal gap_l">
+                <div class="dbox background gradient g1">
+                        <p class=''><span class="title"
+                                        remote_url="http://simplestore.dipankar.co.in/api/analytics/count/?ts_insert=@today&app_id=in.peerreview.khabar&action=TELEMETRY_PROFILE_ITEM_CLICKED"
+                                        remote_config="error">Error</span></p>
+                        <p class='subtitle'>Open for profile page</p>
+                </div>
+                <div class="dbox background gradient g2">
+                        <p class=''><span class="title"
+                                        remote_url="http://simplestore.dipankar.co.in/api/analytics/count/?ts_insert=@today&app_id=in.peerreview.khabar&action=TELEMETRY_FROM_SAME_PUBLISHER_ITEM_CLICKED"
+                                        remote_config="error">Error</span></p>
+                        <p class='subtitle'>Open for same publisher.</p>
+                </div>
+                <div class="dbox background gradient g3">
+                        <p class=''><span class="title"
+                                        remote_url="http://simplestore.dipankar.co.in/api/analytics/count/?ts_insert=@today&app_id=in.peerreview.khabar&action=TELEMETRY_SIMILAR_ITEM_CLICKED"
+                                        remote_config="error">Error</span></p>
+                        <p class='subtitle'>Open for similar news.</p>
+                </div>
         </div>
         <div class="gridBlock horizontal gap_l">
                 <div class="dbox background gradient g1">
@@ -43,98 +68,86 @@
                                         remote_config="error">Error</span></p>
                         <p class='subtitle'>TimeSpent(ms/Day)</p>
                 </div>
-                <div class="dbox background gradient g2">
-                        <p class=''><span class="title"
-                                remote_url="http://simplestore.dipankar.co.in/api/analytics/count?ts_insert=@today&type=exception&app_id=in.peerreview.khabar"
-                                remote_config="error">Error</span></p>
-                        <p class='subtitle'>Exception Count<a href="http://simplestore.dipankar.co.in/api/analytics/?ts_insert=@today&type=exception&app_id=in.peerreview.khabar">more</a></p>
-                </div>
-                <div class="dbox background gradient g3">
-                        <p class=''><span class="title"
-                                remote_url="http://simplestore.dipankar.co.in/api/analytics/count/?ts_insert=@today&app_id=in.peerreview.khabar&action=onPageSelected"
-                                remote_config="error">Error</span></p>
-                        <p class='subtitle'>Story Read count</p>
-                </div>
         </div>
-
-        
-
         <div class="gridBlock horizontal gap_l"
-                remote_url="http://simplestore.dipankar.co.in/api/news/distribution?_field=hostname&ts_insert=@today"
+                remote_url="http://simplestore.dipankar.co.in/api/news1/distribution?_field=hostname&ts_insert=@today"
                 data_presentation="list_table"> Loading...</div>
-
-        <div class="gridBlock horizontal gap_l">
+        <H1 class="gap_l"> Crawler Statistic</H1>
+        <div class="gridBlock horizontal">
                 <div class="dbox background gradient g1">
                         <p class=''><span class="title"
-                        remote_url="http://simplestore.dipankar.co.in/api/news/count/?ts_insert=@today&lang=BENGALI"
-                        remote_config="error">Error</span></p>
+                                        remote_url="http://simplestore.dipankar.co.in/api/news1/count/?ts_insert=@today&lang=IN_BENGALI"
+                                        remote_config="error">Error</span></p>
                         <p class='subtitle'>Bengali Insert Count</p>
                 </div>
                 <div class="dbox background gradient g2">
                         <p class=''><span class="title"
-                                remote_url="http://simplestore.dipankar.co.in/api/news/count/?ts_insert=@today&lang=HINDI"
-                                remote_config="error">Error</span></p>
+                                        remote_url="http://simplestore.dipankar.co.in/api/news1/count/?ts_insert=@today&lang=IN_HINDI"
+                                        remote_config="error">Error</span></p>
                         <p class='subtitle'>Hindi Insert Count</p>
                 </div>
 
                 <div class="dbox background gradient g2">
                         <p class=''><span class="title"
-                                remote_url="http://simplestore.dipankar.co.in/api/news/count/?ts_insert=@today&lang=ENGLISH"
-                                remote_config="error">Error</span></p>
+                                        remote_url="http://simplestore.dipankar.co.in/api/news1/count/?ts_insert=@today&lang=IN_ENGLISH"
+                                        remote_config="error">Error</span></p>
                         <p class='subtitle'>English Insert Count.</p>
                 </div>
         </div>
-                
-        <div class="gridBlock horizontal gap_l">
-                <div class="dbox background gradient g4">
-                        <p class=''><span class="title"
-                                        remote_url="http://simplestore.dipankar.co.in/api/analytics/count?ts_insert=@today&action=cron_run_start"
+        <table style="margin-bottom: 50px; margin-top: 50px;">
+                <tr>
+                        <td>Information about the data</td>
+                        <td>Count</td>
+                </tr>
+                <tr>
+                        <td>TELEMETRY_NETWORK_ERROR</td>
+                        <td><span remote_url="http://simplestore.dipankar.co.in/api/analytics/count/?ts_insert=@today&app_id=crawler2&action=TELEMETRY_NETWORK_ERROR"
                                         remote_config="error">Error</span></p>
-                        <p class='subtitle'>Crawler run count</p>
-                </div>
-                <div class="dbox background gradient g5">
-                        <p class=''><span class="title"
-                                        remote_url="http://simplestore.dipankar.co.in/api/analytics/sum?ts_insert=@today&_field=unique_count&app_id=crawler"
+                        </td>
+                </tr>
+                <tr>
+                        <td>TELEMETRY_RSS_LINK_BROKEN</td>
+                        <td><span remote_url="http://simplestore.dipankar.co.in/api/analytics/count/?ts_insert=@today&app_id=crawler2&action=TELEMETRY_RSS_LINK_BROKEN"
                                         remote_config="error">Error</span></p>
-                        <p class='subtitle'>Unique Story Found</p>
-                </div>
-                <div class="dbox background gradient g6">
-                        <p class=''><span class="title"
-                                        remote_url="http://simplestore.dipankar.co.in/api/analytics/sum?ts_insert=@today&_field=duplicate_count&app_id=crawler"
+                        </td>
+                </tr>
+                <tr>
+                        <td>TELEMETRY_RSS_IMAGE_NOT_FOUND</td>
+                        <td><span remote_url="http://simplestore.dipankar.co.in/api/analytics/count/?ts_insert=@today&app_id=crawler2&action=TELEMETRY_RSS_IMAGE_NOT_FOUND"
                                         remote_config="error">Error</span></p>
-                        <p class='subtitle'>Duplicate Story Found</p>
-                </div>
-        </div>
-
-        <div class="gridBlock horizontal gap_l">
-                <div class="dbox background gradient g4">
-                        <p class=''><span class="title"
-                                        remote_url="http://simplestore.dipankar.co.in/api/analytics/count?ts_insert=@today&action=error_empty_data"
+                        </td>
+                </tr>
+                <tr>
+                        <td>TELEMETRY_RSS_LINK_HAS_EMPTY_DATA</td>
+                        <td><span remote_url="http://simplestore.dipankar.co.in/api/analytics/count/?ts_insert=@today&app_id=crawler2&action=TELEMETRY_RSS_LINK_HAS_EMPTY_DATA"
                                         remote_config="error">Error</span></p>
-                        <p class='subtitle'>Count Empty Data</p>
-                </div>
-                <div class="dbox background gradient g5">
-                        <p class=''><span class="title"
-                                        remote_url="http://simplestore.dipankar.co.in/api/analytics/count?ts_insert=@today&action=error_saving_data"
+                        </td>
+                </tr>
+                <tr>
+                        <td>TELEMETRY_HTML_ROOT_LINK_HAS_NO_LISTING</td>
+                        <td><span remote_url="http://simplestore.dipankar.co.in/api/analytics/count/?ts_insert=@today&app_id=crawler2&action=TELEMETRY_HTML_ROOT_LINK_HAS_NO_LISTING"
                                         remote_config="error">Error</span></p>
-                        <p class='subtitle'>Count Insert Failed to DB.</p>
-                </div>
-                <div class="dbox background gradient g6">
-                        <p class=''><span class="title"
-                                        remote_url="http://simplestore.dipankar.co.in/api/analytics/count?ts_insert=@today&action=error_broken_root_url"
+                        </td>
+                </tr>
+                <tr>
+                        <td>TELEMETRY_DB_IGNORE_INVALID_DATA</td>
+                        <td><span remote_url="http://simplestore.dipankar.co.in/api/analytics/count/?ts_insert=@today&app_id=crawler2&action=TELEMETRY_DB_IGNORE_INVALID_DATA"
                                         remote_config="error">Error</span></p>
-                        <p class='subtitle'>Broken Root URL</p>
-                </div>
-        </div>
-
-        <div class="gridBlock horizontal gap_l">
-                <div class="dbox background gradient g4">
-                        <p class=''><span class="title"
-                                        remote_url="http://simplestore.dipankar.co.in/api/analytics/count?ts_insert=@today&action=error_parse_root_url"
+                        </td>
+                </tr>
+                <tr>
+                        <td>TELEMETRY_DB_ERROR_SAVING</td>
+                        <td><span remote_url="http://simplestore.dipankar.co.in/api/analytics/count/?ts_insert=@today&app_id=crawler2&action=TELEMETRY_DB_ERROR_SAVING"
                                         remote_config="error">Error</span></p>
-                        <p class='subtitle'>error_parse_root_url</p>
-                </div>
-        </div>
-
+                        </td>
+                </tr>
+                <tr>
+                        <td>TELEMETRY_CRAWLER_EMPTY_DATA</td>
+                        <td><span remote_url="http://simplestore.dipankar.co.in/api/analytics/count/?ts_insert=@today&app_id=crawler2&action=TELEMETRY_CRAWLER_EMPTY_DATA"
+                                        remote_config="error">Error</span></p>
+                        </td>
+                </tr>
+        </table>
 </body>
+
 </html>
