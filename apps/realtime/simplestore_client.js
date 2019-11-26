@@ -3,37 +3,44 @@
 $( document ).ready(function() {
     console.log( "ready!" );
     for(item of $(document).find("[remote_url]")){
-        let remote_url = $(item).attr("remote_url");
-        let remote_config = $(item).attr("remote_config");
-        let data_presentation = $(item).attr("data_presentation");
-        console.log(`[INFO] Processing ID ${remote_url}, ${remote_config}`)
-        $.ajax({
-            context:{item:item}, // this will help to set the context currently. 
-            url: remote_url,
-            type: 'GET',
-            beforeSend:function(){
-                $(this.item).removeClass('success error').html("Loading...")
-            },
-            success: function(data){ 
-                if(data.status == "success"){
-                    if(data_presentation == 'ts'){
-                        renderChart($(this.item).attr('id'), data.out);
-                    }
-                    else if(data_presentation == 'list_table'){
-                        $(this.item).addClass('success').html(createTableFromList(data.out))
-                    } else{
-                        $(this.item).addClass('success').html(JSON.stringify(data.out))
-                    }
-                } else{
-                    $(this.item).addClass('error').html(JSON.stringify(data.msg));
-                }
-            },
-            error: function(data) {
-                $(this.item).addClass('error').html("Network Error");
-            }
-        });
+        loadItem(item);
     }
 });
+
+function loadItem(item){
+    let remote_url = $(item).attr("remote_url");
+    let remote_config = $(item).attr("remote_config");
+    if(remote_config){
+        remote_config = remote_config.split(" ")
+    }
+    let data_presentation = $(item).attr("data_presentation");
+    console.log(`[INFO] Processing ID ${remote_url}, ${remote_config}`)
+    $.ajax({
+        context:{item:item}, // this will help to set the context currently. 
+        url: remote_url,
+        type: 'GET',
+        beforeSend:function(){
+            $(this.item).removeClass('success error').html("Loading...")
+        },
+        success: function(data){ 
+            if(data.status == "success"){
+                if(data_presentation == 'ts'){
+                    renderChart($(this.item).attr('id'), data.out);
+                }
+                else if(data_presentation == 'list_table'){
+                    $(this.item).addClass('success').html(createTableFromList(data.out))
+                } else{
+                    $(this.item).addClass('success').html(JSON.stringify(data.out))
+                }
+            } else{
+                $(this.item).addClass('error').html(JSON.stringify(data.msg));
+            }
+        },
+        error: function(data) {
+            $(this.item).addClass('error').html("Network Error");
+        }
+    });
+}
 
 function createTableFromList(arr){
     head= [] ; arr.forEach(x => (Object.keys(x).forEach(y=>head.push(y))))
@@ -50,8 +57,18 @@ function createTableFromList(arr){
     </table>`
 }
 
+function clearCanvas(id){
+    var canvas1 = document.getElementById(id);
+    const context1 = canvas1.getContext('2d');
+    context1.clearRect(0, 0, canvas1.width, canvas1.height);
+}
+var chartStore={}
 function renderChart(id, arr){
-    new Chart(document.getElementById(id), {
+    clearCanvas(id);
+    if(chartStore[id]){
+        chartStore[id].destroy();
+    }
+    chartStore[id] =  new Chart(document.getElementById(id), {
         type: 'line',
         data: {
           labels: arr.map(x=>x.day),

@@ -1,0 +1,32 @@
+.flex_row{
+  display:flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+.flex_col{
+  display:flex;
+  flex-direction: column;
+}
+
+.item {
+  padding: 10px;
+}
+.whileOverBlack {
+background: #000000;
+color: #ffffff;
+text-align: center;
+}
+.textBold{
+  font-weight: bold;
+}
+.text_l{
+  font-size: 2rem;
+  line-height: 1.4;
+}
+.text_s{
+  font-size: .75rem;
+  line-height: 1.1;
+}
+.pointer{
+  cursor: pointer;
+}
