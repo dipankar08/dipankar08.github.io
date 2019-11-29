@@ -27,6 +27,9 @@ function loadItem(item){
                 if(data_presentation == 'ts'){
                     renderChart($(this.item).attr('id'), data.out);
                 }
+                else if(data_presentation == 'pie'){
+                    renderPieChart($(this.item).attr('id'), data.out);
+                }
                 else if(data_presentation == 'list_table'){
                     $(this.item).addClass('success').html(createTableFromList(data.out))
                 } else{
@@ -89,3 +92,33 @@ function renderChart(id, arr){
       });
 }
 
+function renderPieChart(id, arr){
+    clearCanvas(id);
+    if(chartStore[id]){
+        chartStore[id].destroy();
+    }
+    chartStore[id] =  new Chart(document.getElementById(id), {
+        type: 'pie',
+        data: {
+          labels: arr.map(x=>x.app_version),
+          datasets: [{ 
+              data: arr.map(x=>x.count),
+              backgroundColor: arr.map(x=>dynamicColors()),
+            }
+          ]
+        },
+        options: {
+          title: {
+            display: true,
+            text: ''
+          }
+        }
+      });
+}
+
+var dynamicColors = function() {
+    var r = Math.floor(Math.random() * 255);
+    var g = Math.floor(Math.random() * 255);
+    var b = Math.floor(Math.random() * 255);
+    return "rgb(" + r + "," + g + "," + b + ")";
+};
