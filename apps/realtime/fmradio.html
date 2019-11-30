@@ -24,29 +24,35 @@
                         <p class="textBold text_l" remote_url="http://simplestore.dipankar.co.in/api/analytics/count?ts_insert=@today&type=launch&app_id=in.peerreview.fmradioindia">...</p>
                         <p class="text_s">App Launch (<a target="_blank" href="http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&app_id=in.peerreview.fmradioindia&type=launch&_field=app_version">more</a>)</p> 
                 </div>
-                <div id="launch_count" class="item textCenter pointer" onclick="refreshGraph('http://simplestore.dipankar.co.in/api/analytics/ts/?app_id=in.peerreview.fmradioindia&action=player_success')"> 
-                        <p class="textBold text_l" remote_url="http://simplestore.dipankar.co.in/api/analytics/count/?ts_insert=@today&app_id=in.peerreview.fmradioindia&action=player_success">...</p>
+                <div id="launch_count" class="item textCenter pointer" onclick="refreshGraph('http://simplestore.dipankar.co.in/api/analytics/ts/?app_id=in.peerreview.fmradioindia&action=TELEMETRY_PLAYER_SUCCESS')"> 
+                        <p class="textBold text_l" remote_url="http://simplestore.dipankar.co.in/api/analytics/count/?ts_insert=@today&app_id=in.peerreview.fmradioindia&action=TELEMETRY_PLAYER_SUCCESS">...</p>
                         <p class="text_s">Play success</p> 
                 </div>
-                <div id="launch_count" class="item textCenter pointer" onclick="refreshGraph('http://simplestore.dipankar.co.in/api/analytics/ts/?app_id=in.peerreview.fmradioindia&action=player_try')"> 
-                        <p class="textBold text_l" remote_url="http://simplestore.dipankar.co.in/api/analytics/count/?ts_insert=@today&app_id=in.peerreview.fmradioindia&action=player_try">...</p>
-                        <p class="text_s">Try Played(<a target="_blank" href="http://simplestore.dipankar.co.in/api/analytics/distribution/?ts_insert=@today&app_id=in.peerreview.fmradioindia&action=player_try&_field=url">more</a>)</p> 
+                <div id="launch_count" class="item textCenter pointer" onclick="refreshGraph('http://simplestore.dipankar.co.in/api/analytics/ts/?app_id=in.peerreview.fmradioindia&action=TELEMETRY_PLAYER_TRY')"> 
+                        <p class="textBold text_l" remote_url="http://simplestore.dipankar.co.in/api/analytics/count/?ts_insert=@today&app_id=in.peerreview.fmradioindia&action=TELEMETRY_PLAYER_TRY">...</p>
+                        <p class="text_s">Try Played(<a target="_blank" href="http://simplestore.dipankar.co.in/api/analytics/distribution/?ts_insert=@today&app_id=in.peerreview.fmradioindia&action=TELEMETRY_PLAYER_TRY&_field=url">more</a>)</p> 
                 </div>
-                <div id="launch_count" class="item textCenter pointer" onclick="refreshGraph('http://simplestore.dipankar.co.in/api/analytics/ts/?app_id=in.peerreview.fmradioindia&action=player_error')"> 
-                        <p class="textBold text_l" remote_url="http://simplestore.dipankar.co.in/api/analytics/count/?ts_insert=@today&app_id=in.peerreview.fmradioindia&action=player_error">...</p>
-                        <p class="text_s">player_error(<a target="_blank" href="http://simplestore.dipankar.co.in/api/analytics/distribution/?ts_insert=@today&app_id=in.peerreview.fmradioindia&action=player_error&_field=url">more</a>)</p> 
+                <div id="launch_count" class="item textCenter pointer" onclick="refreshGraph('http://simplestore.dipankar.co.in/api/analytics/ts/?app_id=in.peerreview.fmradioindia&action=TELEMETRY_PLAYER_ERROR')"> 
+                        <p class="textBold text_l" remote_url="http://simplestore.dipankar.co.in/api/analytics/count/?ts_insert=@today&app_id=in.peerreview.fmradioindia&action=TELEMETRY_PLAYER_ERROR">...</p>
+                        <p class="text_s">player_error(<a target="_blank" href="http://simplestore.dipankar.co.in/api/analytics/distribution/?ts_insert=@today&app_id=in.peerreview.fmradioindia&action=TELEMETRY_PLAYER_ERROR&_field=url">more</a>)</p> 
                 </div>
                 <div id="launch_count" class="item textCenter pointer" onclick="refreshGraph('http://simplestore.dipankar.co.in/api/analytics/ts/?type=exception&app_id=in.peerreview.fmradioindia')"> 
                         <p class="textBold text_l" remote_url="http://simplestore.dipankar.co.in/api/analytics/count?ts_insert=@today&type=exception&app_id=in.peerreview.fmradioindia">...</p>
-                        <p class="text_s">Exception</p> 
+                        <p class="text_s">Exception <a target="_blank" href="http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&type=exception&app_id=in.peerreview.fmradioindia&_field=location">(more)</a></p> 
                 </div>
-                <div id="launch_count" class="item textCenter pointer" onclick="refreshGraph('http://simplestore.dipankar.co.in/api/analytics/ts/?type=launch&app_id=in.peerreview.fmradioindia')"> 
+        </div>
+        <div class="flex_row">
+                <div id="launch_count" class="item textCenter pointer"> 
                         <p class="textBold text_l" remote_url="http://simplestore.dipankar.co.in/api/analytics/sum?ts_insert=@today&type=timeit&_field=total_time&block=in.peerreview.fmradio.MainActivity">...</p>
                         <p class="text_s">App foreground(ms)</p> 
                 </div>
-                <div id="launch_count" class="item textCenter pointer" onclick="refreshGraph('http://simplestore.dipankar.co.in/api/analytics/ts/?type=launch&app_id=in.peerreview.fmradioindia')"> 
+                <div id="launch_count" class="item textCenter pointer"> 
                         <p class="textBold text_l" remote_url="http://simplestore.dipankar.co.in/api/analytics/sum?ts_insert=@today&type=timeit&_field=total_time&block=in.peerreview.fmradio.FMMusicService">...</p>
                         <p class="text_s">Music Play Time(ms)</p> 
+                </div>
+                <div id="launch_count" class="item textCenter pointer" onclick="refreshGraph('http://simplestore.dipankar.co.in/api/analytics/ts/?app_id=in.peerreview.fmradioindia&target_id=TELEMETRY_CLICK_SIMILAR_ITEM')"> 
+                        <p class="textBold text_l" remote_url="http://simplestore.dipankar.co.in/api/analytics/count/?ts_insert=@today&app_id=in.peerreview.fmradioindia&target_id=TELEMETRY_CLICK_SIMILAR_ITEM">...</p>
+                        <p class="text_s">CLICK_SIMILAR_ITEM</p> 
                 </div>
         </div>
         <div class="flex">
