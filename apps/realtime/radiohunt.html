@@ -12,53 +12,80 @@
 
         <link rel="stylesheet" type="text/css" href="mystyle.css" />
         <script src="simplestore_client.js"></script>
-        <script src="myscript.js"></script>
+        <script>
+                function showLaunch() {
+                        buildTimeSeriesMulti('canvas',"http://simplestore.dipankar.co.in/api/analytics/ts_multi?type=launch", {
+                        "_payload": [
+                                {},
+                                {"app_id": "in.peerreview.fmradioindia"},
+                                {"app_id": "in.peerreview.radiohunt_tamil"},
+                                {"app_id": "in.peerreview.radiohunt_telugu"},
+                                {"app_id": "in.peerreview.radiohunt_hindi"}]
+                        })
+                }
+
+                function showException() {
+                        buildTimeSeriesMulti('canvas',"http://simplestore.dipankar.co.in/api/analytics/ts_multi?type=exception", {
+                        "_payload": [
+                                {},
+                                {"app_id": "in.peerreview.fmradioindia"},
+                                {"app_id": "in.peerreview.radiohunt_tamil"},
+                                {"app_id": "in.peerreview.radiohunt_telugu"},
+                                {"app_id": "in.peerreview.radiohunt_hindi"}]
+                        })
+                }
+                function showAdsStat() {
+                        buildTimeSeriesMulti('canvas',"http://simplestore.dipankar.co.in/api/analytics/ts_multi", {
+                        "_payload": [
+                                {"tag": "TELEMETRY_ADS_LOAD"},
+                                {"tag": "TELEMETRY_ADS_REQUEST"},
+                                {"tag": "TELEMETRY_ADS_LOAD_ERROR"},
+                                {"tag": "TELEMETRY_ISTL_ADS_REQUEST"}]
+                        })
+                }
+
+                function showPlayStat() {
+                        buildTimeSeriesMulti('canvas', "http://simplestore.dipankar.co.in/api/analytics/ts_multi", {
+                                "_payload": [{
+                                                "tag": "TELEMETRY_PLAYER_SUCCESS"
+                                        },
+                                        {
+                                                "tag": "TELEMETRY_PLAYER_TRY"
+                                        },
+                                        {
+                                                "tag": "TELEMETRY_PLAYER_ERROR"
+                                        }
+                                ]
+                        })
+                }
+        </script>
 </head>
 
 <body class="container theme-light">
 
-<div class="flex_col gap_l" style="background: rgba(0,0,0,.1);">
-        <p class="whileOverBlack textCenter">FM Radio Realtime Stat</h1>
-        <div class="flex_row">
-                <div id="launch_count" class="item textCenter pointer" onclick="refreshGraph('http://simplestore.dipankar.co.in/api/analytics/ts/?type=launch&app_id=regex:in.peerreview.radiohunt')"> 
-                        <p class="textBold text_l" remote_url="http://simplestore.dipankar.co.in/api/analytics/count?ts_insert=@today&type=launch&app_id=regex:in.peerreview.radiohunt">...</p>
-                        <p class="text_s">App Launch (<a target="_blank" href="http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&app_id=regex:in.peerreview.radiohunt&type=launch&_field=app_version">more</a>)</p> 
-                </div>
-                <div id="launch_count" class="item textCenter pointer" onclick="refreshGraph('http://simplestore.dipankar.co.in/api/analytics/ts/?app_id=regex:in.peerreview.radiohunt&tag=TELEMETRY_PLAYER_SUCCESS')"> 
-                        <p class="textBold text_l" remote_url="http://simplestore.dipankar.co.in/api/analytics/count/?ts_insert=@today&app_id=regex:in.peerreview.radiohunt&tag=TELEMETRY_PLAYER_SUCCESS">...</p>
-                        <p class="text_s">Play success</p> 
-                </div>
-                <div id="launch_count" class="item textCenter pointer" onclick="refreshGraph('http://simplestore.dipankar.co.in/api/analytics/ts/?app_id=regex:in.peerreview.radiohunt&tag=TELEMETRY_PLAYER_TRY')"> 
-                        <p class="textBold text_l" remote_url="http://simplestore.dipankar.co.in/api/analytics/count/?ts_insert=@today&app_id=regex:in.peerreview.radiohunt&tag=TELEMETRY_PLAYER_TRY">...</p>
-                        <p class="text_s">Try Played(<a target="_blank" href="http://simplestore.dipankar.co.in/api/analytics/distribution/?ts_insert=@today&app_id=regex:in.peerreview.radiohunt&tag=TELEMETRY_PLAYER_TRY&_field=url">more</a>)</p> 
-                </div>
-                <div id="launch_count" class="item textCenter pointer" onclick="refreshGraph('http://simplestore.dipankar.co.in/api/analytics/ts/?app_id=regex:in.peerreview.radiohunt&tag=TELEMETRY_PLAYER_ERROR')"> 
-                        <p class="textBold text_l" remote_url="http://simplestore.dipankar.co.in/api/analytics/count/?ts_insert=@today&app_id=regex:in.peerreview.radiohunt&tag=TELEMETRY_PLAYER_ERROR">...</p>
-                        <p class="text_s">player_error(<a target="_blank" href="http://simplestore.dipankar.co.in/api/analytics/distribution/?ts_insert=@today&app_id=regex:in.peerreview.radiohunt&tag=TELEMETRY_PLAYER_ERROR&_field=url">more</a>)</p> 
-                </div>
-                <div id="launch_count" class="item textCenter pointer" onclick="refreshGraph('http://simplestore.dipankar.co.in/api/analytics/ts/?type=exception&app_id=regex:in.peerreview.radiohunt')"> 
-                        <p class="textBold text_l" remote_url="http://simplestore.dipankar.co.in/api/analytics/count?ts_insert=@today&type=exception&app_id=regex:in.peerreview.radiohunt">...</p>
-                        <p class="text_s">Exception <a target="_blank" href="http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&type=exception&app_id=regex:in.peerreview.radiohunt&_field=location">(more)</a></p> 
-                </div>
-        </div>
-        <div class="flex_row">
-                <div id="launch_count" class="item textCenter pointer"> 
-                        <p class="textBold text_l" remote_url="http://simplestore.dipankar.co.in/api/analytics/sum?ts_insert=@today&type=timeit&_field=total_time&block=in.peerreview.fmradio.MainActivity">...</p>
-                        <p class="text_s">App foreground(ms)</p> 
-                </div>
-                <div id="launch_count" class="item textCenter pointer"> 
-                        <p class="textBold text_l" remote_url="http://simplestore.dipankar.co.in/api/analytics/sum?ts_insert=@today&type=timeit&_field=total_time&block=in.peerreview.fmradio.FMMusicService">...</p>
-                        <p class="text_s">Music Play Time(ms)</p> 
-                </div>
-                <div id="launch_count" class="item textCenter pointer" onclick="refreshGraph('http://simplestore.dipankar.co.in/api/analytics/ts/?app_id=regex:in.peerreview.radiohunt&target_id=TELEMETRY_CLICK_SIMILAR_ITEM')"> 
-                        <p class="textBold text_l" remote_url="http://simplestore.dipankar.co.in/api/analytics/count/?ts_insert=@today&app_id=regex:in.peerreview.radiohunt&target_id=TELEMETRY_CLICK_SIMILAR_ITEM">...</p>
-                        <p class="text_s">CLICK_SIMILAR_ITEM</p> 
+        <div class="flex_col gap_l" style="background: rgba(0,0,0,.1);">
+                <div class="flex_row" style="    background: #000;
+        color: white;">Title</div>
+                <div class="flex_row" style="justify-content: flex-start;">
+                        <div class="flex_col" style="width: 150px;
+                padding: 10px;
+                line-height: 2;
+                background: #f8dbe8;">
+                                <p onclick="showLaunch()">Launch State</p>
+                                <p onclick="showPlayStat()">Play State </p>
+                                <p onclick="showException()">Exception State</p>
+                                <p onclick="showAdsStat()">Ads State</p>
+                        </div>
+                        <div class="flex_col">
+                                <div class="flex_row">
+                                        Some IMP
+                                </div>
+                                <canvas id="canvas" class="onegraph" style="width: 100%;height: 200px"
+                                        data_presentation="ts"
+                                        remote_url="http://simplestore.dipankar.co.in/api/analytics/ts/?type=launch&app_id=in.peerreview.fmradioindia"></canvas>
+                        </div>
                 </div>
         </div>
-        <div class="flex">
-                <canvas id="canvas" class="onegraph" style="width: 100%;height: 200px" data_presentation="ts"
-                remote_url="http://simplestore.dipankar.co.in/api/analytics/ts/?type=launch&app_id=regex:in.peerreview.radiohunt"></canvas> 
-        </div>
-</div>
 </body>
+
 </html>

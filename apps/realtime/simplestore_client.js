@@ -7,6 +7,34 @@ $( document ).ready(function() {
     }
 });
 
+function buildTimeSeriesMulti(id, remote_url, postData){
+    $.ajax({
+        context:{item:id}, // this will help to set the context currently. 
+        url: remote_url,
+        type: 'POST',
+        data: JSON.stringify(postData),
+        beforeSend:function(){
+           // $(this.item).removeClass('success error').html("Loading...")
+        },
+        success: function(data){ 
+            if(data.status == "success"){
+                clearCanvas(id);
+                if(chartStore[id]){
+                    chartStore[id].destroy();
+                }
+                chartStore[id] = new Chart(document.getElementById(id), {
+                    type: 'line',
+                    data: data.out
+                  });
+            } else{
+               // $(this.item).addClass('error').html(JSON.stringify(data.msg));
+            }
+        },
+        error: function(data) {
+           // $(this.item).addClass('error').html("Network Error");
+        }
+    });
+}
 function loadItem(item){
     let remote_url = $(item).attr("remote_url");
     let remote_config = $(item).attr("remote_config");
