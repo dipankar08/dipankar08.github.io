@@ -24,7 +24,11 @@ function buildTimeSeriesMulti(id, remote_url, postData){
                 }
                 chartStore[id] = new Chart(document.getElementById(id), {
                     type: 'line',
-                    data: data.out
+                    data: data.out,
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false
+                        }
                   });
             } else{
                // $(this.item).addClass('error').html(JSON.stringify(data.msg));
@@ -52,7 +56,10 @@ function fillChartDistribution(id, remote_url){
                 }
                 chartStore[id] = new Chart(document.getElementById(id), {
                     type: 'pie',
-                    data: data.out
+                    data: data.out,options: {
+                        responsive: true,
+                        maintainAspectRatio: false
+                        }
                   });
             } else{
                // $(this.item).addClass('error').html(JSON.stringify(data.msg));
