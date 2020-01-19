@@ -25,11 +25,14 @@ function buildTimeSeriesMulti(id, remote_url, postData){
                 chartStore[id] = new Chart(document.getElementById(id), {
                     type: 'line',
                     data: data.out,
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false
+                    options:{
+                        responsive:true,
+                        legend: {
+                            display: false
                         }
+                    }
                   });
+                  $("#timelineLegend").html(chartStore[id].generateLegend());
             } else{
                // $(this.item).addClass('error').html(JSON.stringify(data.msg));
             }
@@ -39,6 +42,26 @@ function buildTimeSeriesMulti(id, remote_url, postData){
         }
     });
 }
+
+var pieoptions = {
+    tooltips: {
+        enabled: false
+    },
+    plugins: {
+        datalabels: {
+            formatter: (value, ctx) => {
+                let sum = 0;
+                let dataArr = ctx.chart.data.datasets[0].data;
+                dataArr.map(data => {
+                    sum += data;
+                });
+                let percentage = (value*100 / sum).toFixed(2)+"%";
+                return percentage;
+            },
+            color: '#fff',
+        }
+    }
+};
 
 function fillChartDistribution(id, remote_url){
     $.ajax({
@@ -56,11 +79,15 @@ function fillChartDistribution(id, remote_url){
                 }
                 chartStore[id] = new Chart(document.getElementById(id), {
                     type: 'pie',
-                    data: data.out,options: {
-                        responsive: true,
-                        maintainAspectRatio: false
+                    data: data.out,
+                    options:{
+                        responsive:true,
+                        legend: {
+                            display: false
                         }
+                    }
                   });
+                  $("#topTenLegend").html(chartStore[id].generateLegend());
             } else{
                // $(this.item).addClass('error').html(JSON.stringify(data.msg));
             }
