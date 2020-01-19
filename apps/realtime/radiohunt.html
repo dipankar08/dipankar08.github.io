@@ -20,8 +20,14 @@
                                 {},
                                 {"app_id": "in.peerreview.fmradioindia"},
                                 {"app_id": "in.peerreview.radiohunt_tamil"},
+                                {"app_id": "in.peerreview.radiohunt_kannada"},
                                 {"app_id": "in.peerreview.radiohunt_telugu"},
-                                {"app_id": "in.peerreview.radiohunt_hindi"}]
+                                {"app_id": "in.peerreview.radiohunt_malayalam"},
+                                {"app_id": "in.peerreview.radiohunt_hindi"},
+                                {"app_id": "in.peerreview.radiohunt_marathi"},
+                                {"app_id": "in.peerreview.radiohunt_punjabi"},
+                                {"app_id": "in.peerreview.radiohunt_odia"},
+                        ]
                         })
                 }
 
@@ -32,8 +38,14 @@
                                 {},
                                 {"app_id": "in.peerreview.fmradioindia"},
                                 {"app_id": "in.peerreview.radiohunt_tamil"},
+                                {"app_id": "in.peerreview.radiohunt_kannada"},
                                 {"app_id": "in.peerreview.radiohunt_telugu"},
-                                {"app_id": "in.peerreview.radiohunt_hindi"}]
+                                {"app_id": "in.peerreview.radiohunt_malayalam"},
+                                {"app_id": "in.peerreview.radiohunt_hindi"},
+                                {"app_id": "in.peerreview.radiohunt_marathi"},
+                                {"app_id": "in.peerreview.radiohunt_punjabi"},
+                                {"app_id": "in.peerreview.radiohunt_odia"},
+                        ]
                         })
                 }
                 function showAdsStat() {
@@ -60,16 +72,17 @@
 
                 function showPlayStat() {
                         fillChartDistribution('topTenChart',"http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&tag=regex:TELEMETRY_PLAYER_&_strategy=chartjs&_field=tag")
-                        buildTimeSeriesMulti('timelineChart', "http://simplestore.dipankar.co.in/api/analytics/ts_multi", {
-                                "_payload": [{
-                                                "tag": "TELEMETRY_PLAYER_SUCCESS"
-                                        },
-                                        {
-                                                "tag": "TELEMETRY_PLAYER_TRY"
-                                        },
-                                        {
-                                                "tag": "TELEMETRY_PLAYER_ERROR"
-                                        }
+                        buildTimeSeriesMulti('timelineChart', "http://simplestore.dipankar.co.in/api/analytics/ts_multi?tag=TELEMETRY_PLAYER_TRY", {
+                                "_payload": [             {},
+                                {"app_id": "in.peerreview.fmradioindia"},
+                                {"app_id": "in.peerreview.radiohunt_tamil"},
+                                {"app_id": "in.peerreview.radiohunt_kannada"},
+                                {"app_id": "in.peerreview.radiohunt_telugu"},
+                                {"app_id": "in.peerreview.radiohunt_malayalam"},
+                                {"app_id": "in.peerreview.radiohunt_hindi"},
+                                {"app_id": "in.peerreview.radiohunt_marathi"},
+                                {"app_id": "in.peerreview.radiohunt_punjabi"},
+                                {"app_id": "in.peerreview.radiohunt_odia"},
                                 ]
                         })
                 }
