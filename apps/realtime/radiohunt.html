@@ -97,7 +97,7 @@
                                 ]
                         })
                 }
-                showLaunch();
+                showTabs('launch');
         </script>
 </head>
 <style>
@@ -155,6 +155,17 @@ height:300px !important;
     .hide{
         display: none !important;
     }
+    .itemBox {
+        width: 200px;
+    height: 100px;
+    background: white;
+    text-align: center;
+    padding: 20px;
+    border-radius: 5px;
+    background: #226e2e;
+    color: white;
+    margin: 20px;
+    }
 </style>
 
 <body class="theme-light">
@@ -171,13 +182,22 @@ height:300px !important;
                         <div class="flex_col" style="width: 100%;">
                                 <div id="kpi_head" class="tab_content">
                                         <div class="launch">
-                                                Launch
+                                                <div class="itemBox">
+                                                        <p class="textBold text_l" remote_url="http://simplestore.dipankar.co.in/api/analytics/count?ts_insert=@today&type=launch&app_id=in.peerreview.fmradioindia">...</p>
+                                                        <p class="text_s">App Launch (<a target="_blank" href="http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&app_id=in.peerreview.fmradioindia&type=launch&_field=app_version">more</a>)</p> 
+                                                </div>
                                         </div>
                                         <div class="play">
-                                                Play
+                                                <div class="itemBox">
+                                                        <p class="textBold text_l" remote_url="http://simplestore.dipankar.co.in/api/analytics/count/?ts_insert=@today&app_id=in.peerreview.fmradioindia&tag=TELEMETRY_PLAYER_ERROR">...</p>
+                                                        <p class="text_s">player_error(<a target="_blank" href="http://simplestore.dipankar.co.in/api/analytics/distribution/?ts_insert=@today&app_id=in.peerreview.fmradioindia&tag=TELEMETRY_PLAYER_ERROR&_field=url">more</a>)</p> 
+                                                </div>
                                         </div>
                                         <div class="exception">
-                                                Exception
+                                                <div class="itemBox">
+                                                        <p class="textBold text_l" remote_url="http://simplestore.dipankar.co.in/api/analytics/count?ts_insert=@today&type=exception&app_id=in.peerreview.fmradioindia">...</p>
+                                                        <p class="text_s">Exception <a target="_blank" href="http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&type=exception&app_id=in.peerreview.fmradioindia&_field=location">(more)</a></p>                                 
+                                                </div>
                                         </div>
                                         <div class="ads">
                                                 Ads
