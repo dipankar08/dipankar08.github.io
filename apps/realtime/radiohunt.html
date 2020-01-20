@@ -12,6 +12,36 @@
   <link rel="stylesheet" type="text/css" href="mystyle.css" />
   <script src="simplestore_client.js"></script>
   <script>
+    var app_id_list = [{},
+      {
+        "app_id": "in.peerreview.fmradioindia"
+      },
+      {
+        "app_id": "in.peerreview.radiohunt_tamil"
+      },
+      {
+        "app_id": "in.peerreview.radiohunt_kannada"
+      },
+      {
+        "app_id": "in.peerreview.radiohunt_telugu"
+      },
+      {
+        "app_id": "in.peerreview.radiohunt_malayalam"
+      },
+      {
+        "app_id": "in.peerreview.radiohunt_hindi"
+      },
+      {
+        "app_id": "in.peerreview.radiohunt_marathi"
+      },
+      {
+        "app_id": "in.peerreview.radiohunt_punjabi"
+      },
+      {
+        "app_id": "in.peerreview.radiohunt_odia"
+      },
+    ]
+
     function showTabs(tab) {
       $('.tab_content > div').addClass('hide');
       $('.' + tab).removeClass('hide');
@@ -35,84 +65,36 @@
     }
 
     function showLaunch() {
-      fillChartDistribution('topTenChart',
+      populateCount("http://simplestore.dipankar.co.in/api/analytics/count?ts_insert=@today&type=launch", ".launch_1")
+      populateDistribution('topTenChart',
         "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&type=launch&_field=app_version&_strategy=chartjs"
       )
-      buildTimeSeriesMulti('timelineChart', "http://simplestore.dipankar.co.in/api/analytics/ts_multi?type=launch", {
-        "_payload": [{},
-          {
-            "app_id": "in.peerreview.fmradioindia"
-          },
-          {
-            "app_id": "in.peerreview.radiohunt_tamil"
-          },
-          {
-            "app_id": "in.peerreview.radiohunt_kannada"
-          },
-          {
-            "app_id": "in.peerreview.radiohunt_telugu"
-          },
-          {
-            "app_id": "in.peerreview.radiohunt_malayalam"
-          },
-          {
-            "app_id": "in.peerreview.radiohunt_hindi"
-          },
-          {
-            "app_id": "in.peerreview.radiohunt_marathi"
-          },
-          {
-            "app_id": "in.peerreview.radiohunt_punjabi"
-          },
-          {
-            "app_id": "in.peerreview.radiohunt_odia"
-          },
-        ]
+      populateTimeSeries('timelineChart', "http://simplestore.dipankar.co.in/api/analytics/ts_multi?type=launch", {
+        "_payload": app_id_list
       })
     }
 
     function showException() {
-      fillChartDistribution('topTenChart',
+      populateCount("http://simplestore.dipankar.co.in/api/analytics/count?ts_insert=@today&type=exception",
+        ".exception_1")
+
+      populateDistribution('topTenChart',
         "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&type=exception&_strategy=chartjs&_field=location"
       )
-      buildTimeSeriesMulti('timelineChart', "http://simplestore.dipankar.co.in/api/analytics/ts_multi?type=exception", {
-        "_payload": [{},
-          {
-            "app_id": "in.peerreview.fmradioindia"
-          },
-          {
-            "app_id": "in.peerreview.radiohunt_tamil"
-          },
-          {
-            "app_id": "in.peerreview.radiohunt_kannada"
-          },
-          {
-            "app_id": "in.peerreview.radiohunt_telugu"
-          },
-          {
-            "app_id": "in.peerreview.radiohunt_malayalam"
-          },
-          {
-            "app_id": "in.peerreview.radiohunt_hindi"
-          },
-          {
-            "app_id": "in.peerreview.radiohunt_marathi"
-          },
-          {
-            "app_id": "in.peerreview.radiohunt_punjabi"
-          },
-          {
-            "app_id": "in.peerreview.radiohunt_odia"
-          },
-        ]
+      populateTimeSeries('timelineChart', "http://simplestore.dipankar.co.in/api/analytics/ts_multi?type=exception", {
+        "_payload": app_id_list
       })
     }
 
     function showAdsStat() {
-      fillChartDistribution('topTenChart',
+      populateCount(
+        "http://simplestore.dipankar.co.in/api/analytics/count?ts_insert=@today&tag=TELEMETRY_ADS_LOAD_ERROR&_field=errorCode",
+        ".ads_1")
+
+      populateDistribution('topTenChart',
         "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&tag=regex:TELEMETRY_ADS_&_strategy=chartjs&_field=tag"
       )
-      buildTimeSeriesMulti('timelineChart', "http://simplestore.dipankar.co.in/api/analytics/ts_multi", {
+      populateTimeSeries('timelineChart', "http://simplestore.dipankar.co.in/api/analytics/ts_multi", {
         "_payload": [{
             "tag": "TELEMETRY_ADS_LOAD"
           },
@@ -130,10 +112,13 @@
     }
 
     function showExperiments() {
-      fillChartDistribution('topTenChart',
+      populateCount("http://simplestore.dipankar.co.in/api/analytics/count?ts_insert=@today&type=exception",
+        ".experiments_1")
+
+      populateDistribution('topTenChart',
         "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&tag=regex:TELEMETRY_ADS_&_strategy=chartjs&_field=tag"
       )
-      buildTimeSeriesMulti('timelineChart', "http://simplestore.dipankar.co.in/api/analytics/ts_multi", {
+      populateTimeSeries('timelineChart', "http://simplestore.dipankar.co.in/api/analytics/ts_multi", {
         "_payload": [{
             "tag": "TELEMETRY_CLICK_SIMILAR_ITEM"
           },
@@ -149,43 +134,17 @@
 
 
     function showPlayStat() {
-      fillChartDistribution('topTenChart',
+      populateCount("http://simplestore.dipankar.co.in/api/analytics/count?ts_insert=@today&tag=TELEMETRY_PLAYER_ERROR",
+        ".play_1")
+
+      populateDistribution('topTenChart',
         "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&tag=regex:TELEMETRY_PLAYER_&_strategy=chartjs&_field=tag"
       )
-      buildTimeSeriesMulti('timelineChart',
+      populateTimeSeries('timelineChart',
         "http://simplestore.dipankar.co.in/api/analytics/ts_multi?tag=TELEMETRY_PLAYER_ERROR", {
-          "_payload": [{},
-            {
-              "app_id": "in.peerreview.fmradioindia"
-            },
-            {
-              "app_id": "in.peerreview.radiohunt_tamil"
-            },
-            {
-              "app_id": "in.peerreview.radiohunt_kannada"
-            },
-            {
-              "app_id": "in.peerreview.radiohunt_telugu"
-            },
-            {
-              "app_id": "in.peerreview.radiohunt_malayalam"
-            },
-            {
-              "app_id": "in.peerreview.radiohunt_hindi"
-            },
-            {
-              "app_id": "in.peerreview.radiohunt_marathi"
-            },
-            {
-              "app_id": "in.peerreview.radiohunt_punjabi"
-            },
-            {
-              "app_id": "in.peerreview.radiohunt_odia"
-            },
-          ]
+          "_payload": app_id_list
         })
     }
-    showTabs('launch');
   </script>
 </head>
 <style>
@@ -205,6 +164,7 @@
     background: rgba(0, 0, 0, .9);
     color: white;
   }
+  .nav > p {    cursor: pointer}
 
   #kpi {
     background: white;
@@ -267,7 +227,7 @@
     <div class="flex_row" style="justify-content: flex-start;">
       <div class="flex_col nav">
         <p onclick="showTabs('launch')">Launch State</p>
-        <p onclick="showTabs('plat')">Play State </p>
+        <p onclick="showTabs('play')">Play State </p>
         <p onclick="showTabs('exception')">Exception State</p>
         <p onclick="showTabs('ads')">Ads State</p>
         <p onclick="showTabs('experiments')">Experiments</p>
@@ -280,23 +240,9 @@
           <!-- launch-->
           <div class="launch">
             <div class="itemBox">
-              <p class="textBold text_l"
-                remote_url="http://simplestore.dipankar.co.in/api/analytics/count?ts_insert=@today&type=launch">
-                ...</p>
+              <p class="textBold text_l launch_1"></p>
               <p class="text_s">App Launch (<a target="_blank"
                   href="http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&type=launch&_field=app_version">more</a>)
-              </p>
-            </div>
-          </div>
-
-          <!-- play-->
-          <div class="play">
-            <div class="itemBox">
-              <p class="textBold text_l"
-                remote_url="http://simplestore.dipankar.co.in/api/analytics/count/?ts_insert=@today&tag=TELEMETRY_PLAYER_ERROR">
-                ...</p>
-              <p class="text_s">Play Error(<a target="_blank"
-                  href="http://simplestore.dipankar.co.in/api/analytics/distribution/?ts_insert=@today&tag=TELEMETRY_PLAYER_ERROR&_field=url">more</a>)
               </p>
             </div>
           </div>
@@ -304,9 +250,7 @@
           <!-- Exception -->
           <div class="exception">
             <div class="itemBox">
-              <p class="textBold text_l"
-                remote_url="http://simplestore.dipankar.co.in/api/analytics/count?ts_insert=@today&type=exception">
-                ...</p>
+              <p class="textBold text_l exception_1"></p>
               <p class="text_s">Exception <a target="_blank"
                   href="http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&type=exception&_field=location">(more)</a>
               </p>
@@ -316,9 +260,7 @@
           <!-- ads-->
           <div class="ads">
             <div class="itemBox">
-              <p class="textBold text_l"
-                remote_url="http://simplestore.dipankar.co.in/api/analytics/count?ts_insert=@today&tag=TELEMETRY_ADS_LOAD_ERROR&_field=errorCode">
-                ...</p>
+              <p class="textBold text_l ads_1"></p>
               <p class="text_s">errorCode <a target="_blank"
                   href="http://simplestore.dipankar.co.in/api/analytics/distribution??ts_insert=@today&tag=TELEMETRY_ADS_LOAD_ERROR&_field=errorCode">(more)</a>
               </p>
@@ -328,11 +270,19 @@
           <!-- experiments -->
           <div class="experiments">
             <div class="itemBox">
-              <p class="textBold text_l"
-                remote_url="http://simplestore.dipankar.co.in/api/analytics/count?ts_insert=@today&type=exception">
-                ...</p>
+              <p class="textBold text_l experiments_1">...</p>
               <p class="text_s">Exception <a target="_blank"
                   href="http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&type=exception&_field=location">(more)</a>
+              </p>
+            </div>
+          </div>
+
+          <!-- PlayStates-->
+          <div class="play">
+            <div class="itemBox">
+              <p class="textBold text_l play_1"></p>
+              <p class="text_s">errorCode <a target="_blank"
+                  href="http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&tag=TELEMETRY_PLAYER_ERROR&_field=url">(more)</a>
               </p>
             </div>
           </div>
