@@ -13,6 +13,17 @@
         <link rel="stylesheet" type="text/css" href="mystyle.css" />
         <script src="simplestore_client.js"></script>
         <script>
+                function showTabs(tab){
+                        $('.tab_content > div').addClass('hide');
+                        $('.'+tab).removeClass('hide');
+                        switch(tab){
+                            case 'launch': showLaunch(); break;
+                            case 'experiments': showExperiments(); break;
+                            case 'play': showPlayStat(); break;
+                            case 'ads': showAdsStat(); break;
+                            case 'exception': showException(); break;
+                        }
+                }
                 function showLaunch() {
                         fillChartDistribution('topTenChart',"http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&type=launch&_field=app_version&_strategy=chartjs")
                         buildTimeSeriesMulti('timelineChart',"http://simplestore.dipankar.co.in/api/analytics/ts_multi?type=launch", {
@@ -72,7 +83,7 @@
 
                 function showPlayStat() {
                         fillChartDistribution('topTenChart',"http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&tag=regex:TELEMETRY_PLAYER_&_strategy=chartjs&_field=tag")
-                        buildTimeSeriesMulti('timelineChart', "http://simplestore.dipankar.co.in/api/analytics/ts_multi?tag=TELEMETRY_PLAYER_TRY", {
+                        buildTimeSeriesMulti('timelineChart', "http://simplestore.dipankar.co.in/api/analytics/ts_multi?tag=TELEMETRY_PLAYER_ERROR", {
                                 "_payload": [             {},
                                 {"app_id": "in.peerreview.fmradioindia"},
                                 {"app_id": "in.peerreview.radiohunt_tamil"},
@@ -90,17 +101,33 @@
         </script>
 </head>
 <style>
+        body {
+  background-color: #E9E9E9;
+}
+
 canvas{
 width:1000px !important;
 height:300px !important;
 }
+.nav {
+        width: 150px;
+    padding: 10px;
+    line-height: 2;
+    background: rgba(0,0,0,.9);
+    color: white;
+}
 #kpi{
-      height: 300px;
-      width: 100%;
+        background: white;
+    border-radius: 5px;
+    margin: 20px;
+    height: 320px;
+    padding: 10px;
+    width: calc(100% - 40px);
       overflow: scroll;
       position: relative;
-      margin-bottom: 40px;
-      margin-top: 20px;
+      border: 1px solid #BFBFBF;
+  background-color: white;
+  box-shadow: 5px 5px 2px #cccccc;
     }
     .pieLegend li span {
       display: inline-block;
@@ -125,25 +152,40 @@ height:300px !important;
     .pieLegend>ul{
       list-style:none;
     }
+    .hide{
+        display: none !important;
+    }
 </style>
 
 <body class="theme-light">
-        <div class="flex_col" style="background: rgba(0,0,0,.1);width: 100%;height: 100%;">
-                <div class="flex_row" style="    background: #000;
-        color: white;">Title</div>
+        <div class="flex_col" style="width: 100%;height: 100%;">
                 <div class="flex_row" style="justify-content: flex-start;">
-                        <div class="flex_col" style="width: 150px;
-                padding: 10px;
-                line-height: 2;
-                background: #f8dbe8;">
-                                <p onclick="showLaunch()">Launch State</p>
-                                <p onclick="showPlayStat()">Play State </p>
-                                <p onclick="showException()">Exception State</p>
-                                <p onclick="showAdsStat()">Ads State</p>
-                                <p onclick="showExperiments()">Experiments</p>
+                        <div class="flex_col nav">
+                                <p onclick="showTabs('launch')">Launch State</p>
+                                <p onclick="showTabs('plat')">Play State </p>
+                                <p onclick="showTabs('exception')">Exception State</p>
+                                <p onclick="showTabs('ads')">Ads State</p>
+                                <p onclick="showTabs('experiments')">Experiments</p>
                                 <p onclick=""><a href="http://simplestore.dipankar.co.in/api/analytics/delete?ts_insert=@3DaysOld&_confirmstr=analytics" target="_blanck">Clear Older Logs</a></p>
                         </div>
                         <div class="flex_col" style="width: 100%;">
+                                <div id="kpi_head" class="tab_content">
+                                        <div class="launch">
+                                                Launch
+                                        </div>
+                                        <div class="play">
+                                                Play
+                                        </div>
+                                        <div class="exception">
+                                                Exception
+                                        </div>
+                                        <div class="ads">
+                                                Ads
+                                        </div>
+                                        <div class="experiments">
+                                                Experiments
+                                        </div>
+                                </div>
                                 <div id="kpi">
                                         <div id="container">
                                           <canvas id="topTenChart"></canvas>
