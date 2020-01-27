@@ -97,14 +97,8 @@
       populateDistribution('topTenChart',
         "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&tag=regex:TELEMETRY_ADS_LOAD&_strategy=chartjs&_field=tag"
       )
-      populateTimeSeries('timelineChart', "http://simplestore.dipankar.co.in/api/analytics/ts_multi", {
-        "_payload": [{
-            "tag": "TELEMETRY_ADS_LOAD"
-          },
-          {
-            "tag": "TELEMETRY_ADS_LOAD_ERROR"
-          }
-        ]
+      populateTimeSeries('timelineChart', "http://simplestore.dipankar.co.in/api/analytics/ts_multi?tag=regex:TELEMETRY_ADS_LOAD", {
+        "_payload": app_id_list
       })
     }
 
@@ -116,16 +110,7 @@
         "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&tag=regex:TELEMETRY_ADS_&_strategy=chartjs&_field=tag"
       )
       populateTimeSeries('timelineChart', "http://simplestore.dipankar.co.in/api/analytics/ts_multi", {
-        "_payload": [{
-            "tag": "TELEMETRY_CLICK_SIMILAR_ITEM"
-          },
-          {
-            "tag": "TELEMETRY_DIALOG_SHARE"
-          },
-          {
-            "tag": "TELEMETRY_DIALOG_RATING"
-          }
-        ]
+        "_payload": app_id_list
       })
     }
 
