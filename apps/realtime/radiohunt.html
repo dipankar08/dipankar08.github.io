@@ -12,7 +12,7 @@
   <link rel="stylesheet" type="text/css" href="mystyle.css" />
   <script src="simplestore_client.js"></script>
   <script>
-    var app_id_list = [{},
+    var app_id_list = [
       {
         "app_id": "in.peerreview.fmradioindia"
       },
@@ -90,22 +90,19 @@
       populateCount(
         "http://simplestore.dipankar.co.in/api/analytics/count?ts_insert=@today&tag=TELEMETRY_ADS_LOAD_ERROR&_field=errorCode",
         ".ads_1")
+      populateCount(
+        "http://simplestore.dipankar.co.in/api/analytics/count?ts_insert=@today&tag=TELEMETRY_ADS_LOAD&_field=errorCode",
+        ".ads_2")
 
       populateDistribution('topTenChart',
-        "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&tag=regex:TELEMETRY_ADS_&_strategy=chartjs&_field=tag"
+        "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&tag=regex:TELEMETRY_ADS_LOAD&_strategy=chartjs&_field=tag"
       )
       populateTimeSeries('timelineChart', "http://simplestore.dipankar.co.in/api/analytics/ts_multi", {
         "_payload": [{
             "tag": "TELEMETRY_ADS_LOAD"
           },
           {
-            "tag": "TELEMETRY_ADS_REQUEST"
-          },
-          {
             "tag": "TELEMETRY_ADS_LOAD_ERROR"
-          },
-          {
-            "tag": "TELEMETRY_ISTL_ADS_REQUEST"
           }
         ]
       })
@@ -136,7 +133,8 @@
     function showPlayStat() {
       populateCount("http://simplestore.dipankar.co.in/api/analytics/count?ts_insert=@today&tag=TELEMETRY_PLAYER_ERROR",
         ".play_1")
-
+        populateCount("http://simplestore.dipankar.co.in/api/analytics/count?ts_insert=@today&tag=TELEMETRY_PLAYER_SUCCESS",
+        ".play_2")
       populateDistribution('topTenChart',
         "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&tag=regex:TELEMETRY_PLAYER_&_strategy=chartjs&_field=tag"
       )
@@ -165,6 +163,7 @@
     color: white;
   }
   .nav > p {    cursor: pointer}
+  .flex {    display: flex;}
 
   #kpi {
     background: white;
@@ -238,7 +237,7 @@
       <div class="flex_col" style="width: 100%;">
         <div id="kpi_head" class="tab_content">
           <!-- launch-->
-          <div class="launch">
+          <div class="flex launch">
             <div class="itemBox">
               <p class="textBold text_l launch_1"></p>
               <p class="text_s">App Launch (<a target="_blank"
@@ -248,7 +247,7 @@
           </div>
 
           <!-- Exception -->
-          <div class="exception">
+          <div class="flex exception">
             <div class="itemBox">
               <p class="textBold text_l exception_1"></p>
               <p class="text_s">Exception <a target="_blank"
@@ -258,17 +257,23 @@
           </div>
 
           <!-- ads-->
-          <div class="ads">
+          <div class="flex ads">
             <div class="itemBox">
               <p class="textBold text_l ads_1"></p>
               <p class="text_s">errorCode <a target="_blank"
-                  href="http://simplestore.dipankar.co.in/api/analytics/distribution??ts_insert=@today&tag=TELEMETRY_ADS_LOAD_ERROR&_field=errorCode">(more)</a>
+                  href="http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&tag=TELEMETRY_ADS_LOAD_ERROR&_field=errorCode">(more)</a>
+              </p>
+            </div>
+            <div class="itemBox">
+              <p class="textBold text_l ads_2"></p>
+              <p class="text_s">Succcess <a target="_blank"
+                  href="http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&tag=TELEMETRY_ADS_LOAD_ERROR&_field=errorCode">(more)</a>
               </p>
             </div>
           </div>
 
           <!-- experiments -->
-          <div class="experiments">
+          <div class="flex experiments">
             <div class="itemBox">
               <p class="textBold text_l experiments_1">...</p>
               <p class="text_s">Exception <a target="_blank"
@@ -278,10 +283,16 @@
           </div>
 
           <!-- PlayStates-->
-          <div class="play">
+          <div class="flex play">
             <div class="itemBox">
               <p class="textBold text_l play_1"></p>
               <p class="text_s">errorCode <a target="_blank"
+                  href="http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&tag=TELEMETRY_PLAYER_ERROR&_field=url">(more)</a>
+              </p>
+            </div>
+            <div class="itemBox">
+              <p class="textBold text_l play_2"></p>
+              <p class="text_s">Success <a target="_blank"
                   href="http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&tag=TELEMETRY_PLAYER_ERROR&_field=url">(more)</a>
               </p>
             </div>
