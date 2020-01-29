@@ -7,7 +7,7 @@ $(document).ready(function() {
   }
 });
 
-function populateTimeSeries(id, remote_url, postData) {
+function populateTimeSeries(title, id, remote_url, postData) {
   $.ajax({
     context: { item: id }, // this will help to set the context currently.
     url: remote_url,
@@ -26,13 +26,18 @@ function populateTimeSeries(id, remote_url, postData) {
           type: "line",
           data: data.out,
           options: {
+            label: '# of Votes',
             responsive: true,
             legend: {
-              display: false
-            }
+              display: true,
+              position:"right"
+            },
+            title: {
+              display: true,
+              text: title
+          }
           }
         });
-        $("#timelineLegend").html(chartStore[id].generateLegend());
       } else {
         // $(this.item).addClass('error').html(JSON.stringify(data.msg));
       }
@@ -63,7 +68,7 @@ var pieoptions = {
   }
 };
 
-function populateDistribution(id, remote_url) {
+function populateDistribution(title, id, remote_url) {
   $.ajax({
     context: { item: id }, // this will help to set the context currently.
     url: remote_url,
@@ -81,13 +86,18 @@ function populateDistribution(id, remote_url) {
           type: "pie",
           data: data.out,
           options: {
+            label: '# of Votes',
             responsive: true,
             legend: {
-              display: false
-            }
+              display: true,
+              position:"right"
+            },
+            title: {
+              display: true,
+              text: title
+          }
           }
         });
-        $("#topTenLegend").html(chartStore[id].generateLegend());
       } else {
         // $(this.item).addClass('error').html(JSON.stringify(data.msg));
       }
@@ -100,8 +110,33 @@ function populateDistribution(id, remote_url) {
 
 function populateCount(url, cls) {
   $.ajax({
-    context: { cls: cls }, // this will help to set the context currently.
-    url: url,
+    context: { cls: cls+' .t' }, // this will help to set the context currently.
+    url: url+'&ts_insert=@today',
+    type: "GET",
+    beforeSend: function() {
+      $(this.cls).html("Loading...");
+    },
+    success: function(data) {
+      if (data.status == "success") {
+        $(this.cls)
+          .addClass("success")
+          .html(JSON.stringify(data.out));
+      } else {
+        $(this.cls)
+          .addClass("error")
+          .html(JSON.stringify(data.msg));
+      }
+    },
+    error: function(data) {
+      $(this.cls)
+        .addClass("error")
+        .html("Network Error");
+    }
+  });
+
+  $.ajax({
+    context: { cls: cls+' .y' }, // this will help to set the context currently.
+    url: url+'&ts_insert=@yesterday',
     type: "GET",
     beforeSend: function() {
       $(this.cls).html("Loading...");
