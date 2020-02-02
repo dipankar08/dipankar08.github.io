@@ -89,10 +89,10 @@
     function showAdsStat() {
       populateCount(
         "http://simplestore.dipankar.co.in/api/analytics/count?tag=TELEMETRY_ADS_LOAD_ERROR&_field=errorCode",
-        ".ads_1")
+        ".adds_1")
       populateCount(
         "http://simplestore.dipankar.co.in/api/analytics/count?tag=TELEMETRY_ADS_LOAD&_field=errorCode",
-        ".ads_2")
+        ".adds_2")
 
       populateDistribution("ads loads success #",'topTenChart',
         "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&tag=regex:TELEMETRY_ADS_LOAD&_strategy=chartjs&_field=tag"
@@ -243,13 +243,13 @@
           <!-- ads-->
           <div class="flex ads">
             <div class="itemBox">
-              <p class="textBold text_l ads_1"><span class="t"></span>/(<span class="y"></span>)</p>
+              <p class="textBold text_l adds_1"><span class="t"></span>/(<span class="y"></span>)</p>
               <p class="text_s">errorCode <a target="_blank"
                   href="http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&tag=TELEMETRY_ADS_LOAD_ERROR&_field=errorCode">(more)</a>
               </p>
             </div>
             <div class="itemBox">
-              <p class="textBold text_l ads_2"><span class="t"></span>/(<span class="y"></span>)</p>
+              <p class="textBold text_l adds_2"><span class="t"></span>/(<span class="y"></span>)</p>
               <p class="text_s">Succcess <a target="_blank"
                   href="http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&tag=TELEMETRY_ADS_LOAD_ERROR&_field=errorCode">(more)</a>
               </p>
