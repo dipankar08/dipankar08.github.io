@@ -108,7 +108,13 @@ function populateDistribution(title, id, remote_url) {
   });
 }
 
-function populateCount(url, cls) {
+function populateCount(cls, url, more, title) {
+  $(cls).html(`
+  <p class="textBold">${title} </p>
+  <p class="textBold text_l khabar_1"><span class="t"></span>/(<span class="y"></span>)</p>
+  <p class="text_s">Distribution <a target="_blank" class="more" href="${more}">(more)</a></p>
+  `)
+
   $.ajax({
     context: { cls: cls+' .t' }, // this will help to set the context currently.
     url: url+'&ts_insert=@today',

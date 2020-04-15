@@ -71,7 +71,8 @@
     }
 
     function showLaunch() {
-      populateCount("http://simplestore.dipankar.co.in/api/analytics/count?&type=launch", ".launch_1")
+      populateCount(".launch_1", "http://simplestore.dipankar.co.in/api/analytics/count?&type=launch", "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&type=launch&_field=app_version","Launch" )
+  
       populateDistribution("Launch #", 'topTenChart',
         "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&type=launch&_field=app_version&_strategy=chartjs"
       )
@@ -82,7 +83,10 @@
 
 
     function showKhabar() {
-      populateCount("http://simplestore.dipankar.co.in/api/khabar/count?",".khabar_1")
+      populateCount(".khabar_1", "http://simplestore.dipankar.co.in/api/khabar/count?","http://simplestore.dipankar.co.in/api/khabar/distribution?_field=hostname&ts_insert=@today","Insert Count")
+      populateCount(".khabar_2", "http://simplestore.dipankar.co.in/api/analytics/count?app_id=khabar&tag=corn_job_executed","http://simplestore.dipankar.co.in/api/analytics/distribution?app_id=khabar&_field=for&tag=corn_job_executed","Cron Execution")
+      populateCount(".khabar_3", "http://simplestore.dipankar.co.in/api/analytics/count?app_id=khabar&tag=invalid_list_selector","http://simplestore.dipankar.co.in/api/analytics/distribution?app_id=khabar&_field=url:&tag=invalid_list_selector","Invalid URL")
+      
 
       populateDistribution("Location #", 'topTenChart',
         "http://simplestore.dipankar.co.in/api/analytics/distribution?app_id=khabar&_field=tag&ts_insert=@today&_strategy=chartjs"
@@ -93,8 +97,8 @@
     }
 
     function showException() {
-      populateCount("http://simplestore.dipankar.co.in/api/analytics/count?type=exception",
-        ".exception_1")
+      populateCount(".exception_1", "http://simplestore.dipankar.co.in/api/analytics/count?type=exception","http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&type=exception&_field=location"
+        )
 
       populateDistribution("Location #", 'topTenChart',
         "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&type=exception&_strategy=chartjs&_field=location"
@@ -105,12 +109,12 @@
     }
 
     function showAdsStat() {
-      populateCount(
-        "http://simplestore.dipankar.co.in/api/analytics/count?tag=TELEMETRY_ADS_LOAD_ERROR&_field=errorCode",
-        ".adds_1")
-      populateCount(
-        "http://simplestore.dipankar.co.in/api/analytics/count?tag=TELEMETRY_ADS_LOAD&_field=errorCode",
-        ".adds_2")
+      populateCount(".adds_1",
+        "http://simplestore.dipankar.co.in/api/analytics/count?tag=TELEMETRY_ADS_LOAD_ERROR&_field=errorCode","http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&tag=TELEMETRY_ADS_LOAD_ERROR&_field=errorCode"
+        )
+      populateCount(".adds_2",
+        "http://simplestore.dipankar.co.in/api/analytics/count?tag=TELEMETRY_ADS_LOAD&_field=errorCode","http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&tag=TELEMETRY_ADS_LOAD_ERROR&_field=errorCode"
+        )
 
       populateDistribution("ads loads success #",'topTenChart',
         "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&tag=regex:TELEMETRY_ADS_LOAD&_strategy=chartjs&_field=tag"
@@ -121,8 +125,8 @@
     }
 
     function showExperiments() {
-      populateCount("http://simplestore.dipankar.co.in/api/analytics/count?&type=exception",
-        ".experiments_1")
+      populateCount(".experiments_1","http://simplestore.dipankar.co.in/api/analytics/count?&type=exception","http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&type=exception&_field=location"
+        )
 
       populateDistribution('topTenChart',
         "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&tag=regex:TELEMETRY_ADS_&_strategy=chartjs&_field=tag"
@@ -134,10 +138,10 @@
 
 
     function showPlayStat() {
-      populateCount("http://simplestore.dipankar.co.in/api/analytics/count?tag=TELEMETRY_PLAYER_ERROR",
-        ".play_1")
-        populateCount("http://simplestore.dipankar.co.in/api/analytics/count?tag=TELEMETRY_PLAYER_SUCCESS",
-        ".play_2")
+      populateCount(".play_1", "http://simplestore.dipankar.co.in/api/analytics/count?tag=TELEMETRY_PLAYER_ERROR", "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&tag=TELEMETRY_PLAYER_ERROR&_field=url"
+        )
+        populateCount(  ".play_2", "http://simplestore.dipankar.co.in/api/analytics/count?tag=TELEMETRY_PLAYER_SUCCESS","http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&tag=TELEMETRY_PLAYER_ERROR&_field=url"
+      )
       populateDistribution("Player try/Success/error #", 'topTenChart',
         "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&tag=regex:TELEMETRY_PLAYER_&_strategy=chartjs&_field=tag"
       )
@@ -212,7 +216,6 @@
   }
 
   .itemBox {
-    height: 100px;
     background: white;
     text-align: center;
     padding: 20px;
@@ -241,74 +244,36 @@
         <div id="kpi_head" class="tab_content">
           <!-- launch-->
           <div class="flex launch">
-            <div class="itemBox">
-              <p class="textBold text_l launch_1"><span class="t"></span>/(<span class="y"></span>)</p>
-              <p class="text_s">App Launch (<a target="_blank"
-                  href="http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&type=launch&_field=app_version">more</a>)
-              </p>
-            </div>
+            <div class="itemBox launch_1"></div>
           </div>
 
           <!-- Exception -->
           <div class="flex exception">
-            <div class="itemBox">
-              <p class="textBold text_l exception_1"><span class="t"></span>/(<span class="y"></span>)</p>
-              <p class="text_s">Exception <a target="_blank"
-                  href="http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&type=exception&_field=location">(more)</a>
-              </p>
-            </div>
+            <div class="itemBox exception_1"></div>
           </div>
 
-          <!-- Exception -->
+          <!-- Khabar -->
           <div class="flex khabar">
-            <div class="itemBox">
-              <p class="textBold text_l khabar_1"><span class="t"></span>/(<span class="y"></span>)</p>
-              <p class="text_s">Distribution <a target="_blank"
-                  href="http://simplestore.dipankar.co.in/api/khabar/distribution?_field=hostname&ts_insert=@today">(more)</a>
-              </p>
-            </div>
+            <div class="itemBox khabar_1"></div>
+            <div class="itemBox khabar_2"></div>
+            <div class="itemBox khabar_3"></div>
           </div>
 
           <!-- ads-->
           <div class="flex ads">
-            <div class="itemBox">
-              <p class="textBold text_l adds_1"><span class="t"></span>/(<span class="y"></span>)</p>
-              <p class="text_s">errorCode <a target="_blank"
-                  href="http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&tag=TELEMETRY_ADS_LOAD_ERROR&_field=errorCode">(more)</a>
-              </p>
-            </div>
-            <div class="itemBox">
-              <p class="textBold text_l adds_2"><span class="t"></span>/(<span class="y"></span>)</p>
-              <p class="text_s">Succcess <a target="_blank"
-                  href="http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&tag=TELEMETRY_ADS_LOAD_ERROR&_field=errorCode">(more)</a>
-              </p>
-            </div>
+            <div class="itemBox adds_1"></div>
+            <div class="itemBox adds_2"></div>
           </div>
 
           <!-- experiments -->
           <div class="flex experiments">
-            <div class="itemBox">
-              <p class="textBold text_l experiments_1"><span class="t"></span>/(<span class="y"></span>)</p>
-              <p class="text_s">Exception <a target="_blank"
-                  href="http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&type=exception&_field=location">(more)</a>
-              </p>
-            </div>
+            <div class="itemBox experiments_1"></div>
           </div>
 
           <!-- PlayStates-->
           <div class="flex play">
-            <div class="itemBox">
-              <p class="textBold text_l play_1"><span class="t"></span>/(<span class="y"></span>)</p>
-              <p class="text_s">errorCode <a target="_blank"
-                  href="http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&tag=TELEMETRY_PLAYER_ERROR&_field=url">(more)</a>
-              </p>
-            </div>
-            <div class="itemBox">
-              <p class="textBold text_l play_2"><span class="t"></span>/(<span class="y"></span>)</p>
-              <p class="text_s">Success <a target="_blank"
-                  href="http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&tag=TELEMETRY_PLAYER_ERROR&_field=url">(more)</a>
-              </p>
-            </div>
+            <div class="itemBox play_1"></div>
+            <div class="itemBox play_2"></div>
           </div>
         </div>
 
