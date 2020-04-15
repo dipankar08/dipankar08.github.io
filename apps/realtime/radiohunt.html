@@ -40,6 +40,9 @@
       {
         "app_id": "in.peerreview.radiohunt_odia"
       },
+      {
+        "app_id": "in.peerreview.khabar"
+      },
     ]
 
     function showTabs(tab) {
@@ -61,6 +64,9 @@
         case 'exception':
           showException();
           break;
+        case 'khabar':
+          showKhabar();
+          break;
       }
     }
 
@@ -71,6 +77,18 @@
       )
       populateTimeSeries("Launch #", 'timelineChart', "http://simplestore.dipankar.co.in/api/analytics/ts_multi?type=launch", {
         "_payload": app_id_list
+      })
+    }
+
+
+    function showKhabar() {
+      populateCount("http://simplestore.dipankar.co.in/api/khabar/count?",".khabar_1")
+
+      populateDistribution("Location #", 'topTenChart',
+        "http://simplestore.dipankar.co.in/api/analytics/distribution?app_id=khabar&_field=tag&ts_insert=@today&_strategy=chartjs"
+      )
+      populateTimeSeries("Tag Hits ", 'timelineChart', "http://simplestore.dipankar.co.in/api/analytics/ts_multi?app_id=khabar", {
+        "_payload": [{"tag":"invalid_list_selector"},{"tag":"no_image_found"},{"tag":"corn_job_executed"},{"tag":"saved"},{"tag":"prod_run"},{"tag":"exception"}]
       })
     }
 
@@ -214,6 +232,7 @@
         <p onclick="showTabs('exception')">Exception</p>
         <p onclick="showTabs('ads')">AdNetWork</p>
         <p onclick="showTabs('experiments')">Experiments</p>
+        <p onclick="showTabs('khabar')">Khabar Parser</p>
         <p onclick=""><a
             href="http://simplestore.dipankar.co.in/api/analytics/delete?ts_insert=@3DaysOld&_confirmstr=analytics"
             target="_blanck">Clear Older Logs</a></p>
@@ -236,6 +255,16 @@
               <p class="textBold text_l exception_1"><span class="t"></span>/(<span class="y"></span>)</p>
               <p class="text_s">Exception <a target="_blank"
                   href="http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&type=exception&_field=location">(more)</a>
+              </p>
+            </div>
+          </div>
+
+          <!-- Exception -->
+          <div class="flex khabar">
+            <div class="itemBox">
+              <p class="textBold text_l khabar_1"><span class="t"></span>/(<span class="y"></span>)</p>
+              <p class="text_s">Distribution <a target="_blank"
+                  href="http://simplestore.dipankar.co.in/api/khabar/distribution?_field=hostname&ts_insert=@today">(more)</a>
               </p>
             </div>
           </div>
