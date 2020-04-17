@@ -86,6 +86,7 @@
       populateCount(".khabar_1", "http://simplestore.dipankar.co.in/api/khabar/count?","http://simplestore.dipankar.co.in/api/khabar/distribution?_field=hostname&ts_insert=@today","Insert Count")
       populateCount(".khabar_2", "http://simplestore.dipankar.co.in/api/analytics/count?app_id=khabar&tag=corn_job_executed","http://simplestore.dipankar.co.in/api/analytics/distribution?app_id=khabar&_field=for&tag=corn_job_executed","Cron Execution")
       populateCount(".khabar_3", "http://simplestore.dipankar.co.in/api/analytics/count?app_id=khabar&tag=invalid_list_selector","http://simplestore.dipankar.co.in/api/analytics/distribution?app_id=khabar&_field=url:&tag=invalid_list_selector","Invalid URL")
+      populateCount(".khabar_4", "http://simplestore.dipankar.co.in/api/analytics/count?app_id=khabar&type=exception","http://simplestore.dipankar.co.in/api/analytics/distribution?app_id=khabar&_field=location&type=exception&ts_insert=@today","Exceptions")
       
 
       populateDistribution("Location #", 'topTenChart',
