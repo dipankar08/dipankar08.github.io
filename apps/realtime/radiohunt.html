@@ -91,9 +91,7 @@
       populateDistribution("Location #", 'topTenChart',
         "http://simplestore.dipankar.co.in/api/analytics/distribution?app_id=khabar&_field=tag&ts_insert=@today&_strategy=chartjs"
       )
-      populateTimeSeries("Tag Hits ", 'timelineChart', "http://simplestore.dipankar.co.in/api/analytics/ts_multi?app_id=khabar", {
-        "_payload": [{"tag":"invalid_list_selector"},{"tag":"no_image_found"},{"tag":"corn_job_executed"},{"tag":"saved"},{"tag":"prod_run"},{"tag":"exception"}]
-      })
+      populateTimeSeries("Tag Hits ", 'timelineChart', "http://simplestore.dipankar.co.in/api/khabar/ts_multi", {"_payload":[{"link_type": "http"},{"link_type": "youtube"}]})
     }
 
     function showException() {
