@@ -67,6 +67,9 @@
         case 'khabar':
           showKhabar();
           break;
+          case 'khabarapp':
+          showKhabarApp();
+          break;
       }
     }
 
@@ -79,6 +82,21 @@
       populateTimeSeries("Launch #", 'timelineChart', "http://simplestore.dipankar.co.in/api/analytics/ts_multi?type=launch", {
         "_payload": app_id_list
       })
+    }
+    function showKhabarApp() {
+      populateCount(".khabarapp_1", "http://simplestore.dipankar.co.in/api/analytics/count?app_id=in.peerreview.khabar&tag=TELEMETRY_ADS_REQUEST","http://simplestore.dipankar.co.in/api/analytics/distribution?app_id=in.peerreview.khabar&_field=tag","TELEMETRY_ADS_REQUEST")
+      populateCount(".khabarapp_2", "http://simplestore.dipankar.co.in/api/analytics/count?app_id=in.peerreview.khabar&tag=TELEMETRY_ADS_LOAD","http://simplestore.dipankar.co.in/api/analytics/distribution?app_id=in.peerreview.khabar&_field=tag","TELEMETRY_ADS_LOAD")
+      populateCount(".khabarapp_3", "http://simplestore.dipankar.co.in/api/analytics/count?app_id=in.peerreview.khabar&type=exception","http://simplestore.dipankar.co.in/api/analytics/distribution?app_id=in.peerreview.khabar&type=exception&_field=location","exception")
+      populateCount(".khabarapp_4", "http://simplestore.dipankar.co.in/api/analytics/count?app_id=in.peerreview.khabar&type=launch","http://simplestore.dipankar.co.in/api/analytics/distribution?app_id=in.peerreview.khabar&type=launch&_field=app_version","launch")
+      populateCount(".khabarapp_5", "http://simplestore.dipankar.co.in/api/analytics/count?app_id=in.peerreview.khabar&block=APP_PANE_OPENED_DETAILS","http://simplestore.dipankar.co.in/api/analytics/distribution?app_id=in.peerreview.khabar&type=launch&_field=app_version","open story")
+      populateCount(".khabarapp_6", "http://simplestore.dipankar.co.in/api/analytics/count?app_id=in.peerreview.khabar&block=APP_PANE_OPENED_LIST","http://simplestore.dipankar.co.in/api/analytics/distribution?app_id=in.peerreview.khabar&type=launch&_field=app_version","list opened")
+      populateCount(".khabarapp_7", "http://simplestore.dipankar.co.in/api/analytics/count?app_id=in.peerreview.khabar&block=APP_PANE_OPENED_YOUTUBE","http://simplestore.dipankar.co.in/api/analytics/distribution?app_id=in.peerreview.khabar&type=launch&_field=app_version","open youtube")
+      
+
+      populateDistribution("Location #", 'topTenChart',
+        "http://simplestore.dipankar.co.in/api/analytics/distribution?app_id=in.peerreview.khabar&_field=tag&ts_insert=@today&_strategy=chartjs"
+      )
+      populateTimeSeries("Tag Hits", 'timelineChart', "http://simplestore.dipankar.co.in/api/analytics/ts_multi?app_id=in.peerreview.khabar&_strategy=chartjs", {"_payload":[{"type": "launch"},{"type": "exception"},{"block": "APP_PANE_OPENED_DETAILS"}]})
     }
 
 
@@ -169,7 +187,7 @@
     color: white;
   }
   .nav > p {    cursor: pointer}
-  .flex {    display: flex;}
+  .flex {    display: flex;flex-wrap: wrap;}
 
   #kpi {
     background: white;
@@ -235,6 +253,7 @@
         <p onclick="showTabs('ads')">AdNetWork</p>
         <p onclick="showTabs('experiments')">Experiments</p>
         <p onclick="showTabs('khabar')">Khabar Parser</p>
+        <p onclick="showTabs('khabarapp')">Khabar App</p>
         <p onclick=""><a
             href="http://simplestore.dipankar.co.in/api/analytics/delete?ts_insert=@3DaysOld&_confirmstr=analytics"
             target="_blanck">Clear Older Logs</a></p>
@@ -257,6 +276,17 @@
             <div class="itemBox khabar_2"></div>
             <div class="itemBox khabar_3"></div>
             <div class="itemBox khabar_4"></div>
+          </div>
+          <!-- Khabar -->
+          <div class="flex khabarapp">
+            <div class="itemBox khabarapp_1"></div>
+            <div class="itemBox khabarapp_2"></div>
+            <div class="itemBox khabarapp_3"></div>
+            <div class="itemBox khabarapp_4"></div>
+            <div class="itemBox khabarapp_5"></div>
+            <div class="itemBox khabarapp_6"></div>
+            <div class="itemBox khabarapp_7"></div>
+            <div class="itemBox khabarapp_8"></div>
           </div>
 
           <!-- ads-->
