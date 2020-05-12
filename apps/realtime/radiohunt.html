@@ -114,8 +114,9 @@
     }
 
     function showException() {
-      populateCount(".exception_1", "http://simplestore.dipankar.co.in/api/analytics/count?type=exception", "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&type=exception&_field=location"
-      )
+
+      populateCount(".exception_1", "http://simplestore.dipankar.co.in/api/analytics/count?type=exception", "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&type=exception&_field=location","exception")
+      populateCount(".exception_2", "http://simplestore.dipankar.co.in/api/analytics/count?type=exception&app_version=regex:95", "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&type=exception&_field=location&app_version=regex:95","CurrentVersion")
 
       populateDistribution("Location #", 'topTenChart',
         "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&type=exception&_strategy=chartjs&_field=location"
@@ -127,10 +128,10 @@
 
     function showAdsStat() {
       populateCount(".adds_1",
-        "http://simplestore.dipankar.co.in/api/analytics/count?tag=TELEMETRY_ADS_LOAD_ERROR&_field=errorCode", "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&tag=TELEMETRY_ADS_LOAD_ERROR&_field=errorCode"
+        "http://simplestore.dipankar.co.in/api/analytics/count?tag=TELEMETRY_ADS_LOAD_ERROR&_field=errorCode", "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&tag=TELEMETRY_ADS_LOAD_ERROR&_field=errorCode","TELEMETRY_ADS_LOAD_ERROR"
       )
       populateCount(".adds_2",
-        "http://simplestore.dipankar.co.in/api/analytics/count?tag=TELEMETRY_ADS_LOAD&_field=errorCode", "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&tag=TELEMETRY_ADS_LOAD_ERROR&_field=errorCode"
+        "http://simplestore.dipankar.co.in/api/analytics/count?tag=TELEMETRY_ADS_LOAD&_field=errorCode", "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&tag=TELEMETRY_ADS_LOAD_ERROR&_field=errorCode","TELEMETRY_ADS_LOAD"
       )
 
       populateDistribution("ads loads success #", 'topTenChart',
@@ -142,12 +143,11 @@
     }
 
     function showExperiments() {
-      populateCount(".experiments_1", "http://simplestore.dipankar.co.in/api/analytics/count?&type=exception", "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&type=exception&_field=location"
-      )
+      populateCount(".experiments_1", "http://simplestore.dipankar.co.in/api/analytics/count?tag=TELEMETRY_SHARE", "","TELEMETRY_SHARE")
+      populateCount(".experiments_2", "http://simplestore.dipankar.co.in/api/analytics/count?tag=TELEMETRY_SHARE", "","TELEMETRY_REPORT")
+      populateCount(".experiments_3", "http://simplestore.dipankar.co.in/api/analytics/count?tag=TELEMETRY_TIMER", "","TELEMETRY_TIMER")
 
-      populateDistribution('topTenChart',
-        "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&tag=regex:TELEMETRY_ADS_&_strategy=chartjs&_field=tag"
-      )
+      populateDistribution("Tag Distribution Today#", 'topTenChart',"http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&app_id=regex:radio&_field=tag&_strategy=chartjs")
       populateTimeSeries('timelineChart', "http://simplestore.dipankar.co.in/api/analytics/ts_multi", {
         "_payload": app_id_list
       })
@@ -155,9 +155,9 @@
 
 
     function showPlayStat() {
-      populateCount(".play_1", "http://simplestore.dipankar.co.in/api/analytics/count?tag=TELEMETRY_PLAYER_ERROR", "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&tag=TELEMETRY_PLAYER_ERROR&_field=url"
+      populateCount(".play_1", "http://simplestore.dipankar.co.in/api/analytics/count?tag=TELEMETRY_PLAYER_ERROR", "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&tag=TELEMETRY_PLAYER_ERROR&_field=url", "TELEMETRY_PLAYER_ERROR"
       )
-      populateCount(".play_2", "http://simplestore.dipankar.co.in/api/analytics/count?tag=TELEMETRY_PLAYER_SUCCESS", "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&tag=TELEMETRY_PLAYER_ERROR&_field=url"
+      populateCount(".play_2", "http://simplestore.dipankar.co.in/api/analytics/count?tag=TELEMETRY_PLAYER_SUCCESS", "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&tag=TELEMETRY_PLAYER_ERROR&_field=url","TELEMETRY_PLAYER_SUCCESS"
       )
       populateDistribution("Player try/Success/error #", 'topTenChart',
         "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&tag=regex:TELEMETRY_PLAYER_&_strategy=chartjs&_field=tag"
@@ -275,6 +275,7 @@
           <!-- Exception -->
           <div class="flex exception">
             <div class="itemBox exception_1"></div>
+            <div class="itemBox exception_2"></div>
           </div>
 
           <!-- Khabar -->
@@ -305,6 +306,10 @@
           <!-- experiments -->
           <div class="flex experiments">
             <div class="itemBox experiments_1"></div>
+            <div class="itemBox experiments_2"></div>
+            <div class="itemBox experiments_3"></div>
+            <div class="itemBox experiments_4"></div>
+            <div class="itemBox experiments_5"></div>
           </div>
 
           <!-- PlayStates-->
