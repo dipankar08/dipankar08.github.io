@@ -115,13 +115,13 @@
 
     function showException() {
 
-      populateCount(".exception_1", "http://simplestore.dipankar.co.in/api/analytics/count?type=exception", "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&type=exception&_field=location","exception")
-      populateCount(".exception_2", "http://simplestore.dipankar.co.in/api/analytics/count?type=exception&app_version=regex:95", "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&type=exception&_field=location&app_version=regex:95","CurrentVersion")
+      populateCount(".exception_1", "http://simplestore.dipankar.co.in/api/analytics/count?type=exception&app_id=regex:radio", "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&type=exception&_field=location&app_id=regex:radio","exception")
+      populateCount(".exception_2", "http://simplestore.dipankar.co.in/api/analytics/count?type=exception&app_version=regex:95&app_id=regex:radio", "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&type=exception&_field=location&app_version=regex:95&app_id=regex:radio","CurrentVersion")
 
       populateDistribution("Location #", 'topTenChart',
-        "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&type=exception&_strategy=chartjs&_field=location"
+        "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&type=exception&_strategy=chartjs&_field=location&app_id=regex:radio"
       )
-      populateTimeSeries("Exception Count", 'timelineChart', "http://simplestore.dipankar.co.in/api/analytics/ts_multi?type=exception", {
+      populateTimeSeries("Exception Count", 'timelineChart', "http://simplestore.dipankar.co.in/api/analytics/ts_multi?type=exception&app_id=regex:radio", {
         "_payload": app_id_list
       })
     }
