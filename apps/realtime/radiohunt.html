@@ -75,6 +75,7 @@
 
     function showLaunch() {
       populateCount(".launch_1", "http://simplestore.dipankar.co.in/api/analytics/count?&type=launch", "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&type=launch&_field=app_version", "Launch")
+      populateCount(".launch_2", "http://simplestore.dipankar.co.in/api/analytics/count?&block=regex:MainActivity", "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&block=regex:MainActivity&_field=app_version", "MainActivity")
 
       populateDistribution("Launch #", 'topTenChart',
         "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&type=launch&_field=app_version&_strategy=chartjs"
@@ -116,7 +117,7 @@
     function showException() {
 
       populateCount(".exception_1", "http://simplestore.dipankar.co.in/api/analytics/count?type=exception&app_id=regex:radio", "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&type=exception&_field=location&app_id=regex:radio","exception")
-      populateCount(".exception_2", "http://simplestore.dipankar.co.in/api/analytics/count?type=exception&app_version=regex:95&app_id=regex:radio", "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&type=exception&_field=location&app_version=regex:95&app_id=regex:radio","CurrentVersion")
+      populateCount(".exception_2", "http://simplestore.dipankar.co.in/api/analytics/count?type=exception&app_version=regex:95&app_id=regex:radio", "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&type=exception&_field=location&app_version=regex:97&app_id=regex:radio","CurrentVersion")
 
       populateDistribution("Location #", 'topTenChart',
         "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&type=exception&_strategy=chartjs&_field=location&app_id=regex:radio"
@@ -270,6 +271,8 @@
           <!-- launch-->
           <div class="flex launch">
             <div class="itemBox launch_1"></div>
+            <div class="itemBox launch_2"></div>
+            <div class="itemBox launch_3"></div>
           </div>
 
           <!-- Exception -->
