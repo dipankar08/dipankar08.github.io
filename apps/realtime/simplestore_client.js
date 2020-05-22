@@ -8,6 +8,7 @@ $(document).ready(function() {
 });
 
 function populateTimeSeries(title, id, remote_url, postData) {
+  $(`#${id}`).closest('.kpi').removeClass('hide');
   $.ajax({
     context: { item: id }, // this will help to set the context currently.
     url: remote_url,
@@ -69,6 +70,7 @@ var pieoptions = {
 };
 
 function populateDistribution(title, id, remote_url) {
+  $(`#${id}`).closest('.kpi').removeClass('hide');
   $.ajax({
     context: { item: id }, // this will help to set the context currently.
     url: remote_url,
@@ -109,6 +111,7 @@ function populateDistribution(title, id, remote_url) {
 }
 
 function populateCount(cls, url, more, title) {
+  $(cls).removeClass('hide');
   $(cls).html(`
   <p class="textBold">${title} </p>
   <p class="textBold text_l khabar_1"><span class="t"></span>/(<span class="y"></span>)</p>
@@ -120,7 +123,7 @@ function populateCount(cls, url, more, title) {
     url: url+'&ts_insert=@today',
     type: "GET",
     beforeSend: function() {
-      $(this.cls).html("Loading...");
+      $(this.cls).html("...");
     },
     success: function(data) {
       if (data.status == "success") {
@@ -145,7 +148,7 @@ function populateCount(cls, url, more, title) {
     url: url+'&ts_insert=@yesterday',
     type: "GET",
     beforeSend: function() {
-      $(this.cls).html("Loading...");
+      $(this.cls).html("...");
     },
     success: function(data) {
       if (data.status == "success") {
@@ -181,7 +184,7 @@ function loadItem(item) {
     beforeSend: function() {
       $(this.item)
         .removeClass("success error")
-        .html("Loading...");
+        .html("...");
     },
     success: function(data) {
       if (data.status == "success") {

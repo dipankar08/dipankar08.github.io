@@ -46,9 +46,11 @@
     ]
 
     function showTabs(tab) {
-      $('.tab_content > div').addClass('hide');
-      $('.' + tab).removeClass('hide');
+      $('.runcls').addClass('hide');
       switch (tab) {
+        case 'vital':
+          showVital();
+          break;
         case 'launch':
           showLaunch();
           break;
@@ -73,97 +75,118 @@
       }
     }
 
-    function showLaunch() {
-      populateCount(".launch_1", "http://simplestore.dipankar.co.in/api/analytics/count?&type=launch", "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&type=launch&_field=app_version", "Launch")
-      populateCount(".launch_2", "http://simplestore.dipankar.co.in/api/analytics/count?&block=regex:MainActivity", "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&block=regex:MainActivity&_field=app_version", "MainActivity")
+    function showVital() {
+      populateCount(".count_1", "http://simplestore.dipankar.co.in/api/analytics/count?&type=launch", "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&type=launch&_field=app_version", "Launch")
+      populateCount(".count_2", "http://simplestore.dipankar.co.in/api/analytics/count?&block=regex:MainActivity", "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&block=regex:MainActivity&_field=app_version", "MainActivity")
+      populateCount(".count_3", "http://simplestore.dipankar.co.in/api/analytics/count?&type=launch", "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&type=launch&_field=app_version", "Launch")
+      populateCount(".count_4", "http://simplestore.dipankar.co.in/api/analytics/count?type=exception&app_id=regex:radio", "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&type=exception&_field=location&app_id=regex:radio", "exception")
+     
+      populateTimeSeries("Launch #", 'timeline_1', "http://simplestore.dipankar.co.in/api/analytics/ts_multi?app_id=regex:radio", {
+        "_payload": [
+          {'tag':'TELEMETRY_PLAYER_TRY'},
+          {'tag':'TELEMETRY_PLAYER_SUCCESS'},
+          {'tag':'TELEMETRY_PLAYER_ERROR'},
+          {'tag':'TELEMETRY_ADS_LOAD_ERROR'},
+          {'tag':'TELEMETRY_ADS_LOAD'},
+          {'type':'exception'}]
+      })
+      populateTimeSeries("Launch #", 'timeline_2', "http://simplestore.dipankar.co.in/api/analytics/ts_multi?type=launch&app_id=regex:radio", {
+        "_payload": app_id_list
+      })
+    }
 
-      populateDistribution("Launch #", 'topTenChart',
+    function showLaunch() {
+      populateCount(".count_1", "http://simplestore.dipankar.co.in/api/analytics/count?&type=launch", "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&type=launch&_field=app_version", "Launch")
+      populateCount(".count_2", "http://simplestore.dipankar.co.in/api/analytics/count?&block=regex:MainActivity", "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&block=regex:MainActivity&_field=app_version", "MainActivity")
+
+      populateDistribution("Launch #", 'distribution_1',
         "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&type=launch&_field=app_version&_strategy=chartjs"
       )
-      populateTimeSeries("Launch #", 'timelineChart', "http://simplestore.dipankar.co.in/api/analytics/ts_multi?type=launch", {
+      populateTimeSeries("Launch #", 'timeline_1', "http://simplestore.dipankar.co.in/api/analytics/ts_multi?type=launch", {
         "_payload": app_id_list
       })
     }
     function showKhabarApp() {
-      populateCount(".khabarapp_1", "http://simplestore.dipankar.co.in/api/analytics/count?app_id=in.peerreview.khabar&tag=TELEMETRY_ADS_REQUEST", "http://simplestore.dipankar.co.in/api/analytics/distribution?app_id=in.peerreview.khabar&_field=tag", "TELEMETRY_ADS_REQUEST")
-      populateCount(".khabarapp_2", "http://simplestore.dipankar.co.in/api/analytics/count?app_id=in.peerreview.khabar&tag=TELEMETRY_ADS_LOAD", "http://simplestore.dipankar.co.in/api/analytics/distribution?app_id=in.peerreview.khabar&_field=tag", "TELEMETRY_ADS_LOAD")
-      populateCount(".khabarapp_3", "http://simplestore.dipankar.co.in/api/analytics/count?app_id=in.peerreview.khabar&type=exception", "http://simplestore.dipankar.co.in/api/analytics/distribution?app_id=in.peerreview.khabar&type=exception&_field=location", "exception")
-      populateCount(".khabarapp_4", "http://simplestore.dipankar.co.in/api/analytics/count?app_id=in.peerreview.khabar&type=launch", "http://simplestore.dipankar.co.in/api/analytics/distribution?app_id=in.peerreview.khabar&type=launch&_field=app_version", "launch")
-      populateCount(".khabarapp_5", "http://simplestore.dipankar.co.in/api/analytics/count?app_id=in.peerreview.khabar&block=APP_PANE_OPENED_DETAILS", "http://simplestore.dipankar.co.in/api/analytics/distribution?app_id=in.peerreview.khabar&type=launch&_field=app_version", "open story")
-      populateCount(".khabarapp_6", "http://simplestore.dipankar.co.in/api/analytics/count?app_id=in.peerreview.khabar&block=APP_PANE_OPENED_LIST", "http://simplestore.dipankar.co.in/api/analytics/distribution?app_id=in.peerreview.khabar&type=launch&_field=app_version", "list opened")
-      populateCount(".khabarapp_7", "http://simplestore.dipankar.co.in/api/analytics/count?app_id=in.peerreview.khabar&block=APP_PANE_OPENED_YOUTUBE", "http://simplestore.dipankar.co.in/api/analytics/distribution?app_id=in.peerreview.khabar&type=launch&_field=app_version", "open youtube")
+      populateCount(".count_1", "http://simplestore.dipankar.co.in/api/analytics/count?app_id=in.peerreview.khabar&tag=TELEMETRY_ADS_REQUEST", "http://simplestore.dipankar.co.in/api/analytics/distribution?app_id=in.peerreview.khabar&_field=tag", "TELEMETRY_ADS_REQUEST")
+      populateCount(".count_2", "http://simplestore.dipankar.co.in/api/analytics/count?app_id=in.peerreview.khabar&tag=TELEMETRY_ADS_LOAD", "http://simplestore.dipankar.co.in/api/analytics/distribution?app_id=in.peerreview.khabar&_field=tag", "TELEMETRY_ADS_LOAD")
+      populateCount(".count_3", "http://simplestore.dipankar.co.in/api/analytics/count?app_id=in.peerreview.khabar&type=exception", "http://simplestore.dipankar.co.in/api/analytics/distribution?app_id=in.peerreview.khabar&type=exception&_field=location", "exception")
+      populateCount(".count_3", "http://simplestore.dipankar.co.in/api/analytics/count?app_id=in.peerreview.khabar&type=launch", "http://simplestore.dipankar.co.in/api/analytics/distribution?app_id=in.peerreview.khabar&type=launch&_field=app_version", "launch")
+      populateCount(".count_5", "http://simplestore.dipankar.co.in/api/analytics/count?app_id=in.peerreview.khabar&block=APP_PANE_OPENED_DETAILS", "http://simplestore.dipankar.co.in/api/analytics/distribution?app_id=in.peerreview.khabar&type=launch&_field=app_version", "open story")
+      populateCount(".count_6", "http://simplestore.dipankar.co.in/api/analytics/count?app_id=in.peerreview.khabar&block=APP_PANE_OPENED_LIST", "http://simplestore.dipankar.co.in/api/analytics/distribution?app_id=in.peerreview.khabar&type=launch&_field=app_version", "list opened")
+      populateCount(".count_7", "http://simplestore.dipankar.co.in/api/analytics/count?app_id=in.peerreview.khabar&block=APP_PANE_OPENED_YOUTUBE", "http://simplestore.dipankar.co.in/api/analytics/distribution?app_id=in.peerreview.khabar&type=launch&_field=app_version", "open youtube")
 
 
-      populateDistribution("Location #", 'topTenChart',
+      populateDistribution("Location #", 'distribution_1',
         "http://simplestore.dipankar.co.in/api/analytics/distribution?app_id=in.peerreview.khabar&_field=tag&ts_insert=@today&_strategy=chartjs"
       )
-      populateTimeSeries("Tag Hits", 'timelineChart', "http://simplestore.dipankar.co.in/api/analytics/ts_multi?app_id=in.peerreview.khabar&_strategy=chartjs", { "_payload": [{ "type": "launch" }, { "type": "exception" }, { "block": "APP_PANE_OPENED_DETAILS" }] })
+      populateTimeSeries("Tag Hits", 'timeline_1', "http://simplestore.dipankar.co.in/api/analytics/ts_multi?app_id=in.peerreview.khabar&_strategy=chartjs", { "_payload": [{ "type": "launch" }, { "type": "exception" }, { "block": "APP_PANE_OPENED_DETAILS" }] })
     }
 
 
     function showKhabar() {
-      populateCount(".khabar_1", "http://simplestore.dipankar.co.in/api/khabar/count?", "http://simplestore.dipankar.co.in/api/khabar/distribution?_field=hostname&ts_insert=@today", "Insert Count")
-      populateCount(".khabar_2", "http://simplestore.dipankar.co.in/api/analytics/count?app_id=khabar&tag=corn_job_executed", "http://simplestore.dipankar.co.in/api/analytics/distribution?app_id=khabar&_field=for&tag=corn_job_executed", "Cron Execution")
-      populateCount(".khabar_3", "http://simplestore.dipankar.co.in/api/analytics/count?app_id=khabar&tag=invalid_list_selector", "http://simplestore.dipankar.co.in/api/analytics/distribution?app_id=khabar&_field=url:&tag=invalid_list_selector", "Invalid URL")
-      populateCount(".khabar_4", "http://simplestore.dipankar.co.in/api/analytics/count?app_id=khabar&type=exception", "http://simplestore.dipankar.co.in/api/analytics/distribution?app_id=khabar&_field=location&type=exception&ts_insert=@today", "Exceptions")
+      populateCount(".count_1", "http://simplestore.dipankar.co.in/api/khabar/count?", "http://simplestore.dipankar.co.in/api/khabar/distribution?_field=hostname&ts_insert=@today", "Insert Count")
+      populateCount(".count_2", "http://simplestore.dipankar.co.in/api/analytics/count?app_id=khabar&tag=corn_job_executed", "http://simplestore.dipankar.co.in/api/analytics/distribution?app_id=khabar&_field=for&tag=corn_job_executed", "Cron Execution")
+      populateCount(".count_3", "http://simplestore.dipankar.co.in/api/analytics/count?app_id=khabar&tag=invalid_list_selector", "http://simplestore.dipankar.co.in/api/analytics/distribution?app_id=khabar&_field=url:&tag=invalid_list_selector", "Invalid URL")
+      populateCount(".count_4", "http://simplestore.dipankar.co.in/api/analytics/count?app_id=khabar&type=exception", "http://simplestore.dipankar.co.in/api/analytics/distribution?app_id=khabar&_field=location&type=exception&ts_insert=@today", "Exceptions")
 
 
-      populateDistribution("Location #", 'topTenChart',
+      populateDistribution("Location #", 'distribution_1',
         "http://simplestore.dipankar.co.in/api/analytics/distribution?app_id=khabar&_field=tag&ts_insert=@today&_strategy=chartjs"
       )
-      populateTimeSeries("Tag Hits ", 'timelineChart', "http://simplestore.dipankar.co.in/api/khabar/ts_multi", { "_payload": [{ "link_type": "http" }, { "link_type": "youtube" }] })
+      populateTimeSeries("Tag Hits ", 'timeline_1', "http://simplestore.dipankar.co.in/api/khabar/ts_multi", { "_payload": [{ "link_type": "http" }, { "link_type": "youtube" }] })
+    
     }
 
     function showException() {
 
-      populateCount(".exception_1", "http://simplestore.dipankar.co.in/api/analytics/count?type=exception&app_id=regex:radio", "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&type=exception&_field=location&app_id=regex:radio","exception")
-      populateCount(".exception_2", "http://simplestore.dipankar.co.in/api/analytics/count?type=exception&app_version=regex:95&app_id=regex:radio", "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&type=exception&_field=location&app_version=regex:97&app_id=regex:radio","CurrentVersion")
+      populateCount(".count_1", "http://simplestore.dipankar.co.in/api/analytics/count?type=exception&app_id=regex:radio", "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&type=exception&_field=location&app_id=regex:radio", "exception")
+      populateCount(".count_2", "http://simplestore.dipankar.co.in/api/analytics/count?type=exception&app_version=regex:95&app_id=regex:radio", "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&type=exception&_field=location&app_version=regex:97&app_id=regex:radio", "CurrentVersion")
 
-      populateDistribution("Location #", 'topTenChart',
+      populateDistribution("Location #", 'distribution_1',
         "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&type=exception&_strategy=chartjs&_field=location&app_id=regex:radio"
       )
-      populateTimeSeries("Exception Count", 'timelineChart', "http://simplestore.dipankar.co.in/api/analytics/ts_multi?type=exception&app_id=regex:radio", {
+      populateTimeSeries("Exception Count", 'timeline_1', "http://simplestore.dipankar.co.in/api/analytics/ts_multi?type=exception&app_id=regex:radio", {
         "_payload": app_id_list
       })
     }
 
     function showAdsStat() {
-      populateCount(".adds_1",
-        "http://simplestore.dipankar.co.in/api/analytics/count?tag=TELEMETRY_ADS_LOAD_ERROR&_field=errorCode", "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&tag=TELEMETRY_ADS_LOAD_ERROR&_field=errorCode","TELEMETRY_ADS_LOAD_ERROR"
+      populateCount(".count_1",
+        "http://simplestore.dipankar.co.in/api/analytics/count?tag=TELEMETRY_ADS_LOAD_ERROR&_field=errorCode", "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&tag=TELEMETRY_ADS_LOAD_ERROR&_field=errorCode", "TELEMETRY_ADS_LOAD_ERROR"
       )
-      populateCount(".adds_2",
-        "http://simplestore.dipankar.co.in/api/analytics/count?tag=TELEMETRY_ADS_LOAD&_field=errorCode", "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&tag=TELEMETRY_ADS_LOAD_ERROR&_field=errorCode","TELEMETRY_ADS_LOAD"
+      populateCount(".count_2",
+        "http://simplestore.dipankar.co.in/api/analytics/count?tag=TELEMETRY_ADS_LOAD&_field=errorCode", "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&tag=TELEMETRY_ADS_LOAD_ERROR&_field=errorCode", "TELEMETRY_ADS_LOAD"
       )
 
-      populateDistribution("ads loads success #", 'topTenChart',
+      populateDistribution("ads loads success #", 'distribution_1',
         "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&tag=regex:TELEMETRY_ADS_LOAD&_strategy=chartjs&_field=tag"
       )
-      populateTimeSeries("ads loads success #", 'timelineChart', "http://simplestore.dipankar.co.in/api/analytics/ts_multi?tag=regex:TELEMETRY_ADS_LOAD", {
+      populateTimeSeries("ads loads success #", 'timeline_1', "http://simplestore.dipankar.co.in/api/analytics/ts_multi?tag=regex:TELEMETRY_ADS_LOAD", {
         "_payload": app_id_list
       })
     }
 
     function showExperiments() {
-      populateCount(".experiments_1", "http://simplestore.dipankar.co.in/api/analytics/count?tag=TELEMETRY_SHARE", "","TELEMETRY_SHARE")
-      populateCount(".experiments_2", "http://simplestore.dipankar.co.in/api/analytics/count?tag=TELEMETRY_SHARE", "","TELEMETRY_REPORT")
-      populateCount(".experiments_3", "http://simplestore.dipankar.co.in/api/analytics/count?tag=TELEMETRY_TIMER", "","TELEMETRY_TIMER")
+      populateCount(".count_1", "http://simplestore.dipankar.co.in/api/analytics/count?tag=TELEMETRY_SHARE", "", "TELEMETRY_SHARE")
+      populateCount(".count_2", "http://simplestore.dipankar.co.in/api/analytics/count?tag=TELEMETRY_SHARE", "", "TELEMETRY_REPORT")
+      populateCount(".count_3", "http://simplestore.dipankar.co.in/api/analytics/count?tag=TELEMETRY_TIMER", "", "TELEMETRY_TIMER")
 
-      populateDistribution("Tag Distribution Today#", 'topTenChart',"http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&app_id=regex:radio&_field=tag&_strategy=chartjs")
-      populateTimeSeries('timelineChart', "http://simplestore.dipankar.co.in/api/analytics/ts_multi", {
+      populateDistribution("Tag Distribution Today#", 'distribution_1', "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&app_id=regex:radio&_field=tag&_strategy=chartjs")
+      populateTimeSeries('timeline_1', "http://simplestore.dipankar.co.in/api/analytics/ts_multi", {
         "_payload": app_id_list
       })
     }
 
 
     function showPlayStat() {
-      populateCount(".play_1", "http://simplestore.dipankar.co.in/api/analytics/count?tag=TELEMETRY_PLAYER_ERROR", "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&tag=TELEMETRY_PLAYER_ERROR&_field=url", "TELEMETRY_PLAYER_ERROR"
+      populateCount(".count_1", "http://simplestore.dipankar.co.in/api/analytics/count?tag=TELEMETRY_PLAYER_ERROR", "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&tag=TELEMETRY_PLAYER_ERROR&_field=url", "TELEMETRY_PLAYER_ERROR"
       )
-      populateCount(".play_2", "http://simplestore.dipankar.co.in/api/analytics/count?tag=TELEMETRY_PLAYER_SUCCESS", "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&tag=TELEMETRY_PLAYER_ERROR&_field=url","TELEMETRY_PLAYER_SUCCESS"
+      populateCount(".count_2", "http://simplestore.dipankar.co.in/api/analytics/count?tag=TELEMETRY_PLAYER_SUCCESS", "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&tag=TELEMETRY_PLAYER_ERROR&_field=url", "TELEMETRY_PLAYER_SUCCESS"
       )
-      populateDistribution("Player try/Success/error #", 'topTenChart',
+      populateDistribution("Player try/Success/error #", 'distribution_1',
         "http://simplestore.dipankar.co.in/api/analytics/distribution?ts_insert=@today&tag=regex:TELEMETRY_PLAYER_&_strategy=chartjs&_field=tag"
       )
-      populateTimeSeries("Player Error #", 'timelineChart',
+      populateTimeSeries("Player Error #", 'timeline_1',
         "http://simplestore.dipankar.co.in/api/analytics/ts_multi?tag=TELEMETRY_PLAYER_ERROR", {
         "_payload": app_id_list
       })
@@ -197,7 +220,7 @@
     flex-wrap: wrap;
   }
 
-  #kpi {
+  .kpi {
     background: white;
     border-radius: 5px;
     margin: 20px;
@@ -255,6 +278,7 @@
   <div class="flex_col" style="width: 100%;height: 100%;">
     <div class="flex_row" style="justify-content: flex-start;">
       <div class="flex_col nav">
+        <p onclick="showTabs('vital')">Vital</p>
         <p onclick="showTabs('launch')">Launch</p>
         <p onclick="showTabs('play')">Play</p>
         <p onclick="showTabs('exception')">Exception</p>
@@ -267,72 +291,36 @@
             target="_blanck">Clear Older Logs</a></p>
       </div>
       <div class="flex_col" style="width: 100%;">
-        <div id="kpi_head" class="tab_content">
-          <!-- launch-->
-          <div class="flex launch">
-            <div class="itemBox launch_1"></div>
-            <div class="itemBox launch_2"></div>
-            <div class="itemBox launch_3"></div>
-          </div>
-
-          <!-- Exception -->
-          <div class="flex exception">
-            <div class="itemBox exception_1"></div>
-            <div class="itemBox exception_2"></div>
-          </div>
-
-          <!-- Khabar -->
-          <div class="flex khabar">
-            <div class="itemBox khabar_1"></div>
-            <div class="itemBox khabar_2"></div>
-            <div class="itemBox khabar_3"></div>
-            <div class="itemBox khabar_4"></div>
-          </div>
-          <!-- Khabar -->
-          <div class="flex khabarapp">
-            <div class="itemBox khabarapp_1"></div>
-            <div class="itemBox khabarapp_2"></div>
-            <div class="itemBox khabarapp_3"></div>
-            <div class="itemBox khabarapp_4"></div>
-            <div class="itemBox khabarapp_5"></div>
-            <div class="itemBox khabarapp_6"></div>
-            <div class="itemBox khabarapp_7"></div>
-            <div class="itemBox khabarapp_8"></div>
-          </div>
-
-          <!-- ads-->
-          <div class="flex ads">
-            <div class="itemBox adds_1"></div>
-            <div class="itemBox adds_2"></div>
-          </div>
-
-          <!-- experiments -->
-          <div class="flex experiments">
-            <div class="itemBox experiments_1"></div>
-            <div class="itemBox experiments_2"></div>
-            <div class="itemBox experiments_3"></div>
-            <div class="itemBox experiments_4"></div>
-            <div class="itemBox experiments_5"></div>
-          </div>
-
-          <!-- PlayStates-->
-          <div class="flex play">
-            <div class="itemBox play_1"></div>
-            <div class="itemBox play_2"></div>
+        <div class=" kpi_head tab_content">
+          <div class="flex">
+            <div class="itemBox runcls count_1"></div>
+            <div class="itemBox runcls count_2"></div>
+            <div class="itemBox runcls count_3"></div>
+            <div class="itemBox runcls count_4"></div>
+            <div class="itemBox runcls count_5"></div>
+            <div class="itemBox runcls count_6"></div>
+            <div class="itemBox runcls count_7"></div>
           </div>
         </div>
 
         <!-- Chart 1 -->
-        <div id="kpi">
+        <div class="kpi runcls">
           <div id="container">
-            <canvas id="topTenChart"></canvas>
+            <canvas id="distribution_1" class="runcls"></canvas>
           </div>
           <div id="topTenLegend" class="pieLegend"></div>
         </div>
         <!-- charts 2 -->
-        <div id="kpi">
+        <div class="kpi runcls">
           <div id="container">
-            <canvas id="timelineChart"></canvas>
+            <canvas id="timeline_1"></canvas>
+          </div>
+          <div id="timelineLegend" class="pieLegend"></div>
+        </div>
+        <!-- charts 3 -->
+        <div class="kpi runcls">
+          <div id="container">
+            <canvas id="timeline_2"></canvas>
           </div>
           <div id="timelineLegend" class="pieLegend"></div>
         </div>
