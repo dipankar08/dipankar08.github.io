@@ -1,4 +1,226 @@
 
+html {
+    height: 100%;
+    font-size: 10px
+}
+.hide {
+    display: none!important;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background: #fff;
+    min-height: 100%;
+    position: relative;
+    font-size: 1.9rem
+}
+
+h1,h2,h3,h4,h5 {
+    font-family: Roboto, 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    color: #2d353c;
+    line-height: 1.5;
+    font-weight: bold
+}
+
+h1 {
+    font-size: 3.2rem
+}
+
+h2 {
+    font-size: 2.8rem
+}
+
+h3 {
+    font-size: 2.4rem
+}
+
+h4 {
+    font-size: 2rem
+}
+
+p {
+    line-height: 1.6
+}
+
+body,button,input {
+    font-family: Roboto, 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    color: #4b555e;
+    line-height: 1.5;
+    font-weight: normal
+}
+
+code,pre {
+    font-family: 'Roboto Mono', Menlo, 'Ubuntu Mono', Monaco, Consolas, 'source-code-pro', monospace
+}
+
+p>code {
+    background: #f2f5f7;
+    border-radius: 3px;
+    padding: 3px
+}
+
+#footer-push {
+    height: 325px
+}
+
+ul {
+    padding: 0
+}
+
+
+.btn {
+    border-radius: 4px;
+    margin: 15px 0;
+    padding: 10px 20px;
+    min-width: 92px;
+    text-align: center;
+    position: relative;
+    font-size: 1.6rem
+}
+
+.btn+.btn,.btn+.demo-form {
+    margin-left: 15px
+}
+
+.btn,.btn:focus {
+    outline: none
+}
+
+.btn-primary {
+    color: #fff;
+    background: -webkit-gradient(linear, left top, left bottom, from(#26dbb8), to(#32ceaf));
+    background: linear-gradient(#26dbb8, #32ceaf)
+}
+
+.btn-secondary {
+    color: #fff;
+    background-color: #0073ff
+}
+
+.btn-secondary:hover {
+    background-color: #1a81ff
+}
+
+.btn-warning {
+    color: #fff;
+    background: -webkit-gradient(linear, left top, left bottom, from(#d31fe0), to(#be1cca));
+    background: linear-gradient(#d31fe0, #be1cca)
+}
+
+.btn-warning:active,.btn-warning:hover {
+    background-color: #d835e3
+}
+
+.btn-danger {
+    background-color: #e74c3c
+}
+
+.btn.disabled {
+    color: #2d353c
+}
+
+a.btn {
+    text-decoration: none
+}
+
+.clear {
+    clear: both
+}
+
+.clearfix {
+    *zoom:1}
+
+.clearfix:after,.clearfix:before {
+    display: table;
+    content: ''
+}
+
+.clearfix:after {
+    clear: both
+}
+
+.center-text {
+    text-align: center
+}
+
+.centered {
+    margin-left: auto;
+    margin-right: auto;
+    display: block
+}
+
+.right {
+    float: right
+}
+
+.PadBanner {
+    width: 100%;
+    height: 0;
+    line-height: 50px;
+    text-align: center;
+    overflow: hidden;
+    position: relative;
+    -webkit-transition: height 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    transition: height 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    background-color: #55a5dc;
+    background: -webkit-gradient(linear, left top, left bottom, from(#55a5dc), to(#3192d4));
+    background: linear-gradient(to bottom, #55a5dc, #3192d4);
+    vertical-align: middle;
+    margin: 0
+}
+
+.PadBanner--visible {
+    height: 50px
+}
+
+.PadBanner--warning {
+    background-color: #f1c40f;
+    background: -webkit-gradient(linear, left top, left bottom, from(#f1c40f), to(#eca00f));
+    background: linear-gradient(to bottom, #f1c40f, #eca00f)
+}
+
+.PadBanner-close {
+    position: absolute;
+    right: 10px;
+    color: white;
+    font-size: 0.9rem
+}
+
+.PadBanner-close,.PadBanner-close:hover,.PadBanner-close:active {
+    text-decoration: none
+}
+
+
+h1, h2, h3, h4, h5 {
+    font-family: Roboto, 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    color: #2d353c;
+    line-height: 1.5;
+    font-weight: bold;
+}
+a {
+    color: #428bca;
+    text-decoration: none;
+    background: transparent;
+}
+.btn {
+    border: none;
+    font-size: 15px;
+    font-weight: normal;
+    line-height: 1.4;
+    border-radius: 4px;
+    padding: 10px 15px;
+    -webkit-font-smoothing: subpixel-antialiased;
+    -webkit-transition: 0.25s linear;
+    transition: 0.25s linear;
+}
+.btn-primary {
+    color: #fff;
+    background: -webkit-gradient(linear, left top, left bottom, from(#26dbb8), to(#32ceaf));
+    background: linear-gradient(#26dbb8, #32ceaf);
+}
+
+
 body, button, input {
     font-family: 'Open Sans', sans-serif;
     font-family: 'Roboto', sans-serif;
@@ -154,8 +376,82 @@ button {
         }
     }
 }
-// OVERRIDE
+.full-overlay{
+    background: rgba(50,54,54,0.85);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 100;
+    text-align: center;
+    -webkit-transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -ms-flex-align: center;
+    align-items: center;
+    >div {
+        top: 50%;
+        left: 50%;
+        margin: 0;
+        min-width: 350px;
+    }
+    h3 {
+        color: #fff;
+        line-height: 1em;
+    }
+    p {
+        margin: 25px 0;
+        line-height: 1.2em;
+    }
+    #go {
+        vertical-align: bottom;
+        padding: 8px 14px;
+        height: 38px;
+        font-size: 1.6rem;
+        margin: 0 0 0 -5px;
+        border-bottom-left-radius: 0;
+        border-top-left-radius: 0;
+    }
+    #name-prompt {
+        font-size: 1.6rem;
+        line-height: 28px;
+        width: 170px;
+        text-align: left;
+        padding: 5px 20px;
+        color: #505050;
+        border: 0;
+        border-radius: 4px;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        outline: 0;
+    }
+}
 
+#welcome-modal {
+    .welcome-text {
+        width: 600px;
+        text-align: left;
+        li {
+            margin-bottom: 20px;
+            font-size: 18px;
+            line-height: 29px;
+        }
+    }
+    .button-wrapper {
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-pack: center;
+        justify-content: center;
+    }
+}
+
+// OVERRIDE
 .CodeMirror-gutters {
     border-right: transparent !important;
     background-color: transparent !important;
@@ -165,4 +461,5 @@ button {
     background: transparent !important;
 }
 .powered-by-firepad { display: none}
+
 
