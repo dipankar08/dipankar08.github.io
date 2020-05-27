@@ -1,65 +1,121 @@
-<!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Welcome to Firebase Hosting</title>
 
-    <!-- update the version number as needed -->
-    <script defer src="/__/firebase/7.14.5/firebase-app.js"></script>
-    <!-- include only the Firebase features as you need -->
-    <script defer src="/__/firebase/7.14.5/firebase-auth.js"></script>
-    <script defer src="/__/firebase/7.14.5/firebase-database.js"></script>
-    <script defer src="/__/firebase/7.14.5/firebase-messaging.js"></script>
-    <script defer src="/__/firebase/7.14.5/firebase-storage.js"></script>
-    <!-- initialize the SDK after all desired features are loaded -->
-    <script defer src="/__/firebase/init.js"></script>
+<head>
+    <title>CoderSheet | Beta</title>
 
-    <style media="screen">
-      body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
-      #message { background: white; max-width: 360px; margin: 100px auto 16px; padding: 32px 24px; border-radius: 3px; }
-      #message h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
-      #message h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px;}
-      #message p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
-      #message a { display: block; text-align: center; background: #039be5; text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 4px; }
-      #message, #message a { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
-      #load { color: rgba(0,0,0,0.4); text-align: center; font-size: 13px; }
-      @media (max-width: 600px) {
-        body, #message { margin-top: 0; background: white; box-shadow: none; }
-        body { border-top: 16px solid #ffa100; }
-      }
-    </style>
-  </head>
-  <body>
-    <div id="message">
-      <h2>Welcome</h2>
-      <h1>Firebase Hosting Setup Complete</h1>
-      <p>You're seeing this because you've successfully setup Firebase Hosting. Now it's time to go build something extraordinary!</p>
-      <a target="_blank" href="https://firebase.google.com/docs/hosting/">Open Hosting Documentation</a>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Roboto:ital,wght@0,100;0,300;0,400;1,100&display=swap"
+        rel="stylesheet">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="codersheet.js"></script>
+</head>
+
+<body class="contaier">
+    
+    <!--BANNER FOR NOTIFICATION-->
+    <div class="PadBanner PadBanner--visible">
+        <img class="DemoBanner-puppy"
+            src="https://d3r17w71knqutu.cloudfront.net/assets/puppy_banner-96a767e66c25a1ce4a265f7a29ce9dd1687d20080d1fb90e17c3353a0053cd58.png"><span>Try
+            CoderPad free for 7 days</span><a class="BannerButton" href="/register?plan_intent=5">Start Free
+            Trial</a><span class="DemoBanner-expiryWarning">(this demo expires in 2 minutes)</span><a href="#"
+            class="PadBanner-close fui-cross"></a>
     </div>
-    <p id="load">Firebase SDK Loading&hellip;</p>
 
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
-        // // The Firebase SDK is initialized and available here!
-        //
-        // firebase.auth().onAuthStateChanged(user => { });
-        // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
-        // firebase.messaging().requestPermission().then(() => { });
-        // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
-        //
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+    <div class="workplace">
+        <div class="codepane">
+            <div class="codepane_header">
+                <div class="left">
+                    <button class="Button Button--solid Button--enabled Button--darkBg Button--primary"
+                        data-original-title="" title="">Run <span
+                            class="fui-triangle-right-large RunButton-glyph"></span></button>
+                </div>
+                <div class="right">
+                    <button class="">Questions</button>
+                    <button class="">Info</button>
+                    <button class="">Palin Text</button>
+                </div>
+            </div>
+            <div class="editor" id="editor">
+                <div class="firepad" id="firepad">
+                    <div class="codemirror"></div>
+                </div>
+            </div>
+        </div>
+        <div class="resizer ui-draggable ui-draggable-handle" style="left: 62.2413%; top: 0px;"></div>
+        <div class="rightpane">
 
-        try {
-          let app = firebase.app();
-          let features = ['auth', 'database', 'messaging', 'storage'].filter(feature => typeof app[feature] === 'function');
-          document.getElementById('load').innerHTML = `Firebase SDK loaded with ${features.join(', ')}`;
-        } catch (e) {
-          console.error(e);
-          document.getElementById('load').innerHTML = 'Error loading the Firebase SDK, check the console.';
-        }
-      });
-    </script>
-  </body>
+        </div>
+    </div>
+    <div class="footer">
+        <div class="left">
+            <button class="CallButton-button pad-outline-button" data-original-title="" title="">Invite</button>
+            <button class="CallButton-button pad-outline-button" data-original-title="" title="">Start Call</button>
+            <div class="userList">
+
+            </div>
+        </div>
+        <div class="right">
+            <input class="TitlePrompt" title="" value="Untitled Pad - RQKMQQHK" style="width: 187.844px;"
+                data-original-title="Edit this pad’s (private) title">
+            <button class="settings-button pad-outline-button">Settings</button>
+            <button class="settings-button pad-outline-button">End Interview</button>
+        </div>
+    </div>
+
+    <!-- JOIN Models -->
+    <div id="join-modal" class="full-overlay hide">
+        <div>
+            <h3>Joining as a candidate?</h3>
+            <p>Let us know what your name is and <br>we'll get your interview started.</p><input id="name-prompt"
+                placeholder="Grace Hopper" autocomplete="name"><button id="go" class="btn btn-primary">Go!</button>
+            <p class="first-time">First time here? Read our <a href="/getting-started-candidates" target="_blank">quick
+                    guide</a>.</p>
+            <div class="terms"><a href="/tos" target="_blank">Terms of Service</a>·<a href="/privacy"
+                    target="_blank">Privacy Policy</a></div>
+        </div>
+    </div>
+
+    <!-- WELCOME -->
+    <div id="welcome-modal" class="full-overlay hide">
+        <div class="welcome-text maincol">
+            <h3>Welcome to your CoderPad interview!</h3>
+            <ul>
+                <li>At the top of the screen, the “Info” button lets you see what libraries and testing frameworks are
+                    available for the language you’re coding in.</li>
+                <li>In the bottom right, the “Settings” button lets you turn on Vim mode, auto-close brackets mode, and
+                    more.</li>
+                <li>If you want to speak with your interviewer and don’t already have a connection, use the “Start Call”
+                    button in the bottom left.</li>
+            </ul>
+            <div class="button-wrapper"><button class="btn btn-primary">Let’s Get Started!</button></div>
+        </div>
+    </div>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-database.js"></script>
+
+    <!-- CodeMirror -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/codemirror.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/codemirror.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/theme/monokai.css">
+    <script src="https://codemirror.net/mode/javascript/javascript.js"></script>
+    <script src="https://codemirror.net/mode/clike/clike.js"></script>
+    <script src="https://codemirror.net/addon/selection/active-line.js"></script>
+    <script src="https://codemirror.net//addon/edit/matchbrackets.js"></script>
+    <script src="https://codemirror.net/addon/edit/closebrackets.js"></script>
+    <script src="https://codemirror.net/addon/fold/foldcode.js"></script>
+    <script src="https://codemirror.net/addon/fold/brace-fold.js"></script>
+
+
+
+    <!-- Firepad -->
+    <link rel="stylesheet" href="https://firepad.io/releases/v1.5.9/firepad.css" />
+    <script src="https://firepad.io/releases/v1.5.9/firepad.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="codersheet.css">
+</body>
+
 </html>

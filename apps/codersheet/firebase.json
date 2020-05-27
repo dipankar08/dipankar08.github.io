@@ -13,14 +13,9 @@
       "**/.*",
       "**/node_modules/**"
     ],
-    "rewrites": [
-      {
-        "source": "**",
-        "destination": "/index.html"
-      },
-      {
-        "source":"/ts", "destination":"main"
-      }
-    ]
+    "rewrites": [{
+      "source": "**",
+      "function": "app"
+    }]
   }
 }

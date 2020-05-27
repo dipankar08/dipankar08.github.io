@@ -1,17 +1,49 @@
 var mCodeMirror; 
-$( function() {
-   var dg = $( ".resizer" ).draggable({
-        axis: "x",
-        drag: function( event, ui ) {
-            console.log(ui)
-            $('.codepane').width(ui.position.left - 5)
-            $('.rightpane').width(window.innerWidth - ui.position.left - 5)
-        }
-      });
+
+
+///////////////////// UI EVENTS /////////////////////////
+var EVENTS = {
+  // when load page
+  onLoad: function(){
+    var dg = $( ".resizer" ).draggable({
+      axis: "x",
+      drag: function( event, ui ) {
+          console.log(ui)
+          $('.codepane').width(ui.position.left - 5)
+          $('.rightpane').width(window.innerWidth - ui.position.left - 5)
+      }
+    });
     // Intiltial size
     $('.codepane').width(window.innerWidth - 400 - 5)
     $('.rightpane').width(400 - 5)
-    init();  
+    init(); 
+  },
+
+  onRun: function(){
+
+  },
+  onStartCall: function(){
+    console.log("event happens");
+  },
+  onInvite: function(){
+    console.log("event happens");
+  },
+  onInvite: function(){
+    console.log("event happens");
+  },
+  onInvite: function(){
+    console.log("event happens");
+  },
+  onJoin: function(){
+    console.log("event happens");
+  },
+  onStart: function(){
+    console.log("event happens");
+  },
+}
+
+$( function() {
+    EVENTS.onLoad() 
 });
 
 

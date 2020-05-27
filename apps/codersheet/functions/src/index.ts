@@ -4,7 +4,7 @@ import * as express from 'express';
 // // https://firebase.google.com/docs/functions/typescript
 //
 const app = express();
-app.get("/ts",(req, resp)=>{
-    resp.send(`${Date.now()}`)
-})
-export const main = functions.https.onRequest(app)
+app.get('/timestamp', (request, response) => {
+    response.send("Hello from Express on Firebase!")
+  })
+exports.app = functions.https.onRequest(app);
