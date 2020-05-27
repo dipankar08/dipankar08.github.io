@@ -52,31 +52,33 @@ button {
   transition: margin-top 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   display: -ms-flexbox;
   display: flex; }
-  .contaier .workplace .codepane .codepane_header {
-    font-size: 1.4rem;
-    position: relative;
-    z-index: 7;
-    height: 40px;
-    margin-left: 10px;
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-pack: justify;
-    justify-content: space-between;
-    background-size: calc(100% - 20px) 100%;
-    background-position: left center;
-    padding-top: 8px;
-    padding-bottom: 2px;
-    pointer-events: none;
-    background: -webkit-gradient(linear, left bottom, left top, from(rgba(29, 33, 38, 0)), to(rgba(29, 33, 38, 0.75))) no-repeat;
-    background: linear-gradient(to top, rgba(29, 33, 38, 0), rgba(29, 33, 38, 0.75)) no-repeat; }
-  .contaier .workplace .codepane .editor {
-    margin: 0;
-    padding: 0;
-    width: 54%;
-    height: 100%;
-    position: absolute;
-    z-index: 5;
-    top: 40px; }
+  .contaier .workplace .codepane {
+    position: relative; }
+    .contaier .workplace .codepane .codepane_header {
+      font-size: 1.4rem;
+      position: relative;
+      z-index: 7;
+      height: 40px;
+      margin-left: 10px;
+      display: -ms-flexbox;
+      display: flex;
+      -ms-flex-pack: justify;
+      justify-content: space-between;
+      background-size: calc(100% - 20px) 100%;
+      background-position: left center;
+      padding-top: 8px;
+      padding-bottom: 2px;
+      pointer-events: none;
+      background: -webkit-gradient(linear, left bottom, left top, from(rgba(29, 33, 38, 0)), to(rgba(29, 33, 38, 0.75))) no-repeat;
+      background: linear-gradient(to top, rgba(29, 33, 38, 0), rgba(29, 33, 38, 0.75)) no-repeat; }
+    .contaier .workplace .codepane .editor {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      z-index: 5;
+      top: 40px; }
   .contaier .workplace .resizer {
     position: absolute;
     z-index: 2;

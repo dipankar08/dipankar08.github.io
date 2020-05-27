@@ -1,6 +1,6 @@
 var mCodeMirror; 
 $( function() {
-    $( ".resizer" ).draggable({
+   var dg = $( ".resizer" ).draggable({
         axis: "x",
         drag: function( event, ui ) {
             console.log(ui)
@@ -32,10 +32,16 @@ $( function() {
     //// Create CodeMirror (with lineWrapping on).
     var codeMirror = CodeMirror(document.getElementById('firepad'), { 
         lineNumbers: true,
-        mode: 'javascript'
+        mode: 'javascript',
+        matchBrackets:true,
+        styleActiveLine:true,             
+        lineNumbers: true,
+        foldGutter:true,
+        autoCloseBrackets:true,
+        foldCode:true,
     });
     mCodeMirror = codeMirror
-    codeMirror.setOption("theme", "solarized dark");
+    codeMirror.setOption("theme", "monokai");
 
     //// Create Firepad (with rich text toolbar and shortcuts enabled).
     var firepad = Firepad.fromCodeMirror(firepadRef, codeMirror);
