@@ -176,6 +176,20 @@
                         Started!</button></div>
             </div>
         </div>
+        <!-- LOADING-->
+        <div id="loading" class="full-overlay" v-bind:class="{hide: activeModel != 'loading'}">
+            <div class="welcome-text maincol">
+                <p> Loading the page</p>
+            </div>
+        </div>
+
+        <!-- ERROR-->
+        <div id="error" class="full-overlay" v-bind:class="{hide: activeModel != 'error'}">
+            <div class="welcome-text maincol">
+                <p>{{error_msg}}</p>
+            </div>
+        </div>
+
     </div>
 </body>
 <!-- JQuery -->
