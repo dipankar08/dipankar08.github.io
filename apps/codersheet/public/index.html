@@ -9,7 +9,7 @@
 
 </head>
 
-<body class="contaier">    
+<body class="contaier">
     <div id="app" class="w-full h-full">
         <!--BANNER FOR NOTIFICATION-->
         <div class="PadBanner PadBanner--visible" v-bind:class="{hide: activeModel != 'welcome'}">
@@ -27,12 +27,17 @@
                 <!--- CODE PANE -->
                 <div class="codepane">
                     <div class="codepane_header">
-                        <div class="left">
-                            <button> Run </button>
-                            <button class="">Palin Text</button>
+                        <div class="left LanguageSelector">
+                            <button v-on:click="runProgram"> Run </button>
+                            <button v-on:click="activeDropDown = 'lang'">Palin Text</button>
+                            <ul class="dropdown-menu dropdown-inverse" v-bind:class="{open: activeDropDown == 'lang'}">
+                                <li v-for="la in language">
+                                    <a href="#" v-on:click="cur_lang=c">la</a>
+                                </li>
+                            </ul>
                         </div>
                         <div class="right">
-                            
+
                         </div>
                     </div>
                     <div class="editor" id="editor">
@@ -43,8 +48,8 @@
                 </div>
 
                 <div class="draw">
-                
-        
+
+
                 </div>
 
                 <div class="call">
@@ -55,14 +60,15 @@
             <!-- RIGHT PANE-->
             <div class="rightpane">
                 <div class="tabs flex">
-                    <button class="btn_tiny"  v-on:click="activePane = 'output'"><i class="fa fa-code "></i> Output</button>
+                    <button class="btn_tiny" v-on:click="activePane = 'output'"><i class="fa fa-code "></i>
+                        Output</button>
                     <button class="btn_tiny" v-on:click="activePane = 'note'"><i class="fa fa-lock"></i>Notes</button>
                     <button class="btn_tiny" v-on:click="activePane = 'chat'"><i class="fa fa-comment"></i>chat</button>
                 </div>
                 <div class="tab_contains">
                     <div class="output" v-bind:class="{hide: activePane != 'output'}">
                         <p v-bind:class="{hide: output != null}">**OUTPUT</p>
-                        <textarea v-bind:class="{hide: output == null}" v-model="output"></textarea>
+                        <pre v-html="output"></pre>
                     </div>
                     <div class="note" v-bind:class="{hide: activePane != 'note'}">
                         <p v-bind:class="{hide: note != null}">** Notes</p>
@@ -72,9 +78,9 @@
                         <p v-bind:class="{hide: chat.length == 0}">**CHAT</p>
                         <ul>
                             <li v-for="c in chat">
-                                  <span>[{{c.time}}]</span>
-                                  <span>{{c.name}}:</span>
-                                  <span>{{c.msg}}</span>
+                                <span>[{{c.time}}]</span>
+                                <span>{{c.name}}:</span>
+                                <span>{{c.msg}}</span>
                             </li>
                         </ul>
                         <input class="msg" placeholder="Type something">
@@ -86,21 +92,25 @@
         <!-- FOOTER BAR-->
         <div class="footer">
             <div class="left">
-                <button class="btn_tiny"  v-on:click="activeLeftPane = 'code'"><i class="fa fa-code "></i> Code</button>
-                <button class="btn_tiny"   v-on:click="activeLeftPane = 'draw'"><i class="fa fa-paint-brush "></i>Draw</button>
-                <button class="btn_tiny"   v-on:click="activeLeftPane = 'call'"><i class="fa fa-phone "></i>Call</button>
-                <button class="btn_tiny" v-on:click="activeModel = 'setting'"> <i class="fa fa-cog"></i> Settings</button>
-                <button class="btn_tiny" v-on:click="activeModel = 'invite'"> <i class="fa fa-envelope"></i> invite</button>
-                <ul class="userList">
-                    <li v-for="u in users">
-                          <span :textColor="u.color">*</span>
-                          <span>{{u.name}}:</span>
-                    </li>
-                </ul>
-        
+                <button class="btn_tiny" v-on:click="activeLeftPane = 'code'"><i class="fa fa-code "></i> Code</button>
+                <button class="btn_tiny" v-on:click="activeLeftPane = 'draw'"><i
+                        class="fa fa-paint-brush "></i>Draw</button>
+                <button class="btn_tiny" v-on:click="activeLeftPane = 'call'"><i class="fa fa-phone "></i>Call</button>
+                <button class="btn_tiny" v-on:click="activeModel = 'setting'"> <i class="fa fa-cog"></i>
+                    Settings</button>
+                <button class="btn_tiny" v-on:click="activeModel = 'invite'"> <i class="fa fa-envelope"></i>
+                    invite</button>
+                <span class="userList hide">
+                    <span v-for="u in users">
+                        <span :textColor="u.color">*</span>
+                        <span>{{u.name}}:</span>
+                    </span>
+                </span>
+
             </div>
             <div class="right">
-                <button class="btn_tiny" style="color: red;" v-on:click="activeModel = 'invite'"> <i class="fa fa-chevron-right"></i> End</button>
+                <button class="btn_tiny" style="color: red;" v-on:click="activeModel = 'invite'"> <i
+                        class="fa fa-chevron-right"></i> End</button>
             </div>
         </div>
 
@@ -108,9 +118,11 @@
         <div id="join-modal" class="full-overlay" v-bind:class="{hide: currentUser !=  null}">
             <div>
                 <h3>Joining as a candidate?</h3>
-                <p>Let us know what your name is and <br>we'll get your interview started.</p><input v-model="name" id="name-prompt"
-                    placeholder="Grace Hopper" autocomplete="name"><button id="go" class="btn btn-primary" v-on:click="setName()">Go!</button>
-                <p class="first-time">First time here? Read our <a href="/getting-started-candidates" target="_blank">quick
+                <p>Let us know what your name is and <br>we'll get your interview started.</p><input v-model="name"
+                    id="name-prompt" placeholder="Grace Hopper" autocomplete="name"><button id="go"
+                    class="btn btn-primary" v-on:click="setName()">Go!</button>
+                <p class="first-time">First time here? Read our <a href="/getting-started-candidates"
+                        target="_blank">quick
                         guide</a>.</p>
                 <div class="terms"><a href="/tos" target="_blank">Terms of Service</a>·<a href="/privacy"
                         target="_blank">Privacy Policy</a></div>
@@ -122,14 +134,18 @@
             <div class="welcome-text maincol">
                 <h3>Welcome to your CoderPad interview!</h3>
                 <ul>
-                    <li>At the top of the screen, the “Info” button lets you see what libraries and testing frameworks are
+                    <li>At the top of the screen, the “Info” button lets you see what libraries and testing frameworks
+                        are
                         available for the language you’re coding in.</li>
-                    <li>In the bottom right, the “Settings” button lets you turn on Vim mode, auto-close brackets mode, and
+                    <li>In the bottom right, the “Settings” button lets you turn on Vim mode, auto-close brackets mode,
+                        and
                         more.</li>
-                    <li>If you want to speak with your interviewer and don’t already have a connection, use the “Start Call”
+                    <li>If you want to speak with your interviewer and don’t already have a connection, use the “Start
+                        Call”
                         button in the bottom left.</li>
                 </ul>
-                <div class="button-wrapper"><button v-on:click="activeModel=null" class="btn btn-primary">Let’s Get Started!</button></div>
+                <div class="button-wrapper"><button v-on:click="activeModel=null" class="btn btn-primary">Let’s Get
+                        Started!</button></div>
             </div>
         </div>
 
@@ -138,46 +154,52 @@
             <div class="welcome-text maincol">
                 <h3>Welcome to your CoderPad interview!</h3>
                 <ul>
-                    <li>At the top of the screen, the “Info” button lets you see what libraries and testing frameworks are
+                    <li>At the top of the screen, the “Info” button lets you see what libraries and testing frameworks
+                        are
                         available for the language you’re coding in.</li>
-                    <li>In the bottom right, the “Settings” button lets you turn on Vim mode, auto-close brackets mode, and
+                    <li>In the bottom right, the “Settings” button lets you turn on Vim mode, auto-close brackets mode,
+                        and
                         more.</li>
-                    <li>If you want to speak with your interviewer and don’t already have a connection, use the “Start Call”
+                    <li>If you want to speak with your interviewer and don’t already have a connection, use the “Start
+                        Call”
                         button in the bottom left.</li>
                 </ul>
-                <div class="button-wrapper"><button v-on:click="activeModel=null" class="btn btn-primary">Let’s Get Started!</button></div>
+                <div class="button-wrapper"><button v-on:click="activeModel=null" class="btn btn-primary">Let’s Get
+                        Started!</button></div>
             </div>
         </div>
     </div>
 </body>
-    <!-- JQuery -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<!-- JQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 
-    <!-- Firebase -->
-    <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-database.js"></script>
-    <!-- CodeMirror -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/codemirror.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/codemirror.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/theme/monokai.css">
-    <script src="https://codemirror.net/mode/javascript/javascript.js"></script>
-    <script src="https://codemirror.net/mode/clike/clike.js"></script>
-    <script src="https://codemirror.net/addon/selection/active-line.js"></script>
-    <script src="https://codemirror.net//addon/edit/matchbrackets.js"></script>
-    <script src="https://codemirror.net/addon/edit/closebrackets.js"></script>
-    <script src="https://codemirror.net/addon/fold/foldcode.js"></script>
-    <script src="https://codemirror.net/addon/fold/brace-fold.js"></script>
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-database.js"></script>
+<!-- CodeMirror -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/codemirror.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/codemirror.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/theme/monokai.css">
+<script src="https://codemirror.net/mode/javascript/javascript.js"></script>
+<script src="https://codemirror.net/mode/clike/clike.js"></script>
+<script src="https://codemirror.net/addon/selection/active-line.js"></script>
+<script src="https://codemirror.net//addon/edit/matchbrackets.js"></script>
+<script src="https://codemirror.net/addon/edit/closebrackets.js"></script>
+<script src="https://codemirror.net/addon/fold/foldcode.js"></script>
+<script src="https://codemirror.net/addon/fold/brace-fold.js"></script>
 
-    <!-- Firepad -->
-    <link rel="stylesheet" href="https://firepad.io/releases/v1.5.9/firepad.css" />
-    <script src="https://firepad.io/releases/v1.5.9/firepad.min.js"></script>
+<!-- Firepad -->
+<link rel="stylesheet" href="https://firepad.io/releases/v1.5.9/firepad.css" />
+<script src="https://firepad.io/releases/v1.5.9/firepad.min.js"></script>
 
-    <link rel="stylesheet" type="text/css" href="codersheet.css">
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<link rel="stylesheet" type="text/css" href="codersheet.css">
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
-     <!-- reference your copy Font Awesome here (from our CDN or by hosting yourself) -->
-     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+<!-- reference your copy Font Awesome here (from our CDN or by hosting yourself) -->
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+    integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 
-    <script src="codersheet.js"></script>
+<script src="codersheet.js"></script>
+
 </html>

@@ -345,6 +345,9 @@ button {
                 margin: 4px;
                 background: #22282e;
             }
+            .tab_contains {
+                padding: 4px 20px;
+            }
         }
     }
     .footer{
@@ -476,4 +479,51 @@ button {
     i {
         margin-right: 4px;
     }
+}
+
+.dropdown-menu {
+    background-color: #f3f4f5;
+    border: none;
+    display: block;
+    margin-top: 8px;
+    opacity: 0;
+    padding: 0;
+    visibility: hidden;
+    width: 100%;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    -webkit-transition: 0.25s;
+    transition: 0.25s;
+    background-color: #2d353c;
+    color: #fff;
+    min-height: 180px;
+    border-radius: 5px;
+    padding: 10px;
+    &.open {
+        margin-top: 18px !important;
+    opacity: 1;
+    visibility: visible;
+    display: block;
+    }
+    li {
+        cursor: pointer;
+        float: left;
+        height: auto;
+        width: 150px;
+        padding: 1px;
+        text-align: left;
+        margin: 0;
+        list-style: none;
+        text-align: center;
+        padding: 10px 5px;
+    }
+}
+
+.LanguageSelector .dropdown-menu {
+    padding: 4px;
+    height: auto;
+    display: flex;
+    flex-wrap: wrap;
+    z-index: 1;
+    width: 320px;
 }

@@ -7,6 +7,20 @@ var vm = new Vue({
     // UI info
     activeModel : null, // join, welcome
     activeNotification:  null, //{"title:"}
+    activeDropDown:null, //lang
+
+    // statc
+    language: [
+      {'lang':'c', name:'C',sample:"#inclde","mode":'text/x-csrc'},
+      {'lang':'cpp', name:'C++',sample:"#inclde","mode":'text/x-c++src'},
+      {'lang':'py', name:'Python',sample:"print 'hello'","mode":'text/x-python'},
+      {'lang':'java', name:'Java',sample:"print 'hello'","mode":"text/x-java"},
+
+    
+
+    ],
+    cur_lang:'c',
+    cur_code:'',
 
     // session info
     name:"",
@@ -16,10 +30,9 @@ var vm = new Vue({
     users:[{
       "color":"#ff0000",
       "name":"Dipankar"
-    }, {
-      "color":"#ff0000",
-      "name":"Dipankar"
     }],
+
+    // boolean vlaue
 
     
 
@@ -39,10 +52,29 @@ var vm = new Vue({
   methods: {
     setName() {
       this.currentUser = {'color':'#fffff', name:name}
+    },
+    runProgram(){
+      vm.activePane='output'
+      vm.output = 'executing....'
+      $.ajax("http://simplestore.dipankar.co.in/api/utils/rce", {
+        data : JSON.stringify({ lang: this.cur_lang, code: mCodeMirror.getValue() }),
+        contentType : 'application/json',
+        type : 'POST',
+        success:function( data ) {
+          vm.output = data.msg
+        }
+      })
     }
   },
   computed: {
   
+  },
+  watch: {
+    cur_lang: function (val) {
+      var xx = this.language.filter(x=>x.lang == val)[0]
+      mCodeMirror.setValue(xx.sample)
+      mCodeMirror.setOption("mode",xx.mode)
+    },
   }
 })
 

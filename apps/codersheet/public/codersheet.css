@@ -293,6 +293,8 @@ button {
       display: flex;
       margin: 4px;
       background: #22282e; }
+    .contaier .workplace .rightpane .tab_contains {
+      padding: 4px 20px; }
 .contaier .footer {
   background: #22282e;
   -webkit-box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
@@ -405,5 +407,48 @@ button {
   min-width: auto; }
   .btn_tiny i {
     margin-right: 4px; }
+
+.dropdown-menu {
+  background-color: #f3f4f5;
+  border: none;
+  display: block;
+  margin-top: 8px;
+  opacity: 0;
+  padding: 0;
+  visibility: hidden;
+  width: 100%;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  -webkit-transition: 0.25s;
+  transition: 0.25s;
+  background-color: #2d353c;
+  color: #fff;
+  min-height: 180px;
+  border-radius: 5px;
+  padding: 10px; }
+  .dropdown-menu.open {
+    margin-top: 18px !important;
+    opacity: 1;
+    visibility: visible;
+    display: block; }
+  .dropdown-menu li {
+    cursor: pointer;
+    float: left;
+    height: auto;
+    width: 150px;
+    padding: 1px;
+    text-align: left;
+    margin: 0;
+    list-style: none;
+    text-align: center;
+    padding: 10px 5px; }
+
+.LanguageSelector .dropdown-menu {
+  padding: 4px;
+  height: auto;
+  display: flex;
+  flex-wrap: wrap;
+  z-index: 1;
+  width: 320px; }
 
 /*# sourceMappingURL=codersheet.css.map */
