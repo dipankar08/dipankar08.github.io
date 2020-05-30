@@ -447,8 +447,34 @@ button {
   padding: 4px;
   height: auto;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   z-index: 1;
   width: 320px; }
+
+.form {
+  display: flex;
+  width: 100%;
+  flex-flow: wrap;
+  height: 100%; }
+  .form p {
+    width: 100%;
+    margin: 0;
+    margin-top: 20px; }
+    .form p.half {
+      width: calc(50% - 10px);
+      margin-right: 5px; }
+  .form input, .form textarea, .form button, .form select {
+    border: solid  1px #22282e;
+    background-color: transparent;
+    padding: 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.9);
+    width: 100%;
+    outline: none; }
+  .form button {
+    border-color: #2dc759;
+    background-color: #2dc759;
+    margin: 0; }
 
 /*# sourceMappingURL=codersheet.css.map */

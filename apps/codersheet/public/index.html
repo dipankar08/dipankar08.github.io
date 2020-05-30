@@ -71,8 +71,16 @@
                         <pre v-html="output"></pre>
                     </div>
                     <div class="note" v-bind:class="{hide: activePane != 'note'}">
-                        <p v-bind:class="{hide: note != null}">** Notes</p>
-                        <textarea v-bind:class="{hide: note == null}" v-model="note"></textarea>
+                        <div class="form">
+                            <p><span>Summary</span></p>
+                            <p><textarea class ="summary" v-model="note.summary"></textarea></p>
+                            <p><span>Details</span></p>
+                            <p><textarea class ="details" v-model="note.details"></textarea></p>
+                            <p><span>Decision</span></p>
+                            <p class="half"><textarea class ="decission" v-model="note.decission"></textarea></p>
+                            <p class="half"><textarea class ="confidence" v-model="note.confidence"></textarea></p>
+                            <p><button class ="submit" v-on:click="submitNote">Submit</button></p>
+                        </div>
                     </div>
                     <div class="chat" v-bind:class="{hide: activePane != 'chat'}">
                         <p v-bind:class="{hide: chat.length == 0}">**CHAT</p>

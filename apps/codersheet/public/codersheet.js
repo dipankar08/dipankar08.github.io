@@ -47,7 +47,7 @@ var vm = new Vue({
     activePane:"none",
     chat:[], // vm.chat.push({"time":"1:00","name":"dipankar","msg":"How Are you doing?"})
     output:null,
-    note:null
+    note: {'summary':'', 'details':'', 'decisision':'', confidence:''}
   },
   methods: {
     setName() {
@@ -64,6 +64,9 @@ var vm = new Vue({
           vm.output = data.msg
         }
       })
+    },
+    submitNote(){
+
     }
   },
   computed: {
