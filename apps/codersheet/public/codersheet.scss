@@ -277,7 +277,7 @@ button {
         transition: margin-top 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         display: -ms-flexbox;
         display: flex;
-        .codepane{
+        .leftpane{
             position: relative;
             .codepane_header{
                 font-size: 1.4rem;
@@ -339,6 +339,12 @@ button {
             bottom: 0;
             color: inherit;
             overflow: hidden;
+            .tabs{
+                justify-content: space-evenly;
+                display: flex;
+                margin: 4px;
+                background: #22282e;
+            }
         }
     }
     .footer{
@@ -461,5 +467,13 @@ button {
     background: transparent !important;
 }
 .powered-by-firepad { display: none}
-
-
+.btn_tiny{
+    border: 0;
+    padding: 0;
+    margin: 10px;
+    width: auto;
+    min-width: auto;
+    i {
+        margin-right: 4px;
+    }
+}

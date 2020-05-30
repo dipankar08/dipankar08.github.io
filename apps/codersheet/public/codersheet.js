@@ -1,5 +1,50 @@
 var mCodeMirror; 
 
+/////////////// Uisng Vue ///////////////
+var vm = new Vue({
+  el: '#app',
+  data:  {
+    // UI info
+    activeModel : null, // join, welcome
+    activeNotification:  null, //{"title:"}
+
+    // session info
+    name:"",
+    currentUser:"AA ", // {name, color}
+    mPadId:"",
+    message: 'Hello Vue!',
+    users:[{
+      "color":"#ff0000",
+      "name":"Dipankar"
+    }, {
+      "color":"#ff0000",
+      "name":"Dipankar"
+    }],
+
+    
+
+  
+    // left pane.
+    activeLeftPane:"code",
+    code:"",
+    draw:[],
+    call:null,
+
+    // right pane.
+    activePane:"none",
+    chat:[], // vm.chat.push({"time":"1:00","name":"dipankar","msg":"How Are you doing?"})
+    output:null,
+    note:null
+  },
+  methods: {
+    setName() {
+      this.currentUser = {'color':'#fffff', name:name}
+    }
+  },
+  computed: {
+  
+  }
+})
 
 ///////////////////// UI EVENTS /////////////////////////
 var EVENTS = {
@@ -99,6 +144,6 @@ $( function() {
     if (typeof console !== 'undefined') {
       console.log('Firebase data: ', ref.toString());
     }
-    console.log(`ID: ${ref.key}`)
+    vm.mPadId = ref.key
     return ref;
   }
