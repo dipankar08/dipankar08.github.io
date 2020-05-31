@@ -29,7 +29,7 @@ var app = new Vue({
     cur_code:'',
 
     // session info
-    name:"",
+    username:"",
     currentUser:"AA ", // {name, color}
     mPadId:"",
     message: 'Hello Vue!',
@@ -55,10 +55,6 @@ var app = new Vue({
     note: {'summary':'', 'details':'', 'decisision':'', confidence:''}
   },
   methods: {
-    setName() {
-      this.currentUser = {'color':'#fffff', name:name}
-    },
-
     loadPage(){
       var hash = window.location.hash.replace(/#/g, '');
       if(!hash){
@@ -118,10 +114,22 @@ var app = new Vue({
       app.codeMirror.setValue(xx.sample)
       app.codeMirror.setOption("mode",xx.mode)
     },
+    'username':function(val){
+      $.cookie('username',val)
+      this.currentUser = {'color':'#fffff', name:username}
+    }
+  },
+  created(){
+    console.log("created")
+    // put all login in initUI
   }
 })
 
 function initUI(){
+  this.username = $.cookie('username')
+  if(!this.username){
+    app.activeModel = 'join'
+  }
   var dg = $( ".resizer" ).draggable({
     axis: "x",
     drag: function( event, ui ) {

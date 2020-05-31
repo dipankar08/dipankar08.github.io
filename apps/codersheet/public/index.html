@@ -123,12 +123,12 @@
         </div>
 
         <!-- JOIN Models -->
-        <div id="join-modal" class="full-overlay" v-bind:class="{hide: currentUser !=  null}">
+        <div id="join-modal" class="full-overlay" v-bind:class="{hide: activeModel !=  'join'}">
             <div>
                 <h3>Joining as a candidate?</h3>
-                <p>Let us know what your name is and <br>we'll get your interview started.</p><input v-model="name"
+                <p>Let us know what your name is and <br>we'll get your interview started.</p><input v-model="username"
                     id="name-prompt" placeholder="Grace Hopper" autocomplete="name"><button id="go"
-                    class="btn btn-primary" v-on:click="setName()">Go!</button>
+                    class="btn btn-primary" v-on:click="activeModel = null">Go!</button>
                 <p class="first-time">First time here? Read our <a href="/getting-started-candidates"
                         target="_blank">quick
                         guide</a>.</p>
@@ -177,14 +177,14 @@
             </div>
         </div>
         <!-- LOADING-->
-        <div id="loading" class="full-overlay" v-bind:class="{hide: activeModel != 'loading'}">
+        <div id="loading" style="z-index: 100;" class="full-overlay" v-bind:class="{hide: activeModel != 'loading'}">
             <div class="welcome-text maincol">
                 <p> Loading the page</p>
             </div>
         </div>
 
         <!-- ERROR-->
-        <div id="error" class="full-overlay" v-bind:class="{hide: activeModel != 'error'}">
+        <div id="error" class="full-overlay hide" v-bind:class="{hide: activeModel != 'error'}">
             <div class="welcome-text maincol">
                 <p>{{error_msg}}</p>
             </div>
@@ -195,6 +195,8 @@
 <!-- JQuery -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
 
 <!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-app.js"></script>
