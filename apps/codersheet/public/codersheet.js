@@ -10,22 +10,40 @@ var app = new Vue({
 
     //IDs
     codersheet_id:null,
-    chat_db_ref:null,
+   
     code_db_ref:null,
+
+    // chat
+    chat_db_ref:null,
+    chat_box_input:"",
+    chat_live_count: 0,
 
     // common string:
     error_msg:"",
-    
 
     // editor:
     codeMirror:null,
-    language: [
-      {'lang':'c', name:'C',sample:"#inclde","mode":'text/x-csrc'},
-      {'lang':'cpp', name:'C++',sample:"#inclde","mode":'text/x-c++src'},
-      {'lang':'py', name:'Python',sample:"print 'hello'","mode":'text/x-python'},
-      {'lang':'java', name:'Java',sample:"print 'hello'","mode":"text/x-java"},
+    code_language: [
+      {'lang':'c', name:'C',sample:`#include <stdio.h>
+      int main(){
+        printf("Hello, World!");
+        return 0;
+      }`,"mode":'text/x-csrc'},
+      {'lang':'cpp', name:'C++',sample:`#include <iostream>
+      using namespace std;
+      int main(){
+        cout << "Hello World" << endl; 
+        return 0;
+      }`,"mode":'text/x-c++src'},
+      {'lang':'python', name:'Python',sample:"print 'hello'","mode":'text/x-python'},
+      {'lang':'java', name:'Java',sample:`public class HelloWorld{
+
+        public static void main(String []args){
+           System.out.println("Hello World");
+        }
+   }`,"mode":"text/x-java"},
     ],
-    cur_lang:'c',
+    code_language_selected:'c',
     cur_code:'',
 
     // session info
@@ -50,11 +68,20 @@ var app = new Vue({
 
     // right pane.
     activePane:"none",
-    chat:[], // app.chat.push({"time":"1:00","name":"dipankar","msg":"How Are you doing?"})
+    chat:[
+      {is_me:true, msg:"How Are you doing?"},
+      {is_me:false,msg:"How Are you doing?"},
+    ], // app.chat.push()
     output:null,
     note: {'summary':'', 'details':'', 'decisision':'', confidence:''}
   },
   methods: {
+    chat_box_submit(keyEvent) {
+      if(keyEvent.key == 'Enter'){
+        app.chat_db_ref.push().setValue({is_me:true, msg:app.chat_box_input})
+      }
+    },
+
     loadPage(){
       var hash = window.location.hash.replace(/#/g, '');
       if(!hash){
@@ -90,10 +117,11 @@ var app = new Vue({
     },
 
     runProgram(){
+      console.log("Trying to run...")
       app.activePane='output'
       app.output = 'executing....'
       $.ajax("http://simplestore.dipankar.co.in/api/utils/rce", {
-        data : JSON.stringify({ lang: this.cur_lang, code: app.codeMirror.getValue() }),
+        data : JSON.stringify({ lang: this.code_language_selected, code: app.codeMirror.getValue() }),
         contentType : 'application/json',
         type : 'POST',
         success:function( data ) {
@@ -109,8 +137,8 @@ var app = new Vue({
   
   },
   watch: {
-    cur_lang: function (val) {
-      var xx = this.language.filter(x=>x.lang == val)[0]
+    code_language_selected: function (val) {
+      var xx = this.code_language.filter(x=>x.lang == val)[0]
       app.codeMirror.setValue(xx.sample)
       app.codeMirror.setOption("mode",xx.mode)
     },
@@ -184,8 +212,12 @@ function initFirebase() {
   function createDbRef() {
     if(!verifyOrError(app.codersheet_id != null, "Something Went Wrong"))return;
     var ref = firebase.database().ref();
-    app.chat_db_ref= ref.child(app.codersheet_id).child('chat')
     app.code_db_ref= ref.child(app.codersheet_id).child('code')
+
+    app.chat_db_ref= ref.child(app.codersheet_id).child('chat')
+    app.chat_db_ref.on("child_added", function(snapshot) {
+      console.log(snapshot.key);
+    });
   }
 
   function verifyOrError(cond, msg){

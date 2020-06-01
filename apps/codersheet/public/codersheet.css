@@ -41,6 +41,7 @@ body, button, input {
   font-weight: normal; }
 
 code, pre {
+  white-space: pre-wrap;
   font-family: "Roboto Mono", Menlo, "Ubuntu Mono", Monaco, Consolas, "source-code-pro", monospace; }
 
 p > code {
@@ -54,47 +55,40 @@ p > code {
 ul {
   padding: 0; }
 
-.btn {
-  border-radius: 4px;
-  margin: 15px 0;
-  padding: 10px 20px;
-  min-width: 92px;
-  text-align: center;
-  position: relative;
-  font-size: 1.6rem; }
+/*
 
-.btn + .btn, .btn + .demo-form {
-  margin-left: 15px; }
+.btn+.btn,.btn+.demo-form {
+    margin-left: 15px
+}
 
-.btn, .btn:focus {
-  outline: none; }
+.btn,.btn:focus {
+    
+}
 
 .btn-primary {
-  color: #fff;
-  background: -webkit-gradient(linear, left top, left bottom, from(#26dbb8), to(#32ceaf));
-  background: linear-gradient(#26dbb8, #32ceaf); }
+    
+}
 
-.btn-secondary {
-  color: #fff;
-  background-color: #0073ff; }
+.btn-
 
-.btn-secondary:hover {
-  background-color: #1a81ff; }
+.btn-secondary
 
 .btn-warning {
-  color: #fff;
-  background: -webkit-gradient(linear, left top, left bottom, from(#d31fe0), to(#be1cca));
-  background: linear-gradient(#d31fe0, #be1cca); }
+    color: #fff;
+    background: -webkit-gradient(linear, left top, left bottom, from(#d31fe0), to(#be1cca));
+    background: linear-gradient(#d31fe0, #be1cca)
+}
 
-.btn-warning:active, .btn-warning:hover {
-  background-color: #d835e3; }
+.btn-warning:active,.btn-warning:hover {
+    background-color: #d835e3
+}
 
 .btn-danger {
-  background-color: #e74c3c; }
+    background-color: #e74c3c
+}
 
-.btn.disabled {
-  color: #2d353c; }
-
+.btn
+*/
 a.btn {
   text-decoration: none; }
 
@@ -165,22 +159,6 @@ a {
   text-decoration: none;
   background: transparent; }
 
-.btn {
-  border: none;
-  font-size: 15px;
-  font-weight: normal;
-  line-height: 1.4;
-  border-radius: 4px;
-  padding: 10px 15px;
-  -webkit-font-smoothing: subpixel-antialiased;
-  -webkit-transition: 0.25s linear;
-  transition: 0.25s linear; }
-
-.btn-primary {
-  color: #fff;
-  background: -webkit-gradient(linear, left top, left bottom, from(#26dbb8), to(#32ceaf));
-  background: linear-gradient(#26dbb8, #32ceaf); }
-
 body, button, input {
   font-family: 'Open Sans', sans-serif;
   font-family: 'Roboto', sans-serif;
@@ -237,31 +215,38 @@ button {
   display: flex; }
   .contaier .workplace .leftpane {
     position: relative; }
-    .contaier .workplace .leftpane .codepane_header {
-      font-size: 1.4rem;
-      position: relative;
-      z-index: 7;
-      height: 40px;
-      margin-left: 10px;
-      display: -ms-flexbox;
-      display: flex;
-      -ms-flex-pack: justify;
-      justify-content: space-between;
-      background-size: calc(100% - 20px) 100%;
-      background-position: left center;
-      padding-top: 8px;
-      padding-bottom: 2px;
-      pointer-events: none;
-      background: -webkit-gradient(linear, left bottom, left top, from(rgba(29, 33, 38, 0)), to(rgba(29, 33, 38, 0.75))) no-repeat;
-      background: linear-gradient(to top, rgba(29, 33, 38, 0), rgba(29, 33, 38, 0.75)) no-repeat; }
-    .contaier .workplace .leftpane .editor {
-      margin: 0;
-      padding: 0;
-      width: 100%;
+    .contaier .workplace .leftpane .codepane {
+      width: 690px;
       height: 100%;
-      position: absolute;
-      z-index: 5;
-      top: 40px; }
+      position: absolute; }
+      .contaier .workplace .leftpane .codepane .codepane_header {
+        font-size: 1.4rem;
+        position: relative;
+        z-index: 7;
+        height: 40px;
+        margin-left: 10px;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+        background-size: calc(100% - 20px) 100%;
+        background-position: left center;
+        padding-top: 8px;
+        padding-bottom: 2px;
+        background: -webkit-gradient(linear, left bottom, left top, from(rgba(29, 33, 38, 0)), to(rgba(29, 33, 38, 0.75))) no-repeat;
+        background: linear-gradient(to top, rgba(29, 33, 38, 0), rgba(29, 33, 38, 0.75)) no-repeat; }
+      .contaier .workplace .leftpane .codepane .editor {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        z-index: 5;
+        top: 60px; }
+    .contaier .workplace .leftpane .draw {
+      display: none; }
+    .contaier .workplace .leftpane .call {
+      display: none; }
   .contaier .workplace .resizer {
     position: absolute;
     z-index: 2;
@@ -287,6 +272,8 @@ button {
     top: 0;
     bottom: 0;
     color: inherit;
+    display: flex;
+    flex-direction: column;
     overflow: hidden; }
     .contaier .workplace .rightpane .tabs {
       justify-content: space-evenly;
@@ -294,7 +281,29 @@ button {
       margin: 4px;
       background: #22282e; }
     .contaier .workplace .rightpane .tab_contains {
-      padding: 4px 20px; }
+      padding: 4px 20px;
+      padding: 4px 20px;
+      align-items: stretch;
+      flex: 1; }
+      .contaier .workplace .rightpane .tab_contains > div {
+        height: 100%;
+        display: flex;
+        flex-direction: column; }
+      .contaier .workplace .rightpane .tab_contains .chat ul {
+        align-content: stretch;
+        flex: 1; }
+        .contaier .workplace .rightpane .tab_contains .chat ul li {
+          display: flex; }
+        .contaier .workplace .rightpane .tab_contains .chat ul span {
+          padding: 15px 10px;
+          background: #22282e;
+          border-radius: 5px;
+          margin-bottom: 15px;
+          margin-left: 30px;
+          width: 100%; }
+          .contaier .workplace .rightpane .tab_contains .chat ul span.is_me {
+            margin-right: 30px;
+            margin-left: 0px; }
 .contaier .footer {
   background: #22282e;
   -webkit-box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
@@ -337,8 +346,7 @@ button {
   transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
-  display: -ms-flexbox;
-  display: flex;
+  display: none;
   -ms-flex-pack: center;
   justify-content: center;
   -ms-flex-align: center;
@@ -399,15 +407,6 @@ button {
 .powered-by-firepad {
   display: none; }
 
-.btn_tiny {
-  border: 0;
-  padding: 0;
-  margin: 10px;
-  width: auto;
-  min-width: auto; }
-  .btn_tiny i {
-    margin-right: 4px; }
-
 .dropdown-menu {
   background-color: #f3f4f5;
   border: none;
@@ -451,6 +450,55 @@ button {
   z-index: 1;
   width: 320px; }
 
+input, textarea, button, select {
+  border: solid  1px #22282e;
+  background-color: transparent;
+  padding: 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.9);
+  width: 100%;
+  outline: none; }
+
+button {
+  cursor: pointer; }
+  button:hover {
+    background: rgab(0, 0, 0); }
+  button i {
+    margin-right: 4px;
+    margin-left: 4px; }
+  button.btn_tiny {
+    border: 0;
+    padding: 10px;
+    width: auto;
+    min-width: auto; }
+  button.btn {
+    outline: none;
+    border-radius: 4px;
+    padding: 8px 10px;
+    text-align: center;
+    position: relative;
+    font-size: 1.6rem;
+    color: #fff;
+    background: -webkit-gradient(linear, left top, left bottom, from(#26dbb8), to(#32ceaf));
+    background: linear-gradient(#26dbb8, #32ceaf);
+    -webkit-font-smoothing: subpixel-antialiased;
+    -webkit-transition: 0.25s linear;
+    transition: 0.25s linear;
+    width: auto; }
+    button.btn.full {
+      min-width: 92px; }
+    button.btn.secondary {
+      color: #fff;
+      background-color: #0073ff; }
+    button.btn:hover {
+      background-color: #1a81ff; }
+    button.btn.disabled {
+      color: #2d353c; }
+
+li, ul {
+  list-style: none; }
+
 .form {
   display: flex;
   width: 100%;
@@ -463,18 +511,27 @@ button {
     .form p.half {
       width: calc(50% - 10px);
       margin-right: 5px; }
-  .form input, .form textarea, .form button, .form select {
-    border: solid  1px #22282e;
-    background-color: transparent;
-    padding: 8px;
-    border-radius: 4px;
-    font-size: 12px;
-    color: rgba(255, 255, 255, 0.9);
-    width: 100%;
-    outline: none; }
   .form button {
     border-color: #2dc759;
     background-color: #2dc759;
     margin: 0; }
+
+.row_layout {
+  display: flex;
+  flex-direction: row; }
+
+.col_layout {
+  display: flex;
+  flex-direction: column; }
+
+.show {
+  display: flex !important; }
+
+/* OVRERIDE */
+.run_btn {
+  padding: 5px 0px !important; }
+
+.tabs button.active {
+  background-color: #1d2126; }
 
 /*# sourceMappingURL=codersheet.css.map */
