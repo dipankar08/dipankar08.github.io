@@ -7,13 +7,19 @@ var app = new Vue({
     activeModel : 'loading', //loading,setting,join,welcome
     activeNotification:  null, //{"title:"}
     activeDropDown:null, //lang
+    notification:null, // app.notification = {type:'error', msg:'wrong'}
+  
 
     //IDs
     codersheet_id:null,
    
     code_db_ref:null,
 
+    // rtc
+    rtc_ref:null,
+
     // chat
+    chat_sound:null,
     chat_db_ref:null,
     chat_box_input:"",
     chat_live_count: 0,
@@ -121,7 +127,8 @@ var app = new Vue({
 
     processBoot(){
         initUI();
-        initFirebase()
+        initFirebase();
+        initRTC()
     },
 
     runProgram(){
@@ -152,13 +159,42 @@ var app = new Vue({
     },
     'username':function(val){
       $.cookie('username',val)
-      this.currentUser = {'color':'#fffff', name:username}
-    }
+      this.currentUser = {'color':'#fffff', name:app.username}
+    },
+    'chat_sound':function(val){
+      if(val == null){
+        return;
+      }
+      url = "audio/msg.mp3"
+      switch(val){
+        case 'connect':
+          url = "audio/msg.mp3"
+          break
+        case 'disconnect':
+          url = "audio/msg.mp3"
+          break
+        case 'self_msg':
+          url = "audio/msg.mp3"
+            break
+        case 'peer_msg':
+          url = "audio/msg.mp3"
+          break
+      }
+      if(url.length > 0){
+        var audio = new Audio(url);
+        audio.play();
+      }
+    },
   },
   created(){
     console.log("created")
+    window.onbeforeunload = function(){
+      app.rtc_ref.executeCommand('hangup')
+      return "handle your events or msgs here";
+    }
     // put all login in initUI
   }
+
 })
 
 function initUI(){
@@ -179,6 +215,17 @@ function initUI(){
   $('.rightpane').width(400 - 5)
 }
 
+function initRTC(){
+  const domain = 'meet.jit.si';
+  const options = {
+    roomName: app.codersheet_id,
+    width: 700,
+    height: 700,
+    parentNode: document.querySelector('#meet')
+  };
+  app.rtc_ref = new JitsiMeetExternalAPI(domain, options);
+  //app.rtc_ref.addEventListener()
+}
 function initFirebase() {
     //// Initialize Firebase.
     //// TODO: replace with your Firebase project configuration.
@@ -227,6 +274,11 @@ function initFirebase() {
       console.log(snapshot.key);
       snapshot.val().is_me = snapshot.val().name == app.username
       app.chat_history.push(snapshot.val())
+      $(".chat ul").scrollTop(100000)
+      if(!snapshot.val().is_me ){
+        app.chat_sound="msg2"
+        app.chat_sound=null
+      }
     });
   }
 

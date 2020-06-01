@@ -11,32 +11,22 @@
 
 <body class="contaier">
     <div id="app" class="w-full h-full">
-        <!--BANNER FOR NOTIFICATION-->
-        <div class="PadBanner PadBanner--visible" v-bind:class="{hide: activeModel != 'welcome'}">
-            <img class="DemoBanner-puppy"
-                src="https://d3r17w71knqutu.cloudfront.net/assets/puppy_banner-96a767e66c25a1ce4a265f7a29ce9dd1687d20080d1fb90e17c3353a0053cd58.png"><span>Try
-                CoderPad free for 7 days</span><a class="BannerButton" href="/register?plan_intent=5">Start Free
-                Trial</a><span class="DemoBanner-expiryWarning">(this demo expires in 2 minutes)</span><a href="#"
-                class="PadBanner-close fui-cross"></a>
-        </div>
-
         <!--  WORKPLACE-->
         <div class="workplace">
             <!-- LEFT PANE-->
             <div class="leftpane">
                 <!--- CODE PANE -->
                 <div class="codepane">
-                    <div class="codepane_header row_layout">
-                        <div class="left LanguageSelector row_layout">
+                    <div class="codepane_header layout_row">
+                        <div class="left LanguageSelector layout_row">
                             <button class="run_btn btn" v-on:click="runProgram"> Run <i class="fa fa-play"></i></button>
-                            <select  v-model="code_language_selected">
+                            <select v-model="code_language_selected">
                                 <option>Choose languages</option>
-                                <option v-for="option in code_language" v-bind:value="option.lang" >{{ option.name }}</option>
+                                <option v-for="option in code_language" v-bind:value="option.lang">{{ option.name }}
+                                </option>
                             </select>
                         </div>
-                        <div class="right">
-
-                        </div>
+                        <div class="right"></div>
                     </div>
                     <div class="editor" id="editor">
                         <div class="firepad" id="firepad">
@@ -44,50 +34,46 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="draw">
-
-
-                </div>
-
-                <div class="call">
-
-                </div>
+ 
+                <div class="draw"></div>
             </div>
             <div class="resizer ui-draggable ui-draggable-handle" style="left: 62.2413%; top: 0px;"></div>
             <!-- RIGHT PANE-->
             <div class="rightpane">
                 <div class="tabs flex">
-                    <button class="btn_tiny" v-bind:class="{active: activePane == 'output'}" v-on:click="activePane = 'output'"><i class="fa fa-code "></i>
+                    <button class="btn_tiny" v-bind:class="{active: activePane == 'output'}"
+                        v-on:click="activePane = 'output'"><i class="fa fa-code "></i>
                         Output</button>
-                    <button class="btn_tiny" v-bind:class="{active: activePane == 'note'}" v-on:click="activePane = 'note'"><i class="fa fa-lock"></i>Notes</button>
-                    <button class="btn_tiny" v-bind:class="{active: activePane == 'chat'}" v-on:click="activePane = 'chat'"><i class="fa fa-comment"></i>chat</button>
+                    <button class="btn_tiny" v-bind:class="{active: activePane == 'note'}"
+                        v-on:click="activePane = 'note'"><i class="fa fa-lock"></i>Notes</button>
+                    <button class="btn_tiny" v-bind:class="{active: activePane == 'chat'}"
+                        v-on:click="activePane = 'chat'"><i class="fa fa-comment"></i>chat</button>
                 </div>
                 <div class="tab_contains">
                     <div class="output" v-bind:class="{hide: activePane != 'output'}">
                         <p v-bind:class="{hide: output != null}">**OUTPUT</p>
                         <pre v-html="output"></pre>
                     </div>
-                    <div class="note" v-bind:class="{hide: activePane != 'note'}">
-                        <div class="form">
-                            <p><span>Summary</span></p>
-                            <p><textarea class="summary" v-model="note.summary"></textarea></p>
+                    <div class="note layout_col" v-bind:class="{hide: activePane != 'note'}">
+                            <p class="layout_wrap"><span>Summary</span></p>
+                             <textarea class="layout_fill" v-model="note.summary"></textarea>
                             <p><span>Details</span></p>
-                            <p><textarea class="details" v-model="note.details"></textarea></p>
+                            <textarea class="layout_fill" v-model="note.details"></textarea></p>
                             <p><span>Decision</span></p>
-                            <p class="half"><textarea class="decission" v-model="note.decission"></textarea></p>
-                            <p class="half"><textarea class="confidence" v-model="note.confidence"></textarea></p>
-                            <p><button class="submit" v-on:click="submitNote">Submit</button></p>
-                        </div>
+                            <div class="layout_row">
+                                <textarea class="decission" v-model="note.decission"></textarea>
+                                <textarea class="decission" v-model="note.decission"></textarea>
+                            </div>
+                            <button class="submit btn full" v-on:click="submitNote">Submit</button>
                     </div>
-                    <div class="chat" v-bind:class="{hide: activePane != 'chat'}">
-                        <p v-bind:class="{hide: chat_history.length == 0}">**CHAT</p>
-                        <ul>
-                            <li v-for="c in chat_history" v-bind:class="{is_me: c.is_me}">      
+                    <div class="chat layout_col" v-bind:class="{hide: activePane != 'chat'}">
+                        <ul class="layout_fill layout_col">
+                            <li v-for="c in chat_history" v-bind:class="{is_me: c.is_me}">
                                 <span v-bind:class="{is_me: c.is_me}"><span>{{c.name}}:</span>{{c.msg}}</span>
                             </li>
                         </ul>
-                        <input class="msg" placeholder="Type something" v-model="chat_box_input" v-on:keydown="chat_box_submit">
+                        <input class="chat_input layout_wrap" placeholder="Type something" v-model="chat_box_input"
+                            v-on:keydown="chat_box_submit">
                     </div>
                 </div>
             </div>
@@ -100,7 +86,7 @@
                 <button class="btn_tiny" v-on:click="activeLeftPane = 'code'"><i class="fa fa-code "></i> Code</button>
                 <button class="btn_tiny" v-on:click="activeLeftPane = 'draw'"><i
                         class="fa fa-paint-brush "></i>Draw</button>
-                <button class="btn_tiny" v-on:click="activeLeftPane = 'call'"><i class="fa fa-phone "></i>Call</button>
+                <button class="btn_tiny" v-on:click="activeModel = 'rtc'"><i class="fa fa-phone "></i>Call</button>
                 <button class="btn_tiny" v-on:click="activeModel = 'setting'"> <i class="fa fa-cog"></i>
                     Settings</button>
                 <button class="btn_tiny" v-on:click="activeModel = 'invite'"> <i class="fa fa-envelope"></i>
@@ -153,6 +139,10 @@
                         Started!</button></div>
             </div>
         </div>
+        <!-- RTC -->
+        <div id="welcome-modal" class="full-overlay" v-bind:class="{show: activeModel == 'rtc'}">
+            <div id="meet"></div>
+        </div>
 
         <!-- SETTINGS-->
         <div id="setting-modal" class="full-overlay" v-bind:class="{show: activeModel == 'setting'}">
@@ -174,6 +164,28 @@
             </div>
         </div>
 
+        <!-- INVITE-->
+        <div class="full-overlay invite" v-bind:class="{show: activeModel == 'invite'}" v-on:click="activeModel=null" >
+            <div class="container">
+            <h4 class="header">Send Email Invite</h4>
+            <p>We’ll email the recipient directly with a link from CoderPad, so you don’t have to give away your email
+                address.</p>
+            <form class="layout_row">
+                <input class="layout_fill" name="email"
+                    placeholder="Recipient’s email address" value="" data-original-title="" title="">
+                <button class="layout_wrap btn attached" disabled="">Send</button></form>
+            <div class="separator">or</div>
+            <h4 class="header">Phone-Friendly Temporary Link</h4>
+            <p>Read this <strong>temporary</strong> shortlink out loud to invite someone to this pad. It only lasts an
+                hour!</p>
+            <div class="link"><span>https://</span>cpad.io/1158</div>
+            <div class="separator">or</div>
+            <h4 class="header">Permanent Link</h4>
+            <p>If you need a permanent link to email for a future interview, use this <strong>full URL</strong>.</p>
+            <div class="link"><span>https://</span>coderpad.io/CCEPHQTN</div><span
+                class="caret"></span>
+            </div>
+        </div>
         <!-- LOADING-->
         <div id="loading" style="z-index: 100;" class="full-overlay" v-bind:class="{show: activeModel == 'loading'}">
             <div class="welcome-text maincol">
@@ -187,7 +199,12 @@
                 <p>{{error_msg}}</p>
             </div>
         </div>
-
+        <!-- NOTIFICATION-->
+        <div class="notification" v-bind:class="{show: notification != null}" v-bind:class="{notification.type}"
+            v-if="notification != null">
+            <h5>{{notification.msg}}</h5>
+            <span class="close btn" v-on:click="notification=null"><i class="fa fa-close"></i></button>
+        </div>
     </div>
 </body>
 <!-- JQuery -->
@@ -215,8 +232,14 @@
 <link rel="stylesheet" href="https://firepad.io/releases/v1.5.9/firepad.css" />
 <script src="https://firepad.io/releases/v1.5.9/firepad.min.js"></script>
 
+<!-- RTC-->
+<script src='https://meet.jit.si/external_api.js'></script>
+
 <link rel="stylesheet" type="text/css" href="codersheet.css">
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
 
 <!-- reference your copy Font Awesome here (from our CDN or by hosting yourself) -->
 <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
