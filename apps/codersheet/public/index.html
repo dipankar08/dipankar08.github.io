@@ -81,10 +81,10 @@
                         </div>
                     </div>
                     <div class="chat" v-bind:class="{hide: activePane != 'chat'}">
-                        <p v-bind:class="{hide: chat.length == 0}">**CHAT</p>
+                        <p v-bind:class="{hide: chat_history.length == 0}">**CHAT</p>
                         <ul>
-                            <li v-for="c in chat">      
-                                <span v-bind:class="{is_me: c.is_me}">{{c.msg}}</span>
+                            <li v-for="c in chat_history" v-bind:class="{is_me: c.is_me}">      
+                                <span v-bind:class="{is_me: c.is_me}"><span>{{c.name}}:</span>{{c.msg}}</span>
                             </li>
                         </ul>
                         <input class="msg" placeholder="Type something" v-model="chat_box_input" v-on:keydown="chat_box_submit">

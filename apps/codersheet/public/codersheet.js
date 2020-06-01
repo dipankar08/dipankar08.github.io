@@ -17,6 +17,10 @@ var app = new Vue({
     chat_db_ref:null,
     chat_box_input:"",
     chat_live_count: 0,
+    chat_history:[
+      {is_me:true, msg:"How Are you doing?"},
+      {is_me:false,msg:"How Are you doing?"},
+    ], // app.chat.push()
 
     // common string:
     error_msg:"",
@@ -68,17 +72,21 @@ var app = new Vue({
 
     // right pane.
     activePane:"none",
-    chat:[
-      {is_me:true, msg:"How Are you doing?"},
-      {is_me:false,msg:"How Are you doing?"},
-    ], // app.chat.push()
+    
     output:null,
     note: {'summary':'', 'details':'', 'decisision':'', confidence:''}
   },
   methods: {
     chat_box_submit(keyEvent) {
       if(keyEvent.key == 'Enter'){
-        app.chat_db_ref.push().setValue({is_me:true, msg:app.chat_box_input})
+        if(!verifyOrError(app.username.trim().length > 0,"Please set the username")){
+          return;
+        }
+        app.chat_db_ref.push().set({
+          name:app.username,
+          msg:app.chat_box_input
+        })
+        app.chat_box_input = ""
       }
     },
 
@@ -154,8 +162,8 @@ var app = new Vue({
 })
 
 function initUI(){
-  this.username = $.cookie('username')
-  if(!this.username){
+  app.username = $.cookie('username')
+  if(!app.username || app.username.length == 0){
     app.activeModel = 'join'
   }
   var dg = $( ".resizer" ).draggable({
@@ -217,10 +225,13 @@ function initFirebase() {
     app.chat_db_ref= ref.child(app.codersheet_id).child('chat')
     app.chat_db_ref.on("child_added", function(snapshot) {
       console.log(snapshot.key);
+      snapshot.val().is_me = snapshot.val().name == app.username
+      app.chat_history.push(snapshot.val())
     });
   }
 
   function verifyOrError(cond, msg){
+    console.log(msg)
     return cond;
   }
   app.loadPage()
