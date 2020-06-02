@@ -104,7 +104,7 @@ var app = new Vue({
         return;
       }
       app.codersheet_id = hash
-      $.ajax("http://simplestore.dipankar.co.in/api/codersheet", {
+      $.ajax("https://simplestore.dipankar.co.in:8443/api/codersheet", {
         data : JSON.stringify({ id: hash}),
         contentType : 'application/json',
         type : 'POST',
@@ -135,7 +135,7 @@ var app = new Vue({
       console.log("Trying to run...")
       app.activePane='output'
       app.output = 'executing....'
-      $.ajax("http://simplestore.dipankar.co.in/api/utils/rce", {
+      $.ajax("https://simplestore.dipankar.co.in:8443/api/utils/rce", {
         data : JSON.stringify({ lang: this.code_language_selected, code: app.codeMirror.getValue() }),
         contentType : 'application/json',
         type : 'POST',
