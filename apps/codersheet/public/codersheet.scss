@@ -430,12 +430,30 @@ button {
     -ms-flex-align: center;
     align-items: center;
     >div {
-        top: 50%;
-        left: 50%;
-        margin: 0;
-        min-width:400px;
+        position: relative;
+        min-width: 400px;
         margin-bottom: 50px;
+        max-width: 540px;
+        border-radius: 10px;
+        margin: 2px 0 0;
+        list-style: none;
+        left: 15px;
+        background: #2d353c;
+        padding: 35px;
+        font-size: 1.5rem;
+        text-align: left;
+        box-shadow: none;
+        -webkit-transition: 0.25s;
+        transition: 0.25s;
+        .close{
+            position: absolute;
+            top: 0;
+            right: 0;
+            padding: 15px;
+            cursor: pointer;
+        }
     }
+
     h3 {
         color: #fff;
         line-height: 1em;
@@ -649,7 +667,11 @@ li, ul {
 .layout_col{
     display: flex;
     flex-direction: column;
+    &.center{
+        align-items: center;
+    }
 }
+
 
 .show {
     display: flex !important;
@@ -702,68 +724,62 @@ li, ul {
     }
 }
 
-.invite {
-    .container{
+.full-overlay{
+    .lock{
+        font-size: 9.5rem;
+        color: rgba(255,255,255,.4);
+    }
+    .separator {
+        display: -ms-flexbox;
+        display: flex;
+        height: 30px;
+        line-height: 30px;
+        color: #7a8b99;
+        margin: 15px 0;
+        &:after, &:before {
+            margin-left: 10px;
+            content: ' ';
+            display: inline-block;
+            -ms-flex-positive: 1;
+            flex-grow: 1;
+            height: 1px;
+            margin-top: 15px;
+            background: #4b555e;
+        }
+        &:before {
+            margin-left: 0px;
+            margin-right: 10px;
+        }
+    }
+    .header {
+        color: #f2f5f7;
+        font-weight: normal;
+        font-size: inherit;
+        margin: 0;
+        margin-top: 10px;
+    }
+    .subheader {
+        color: #7a8b99;
+        margin: 0;
+        margin-top: 10px;
+        line-height: 1.6;
+    }
+    .input{
+        background: #22282e;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        border: 0;
+        outline: 0;
+        padding: 0 0 0 12px;
+        height: 32px;
+        line-height: 32px;
+        color: #b8c7e0;
+        width: 100%;
+        margin-top: 10px;
         border-radius: 4px;
-        margin: 2px 0 0;
-        list-style: none;
-        left: 15px;
-        background: #2d353c;
-        width: 310px;
-        padding: 20px;
-        font-size: 1.5rem;
-        text-align: left;
-        box-shadow: none;
-        -webkit-transition: 0.25s;
-        transition: 0.25s;
-        .header {
-            color: #f2f5f7;
-            font-weight: normal;
-            font-size: inherit;
-            margin: 0;
-        }
-        p {
-            color: #7a8b99;
-            margin-top: 4px;
-            line-height: 1.6;
-        }
-        .separator {
-            display: -ms-flexbox;
-            display: flex;
-            height: 30px;
-            line-height: 30px;
-            color: #7a8b99;
-            margin: 15px 0;
-            &:after, &:before {
-                margin-left: 10px;
-                content: ' ';
-                display: inline-block;
-                -ms-flex-positive: 1;
-                flex-grow: 1;
-                height: 1px;
-                margin-top: 15px;
-                background: #4b555e;
-            }
-            &:before {
-                margin-left: 0px;
-                margin-right: 10px;
-            }
-        }
-        input {
-            background: #22282e;
-        }
-        .link {
-                background: #22282e;
-                -webkit-box-sizing: border-box;
-                box-sizing: border-box;
-                border: 0;
-                outline: 0;
-                padding: 0 0 0 12px;
-                height: 32px;
-                line-height: 32px;
-                color: #f2f5f7;
-                width: 100%;
-    border-radius: 4px;
-        }
+    }
+    input {
+        background: #22282e;
+        
     }
 }
