@@ -12,6 +12,8 @@ var app = new Vue({
 
     //IDs
     codersheet_id: null,
+    codersheet_shortcode:"",
+    invite_email:"",
 
     code_db_ref: null,
 
@@ -144,6 +146,26 @@ var app = new Vue({
         type: 'POST',
         success: function (data) {
           app.output = data.msg
+        }
+      })
+    },
+    getLink(){
+      return `https://codersheet.io/${app.codersheet_id}`
+    },
+    invite_send(){
+      $.ajax("https://simplestore.dipankar.co.in:8443/api/utils/email", {  
+        data: JSON.stringify({ 
+          to: app.invite_email,
+          'subject':'You are invited to the coder sheet',
+          'body':`Please click the link ${app.getLink()} to join the codersheet now!`
+        }),
+        contentType: 'application/json',
+        type: 'POST',
+        success: function (data) {
+          processSimpleStoreResp(data);
+        },
+        error:function(){
+
         }
       })
     },
@@ -289,4 +311,16 @@ function verifyOrError(cond, msg) {
   console.log(msg)
   return cond;
 }
+function processSimpleStoreResp(data){
+  if(data.status == 'success'){
+    app.notification = {type:'success', msg:data.msg}
+  } else {
+    app.notification = {type:'error', msg:data.msg}
+  }
+}
 app.loadPage()
+
+// Todo:
+// 1. get and generate short code whne loading invite ( optimized generate if not their)
+// 2. mail send issue in AWS
+// 3. fetch info by id or shosrt code. 

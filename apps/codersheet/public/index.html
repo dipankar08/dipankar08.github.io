@@ -171,18 +171,17 @@
                 <p class="subheader">We’ll email the recipient directly with a link from CoderPad, so you don’t have to give away your email
                     address.</p>
                 <form class="layout_row">
-                    <input class="layout_fill" name="email"
-                        placeholder="Recipient’s email address" value="" data-original-title="" title="">
-                    <button class="layout_wrap btn attached" disabled="">Send</button></form>
+                    <input class="layout_fill" v-model="invite_email" placeholder="Recipient’s email address" >
+                    <button class="layout_wrap btn attached" v-on:click="invite_send" >Send</button></form>
                 <div class="separator">or</div>
                 <h4 class="header">Phone-Friendly Temporary Link</h4>
                 <p class="subheader">Read this <strong>temporary</strong> shortlink out loud to invite someone to this pad. It only lasts an
                     hour!</p>
-                <div class="input"><span>https://</span>cpad.io/1158</div>
+                <div class="input"><span>https://</span>codersheet.io/{{codersheet_shortcode}}</div>
                 <div class="separator">or</div>
                 <h4 class="header">Permanent Link</h4>
                 <p class="subheader">If you need a permanent link to email for a future interview, use this <strong>full URL</strong>.</p>
-                <div class="input"><span>https://</span>coderpad.io/CCEPHQTN</div><span
+                <div class="input"><span>https://</span>codersheet.io/{{codersheet_id}}</div><span
                     class="caret"></span>
                 <div class="close"  v-on:click="activeModel=null">
                     <i class="fa fa-close"></i>
