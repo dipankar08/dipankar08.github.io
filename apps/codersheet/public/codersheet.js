@@ -4,6 +4,7 @@ var app = new Vue({
   el: '#app',
   data: {
     // UI info
+    leftPane:'code',// code or draw
     activeModel: 'loading', //loading,setting,join,welcome
     activeNotification: null, //{"title:"}
     activeDropDown: null, //lang
@@ -76,7 +77,6 @@ var app = new Vue({
     // boolean vlaue
 
     // left pane.
-    activeLeftPane: "code",
     code: "",
     draw: [],
     call: null,
@@ -231,7 +231,7 @@ function initUI() {
     axis: "x",
     drag: function (event, ui) {
       console.log(ui)
-      $('.codepane').width(ui.position.left - 5)
+      $('.leftpane').width(ui.position.left - 5)
       $('.rightpane').width(window.innerWidth - ui.position.left - 5)
     }
   });
@@ -246,6 +246,9 @@ function initRTC() {
     roomName: app.codersheet_id,
     width: 700,
     height: 700,
+    configOverwrite: {
+      startAudioOnly:true,
+    },
     parentNode: document.querySelector('#meet')
   };
   app.rtc_ref = new JitsiMeetExternalAPI(domain, options);

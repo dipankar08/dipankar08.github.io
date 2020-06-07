@@ -217,6 +217,8 @@ button {
   display: flex; }
   .contaier .workplace .leftpane {
     position: relative; }
+    .contaier .workplace .leftpane > div {
+      display: none; }
     .contaier .workplace .leftpane .codepane {
       width: 690px;
       height: 100%;
@@ -246,9 +248,12 @@ button {
         z-index: 5;
         top: 60px; }
     .contaier .workplace .leftpane .draw {
-      display: none; }
-    .contaier .workplace .leftpane .call {
-      display: none; }
+      height: 100%;
+      width: 100%; }
+      .contaier .workplace .leftpane .draw iframe {
+        height: 100%;
+        width: 100%;
+        border: 0px; }
   .contaier .workplace .resizer {
     position: absolute;
     z-index: 2;

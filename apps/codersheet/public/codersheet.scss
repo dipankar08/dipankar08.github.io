@@ -249,6 +249,9 @@ button {
         display: flex;
         .leftpane{
             position: relative;
+            > div {
+                display: none;
+            }
             .codepane{
                 width: 690px;
                 height: 100%;
@@ -286,10 +289,13 @@ button {
                 }
             }
             .draw {
-                display: none
-            }
-            .call {
-                display: none;
+                height: 100%;
+                width: 100%;
+                iframe {
+                    height: 100%;
+                    width: 100%;
+                    border: 0px;
+                }
             }
         }
         .resizer {

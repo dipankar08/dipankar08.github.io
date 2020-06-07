@@ -16,7 +16,7 @@
             <!-- LEFT PANE-->
             <div class="leftpane">
                 <!--- CODE PANE -->
-                <div class="codepane">
+                <div class="codepane" v-bind:class="{show: leftPane == 'code'}">
                     <div class="codepane_header layout_row">
                         <div class="left LanguageSelector layout_row">
                             <button class="run_btn btn" v-on:click="runProgram"> Run <i class="fa fa-play"></i></button>
@@ -34,8 +34,10 @@
                         </div>
                     </div>
                 </div>
- 
-                <div class="draw"></div>
+                <!-- DRAW-->
+                <div class="draw" v-bind:class="{show: leftPane == 'draw'}">
+                    <iframe src="/whiteboard.html" scrolling="no" style="height: 100%;"></iframe>
+                </div>
             </div>
             <div class="resizer ui-draggable ui-draggable-handle" style="left: 62.2413%; top: 0px;"></div>
             <!-- RIGHT PANE-->
@@ -83,8 +85,8 @@
         <div class="footer">
             <div class="left">
                 <span class="live">Live:<span>{{chat_live_count}}</span></span>
-                <button class="btn_tiny" v-on:click="activeLeftPane = 'code'"><i class="fa fa-code "></i> Code</button>
-                <button class="btn_tiny" v-on:click="activeLeftPane = 'draw'"><i
+                <button class="btn_tiny" v-on:click="leftPane = 'code'"><i class="fa fa-code "></i> Code</button>
+                <button class="btn_tiny" v-on:click="leftPane = 'draw'"><i
                         class="fa fa-paint-brush "></i>Draw</button>
                 <button class="btn_tiny" v-on:click="activeModel = 'rtc'"><i class="fa fa-phone "></i>Call</button>
                 <button class="btn_tiny" v-on:click="activeModel = 'setting'"> <i class="fa fa-cog"></i>
