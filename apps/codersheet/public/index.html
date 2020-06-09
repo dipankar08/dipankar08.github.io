@@ -10,103 +10,117 @@
 </head>
 
 <body class="contaier">
-    <div id="app" class="w-full h-full">
+    <div id="app" class="layout_fullscreen">
         <!--  WORKPLACE-->
-        <div class="workplace">
-            <!-- LEFT PANE-->
-            <div class="leftpane">
-                <!--- CODE PANE -->
-                <div class="codepane" v-bind:class="{show: leftPane == 'code'}">
-                    <div class="codepane_header layout_row">
-                        <div class="left LanguageSelector layout_row">
-                            <button class="run_btn btn" v-on:click="runProgram"> Run <i class="fa fa-play"></i></button>
-                            <select v-model="code_language_selected">
+        <div class="workplace layout_vertical layout_fullscreen">
+            <!-- CONTENT PANE-->
+            <div class="layout_fill layout_horizental">
+                <!-- LEFT PANE-->
+                <div class="leftpane layout_vertical">
+                    <!-- Context PANE-->
+                    <div class="context_control layout_horizental">
+                        <div class="layout_horizental">
+                            <button class="run_btn btn" v-on:click="runProgram"
+                                v-bind:class="{show: leftPane == 'code'}"> Run <i class="fa fa-play"></i></button>
+                            <select v-model="code_language_selected" v-bind:class="{show: leftPane == 'code'}">
                                 <option>Choose languages</option>
                                 <option v-for="option in code_language" v-bind:value="option.lang">{{ option.name }}
                                 </option>
                             </select>
                         </div>
-                        <div class="right"></div>
+                        <div class="layout_horizental">
+                        
+                        </div>
                     </div>
-                    <div class="editor" id="editor">
-                        <div class="firepad" id="firepad">
-                            <div class="codemirror"></div>
+                    <div class="main_holder layout_frame layout_fill">
+                        <!--- CODE PANE -->
+                        <div class="codepane" v-bind:class="{show: leftPane == 'code'}">
+                            <div class="editor layout_fullscreen" id="editor">
+                                <div class="firepad" id="firepad">
+                                    <div class="codemirror"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- DRAW-->
+                        <div class="draw layout_fullscreen" v-bind:class="{show: leftPane == 'draw'}">
+                            <iframe src="/whiteboard.html" scrolling="no" style="height: 100%;"></iframe>
                         </div>
                     </div>
                 </div>
-                <!-- DRAW-->
-                <div class="draw" v-bind:class="{show: leftPane == 'draw'}">
-                    <iframe src="/whiteboard.html" scrolling="no" style="height: 100%;"></iframe>
-                </div>
-            </div>
-            <div class="resizer ui-draggable ui-draggable-handle" style="left: 62.2413%; top: 0px;"></div>
-            <!-- RIGHT PANE-->
-            <div class="rightpane">
-                <div class="tabs flex">
-                    <button class="btn_tiny" v-bind:class="{active: activePane == 'output'}"
-                        v-on:click="activePane = 'output'"><i class="fa fa-code "></i>
-                        Output</button>
-                    <button class="btn_tiny" v-bind:class="{active: activePane == 'note'}"
-                        v-on:click="activePane = 'note'"><i class="fa fa-lock"></i>Notes</button>
-                    <button class="btn_tiny" v-bind:class="{active: activePane == 'chat'}"
-                        v-on:click="activePane = 'chat'"><i class="fa fa-comment"></i>chat</button>
-                </div>
-                <div class="tab_contains">
-                    <div class="output" v-bind:class="{hide: activePane != 'output'}">
-                        <p v-bind:class="{hide: output != null}">**OUTPUT</p>
-                        <pre v-html="output"></pre>
+                <div class="resizer ui-draggable ui-draggable-handle" style="left: 62.2413%; top: 0px;"></div>
+                <!-- RIGHT PANE-->
+                <div class="rightpane layout_vertical">
+                    <div class="tabs layout_horizental">
+                        <button class="btn_tiny layout_equal" v-bind:class="{active: activePane == 'output'}"
+                            v-on:click="activePane = 'output'"><i class="fa fa-code "></i>
+                            Output</button>
+                        <button class="btn_tiny layout_equal" v-bind:class="{active: activePane == 'note'}"
+                            v-on:click="activePane = 'note'"><i class="fa fa-lock"></i>Notes</button>
+                        <button class="btn_tiny layout_equal" v-bind:class="{active: activePane == 'chat'}"
+                            v-on:click="activePane = 'chat'"><i class="fa fa-comment"></i>chat</button>
                     </div>
-                    <div class="note layout_col" v-bind:class="{hide: activePane != 'note'}">
+                    <div class="tab_contains layout_fill">
+                        <div class="output layout_vertical" v-bind:class="{hide: activePane != 'output'}">
+                            <p v-bind:class="{hide: output != null}">**OUTPUT</p>
+                            <pre v-html="output"></pre>
+                        </div>
+                        <div class="note layout_vertical" v-bind:class="{hide: activePane != 'note'}">
                             <p class="layout_wrap"><span>Summary</span></p>
-                             <textarea class="layout_fill" v-model="note.summary"></textarea>
+                            <textarea class="layout_fill" v-model="note.summary"></textarea>
                             <p><span>Details</span></p>
-                            <textarea class="layout_fill" v-model="note.details"></textarea></p>
+                            <textarea v-model="note.details"></textarea></p>
                             <p><span>Decision</span></p>
-                            <div class="layout_row">
+                            <div class="layout_horizental">
                                 <textarea class="decission" v-model="note.decission"></textarea>
                                 <textarea class="decission" v-model="note.decission"></textarea>
                             </div>
                             <button class="submit btn full" v-on:click="submitNote">Submit</button>
-                    </div>
-                    <div class="chat layout_col" v-bind:class="{hide: activePane != 'chat'}">
-                        <ul class="layout_fill layout_col">
-                            <li v-for="c in chat_history" v-bind:class="{is_me: c.is_me}">
-                                <span v-bind:class="{is_me: c.is_me}"><span>{{c.name}}:</span>{{c.msg}}</span>
-                            </li>
-                        </ul>
-                        <input class="chat_input layout_wrap" placeholder="Type something" v-model="chat_box_input"
-                            v-on:keydown="chat_box_submit">
+                        </div>
+                        <div class="chat layout_vertical" v-bind:class="{hide: activePane != 'chat'}">
+                            <ul class="layout_fill layout_vertical layout_align_bottom">
+                                <li v-for="c in chat_history" v-bind:class="{is_me: c.is_me}">
+                                    <span v-bind:class="{is_me: c.is_me}"><span>{{c.name}}:</span>{{c.msg}}</span>
+                                </li>
+                            </ul>
+                            <input class="chat_input" placeholder="Type something" v-model="chat_box_input"
+                                v-on:keydown="chat_box_submit">
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <!-- FOOTER BAR-->
-        <div class="footer">
-            <div class="left">
-                <span class="live">Live:<span>{{chat_live_count}}</span></span>
-                <button class="btn_tiny" v-on:click="leftPane = 'code'"><i class="fa fa-code "></i> Code</button>
-                <button class="btn_tiny" v-on:click="leftPane = 'draw'"><i
-                        class="fa fa-paint-brush "></i>Draw</button>
-                <button class="btn_tiny" v-on:click="activeModel = 'rtc'"><i class="fa fa-phone "></i>Call</button>
-                <button class="btn_tiny" v-on:click="activeModel = 'setting'"> <i class="fa fa-cog"></i>
-                    Settings</button>
-                <button class="btn_tiny" v-on:click="activeModel = 'invite'"> <i class="fa fa-envelope"></i>
-                    invite</button>
-                <span class="userList hide">
-                    <span v-for="u in users">
-                        <span :textColor="u.color">*</span>
-                        <span>{{u.name}}:</span>
+            <!-- FOOTER BAR-->
+            <div class="footer layout_horizental">
+                <div class="layout_horizental layout_align_left layout_align_center">
+                    <span class="live">Live:<span>{{chat_live_count}}</span></span>
+                    <button class="btn_tiny" v-on:click="leftPane = 'code'"><i class="fa fa-code "></i> Code</button>
+                    <button class="btn_tiny" v-on:click="leftPane = 'draw'"><i
+                            class="fa fa-paint-brush "></i>Draw</button>
+                    <button class="btn_tiny" v-on:click="activeModel = 'rtc'"><i class="fa fa-phone "></i>Call</button>
+                    <button class="btn_tiny" v-on:click="activeModel = 'setting'"> <i class="fa fa-cog"></i>
+                        Settings</button>
+                    <button class="btn_tiny" v-on:click="activeModel = 'invite'"> <i class="fa fa-envelope"></i>
+                        invite</button>
+                    <span class="userList hide">
+                        <span v-for="u in users">
+                            <span :textColor="u.color">*</span>
+                            <span>{{u.name}}:</span>
+                        </span>
                     </span>
-                </span>
 
-            </div>
-            <div class="right">
-                <button class="btn_tiny" style="color: red;" v-on:click="activeModel = 'invite'"> <i
-                        class="fa fa-chevron-right"></i> End</button>
+                </div>
+                <div class="layout_horizental layout_align_right layout_align_center" v-bind:class="[rtc_supported?'show':'']">
+                    <div class="layout_horizental">
+                        <button class="btn_icon_only" v-on:click="rtcToggleAudio"><i class="fa" v-bind:class="[rtc_audio_mute?'fa-microphone':'fa-microphone-slash']"></i></button>
+                        <button class="btn_icon_only" v-on:click="rtcToggleVideo"><i class="fa" v-bind:class="[rtc_video_mute?'fa-video-camera':'fa-video-camera']"></i></button>
+                        <button class="btn_icon_only" v-on:click="rtcToggleScreen"><i class="fa" v-bind:class="[rtc_audio_mute?'fa-desktop':'fa-desktop']"></i></button>
+                    </div>
+                    <span class="time">12:50</span>
+                    <button class="btn_tiny" style="color: red;" v-on:click="activeModel = 'invite'"> <i
+                            class="fa fa-chevron-right"></i> End</button>
+                </div>
             </div>
         </div>
-
+        <!-- MULTIPLE MODELS-->
         <!-- JOIN Models -->
         <div id="join-modal" class="full-overlay" v-bind:class="{show: activeModel ==  'join'}">
             <div>
@@ -141,10 +155,6 @@
                         Started!</button></div>
             </div>
         </div>
-        <!-- RTC -->
-        <div id="welcome-modal" class="full-overlay" v-bind:class="{show: activeModel == 'rtc'}">
-            <div id="meet"></div>
-        </div>
 
         <!-- SETTINGS-->
         <div id="setting-modal" class="full-overlay" v-bind:class="{show: activeModel == 'setting'}">
@@ -167,25 +177,27 @@
         </div>
 
         <!-- INVITE-->
-        <div class="full-overlay invite" v-bind:class="{show: activeModel == 'invite'}" >
+        <div class="full-overlay invite" v-bind:class="{show: activeModel == 'invite'}">
             <div>
                 <h4 class="header">Send Email Invite</h4>
-                <p class="subheader">We’ll email the recipient directly with a link from CoderPad, so you don’t have to give away your email
+                <p class="subheader">We’ll email the recipient directly with a link from CoderPad, so you don’t have to
+                    give away your email
                     address.</p>
                 <form class="layout_row">
-                    <input class="layout_fill" v-model="invite_email" placeholder="Recipient’s email address" >
-                    <button class="layout_wrap btn attached" v-on:click="invite_send" >Send</button></form>
+                    <input class="layout_fill" v-model="invite_email" placeholder="Recipient’s email address">
+                    <button class="layout_wrap btn attached" v-on:click="invite_send">Send</button></form>
                 <div class="separator">or</div>
                 <h4 class="header">Phone-Friendly Temporary Link</h4>
-                <p class="subheader">Read this <strong>temporary</strong> shortlink out loud to invite someone to this pad. It only lasts an
+                <p class="subheader">Read this <strong>temporary</strong> shortlink out loud to invite someone to this
+                    pad. It only lasts an
                     hour!</p>
                 <div class="input"><span>https://</span>codersheet.io/{{codersheet_shortcode}}</div>
                 <div class="separator">or</div>
                 <h4 class="header">Permanent Link</h4>
-                <p class="subheader">If you need a permanent link to email for a future interview, use this <strong>full URL</strong>.</p>
-                <div class="input"><span>https://</span>codersheet.io/{{codersheet_id}}</div><span
-                    class="caret"></span>
-                <div class="close"  v-on:click="activeModel=null">
+                <p class="subheader">If you need a permanent link to email for a future interview, use this <strong>full
+                        URL</strong>.</p>
+                <div class="input"><span>https://</span>codersheet.io/{{codersheet_id}}</div><span class="caret"></span>
+                <div class="close" v-on:click="activeModel=null">
                     <i class="fa fa-close"></i>
                 </div>
             </div>
@@ -203,7 +215,8 @@
             <div class="welcome-text layout_col center">
                 <i class="lock fa fa-lock"></i>
                 <p class="header">{{error_msg}}</p>
-                <p class="subheader">You are not allowed to access this URL. It might happens as you dont have the permission or link has expaied.</p>
+                <p class="subheader">You are not allowed to access this URL. It might happens as you dont have the
+                    permission or link has expaied.</p>
             </div>
         </div>
         <!-- NOTIFICATION-->
@@ -212,6 +225,9 @@
             <h5>{{notification.msg}}</h5>
             <span class="close btn" v-on:click="notification=null"><i class="fa fa-close"></i></button>
         </div>
+    </div>
+    <div id="modal">
+        <div id="meet"></div>
     </div>
 </body>
 <!-- JQuery -->

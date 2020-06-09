@@ -20,6 +20,10 @@ var app = new Vue({
 
     // rtc
     rtc_ref: null,
+    rtc_supported:true,
+    rtc_audio_mute:false,
+    rtc_video_mute:false,
+    rtc_screen_share:false,
 
     // chat
     chat_sound: null,
@@ -171,7 +175,16 @@ var app = new Vue({
     },
     submitNote() {
 
-    }
+    },
+    rtcToggleAudio(){
+      app.rtc_ref.executeCommand('toggleAudio',[])
+    },
+    rtcToggleVideo(){
+      app.rtc_ref.executeCommand('toggleVideo',[])
+    },
+    rtcToggleScreen(){
+      app.rtc_ref.executeCommand('toggleShareScreen',[])
+    },
   },
   computed: {
 
@@ -227,6 +240,7 @@ function initUI() {
   if (!app.username || app.username.length == 0) {
     app.activeModel = 'join'
   }
+  /*
   var dg = $(".resizer").draggable({
     axis: "x",
     drag: function (event, ui) {
@@ -234,7 +248,8 @@ function initUI() {
       $('.leftpane').width(ui.position.left - 5)
       $('.rightpane').width(window.innerWidth - ui.position.left - 5)
     }
-  });
+  }); */
+  $('#call_modal').draggable()
   // Intiltial size
   $('.codepane').width(window.innerWidth - 400 - 5)
   $('.rightpane').width(400 - 5)
@@ -244,14 +259,16 @@ function initRTC() {
   const domain = 'meet.jit.si';
   const options = {
     roomName: app.codersheet_id,
-    width: 700,
-    height: 700,
+    width: 500,
+    height: 500,
     configOverwrite: {
-      startAudioOnly:true,
+      startAudioOnly:false,
     },
     parentNode: document.querySelector('#meet')
   };
   app.rtc_ref = new JitsiMeetExternalAPI(domain, options);
+  $('#modal').show();
+  $('#modal').draggable();   
   //app.rtc_ref.addEventListener()
 }
 function initFirebase() {
@@ -322,6 +339,7 @@ function processSimpleStoreResp(data){
   }
 }
 app.loadPage()
+
 
 // Todo:
 // 1. get and generate short code whne loading invite ( optimized generate if not their)
