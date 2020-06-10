@@ -250,10 +250,6 @@ function initUI() {
       $('.rightpane').width(window.innerWidth - ui.position.left - 5)
     }
   });
-
-  // Intiltial size
-  $('.codepane').width(window.innerWidth - 400 - 5)
-  $('.rightpane').width(400 - 5)
 }
 
 function initRTC() {
