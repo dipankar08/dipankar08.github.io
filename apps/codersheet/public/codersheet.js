@@ -19,6 +19,7 @@ var app = new Vue({
     code_db_ref: null,
 
     // rtc
+    rtc_float:true,
     rtc_ref: null,
     rtc_supported:true,
     rtc_audio_mute:false,
@@ -240,7 +241,7 @@ function initUI() {
   if (!app.username || app.username.length == 0) {
     app.activeModel = 'join'
   }
-  /*
+
   var dg = $(".resizer").draggable({
     axis: "x",
     drag: function (event, ui) {
@@ -248,8 +249,8 @@ function initUI() {
       $('.leftpane').width(ui.position.left - 5)
       $('.rightpane').width(window.innerWidth - ui.position.left - 5)
     }
-  }); */
-  $('#call_modal').draggable()
+  });
+
   // Intiltial size
   $('.codepane').width(window.innerWidth - 400 - 5)
   $('.rightpane').width(400 - 5)
@@ -267,8 +268,8 @@ function initRTC() {
     parentNode: document.querySelector('#meet')
   };
   app.rtc_ref = new JitsiMeetExternalAPI(domain, options);
-  $('#modal').show();
-  $('#modal').draggable();   
+  $('.call_floating_modal').show();
+  $('.call_floating_modal').draggable();   
   //app.rtc_ref.addEventListener()
 }
 function initFirebase() {
