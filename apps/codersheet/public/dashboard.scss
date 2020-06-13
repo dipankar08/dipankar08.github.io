@@ -1,0 +1,39 @@
+@import 'layout';
+.header{
+    background: #5a5d82;
+    color:white;
+    padding: 30px 10px;
+    width: 100px;
+    a {
+        padding: 10px;
+        color: #ffffff8a;
+        &:hover,&:focus{
+            color: #ffffff;  
+        }
+        i {
+            font-size: 4rem;
+        }  
+    }
+}
+.main_continer > div { display: none; }
+// model
+.layout_model{
+    background: #ffffff;
+    position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 3;
+        -webkit-transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        display:none;
+        align-items: center;
+        &.blur{
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+        }
+}
+
+
+
