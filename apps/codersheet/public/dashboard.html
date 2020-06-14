@@ -11,20 +11,20 @@
     <div id="app" class="layout_fullscreen layout_horizental">
         <div class="p3 header layout_vertical layout_align_center">
             <div class="layout_vertical layout_align_top">
-                <div class="layout_align_center pb10">
+                <div class="_lv pb10">
                     <img class="round" v-bind:src="user.img" />
                     <p>{{user.name}}</p>
+                    <a class="layout_vertical" @click="logout"> Logout</a>
                 </div>
                 <a class="layout_vertical" @click="cur_page='home'"> Home</a>
                 <a class="layout_vertical" @click="cur_page='pads'"> Pads</a>
-                <a class="layout_vertical" @click="cur_page='login'"> Login</a>
             </div>
             <div class="layout_vertical layout_align_bottom">
                 <a class="layout_vertical" @click="cur_page='profile'">Profile</a>
             </div>
         </div>
         <div class="main_continer layout_fill layout_vertical p10">
-            <!-- LOGIN -->
+            <!-- HOME -->
             <div class="home layout_fullscreen" v-bind:class="{ show: cur_page == 'home' }">
                 <div class="layout_vertical _lfs">
                     <h1>Home</h1>
@@ -32,12 +32,11 @@
                     
                 </div>
             </div>
-            <!-- LOGIN -->
-
+\
             <!-- PAD-->
             <div class="pads layout_fullscreen" v-bind:class="{ show: cur_page == 'pads' }">
                 <div class="layout_vertical _lfs">
-                    <h1>Pads</h1>
+                    <div class="_lh, _lalr"><p class="title">Pads</p><button @click="cur_dialog='new_pad'">Create New Pad</button></div>
                     <hr>
                     <div class="_lh layout_align_left_right">
                         <input placeholder="Serach title and Author">
@@ -57,23 +56,21 @@
                     </div>
                     <div class="layout_table mt10 mb10">
                         <div class="th">
-                            <div>Title</div>
-                            <div>Status</div>
-                            <div>Creator</div>
-                            <div>Created</div>
-                            <div>Language</div>
+                            <div>name</div>
+                            <div>author</div>
+                            <div>status</div>
+                            <div>Created at</div>
                             <div>Actions</div>
                         </div>
                         <div v-for ="item in codersheet_pads" :key="item.id">
-                            <div>{{item.title}}</div>
+                            <div>{{item.name}}</div>
+                            <div>{{item.author}}</div>
                             <div>{{item.status}}</div>
-                            <div>{{item.creator}}</div>
                             <div>{{item.ts_insert}}</div>
-                            <div>{{item.language}}</div>
                             <div class="_lh">
-                                <bottom class="btn tiny m4">Open</bottom>
-                                <bottom class="btn tiny  m4">Download</bottom>
-                                <bottom class="btn tiny m4">Delete</bottom>
+                                <button class="btn tiny m4">Open</button>
+                                <button class="btn tiny  m4">Download</button>
+                                <button class="btn tiny m4">Delete</button>
                             </div>
                         </div>
                         <div class="footer">
@@ -87,32 +84,51 @@
                 </div>
             </div>
             <!-- SETTINGS-->
-            <div class="profile" v-bind:class="{ show: cur_page == 'profile' }">
-                <div class="layout_vertical _lfs">
-                    <h1 class="layout_align_center">Settings</h1>
-                    <hr>
-                    <div class="layout_align_center p15">
+            <div class="profile _lv" v-bind:class="{ show: cur_page == 'profile' }">
+                <h1 class="layout_align_center">Settings</h1><hr>
+                <div class="_lh _le">
+                    <div class="_lv p20">
                         <img class="round" v-bind:src="user.img" />
                         <p>{{user.name}}</p>
+                        <input :value="user.name" placeholder="Enter the new name">
+                        <input :value="user.email" placeholder="enter your mail">
+                        <input :value="user.phone" placeholder="+1 xxx xxxx">
+                        <input :value="user.img" placeholder="http://...">
+                        <input :value="user.dob" placeholder="dd/mm/yyyy">
+                        <button>Save</button>
                     </div>
-                    <p>Update your name</p>
-                    <input placeholder="Enter the new name">
-                    <p>Update your Email</p>
-                    <input placeholder="enter your mail">
-                    <button>Save</button>
-                    <hr>
-                    <button @click="logout">Logout</button>
-                    <button @click="logout_all">Logout all </button>
+                    <div class="_lv p20">
+                        <div class="layout_table mt10 mb10">
+                            <div class="th">
+                                <div>Session</div>
+                                <div>RemoteIP</div>
+                                <div>Last login</div>
+                                <div>Browser</div>
+                            </div>
+                            <div v-for ="item in session_resp" :key="item.id">
+                                <div>{{item.auth_token}}</div>
+                                <div>{{item.remote_ip}}</div>
+                                <div>{{item.ts_update}}</div>
+                                <div>{{item.browser}}</div>
+                            </div>
+                            <div class="footer">
+                                <a class="btn tiny m4" @click="logout">Logout</a>
+                                <a class="btn tiny m4" @click="logout_all">logout all</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
         <!-- Model-->
+        <!-- Loading-->
         <div class="layout_model" v-bind:class="{ show: cur_page == 'loading' }">
            <div class="_lv _lfs _lac">
                 <p class="animate__animated animate__bounce"><i class="fa fa-code"></i></p>
                 <p> Loading...</p>
            </div> 
         </div>
+        <!-- loggin-->
         <div class="layout_model" v-bind:class="{ show: cur_page == 'login' }">
             <div class="_lv _lfs _lac">
                 <h1>Login</h1>
@@ -123,6 +139,50 @@
                 <button @click="tryMailLogin">Submit</button>
             </div>
          </div>
+         <!-- New Pad-->
+         <div class="layout_model blur" v-bind:class="{ show: cur_dialog == 'new_pad' }">
+            <div class="_lv _lfs">
+                <p class="title">Create a new pad</p>
+                <p class="subtitle">What is your Pad Name?</p>
+                <input class="hide" v-model ="new_pad.author" value="[user.email]">
+                <input v-model ="new_pad.name" placeholder="Write the name of the pad">
+                <p class="subtitle">Who you are interviewing with?</p>
+                <p class="help">Please enter comma separated email</p>
+                <input v-model ="new_pad.invite"  placeholder="xx@xx.com, yy@yy.com">
+                <p class="subtitle">What type of interview you are taking?</p>
+                <p class="help">based on the interview type, we provides the tools to the candidate</p>
+                <select v-model ="new_pad.type" >
+                    <option>Coding</option>
+                    <option>System Design( Software)</option>
+                    <option>Behevoral</option>
+                    <option>Screening Round</option>
+                    <option>Data Science</option>
+                    <option>System Design (Data Science)</option>
+                    <option>Machine Larling</option>
+                    <option>Program Manager</option>
+                    <option>Screening Round</option>
+                </select>
+                <p class="subtitle">Which tool you want to use for the interview?</p>
+                <p class="help">Note that some of tools are avilable only for prime users.</p>
+                <div><input  v-model ="new_pad.capabilities" type="checkbox"> <span>Collabotaive coding pad</span></div>
+                <div><input v-model ="new_pad.capabilities" type="checkbox"> Realtime Video Confernecing </div>
+                <div><input v-model ="new_pad.capabilities" type="checkbox"> Collabotaive Freehad drawing</div>
+                <div><input v-model ="new_pad.capabilities" type="checkbox"> Realtime chat</div>
+                <div><p class="subtitle">When the interview will start( dd/mm/yyyy-hh)</p></div>
+                <input v-model ="new_pad.start_time" placeholder="">
+                <p class="subtitle">How long the interview should be happeing?</p>
+                <select v-model ="new_pad.duration">
+                    <option>60min</option>
+                    <option>45Min</option>
+                    <option>30Min</option>
+                    <option>15Min</option>
+                    <option>90Min</option>
+                </select>
+                <button @click="createPad">Create new pad</button>
+                <button @click="cur_dialog=null">Cancel</button>
+                <p class="help">Creating a pad will cost you. Make sure you have sufficient credit to create a pad.</p>
+            </div>
+        </div>
         <!-- Notification-->
         <p class="notification" :class="[simplestore_resp.status]">{{simplestore_resp.msg}}</p>
     </div>

@@ -64,19 +64,21 @@ h3 {
 h4 {
     font-size: 1.5rem
 }
-.p{
-    font-size: 1rem  
-}
+
+
 
 // inputs and form 
 input, select, textarea, button{
-border: 1px solid black;
-height: 50px;
-margin: 0;
-margin-top: 1.2rem;
-padding: 1rem;
-outline: none;
-border-radius: 6px;
+    border: 1px solid black;
+    height: 50px;
+    margin: 0;
+    margin-top: 1.2rem;
+    padding: 1rem;
+    outline: none;
+    border-radius: 6px;
+}
+input[type="checkbox"]{
+    height: auto;
 }
 button {
     background-color: black;
@@ -154,9 +156,11 @@ button {
     }
     .layout_fill,._lfi{
         flex: 1;
+        display: flex;
     }
     .layout_wrap,._lw {
-        flex:auto
+        flex:auto;
+        display: flex;
     }
     .layout_equal ,._le{
         * {
@@ -173,15 +177,19 @@ button {
 }
 .layout_align_left,._lal{
     align-items: left;
+    display: flex;
 }
 .layout_align_right,._lar{
     align-items: right;
+    display: flex;
 }
 .layout_align_bottom,._lab{
     align-items: bottom;
+    display: flex;
 }
 .layout_align_left_right,._lalr{
     justify-content: space-between;
+    display: flex;
 }
 // Definein table
 .layout_table {

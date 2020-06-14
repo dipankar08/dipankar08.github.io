@@ -4,6 +4,7 @@ var app = new Vue({
   el: '#app',
   data: {
     cur_page: "loading",
+    cur_dialog: null,
 
     // user info
     user: {
@@ -12,16 +13,56 @@ var app = new Vue({
       "auth_token": "",
       "img": "https://img.icons8.com/cute-clipart/64/000000/user-male.png"
     },
-
-    codersheet_pads: [
-      { _id: 1, title: 'Test', status: 'unused', creator: 'dip', ts_insert: '10days', language: 'java' },
-      { _id: 2, title: 'Test', status: 'unused', creator: 'dip', ts_insert: '10days', language: 'java' },
-      { _id: 3, title: 'Test', status: 'unused', creator: 'dip', ts_insert: '10days', language: 'java' },
-    ],
+    new_pad: {},
+    codersheet_pads: [],
     auth_resp: null,
     simplestore_resp: {},
+    session_resp: []
   },
+
   methods: {
+
+
+    loadPads() {
+      $.ajax("https://simplestore.dipankar.co.in:8443/api/codersheet_pads/", {
+        data: JSON.stringify({
+          auth_token: app.user.auth_token
+        }),
+        contentType: 'application/json',
+        type: 'POST',
+        success: function (data) {
+          processNetworkResp(data);
+          if (data.out) {
+            app.codersheet_pads = data.out;
+          }
+        },
+        error: function () {
+          processNetworkResp(data);
+        }
+      })
+    },
+
+
+    createPad() {
+      this.new_pad.author = this.user.email
+      this.new_pad.auth_token = $.cookie('auth_token')
+      this.new_pad.status ='unused'
+      $.ajax("https://simplestore.dipankar.co.in:8443/api/codersheet_pads/insert", {
+        data: JSON.stringify(this.new_pad),
+        contentType: 'application/json',
+        type: 'POST',
+        success: function (data) {
+          processNetworkResp(data);
+          app.loadPads()
+          app.cur_dialog = null;
+        },
+        error: function () {
+          processNetworkResp(data);
+        }
+      })
+    },
+
+
     tryMailLogin() {
       $.ajax("https://simplestore.dipankar.co.in:8443/api/auth2/mail_token", {
         data: JSON.stringify({
@@ -56,6 +97,8 @@ CoderSheet Team.
         }
       })
     },
+
+
     invite_send() {
       $.ajax("https://simplestore.dipankar.co.in:8443/api/utils/email", {
         data: JSON.stringify({
@@ -74,6 +117,8 @@ CoderSheet Team.
         }
       })
     },
+
+
 
     logout() {
       $.ajax("https://simplestore.dipankar.co.in:8443/api/auth2/logout", {
@@ -96,6 +141,8 @@ CoderSheet Team.
       })
     },
 
+
+
     logout_all() {
       $.ajax("https://simplestore.dipankar.co.in:8443/api/auth2/logout_all", {
         data: JSON.stringify({
@@ -116,15 +163,42 @@ CoderSheet Team.
         }
       })
     },
+
+
+    loadSession() {
+      $.ajax("https://simplestore.dipankar.co.in:8443/api/auth2/me", {
+        data: JSON.stringify({
+          auth_token: app.user.auth_token
+        }),
+        contentType: 'application/json',
+        type: 'POST',
+        success: function (data) {
+          processNetworkResp(data);
+          if (data.out) {
+            app.session_resp = data.out
+          }
+        },
+        error: function () {
+          processNetworkResp(data);
+        }
+      })
+    }
   },
   computed: {
 
   },
-  watch: {
-    'notification': function (val) {
 
-    }
+  watch: {
+    'user.auth_token': function (val) {
+      if (!val) {
+        return
+      }
+      // auth Token chnages - 
+      this.loadPads()
+      this.loadSession()
+    },
   },
+
   created() {
     // have Auth token
     if ($.cookie('auth_token')) {
@@ -135,6 +209,7 @@ CoderSheet Team.
         contentType: 'application/json',
         type: 'POST',
         success: function (data) {
+          auth_resp = data;
           processNetworkResp(data);
           if (data.out) {
             app.user.auth_token = $.cookie('auth_token')
@@ -157,8 +232,8 @@ CoderSheet Team.
           contentType: 'application/json',
           type: 'POST',
           success: function (data) {
-            processNetworkResp(data);
             auth_resp = data;
+            processNetworkResp(data);
             if (data.out) {
               app.user.auth_token = data.out.auth_token
               $.cookie('auth_token', app.user.auth_token)
@@ -189,5 +264,5 @@ function processNetworkResp(data) {
       $('.notification').addClass('hide');
     }, 10000);
   }
-  console.log(data)
+  console.log(JSON.stringify(data))
 }

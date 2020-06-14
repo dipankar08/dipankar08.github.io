@@ -30,10 +30,39 @@
         display:none;
         align-items: center;
         &.blur{
-            backdrop-filter: blur(4px);
-            -webkit-backdrop-filter: blur(4px);
+            backdrop-filter: blur(10px);
+            background: none;
+            > div {
+                width: 450px;
+                height: auto;
+                margin: 0 auto;
+                padding: 50px;
+                position: relative;
+                overflow-y: scroll;
+                border: 1px solid #00000010;
+                background: white;
+                border-radius: 10px;
+            }
         }
 }
 
 
+p {
+    font-size: inherit;
+    &.title{
+        color: rgba(0, 0, 0, 0.85);
+        font-weight: bold;
+        font-size: 2.5rem;
+    }
+    &.subtitle{
+        color: rgba(0, 0, 0, 0.65);
+        font-weight: bold;
+    }
+    &.help{
+        color: rgba(0, 0, 0, 0.45);
+        font-size: 1.5rem;
+        font-style: italic;
+        margin-top: .5rem;
+    }
+}
 

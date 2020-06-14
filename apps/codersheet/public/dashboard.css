@@ -67,10 +67,6 @@ h4 {
   font-size: 1.5rem;
 }
 
-.p {
-  font-size: 1rem;
-}
-
 input, select, textarea, button {
   border: 1px solid black;
   height: 50px;
@@ -79,6 +75,10 @@ input, select, textarea, button {
   padding: 1rem;
   outline: none;
   border-radius: 6px;
+}
+
+input[type="checkbox"] {
+  height: auto;
 }
 
 button {
@@ -1340,12 +1340,18 @@ button {
   -webkit-box-flex: 1;
       -ms-flex: 1;
           flex: 1;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 .layout_horizental .layout_wrap, .layout_horizental ._lw, .layout_vertical .layout_wrap, .layout_vertical ._lw, ._lh .layout_wrap, ._lh ._lw, ._lv .layout_wrap, ._lv ._lw {
   -webkit-box-flex: 1;
       -ms-flex: auto;
           flex: auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 .layout_horizental .layout_equal *, .layout_horizental ._le *, .layout_vertical .layout_equal *, .layout_vertical ._le *, ._lh .layout_equal *, ._lh ._le *, ._lv .layout_equal *, ._lv ._le * {
@@ -1372,24 +1378,36 @@ button {
   -webkit-box-align: left;
       -ms-flex-align: left;
           align-items: left;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 .layout_align_right, ._lar {
   -webkit-box-align: right;
       -ms-flex-align: right;
           align-items: right;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 .layout_align_bottom, ._lab {
   -webkit-box-align: bottom;
       -ms-flex-align: bottom;
           align-items: bottom;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 .layout_align_left_right, ._lalr {
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 .layout_table {
@@ -1491,7 +1509,42 @@ button {
 }
 
 .layout_model.blur {
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(10px);
+          backdrop-filter: blur(10px);
+  background: none;
+}
+
+.layout_model.blur > div {
+  width: 450px;
+  height: auto;
+  margin: 0 auto;
+  padding: 50px;
+  position: relative;
+  overflow-y: scroll;
+  border: 1px solid #00000010;
+  background: white;
+  border-radius: 10px;
+}
+
+p {
+  font-size: inherit;
+}
+
+p.title {
+  color: rgba(0, 0, 0, 0.85);
+  font-weight: bold;
+  font-size: 2.5rem;
+}
+
+p.subtitle {
+  color: rgba(0, 0, 0, 0.65);
+  font-weight: bold;
+}
+
+p.help {
+  color: rgba(0, 0, 0, 0.45);
+  font-size: 1.5rem;
+  font-style: italic;
+  margin-top: .5rem;
 }
 /*# sourceMappingURL=dashboard.css.map */
