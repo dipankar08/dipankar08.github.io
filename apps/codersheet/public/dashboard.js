@@ -21,10 +21,8 @@ var app = new Vue({
   },
 
   methods: {
-
-
     loadPads() {
-      $.ajax("https://simplestore.dipankar.co.in:8443/api/codersheet_pads/", {
+      $.ajax("https://simplestore.dipankar.co.in:8443/api/codersheet_pads1/", {
         data: JSON.stringify({
           auth_token: app.user.auth_token
         }),
@@ -47,7 +45,7 @@ var app = new Vue({
       this.new_pad.author = this.user.email
       this.new_pad.auth_token = $.cookie('auth_token')
       this.new_pad.status ='unused'
-      $.ajax("https://simplestore.dipankar.co.in:8443/api/codersheet_pads/insert", {
+      $.ajax("https://simplestore.dipankar.co.in:8443/api/codersheet_pads1/insert", {
         data: JSON.stringify(this.new_pad),
         contentType: 'application/json',
         type: 'POST',

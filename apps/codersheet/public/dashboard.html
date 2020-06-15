@@ -62,16 +62,13 @@
                             <div>Created at</div>
                             <div>Actions</div>
                         </div>
-                        <div v-for ="item in codersheet_pads" :key="item.id">
+                        <div :key="index" v-for="(item, index) in codersheet_pads">
+                      
                             <div>{{item.name}}</div>
                             <div>{{item.author}}</div>
                             <div>{{item.status}}</div>
-                            <div>{{item.ts_insert}}</div>
-                            <div class="_lh">
-                                <button class="btn tiny m4">Open</button>
-                                <button class="btn tiny  m4">Download</button>
-                                <button class="btn tiny m4">Delete</button>
-                            </div>
+                            <div >{{item.ts_insert}}</div>
+                            <a class="btn tiny m4" :href="'/codersheet.html?id='+item._id">Open {{item._id}}</a>
                         </div>
                         <div class="footer">
                             <div> Shwoing 1-5 of 10 records</div>

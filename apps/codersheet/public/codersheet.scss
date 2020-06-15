@@ -1,4 +1,4 @@
-
+@import 'layout';
 html {
     height: 100%;
     font-size: 10px
@@ -31,7 +31,7 @@ body,button,input {
 
 code,pre {
     white-space: pre-wrap;
-    font-family: 'Roboto Mono', Menlo, 'Ubuntu Mono', Monaco, Consolas, 'source-code-pro', monospace
+    font-family: 'Roboto Mono', Menlo, 'Ubuntu Mono', Monaco, Consolas, 'source-code-pro', monospace !important
 }
 
 p>code {
@@ -226,7 +226,7 @@ button {
                 height: 35px;
                 select {
                     border: 1px solid #a7a7a7;
-                    margin-left: 10px;
+                    margin: 0px 10px;
                 }
             }
             .main_holder > div {
@@ -252,16 +252,6 @@ button {
                     padding-bottom: 2px;
                     background: -webkit-gradient(linear, left bottom, left top, from(rgba(29,33,38,0)), to(rgba(29,33,38,0.75))) no-repeat;
                     background: linear-gradient(to top, rgba(29,33,38,0), rgba(29,33,38,0.75)) no-repeat;
-                }
-                
-            }
-            .draw {
-                height: 100%;
-                width: 100%;
-                iframe {
-                    height: 100%;
-                    width: 100%;
-                    border: 0px;
                 }
             }
         }
@@ -713,62 +703,6 @@ li, ul {
 }
 
 
-/* Define Layouts */
-.layout_fullscreen{
-    width: 100%;
-    height: 100%;
-}
-.layout_frame {
-    position: relative;
-}
-.layout_horizental, .layout_vertical{
-    display: flex;
-    position: relative;
-    &.layout_horizental {
-        flex-direction: row;
-        display: flex;
-    }
-    &.layout_vertical {
-        flex-direction: column;
-        display: flex;
-    }
-    .layout_fill{
-        flex: 1;
-    }
-    .layout_wrap {
-        flex:auto
-    }
-    .layout_equal {
-        * {
-            flex: 1;
-        }
-    }
-    &.layout_align_center{
-        align-items: center;
-        text-align: center;
-    }
-    .layout_align_center{
-        align-items: center;
-        text-align: center;
-    }
-    .layout_align_center_space_fill{
-        justify-content: space-between;
-    }
-    .layout_align_left{
-        align-items: left;
-    }
-    .layout_align_right{
-        align-items: right;
-    }
-    .layout_align_bottom{
-        align-items: bottom;
-    }
-    .layout_align_left_right{
-        justify-content: space-between;
-    }
-
-}
-
 .call_floating_modal{
     background:  #CCC;
     border:20px solid #CCC;
@@ -784,5 +718,22 @@ li, ul {
     cursor: grab;
     .controls{
         background: black;
+    }
+}
+
+iframe {
+    display: block;       /* iframes are inline by default */
+    background: #000;
+    border: none;         /* Reset default border */
+    height: 100vh;        /* Viewport-relative units */
+    width: 100vw;
+}
+
+.layout_absolute, .layout_relative{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    &.layout_relative{
+        position: relative;
     }
 }

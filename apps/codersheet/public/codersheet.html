@@ -36,7 +36,7 @@
                     </div>
                     <div class="main_holder">
                         <!--- CODE PANE -->
-                        <div class="codepane" v-bind:class="{show: leftPane == 'code'}">
+                        <div class="codepane layout_absolute" v-bind:class="{show: leftPane == 'code'}">
                             <div class="editor layout_fullscreen" id="editor">
                                 <div class="firepad" id="firepad">
                                     <div class="codemirror"></div>
@@ -44,10 +44,10 @@
                             </div>
                         </div>
                         <!-- DRAW-->
-                        <div class="draw layout_fullscreen" v-bind:class="{show: leftPane == 'draw'}">
-                            <iframe src="/whiteboard.html" scrolling="no" style="height: 100%;"></iframe>
+                        <div class="draw layout_absolute" v-bind:class="{show: leftPane == 'draw'}">
+                            <iframe src="https://excalidraw.com/#room=59340fb2c990873a8d75,OvoTyNvWOnj6E1BpXsQlQw" scrolling="no" style="overflow:hidden;height:100%;width:100%" height="100%" width="100%"></iframe>
                         </div>
-                        <div class="call layout_fullscreen" v-bind:class="{show: leftPane == 'call'}">
+                        <div class="call layout_absolute" v-bind:class="{show: leftPane == 'call'}">
 
                         </div>
                     </div>

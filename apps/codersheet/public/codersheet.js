@@ -107,15 +107,14 @@ var app = new Vue({
     },
 
     loadPage() {
-      var hash = window.location.hash.replace(/#/g, '');
-      if (!hash) {
+      app.codersheet_id = new URL(window.document.location.href).searchParams.get('id');
+      if (!app.codersheet_id) {
         app.activeModel = 'error'
         app.error_msg = "Looks like you are not having the right URL"
         return;
       }
-      app.codersheet_id = hash
-      $.ajax("https://simplestore.dipankar.co.in:8443/api/codersheet", {
-        data: JSON.stringify({ id: hash }),
+      $.ajax("https://simplestore.dipankar.co.in:8443/api/codersheet_pads1", {
+        data: JSON.stringify({ id: app.codersheet_id }),
         contentType: 'application/json',
         type: 'POST',
         success: function (data) {
@@ -139,6 +138,7 @@ var app = new Vue({
       initUI();
       initFirebase();
       initRTC()
+      initDraw();
     },
 
     runProgram() {
@@ -250,6 +250,12 @@ function initUI() {
       $('.rightpane').width(window.innerWidth - ui.position.left - 5)
     }
   });
+}
+
+function initDraw(){
+  draw_id = '5ed2e332d88a8b46ab3b7,0e5ed2e332d88a8b46ab3'
+  url = `https://excalidraw.com/#room=${draw_id}`
+  $('#draw').attr('src', url)
 }
 
 function initRTC() {

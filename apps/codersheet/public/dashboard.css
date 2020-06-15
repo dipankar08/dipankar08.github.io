@@ -67,6 +67,62 @@ h4 {
   font-size: 1.5rem;
 }
 
+.layout_model {
+  background: #ffffff;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 3;
+  -webkit-transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  display: none;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.layout_model.blur {
+  -webkit-backdrop-filter: blur(10px);
+          backdrop-filter: blur(10px);
+  background: none;
+}
+
+.layout_model.blur > div {
+  width: 450px;
+  height: auto;
+  margin: 0 auto;
+  padding: 50px;
+  position: relative;
+  overflow-y: scroll;
+  border: 1px solid #00000010;
+  background: white;
+  border-radius: 10px;
+}
+
+p {
+  font-size: inherit;
+}
+
+p.title {
+  color: rgba(0, 0, 0, 0.85);
+  font-weight: bold;
+  font-size: 2.5rem;
+}
+
+p.subtitle {
+  color: rgba(0, 0, 0, 0.65);
+  font-weight: bold;
+}
+
+p.help {
+  color: rgba(0, 0, 0, 0.45);
+  font-size: 1.5rem;
+  font-style: italic;
+  margin-top: .5rem;
+}
+
 input, select, textarea, button {
   border: 1px solid black;
   height: 50px;
@@ -1490,61 +1546,5 @@ button {
 
 .main_continer > div {
   display: none;
-}
-
-.layout_model {
-  background: #ffffff;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 3;
-  -webkit-transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  display: none;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-}
-
-.layout_model.blur {
-  -webkit-backdrop-filter: blur(10px);
-          backdrop-filter: blur(10px);
-  background: none;
-}
-
-.layout_model.blur > div {
-  width: 450px;
-  height: auto;
-  margin: 0 auto;
-  padding: 50px;
-  position: relative;
-  overflow-y: scroll;
-  border: 1px solid #00000010;
-  background: white;
-  border-radius: 10px;
-}
-
-p {
-  font-size: inherit;
-}
-
-p.title {
-  color: rgba(0, 0, 0, 0.85);
-  font-weight: bold;
-  font-size: 2.5rem;
-}
-
-p.subtitle {
-  color: rgba(0, 0, 0, 0.65);
-  font-weight: bold;
-}
-
-p.help {
-  color: rgba(0, 0, 0, 0.45);
-  font-size: 1.5rem;
-  font-style: italic;
-  margin-top: .5rem;
 }
 /*# sourceMappingURL=dashboard.css.map */
