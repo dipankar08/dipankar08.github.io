@@ -1,0 +1,30 @@
+In this tur we will learn:
+> VUEJS
+> VEUTIFY
+> WEBPACK
+> SCSS
+
+1. Install
+----------
+npm install -g vue-cli
+vue init webpack my-project
+cd my-project
+npm install
+npm run dev
+
+Open : http://localhost:8081
+
+Output is as below:
+? Project name codersheet_v2
+? Project description A Vue.js project
+? Author Dipankar Dutta <dutta.dipankar08@gmail.com>
+? Vue build standalone
+? Install vue-router? Yes
+? Use ESLint to lint your code? Yes
+? Pick an ESLint preset Standard
+? Set up unit tests No
+? Setup e2e tests with Nightwatch? No
+? Should we run `npm install` for you after the project has been created? (recommended) npm
+
+> It will install the app with hot readload features
+~
