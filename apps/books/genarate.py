@@ -26,11 +26,22 @@ TEMPLATE="""
     ol,ul{margin-bottom: 15px; margin-top:0;text-align: justify;}
     li{ margin-bottom: 5px;}
 
+    body {
+        display: flex;
+        flex-direction: column;
+    }
+    .top{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+
     div.code {
         white-space: pre-wrap;
         background: rgba(0, 0, 0, 0.1);
         color: black;
-        padding: 5px;
+        padding: 15px;
         margin-bottom: 25px;
         font-size: 0.9rem;
         letter-spacing: .05px;
@@ -41,15 +52,15 @@ TEMPLATE="""
         color:blue;
     }
 
-    div.x1 { 
+    .right > div.x1 { 
         font-size: 3rem;
         text-align: left;
         margin-top: 150px;
         margin-bottom: 20px;
         border-bottom: 1px solid #eee;
     }
-    div.x2{ font-size: 1.5rem;margin-bottom: 25px;margin-top: 20px;}
-    div.x3{ font-size: 1rem;margin-bottom: 10px;text-align: justify;}
+    .right > .x2{ font-size: 1.5rem;margin-bottom: 25px;margin-top: 20px;}
+    .right > div.x3{ font-size: 1rem;margin-bottom: 10px;text-align: justify;}
 
     .top {
         position: fixed;
@@ -113,8 +124,8 @@ TEMPLATE="""
 </head>
 <body>
 <div class="top">
-     <span style='float:left'><b class="t" style="display: block;">Software Design Principles</b></span>
-     <span style='float:right'>
+     <span><b class="t" style="display: block;">Software Design Principles</b></span>
+     <span>
         <i class="t fas fa-list-ul" onclick="$$('body').toggleClass('shown_menu');"></i>
         <i class="t fas fa-lightbulb" onclick="$$('body').toggleClass('dark');"></i>
         <i class="t fas fa-code" onclick="$$('.code').toggleClass('hide');"></i>
@@ -186,12 +197,12 @@ while index < len(content):
         continue
 
     # New Things found..
-    if line.startswith("## "):
+    if line.startswith("## ") and not code_start:
         id = id +1;
         hashid = "hashid"+str(id)
         menu +="<a class='a1' href='#"+hashid+"'+>"+line[3:].strip()+"</a>"
         output.append("<div class='x1' id='"+hashid+"'>"+line[2:].strip()+"</div>")
-    elif line.startswith("# "):
+    elif line.startswith("# ") and not code_start:
         id = id +1;
         hashid = "hashid"+str(id)
         menu +="<a class='a2' href='#"+hashid+"'+>"+line[2:].strip()+"</a>"
