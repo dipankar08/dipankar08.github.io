@@ -1,1 +1,1 @@
-{ "type":"error", "msg":"Notice: We are actively working on a backend migration, so some users may encounter issues during the sign-in and sign-up process."}
+{ "is_active":false, "type":"error", "msg":"Notice: We are actively working on a backend migration, so some users may encounter issues during the sign-in and sign-up process."}
