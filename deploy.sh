@@ -15,15 +15,15 @@ if ! command -v firebase &>/dev/null; then
 fi
 
 echo "==> Installing dependencies..."
-npm ci
+yarn install --frozen-lockfile
 
 echo "==> Building for production..."
-npm run build
+yarn build
 
 echo "==> Build output:"
-du -sh dist/
+du -sh out/
 echo ""
-find dist -type f | head -30
+find out -type f | head -30
 
 echo ""
 echo "==> Deploying to Firebase Hosting..."
@@ -31,4 +31,3 @@ firebase deploy --only hosting
 
 echo ""
 echo "==> Deploy complete!"
-firebase hosting:channel:list 2>/dev/null || true

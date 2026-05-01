@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { FiExternalLink, FiGithub } from "react-icons/fi";
 import type { Project } from "../types";
 
@@ -9,9 +10,11 @@ export default function ProjectCardItem({ project }: Props) {
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition-shadow overflow-hidden flex flex-col">
       {project.imageUrl && (
-        <img
+        <Image
           src={project.imageUrl}
           alt={project.title}
+          width={400}
+          height={160}
           className="w-full h-40 object-cover"
         />
       )}

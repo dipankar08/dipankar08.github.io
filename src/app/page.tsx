@@ -1,7 +1,7 @@
-import Sidebar from "./screen/Sidebar";
-import ContentArea from "./screen/ContentArea";
+import Sidebar from "../screen/Sidebar";
+import ContentArea from "../screen/ContentArea";
 
-export default function App() {
+export default function Home() {
   return (
     <div className="max-w-[1200px] mx-auto flex min-h-screen">
       <Sidebar />

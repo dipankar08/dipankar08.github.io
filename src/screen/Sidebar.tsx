@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { FaGithub, FaTwitter, FaLinkedin, FaFacebook } from "react-icons/fa";
 import { SiGooglescholar } from "react-icons/si";
 import { HiOutlineMail, HiOutlineLocationMarker, HiOutlineDocumentText } from "react-icons/hi";
@@ -15,10 +16,13 @@ export default function Sidebar() {
   return (
     <aside className="w-[380px] shrink-0 sticky top-0 h-screen flex flex-col pt-14 pl-8 pr-12">
       <div className="flex flex-col items-start">
-        <img
+        <Image
           src={profile.avatarUrl}
           alt={profile.name}
-          className="w-[260px] h-[280px] rounded-md object-cover mb-5"
+          width={260}
+          height={280}
+          className="rounded-md object-cover mb-5"
+          priority
         />
         <h2 className="text-[20px] font-bold text-[#222] leading-tight">
           {profile.name}

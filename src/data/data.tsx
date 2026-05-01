@@ -1,21 +1,4 @@
 import type { Profile, SocialLink, NewsItem, Project, ResearchItem } from "../types";
-import avatarImg from "../assets/img/dip.jpeg";
-import facebookImg from "../assets/img/facebook.jpg";
-import microsoftImg from "../assets/img/microsoft.jpg";
-import amazonImg from "../assets/img/amazon.jpg";
-import londonImg from "../assets/img/london.jpg";
-import fmradioImg from "../assets/img/fmradio.jpg";
-import khabarImg from "../assets/img/khabar.jpg";
-import compilerImg from "../assets/img/compiler.jpg";
-import quickdrawImg from "../assets/img/quickdraw.jpg";
-import interviewImg from "../assets/img/interview.jpg";
-import tutorialImg from "../assets/img/tutorial.jpg";
-import typescriptImg from "../assets/img/typescript.jpg";
-import androidImg from "../assets/img/android.jpg";
-import designImg from "../assets/img/design.jpg";
-import cvImg from "../assets/img/computervision.jpg";
-import linuxImg from "../assets/img/linux.jpg";
-import resumePdf from "../assets/pdf/resume.pdf";
 
 const linkClass =
   "text-[#555] underline decoration-[#ccc] underline-offset-2 hover:bg-yellow-200 hover:decoration-yellow-300 transition-colors rounded-sm px-0.5 -mx-0.5";
@@ -35,7 +18,7 @@ export const profile: Profile = {
   title: "Software Engineering Lead at Facebook",
   bio: [
     <>
-      Hi! I'm a software engineer with 15+ years of experience working at top
+      Hi! I&apos;m a software engineer with 15+ years of experience working at top
       technology companies. I think, write and talk about Software Systems
       Architecture: how they are built, how they break, how they scale, and the
       people that maintain them.
@@ -55,8 +38,8 @@ export const profile: Profile = {
   ],
   email: "dutta.dipankar08@gmail.com",
   location: "London, UK",
-  cvUrl: resumePdf,
-  avatarUrl: avatarImg,
+  cvUrl: "/resume.pdf",
+  avatarUrl: "/images/dip.jpeg",
 };
 
 export const socialLinks: SocialLink[] = [
@@ -74,7 +57,7 @@ export const newsItems: NewsItem[] = [
     description:
       "Currently working as a software engineering lead at Facebook, building software components and tools for Portal to enhance experiences for billions of people.",
     date: "Present",
-    imageUrl: facebookImg,
+    imageUrl: "/images/facebook.jpg",
     link: "https://facebook.com",
   },
   {
@@ -83,7 +66,7 @@ export const newsItems: NewsItem[] = [
     description:
       "Worked as a software development engineer at Microsoft on Office products, building enterprise-grade solutions.",
     date: "Previous",
-    imageUrl: microsoftImg,
+    imageUrl: "/images/microsoft.jpg",
     link: "http://office.microsoft.com/",
   },
   {
@@ -92,7 +75,7 @@ export const newsItems: NewsItem[] = [
     description:
       "Worked as a software development engineer at Amazon, contributing to large-scale distributed systems and services.",
     date: "Previous",
-    imageUrl: amazonImg,
+    imageUrl: "/images/amazon.jpg",
     link: "https://www.amazon.co.in/",
   },
   {
@@ -101,7 +84,7 @@ export const newsItems: NewsItem[] = [
     description:
       "Living and working in London, building software systems that scale globally.",
     date: "Present",
-    imageUrl: londonImg,
+    imageUrl: "/images/london.jpg",
     link: "https://www.visitlondon.com/",
   },
 ];
@@ -115,7 +98,7 @@ export const projects: Project[] = [
     description:
       "A fully featured FM Radio app for Android with a clean interface and smooth listening experience. Available on the Google Play Store.",
     tags: ["Android", "Java", "Mobile"],
-    imageUrl: fmradioImg,
+    imageUrl: "/images/fmradio.jpg",
     demoUrl:
       "https://play.google.com/store/apps/details?id=in.peerreview.fmradioindia",
   },
@@ -125,7 +108,7 @@ export const projects: Project[] = [
     description:
       "A news aggregator app that delivers curated content in a simple and accessible format. Available on the Google Play Store.",
     tags: ["Android", "Java", "News"],
-    imageUrl: khabarImg,
+    imageUrl: "/images/khabar.jpg",
     demoUrl:
       "https://play.google.com/store/apps/details?id=in.peerreview.khabar",
   },
@@ -135,7 +118,7 @@ export const projects: Project[] = [
     description:
       "A web-based code compiler that allows you to write, compile, and run code directly in the browser.",
     tags: ["JavaScript", "Web", "Tools"],
-    imageUrl: compilerImg,
+    imageUrl: "/images/compiler.jpg",
     demoUrl: "http://dipankar08.github.io/apps/compiler/index.html",
     sourceUrl: "https://github.com/dipankar08/",
   },
@@ -145,7 +128,7 @@ export const projects: Project[] = [
     description:
       "A simple and intuitive drawing application built with TypeScript and Canvas API for quick sketches and diagrams.",
     tags: ["TypeScript", "Canvas", "Web"],
-    imageUrl: quickdrawImg,
+    imageUrl: "/images/quickdraw.jpg",
     demoUrl: "http://dipankar08.github.io/apps/simpledraw/index.html",
     sourceUrl: "https://github.com/dipankar08/",
   },
@@ -155,7 +138,7 @@ export const projects: Project[] = [
     description:
       "A comprehensive collection of interview preparation materials covering data structures, algorithms, and system design.",
     tags: ["Education", "CS", "Interview"],
-    imageUrl: interviewImg,
+    imageUrl: "/images/interview.jpg",
     demoUrl: "http://dipankar08.github.io/apps/interview/index.html",
   },
   {
@@ -164,7 +147,7 @@ export const projects: Project[] = [
     description:
       "An interactive learning platform with tutorials and hands-on exercises for various programming topics.",
     tags: ["Education", "Web", "Learning"],
-    imageUrl: tutorialImg,
+    imageUrl: "/images/tutorial.jpg",
     demoUrl: "http://dipankar08.github.io/apps/learling/index.html",
   },
 ];
@@ -173,58 +156,23 @@ export const projects: Project[] = [
 
 export const researchItems: ResearchItem[] = [
   {
-    id: "1",
-    title: "TypeScript - All in One Guide",
+    id: "r1",
+    title: "Intrusion Detection Techniques for Virtual Domains",
     description:
-      "A comprehensive guide covering TypeScript fundamentals, advanced types, generics, decorators, and best practices for building large-scale applications.",
-    date: "",
-    venue: "Book / Reference",
-    link: "http://dipankar08.github.io/apps/books/allinone_typescript.txt.html",
-    imageUrl: typescriptImg,
-    tags: ["TypeScript", "Programming", "Guide"],
+      "Proposes an intrusion detection architecture for virtual domains that groups related VMs into a single network domain with a unified security policy. The architecture accounts for VM-specific features and domain security policies to handle diverse attack types, with detailed performance analysis.",
+    date: "Dec 2012",
+    venue: "IEEE HiPC 2012 — 19th International Conference on High Performance Computing",
+    link: "http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=6507491&isnumber=6507469",
+    tags: ["Security", "Virtualization", "Intrusion Detection"],
   },
   {
-    id: "2",
-    title: "Android Examples",
+    id: "r2",
+    title: "A Genetic Algorithm Approach to Cost-Based Multi-QoS Job Scheduling in Cloud Computing",
     description:
-      "A collection of practical Android development examples covering activities, services, content providers, and modern Android architecture components.",
+      "Presents a genetic algorithm approach to cost-based multi-QoS job scheduling in cloud environments. Uses crossover operators (PMX, OX, CX) and mutation operators to produce optimal schedules that map user jobs to resources while satisfying varying QoS requirements.",
     date: "",
-    venue: "Book / Reference",
-    link: "http://dipankar08.github.io/apps/books/android_examples.txt.html",
-    imageUrl: androidImg,
-    tags: ["Android", "Mobile", "Java"],
-  },
-  {
-    id: "3",
-    title: "Design Principles",
-    description:
-      "An exploration of software design principles including SOLID, DRY, KISS, and architectural patterns for building maintainable software systems.",
-    date: "",
-    venue: "Book / Reference",
-    link: "http://dipankar08.github.io/apps/books/design_principles.txt.html",
-    imageUrl: designImg,
-    tags: ["Design", "Architecture", "Principles"],
-  },
-  {
-    id: "4",
-    title: "Pro Computer Vision",
-    description:
-      "A deep dive into computer vision concepts, image processing techniques, and practical applications using modern frameworks and tools.",
-    date: "",
-    venue: "Book / Reference",
-    link: "http://dipankar08.github.io/apps/books/pro_computervision.txt.html",
-    imageUrl: cvImg,
-    tags: ["Computer Vision", "AI", "Python"],
-  },
-  {
-    id: "5",
-    title: "Linux for Pro Developers",
-    description:
-      "A guide for professional developers on mastering Linux systems, shell scripting, system administration, and development workflows.",
-    date: "",
-    venue: "Book / Reference",
-    link: "http://dipankar08.github.io/apps/books/pro_devlopers.txt.html",
-    imageUrl: linuxImg,
-    tags: ["Linux", "DevOps", "Systems"],
+    venue: "ACM Digital Library",
+    link: "http://dl.acm.org/citation.cfm?id=1980111",
+    tags: ["Cloud Computing", "Genetic Algorithm", "Scheduling"],
   },
 ];

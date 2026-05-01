@@ -1,4 +1,7 @@
+"use client";
+
 import { useState } from "react";
+import Image from "next/image";
 import { HiX } from "react-icons/hi";
 import type { NewsItem as NewsItemType } from "../types";
 
@@ -13,9 +16,11 @@ export default function NewsItem({ item }: Props) {
     <>
       <div className="w-[200px] shrink-0 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow overflow-hidden flex flex-col">
         {item.imageUrl && (
-          <img
+          <Image
             src={item.imageUrl}
             alt={item.title}
+            width={200}
+            height={130}
             className="w-full h-[130px] object-cover"
           />
         )}
@@ -48,9 +53,11 @@ export default function NewsItem({ item }: Props) {
             onClick={(e) => e.stopPropagation()}
           >
             {item.imageUrl && (
-              <img
+              <Image
                 src={item.imageUrl}
                 alt={item.title}
+                width={512}
+                height={200}
                 className="w-full h-[200px] object-cover"
               />
             )}

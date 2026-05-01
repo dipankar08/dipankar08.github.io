@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist",
+    "public": "out",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
       {
@@ -10,7 +10,7 @@
     ],
     "headers": [
       {
-        "source": "/assets/**",
+        "source": "/_next/static/**",
         "headers": [
           {
             "key": "Cache-Control",

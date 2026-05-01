@@ -10,9 +10,5 @@
   }
   body {
     @apply m-0 h-full antialiased bg-[#f5f5f7] text-[#333];
-    font-family: 'Montserrat', sans-serif;
-  }
-  #root {
-    @apply h-full;
   }
 }

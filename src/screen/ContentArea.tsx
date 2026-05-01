@@ -1,4 +1,7 @@
+"use client";
+
 import { useRef, useState, useEffect, useCallback } from "react";
+import Image from "next/image";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
 import { profile, newsItems, projects, researchItems } from "../data/data";
 import NewsItem from "./NewsItem";
