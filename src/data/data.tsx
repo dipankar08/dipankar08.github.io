@@ -52,40 +52,67 @@ export const socialLinks: SocialLink[] = [
 
 export const newsItems: NewsItem[] = [
   {
-    id: "1",
-    title: "Working at Facebook",
+    id: "1b",
+    title: "Founding Member — Portal for Workplace",
     description:
-      "Currently working as a software engineering lead at Facebook, building software components and tools for Portal to enhance experiences for billions of people.",
-    date: "Present",
-    imageUrl: "/images/facebook.jpg",
-    link: "https://facebook.com",
+      "As a founding member of the Portal team starting with just 6 engineers, helped architect and ship Facebook Portal from the ground up. In Oct 2019, Portal expanded into the enterprise with Portal for Workplace — a smart video-calling device reimagined for business. It brought one-touch video conferencing, Workplace contacts and group integration, smart camera tracking, and centralized IT management to offices worldwide.",
+    date: "Oct 2019",
+    imageUrl: "/images/portal_workplace.png",
+    link: "https://www.engadget.com/2019-10-08-facebook-portal-workplace.html",
   },
   {
-    id: "2",
-    title: "Previously at Microsoft",
+    id: "1",
+    title: "Joining Facebook London",
     description:
-      "Worked as a software development engineer at Microsoft on Office products, building enterprise-grade solutions.",
-    date: "Previous",
-    imageUrl: "/images/microsoft.jpg",
-    link: "http://office.microsoft.com/",
+      "After 3.5 years at Microsoft, Dipankar interviewed through Facebook's APAC loop in Singapore and received an offer for the MPK office in the US. When the H-1B lottery didn't come through, Facebook relocated him to their London office instead. In 2017, Facebook London was still a small team of around 200 people, working out of a three-floor building on Brock Street. What started as a plan B turned into the beginning of an 8+ year journey — shipping Portal, Meta RTC, Horizon, and Meta AI.",
+    date: "Jul 2017",
+    imageUrl: "/images/facebook.png",
+    link: "https://about.meta.com/",
   },
   {
     id: "3",
-    title: "Previously at Amazon",
+    title: "Shipped Office for Android — Project K2",
     description:
-      "Worked as a software development engineer at Amazon, contributing to large-scale distributed systems and services.",
-    date: "Previous",
-    imageUrl: "/images/amazon.jpg",
-    link: "https://www.amazon.co.in/",
+      "Worked with Microsoft's Core Experience Engineering team out of Hyderabad to ship Office for Android. Built the cross-app threading model, dispatch queue, and multi-threading architecture in the shared Office C++ codebase. The project, internally codenamed K2, landed in 9 months — enabling Word, Excel, and PowerPoint to run natively on Android with a unified, high-performance runtime.",
+    date: "2015",
+    imageUrl: "/images/office.png",
+    link: "https://www.youtube.com/watch?v=untLDcPPdsw",
+  },
+  {
+    id: "6",
+    title: "DST, India Govt. sponsored my Research Internship in Macquarie University, Australia",
+    description:
+      "In the final year of his Master's at IIT Roorkee, Dipankar secured a joint research opportunity with Macquarie University, Sydney in collaboration with IIT Roorkee's CS division. The Department of Science and Technology (DST), Government of India, sponsored the programme — covering travel and visa expenses through a DST grant. Dipankar joined Macquarie University as a Visiting Research Scholar for 4 months to continue his research work. The extended stay meant he had to defer his joining at Citrix Systems by a month due to the delayed submission of his Master's thesis.",
+    date: "2011",
+    imageUrl: "/images/mq-uni.png",
+    link: "https://www.mq.edu.au/",
   },
   {
     id: "4",
-    title: "Based in London, UK",
+    title: "M.Tech CS from IIT Roorkee",
     description:
-      "Living and working in London, building software systems that scale globally.",
-    date: "Present",
-    imageUrl: "/images/london.jpg",
-    link: "https://www.visitlondon.com/",
+      "Graduated with a Master of Technology in Computer Science from the Indian Institute of Technology, Roorkee — one of India's premier engineering institutions. Research focused on cloud computing and network security, with publications at IEEE HiPC and ACM. The rigorous curriculum and research culture at IIT Roorkee laid the foundation for a career in building large-scale software systems at top technology companies.",
+    date: "2009 – 2011",
+    imageUrl: "/images/iitr.png",
+    link: "https://www.iitr.ac.in/",
+  },
+  {
+    id: "5",
+    title: "Joining IIT Roorkee — Declining an PhD offer from IIT Kharagpur",
+    description:
+      "In 2009, Dipankar secured an All India GATE Rank of 284 in Computer Science and topped the written entrance test conducted by IIT Roorkee, earning admission to the M.Tech program. He also held an offer from the Indian Statistical Institute (ISI), Kolkata for a Master's in Computer Science after clearing their notoriously tough interview rounds. Shortly after joining IIT Roorkee, an Integrated PhD offer in Computer Science arrived from IIT Kharagpur — but by then he had already settled into IITR. He declined the PhD and chose to continue his Master's at Roorkee, a decision that set the course for a career in industry rather than academia.",
+    date: "Jul 2009",
+    imageUrl: "/images/phd-offer.png",
+    link: "https://www.iitr.ac.in/",
+  },
+  {
+    id: "7",
+    title: "Rejected by Wipro — A Blessing in Disguise",
+    description:
+      "In his 3rd year of college, Dipankar faced a campus placement interview with Wipro that didn't go as planned. The technical round was scheduled at 9 PM, and the conversation turned into a heated disagreement over the implementation of Quick Sort. The conflict with the interviewer led to a rejection — despite Dipankar being the topper of his batch at HIT in 2009. He held an offer from TCS but ultimately chose a different path altogether, joining IIT Roorkee for a Master's in Computer Science. What felt like a setback turned out to be the turning point that led to IIT Roorkee, and eventually to Amazon, Microsoft, and Meta.",
+    date: "2009",
+    imageUrl: "/images/rejection-wipro.png",
+    link: "https://www.iitr.ac.in/",
   },
 ];
 
@@ -174,5 +201,14 @@ export const researchItems: ResearchItem[] = [
     venue: "ACM Digital Library",
     link: "http://dl.acm.org/citation.cfm?id=1980111",
     tags: ["Cloud Computing", "Genetic Algorithm", "Scheduling"],
+  },
+  {
+    id: "r3",
+    title: "Techniques for Optimized Node Placement in Multihop Lightwave Based De Bruijn Graph Network",
+    description:
+      "Presents techniques for optimized node placement in multihop lightwave networks based on De Bruijn graph topology. The paper explores efficient strategies for placing nodes to minimize hop count and maximize throughput in optical networks, addressing key challenges in large-scale lightwave network design.",
+    date: "Aug 2009",
+    venue: "PITM Journal of Research, Vol. 2, No. 1, pp. 36–41",
+    tags: ["Optical Networks", "Graph Theory", "Network Optimization"],
   },
 ];
