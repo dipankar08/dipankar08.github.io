@@ -14,6 +14,9 @@ export default function ResearchCardItem({ item }: Props) {
             <h3 className="text-[15px] font-semibold text-[#222]">
               {item.title}
             </h3>
+            {item.authors && (
+              <p className="text-xs text-[#777] mt-0.5">{item.authors}</p>
+            )}
             {item.venue && (
               <p className="text-xs text-blue-500 mt-0.5">{item.venue}</p>
             )}

@@ -183,24 +183,48 @@ export const projects: Project[] = [
 
 export const researchItems: ResearchItem[] = [
   {
+    id: "r0",
+    title: "Achieving Secure Role-based Access Control on Encrypted Data in Cloud Storage",
+    description:
+      "Developed a system that implements the proposed RBE scheme, which allows the owner to store data in an encrypted form in the cloud and grant access to data for users with specific roles. Developed an administration interface for the system and conducted performance analysis of the role management, encryption and decryption operations in the implemented system.",
+    date: "2012",
+    venue: "IEEE Transactions on Parallel and Distributed Systems (TPDS-2012-12-1229)",
+    link: "",
+    tags: ["Cloud Security", "Access Control", "Encryption", "RBAC"],
+    authors: "Lan Zhou, Vijay Varadharajan, Michael Hitchens, Dipankar Dutta",
+  },
+  {
     id: "r1",
     title: "Intrusion Detection Techniques for Virtual Domains",
     description:
       "Proposes an intrusion detection architecture for virtual domains that groups related VMs into a single network domain with a unified security policy. The architecture accounts for VM-specific features and domain security policies to handle diverse attack types, with detailed performance analysis.",
     date: "Dec 2012",
-    venue: "IEEE HiPC 2012 — 19th International Conference on High Performance Computing",
+    venue: "IEEE HiPC 2012 — 19th Annual International Conference on High Performance Computing, Le Meridien Hotel, Pune, India",
     link: "http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=6507491&isnumber=6507469",
     tags: ["Security", "Virtualization", "Intrusion Detection"],
+    authors: "Udaya Tupakula, Vijay Varadharajan, Dipankar Dutta",
   },
   {
     id: "r2",
-    title: "A Genetic Algorithm Approach to Cost-Based Multi-QoS Job Scheduling in Cloud Computing",
+    title: "A Genetic Algorithm Approach to Cost-Based Multi-QoS Job Scheduling in Cloud Computing Environment",
     description:
       "Presents a genetic algorithm approach to cost-based multi-QoS job scheduling in cloud environments. Uses crossover operators (PMX, OX, CX) and mutation operators to produce optimal schedules that map user jobs to resources while satisfying varying QoS requirements.",
-    date: "",
-    venue: "ACM Digital Library",
-    link: "http://dl.acm.org/citation.cfm?id=1980111",
+    date: "Feb 2011",
+    venue: "ICWET'11, February 25–26, 2011",
+    link: "http://portal.acm.org/citation.cfm?id=1980111",
     tags: ["Cloud Computing", "Genetic Algorithm", "Scheduling"],
+    authors: "Dipankar Dutta, R. C. Joshi",
+  },
+  {
+    id: "r2b",
+    title: "A Genetic Algorithm Approach to Job Scheduling in Cloud Computing Environment",
+    description:
+      "Proposed a framework for applying genetic algorithms to job scheduling in cloud computing environments, addressing resource allocation and optimization challenges.",
+    date: "Nov 2010",
+    venue: "19th Annual Symposium, IEEE Bangalore Section, 17th November 2010",
+    link: "",
+    tags: ["Cloud Computing", "Genetic Algorithm", "Scheduling"],
+    authors: "Dipankar Dutta, R. C. Joshi",
   },
   {
     id: "r3",
@@ -210,5 +234,28 @@ export const researchItems: ResearchItem[] = [
     date: "Aug 2009",
     venue: "PITM Journal of Research, Vol. 2, No. 1, pp. 36–41",
     tags: ["Optical Networks", "Graph Theory", "Network Optimization"],
+    authors: "Tarun Kumar Ghosh, Dipankar Dutta, S. M. Hossein",
+  },
+  {
+    id: "r4",
+    title: "Rainfall Prediction Algorithm Using Back Propagation Neural Network Approach",
+    description:
+      "Adopted Artificial Neural Network as a soft computing technique to anticipate average monsoon rainfall. Designed a back propagation neural network that can learn rainfall statistics and predict future rainfall status, addressing the complexity inherent in atmospheric parameters.",
+    date: "2010",
+    venue: "Geomatics Dept, Indian Institute of Technology, Roorkee, India",
+    link: "",
+    tags: ["Neural Networks", "Machine Learning", "Back Propagation", "Prediction"],
+    authors: "Dipankar Dutta",
+  },
+  {
+    id: "r5",
+    title: "GA & Neural Network Approach to Implement SCT Without System Parameter Restriction and Controller for Continuous Time System",
+    description:
+      "Achieved dead-beat response in time-invariant control systems by injecting a suitable pulse at a suitable time using genetic algorithm and neural network approaches. Compared the performance between both approaches for achieving compensated response without overshoot.",
+    date: "2009",
+    venue: "Computer Science Dept, Haldia Institute of Technology, Haldia, WB, India",
+    link: "",
+    tags: ["Genetic Algorithm", "Neural Networks", "Control Systems", "SCT"],
+    authors: "Dipankar Dutta",
   },
 ];

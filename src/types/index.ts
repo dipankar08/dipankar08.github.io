@@ -43,4 +43,5 @@ export interface ResearchItem {
   link?: string;
   imageUrl?: string;
   tags: string[];
+  authors?: string;
 }
