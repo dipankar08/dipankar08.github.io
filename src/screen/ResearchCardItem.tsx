@@ -9,7 +9,7 @@ export default function ResearchCardItem({ item }: Props) {
   return (
     <div className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow overflow-hidden flex">
       <div className="p-5 flex flex-col flex-1">
-        <div className="flex items-start justify-between mb-2">
+        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-2 gap-1">
           <div>
             <h3 className="text-[15px] font-semibold text-[#222]">
               {item.title}
@@ -22,7 +22,7 @@ export default function ResearchCardItem({ item }: Props) {
             )}
           </div>
           {item.date && (
-            <span className="text-xs text-[#999] whitespace-nowrap ml-4">
+            <span className="text-xs text-[#999] whitespace-nowrap sm:ml-4">
               {item.date}
             </span>
           )}
@@ -30,7 +30,7 @@ export default function ResearchCardItem({ item }: Props) {
         <p className="text-[13px] text-[#555] leading-relaxed mb-3">
           {item.description}
         </p>
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:justify-between">
           <div className="flex flex-wrap gap-1.5">
             {item.tags.map((tag) => (
               <span

@@ -42,10 +42,10 @@ export default function ContentArea() {
   };
 
   return (
-    <main className="flex-1 min-h-screen overflow-y-auto py-14 pr-8">
+    <main className="flex-1 min-h-screen overflow-y-auto py-8 px-5 lg:py-14 lg:pl-0 lg:pr-8">
       {/* Hero */}
       <section className="mb-14">
-        <h1 className="text-[36px] font-medium text-[#222] mb-5 leading-tight">
+        <h1 className="text-[24px] lg:text-[36px] font-medium text-[#222] mb-5 leading-tight">
           {profile.name}
         </h1>
         {profile.bio.map((paragraph, i) => (
@@ -57,12 +57,12 @@ export default function ContentArea() {
 
       {/* News */}
       <section className="mb-14">
-        <h2 className="text-[28px] font-medium text-[#222] mb-5">News</h2>
+        <h2 className="text-[22px] lg:text-[28px] font-medium text-[#222] mb-5">News</h2>
         <div className="relative">
           {canScrollLeft && (
             <button
               onClick={() => scroll("left")}
-              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-3 z-10 w-8 h-8 bg-white rounded-full shadow-md flex items-center justify-center text-[#555] hover:text-[#222] cursor-pointer"
+              className="hidden lg:flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-3 z-10 w-8 h-8 bg-white rounded-full shadow-md items-center justify-center text-[#555] hover:text-[#222] cursor-pointer"
             >
               <HiChevronLeft size={20} />
             </button>
@@ -79,7 +79,7 @@ export default function ContentArea() {
           {canScrollRight && (
             <button
               onClick={() => scroll("right")}
-              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-3 z-10 w-8 h-8 bg-white rounded-full shadow-md flex items-center justify-center text-[#555] hover:text-[#222] cursor-pointer"
+              className="hidden lg:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-3 z-10 w-8 h-8 bg-white rounded-full shadow-md items-center justify-center text-[#555] hover:text-[#222] cursor-pointer"
             >
               <HiChevronRight size={20} />
             </button>
@@ -89,7 +89,7 @@ export default function ContentArea() {
 
       {/* Projects */}
       <section className="mb-14">
-        <h2 className="text-[28px] font-medium text-[#222] mb-5">Projects</h2>
+        <h2 className="text-[22px] lg:text-[28px] font-medium text-[#222] mb-5">Projects</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {projects.map((project) => (
             <ProjectCardItem key={project.id} project={project} />
@@ -99,7 +99,7 @@ export default function ContentArea() {
 
       {/* Research & Blog */}
       <section className="mb-14">
-        <h2 className="text-[28px] font-medium text-[#222] mb-5">
+        <h2 className="text-[22px] lg:text-[28px] font-medium text-[#222] mb-5">
           Research & Blog
         </h2>
         <div className="flex flex-col gap-4">

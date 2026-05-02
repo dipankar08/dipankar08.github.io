@@ -14,8 +14,8 @@ const iconMap = {
 
 export default function Sidebar() {
   return (
-    <aside className="w-[380px] shrink-0 sticky top-0 h-screen flex flex-col pt-14 pl-8 pr-12">
-      <div className="flex flex-col items-start">
+    <aside className="w-full lg:w-[380px] shrink-0 lg:sticky lg:top-0 lg:h-screen flex flex-col items-center lg:items-start pt-8 px-6 lg:pt-14 lg:pl-8 lg:pr-12">
+      <div className="flex flex-col items-center lg:items-start">
         <Image
           src={profile.avatarUrl}
           alt={profile.name}
@@ -50,7 +50,7 @@ export default function Sidebar() {
         })}
       </div>
 
-      <hr className="border-[#e0e0e0] my-6" />
+      <hr className="border-[#e0e0e0] my-6 w-full" />
 
       <div className="flex flex-col gap-2.5 text-[13px] text-[#666]">
         <a
