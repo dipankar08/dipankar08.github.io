@@ -89,7 +89,7 @@ export default function ContentArea() {
 
       {/* Projects */}
       <section className="mb-14">
-        <h2 className="text-[22px] lg:text-[28px] font-medium text-[#222] mb-5">Projects</h2>
+        <h2 className="text-[22px] lg:text-[28px] font-medium text-[#222] mb-5">Pet Projects</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {projects.map((project) => (
             <ProjectCardItem key={project.id} project={project} />

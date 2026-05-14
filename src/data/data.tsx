@@ -120,62 +120,32 @@ export const newsItems: NewsItem[] = [
 
 export const projects: Project[] = [
   {
-    id: "1",
-    title: "FM Radio",
+    id: "3",
+    title: "SkyFrame Analytics",
     description:
-      "A fully featured FM Radio app for Android with a clean interface and smooth listening experience. Available on the Google Play Store.",
-    tags: ["Android", "Java", "Mobile"],
-    imageUrl: "/images/fmradio.jpg",
-    demoUrl:
-      "https://play.google.com/store/apps/details?id=in.peerreview.fmradioindia",
+      "Advanced crack detection for high-rise buildings and structures using drones and AI. SkyFrame eliminates the need for dangerous manual inspections — drones equipped with high-resolution optical zoom cameras (up to 45x) capture fine surface detail from a safe distance, detecting hairline cracks, spalling, and structural anomalies with exceptional clarity.\n\nThe AI-powered analysis pipeline processes drone imagery to detect and measure cracks with high accuracy, delivering comprehensive reports with maintenance recommendations within 7 days. Clients typically see a 30–70% reduction in inspection costs compared to conventional methods, with a 4-step workflow: consultation, drone inspection, AI analysis, and detailed reporting.\n\nOperating across Florida and the wider US, SkyFrame is built on SimpleStore Cloud. In-house drone engineers capture imagery that is processed by an advanced neural network to detect cracks across thousands of images. Contact the sales team via the website to get started.",
+    tags: ["AI", "Drones", "Computer Vision", "SaaS"],
+    imageUrl: "/images/skyframe.png",
+    demoUrl: "https://skyframeanalytics.com/",
   },
   {
     id: "2",
-    title: "Khabar App",
+    title: "SimpleStore Cloud Infra",
     description:
-      "A news aggregator app that delivers curated content in a simple and accessible format. Available on the Google Play Store.",
-    tags: ["Android", "Java", "News"],
-    imageUrl: "/images/khabar.jpg",
+      "SimpleStore Cloud Infra is a common backend built on a proprietary codebase that allows you to build serverless clients without reimplementing the backend. It is a highly efficient client-backend infrastructure written in a combination of Node.js and Go — initially built in Python/Django in 2014, rewritten in Node.js/Express in 2020, and rewritten again in Go in 2023.\n\nRunning on a single AWS t2.micro instance (1 vCPU, 1 GB RAM), it handles ~3,000 requests per second with sub-50ms p95 latency, sustaining 5–10 million API calls per day. The architecture focuses on reliability, extensibility, and minimizing infrastructure cost — running production-grade workloads at under $5/month on AWS free-tier eligible instances.",
+    tags: ["Go", "Node.js", "AWS", "Backend"],
+    imageUrl: "/images/simplestore.png",
+    demoUrl: "https://admin.grodok.com/",
+  },
+  {
+    id: "1",
+    title: "FM Radio",
+    description:
+      "Best Bengali FM Radio is an Android app built natively on Android that allows users to play internet radio in 10+ languages across India. Built around mid-2014 when radio was at its peak popularity, it was supported by a community of 3,000 active members, reached 50K+ downloads with a 4.5+ Play Store rating, and streamed over 1 million minutes every single day.\n\nThe app was powered by the SimpleStore infrastructure, which included a proprietary ranking algorithm and a lightweight recommendation system. Initially a free project, it was later supported by ad revenue. However, the ROI of the pet project was not sufficient to sustain it, and the decision was made to sunset the project in mid-2020.",
+    tags: ["Android", "Java", "Mobile"],
+    imageUrl: "/images/radio.png",
     demoUrl:
-      "https://play.google.com/store/apps/details?id=in.peerreview.khabar",
-  },
-  {
-    id: "3",
-    title: "Online Compiler",
-    description:
-      "A web-based code compiler that allows you to write, compile, and run code directly in the browser.",
-    tags: ["JavaScript", "Web", "Tools"],
-    imageUrl: "/images/compiler.jpg",
-    demoUrl: "http://dipankar08.github.io/apps/compiler/index.html",
-    sourceUrl: "https://github.com/dipankar08/",
-  },
-  {
-    id: "4",
-    title: "QuickDraw",
-    description:
-      "A simple and intuitive drawing application built with TypeScript and Canvas API for quick sketches and diagrams.",
-    tags: ["TypeScript", "Canvas", "Web"],
-    imageUrl: "/images/quickdraw.jpg",
-    demoUrl: "http://dipankar08.github.io/apps/simpledraw/index.html",
-    sourceUrl: "https://github.com/dipankar08/",
-  },
-  {
-    id: "5",
-    title: "Interview Prep",
-    description:
-      "A comprehensive collection of interview preparation materials covering data structures, algorithms, and system design.",
-    tags: ["Education", "CS", "Interview"],
-    imageUrl: "/images/interview.jpg",
-    demoUrl: "http://dipankar08.github.io/apps/interview/index.html",
-  },
-  {
-    id: "6",
-    title: "Tutorial Platform",
-    description:
-      "An interactive learning platform with tutorials and hands-on exercises for various programming topics.",
-    tags: ["Education", "Web", "Learning"],
-    imageUrl: "/images/tutorial.jpg",
-    demoUrl: "http://dipankar08.github.io/apps/learling/index.html",
+      "https://play.google.com/store/apps/details?id=in.peerreview.fmradioindia",
   },
 ];
 
